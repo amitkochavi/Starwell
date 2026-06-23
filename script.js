@@ -20,14 +20,21 @@
     var burger=document.getElementById('burger');
     var mmenu=document.getElementById('mmenu');
     var mclose=document.getElementById('mclose');
-    function openM(){if(mmenu){mmenu.classList.add('open');document.body.style.overflow='hidden';}}
-    function closeM(){if(mmenu){mmenu.classList.remove('open');document.body.style.overflow='';}}
+    function openM(){if(mmenu){mmenu.classList.add('open');mmenu.setAttribute('aria-hidden','false');
+      if(burger)burger.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';
+      if(mclose)mclose.focus();}}
+    function closeM(){if(mmenu){mmenu.classList.remove('open');mmenu.setAttribute('aria-hidden','true');
+      if(burger){burger.setAttribute('aria-expanded','false');burger.focus();}document.body.style.overflow='';}}
     if(burger)burger.addEventListener('click',openM);
     if(mclose)mclose.addEventListener('click',closeM);
+    document.addEventListener('keydown',function(e){
+      if(e.key==='Escape'&&mmenu&&mmenu.classList.contains('open'))closeM();
+    });
     document.querySelectorAll('.mgroup .mlink').forEach(function(btn){
       btn.addEventListener('click',function(){
         var g=btn.closest('.mgroup');var sub=g.querySelector('.msub');
-        g.classList.toggle('open');if(sub)sub.classList.toggle('open');
+        var open=g.classList.toggle('open');if(sub)sub.classList.toggle('open');
+        btn.setAttribute('aria-expanded',open?'true':'false');
       });
     });
     document.querySelectorAll('.mmenu a').forEach(function(a){a.addEventListener('click',closeM);});
