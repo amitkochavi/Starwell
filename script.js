@@ -1,0 +1,65 @@
+/* Starwell Holdings - script.js */
+(function(){
+  var reveal=document.querySelectorAll('[data-reveal]');
+  function revealAll(){reveal.forEach(function(e){e.classList.add('in');});}
+  try{
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce||!('IntersectionObserver' in window)){revealAll();}
+    else{
+      var io=new IntersectionObserver(function(en){en.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
+        {threshold:.1,rootMargin:'0px 0px -6% 0px'});
+      reveal.forEach(function(e){io.observe(e);});
+    }
+  }catch(err){revealAll();}
+  window.addEventListener('load',function(){setTimeout(function(){
+    reveal.forEach(function(e){if(!e.classList.contains('in'))e.classList.add('in');});
+  },1500);});
+
+  try{
+    var burger=document.getElementById('burger');
+    var mmenu=document.getElementById('mmenu');
+    var mclose=document.getElementById('mclose');
+    function openM(){if(mmenu){mmenu.classList.add('open');document.body.style.overflow='hidden';}}
+    function closeM(){if(mmenu){mmenu.classList.remove('open');document.body.style.overflow='';}}
+    if(burger)burger.addEventListener('click',openM);
+    if(mclose)mclose.addEventListener('click',closeM);
+    document.querySelectorAll('.mgroup .mlink').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var g=btn.closest('.mgroup');var sub=g.querySelector('.msub');
+        g.classList.toggle('open');if(sub)sub.classList.toggle('open');
+      });
+    });
+    document.querySelectorAll('.mmenu a').forEach(function(a){a.addEventListener('click',closeM);});
+  }catch(err){}
+
+  try{
+    var pills=document.querySelectorAll('.filters .pill');
+    if(pills.length){
+      pills.forEach(function(p){p.addEventListener('click',function(){
+        pills.forEach(function(x){x.classList.remove('active');});p.classList.add('active');
+        var cat=p.getAttribute('data-cat');
+        document.querySelectorAll('.news-grid .na').forEach(function(card){
+          var c=card.getAttribute('data-cat');
+          card.style.display=(cat==='all'||c===cat)?'flex':'none';
+        });
+      });});
+    }
+  }catch(err){}
+
+  try{
+    var f=document.getElementById('contactForm');
+    if(f)f.addEventListener('submit',function(e){
+      e.preventDefault();
+      var note=document.getElementById('formnote');
+      var cap=document.getElementById('captchaAnswer');
+      if(cap && cap.value.trim()!=='20'){note.style.color='#C0444A';note.textContent='Please answer the question correctly (10 + 10).';return;}
+      note.style.color='';
+      var data=new FormData(f);
+      fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body:new URLSearchParams(data).toString()})
+        .then(function(r){note.textContent=r.ok?'Thank you. Your message has been sent and we will respond shortly.':'Thanks. This form goes live once the site is deployed.';f.reset();})
+        .catch(function(){note.textContent='Thanks. This form goes live once the site is deployed.';f.reset();});
+    });
+  }catch(err){}
+})();

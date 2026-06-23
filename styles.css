@@ -1,0 +1,267 @@
+/* ===========================================================
+   Starwell Holdings - styles.css
+   Official brand: Bodoni Moda (display) + Inter (body)
+   Palette: ink #0F0F12, paper #FBFBFC, gold #9A7B4F
+   =========================================================== */
+:root{
+  --paper:#FBFBFC; --paper-2:#F3F3F5; --ink:#0F0F12; --ink-soft:#5A5B61;
+  --line:#E6E6EA; --line-soft:#EFEFF2; --panel:#0C0C10; --panel-2:#15151B;
+  --panel-card:#17171E; --on-panel:#F4F3F0; --on-panel-soft:#9A9AA2;
+  --on-panel-line:#262630; --gold:#9A7B4F; --gold-soft:#B79A6F; --nav-h:74px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;
+  line-height:1.6;font-size:16px}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1160px;margin:0 auto;padding:0 44px}
+.serif{font-family:"Bodoni Moda",Georgia,"Times New Roman",serif}
+.eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft);font-weight:500}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* ---------- NAV ---------- */
+.nav{position:sticky;top:0;z-index:80;background:rgba(11,11,15,.92);
+  backdrop-filter:saturate(160%) blur(12px);-webkit-backdrop-filter:saturate(160%) blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-in{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:22px;color:var(--on-panel);letter-spacing:.005em}
+/* ---------- BRAND LOCKUP ---------- */
+.brand{display:inline-flex;align-items:center;gap:11px;text-decoration:none}
+.brand-word{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:23px;color:var(--on-panel);letter-spacing:.01em;line-height:1}
+.brand-rule{width:1px;height:17px;background:var(--gold);opacity:.85;flex:none}
+.brand-sub{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--on-panel-soft);line-height:1}
+.nav-links{display:flex;gap:30px;align-items:center}
+.nav-item{position:relative}
+.nav-links a,.nav-trigger{font-size:13.5px;letter-spacing:.02em;color:var(--on-panel-soft);
+  background:none;border:0;cursor:pointer;font-family:inherit;transition:color .2s;display:inline-flex;align-items:center;gap:6px}
+.nav-links a:hover,.nav-trigger:hover,.nav-links a.active{color:var(--on-panel)}
+.nav-trigger .chev{width:8px;height:8px;border-right:1.4px solid currentColor;border-bottom:1.4px solid currentColor;
+  transform:rotate(45deg);margin-top:-3px;transition:transform .25s}
+.nav-item:hover .chev{transform:rotate(225deg);margin-top:2px}
+.dropdown{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(8px);
+  background:var(--panel-2);border:1px solid var(--on-panel-line);border-radius:4px;padding:10px;
+  min-width:210px;opacity:0;visibility:hidden;transition:.22s;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
+.nav-item:hover .dropdown{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.dropdown a{display:block;padding:10px 14px;border-radius:3px;color:var(--on-panel-soft);font-size:13px;transition:.15s}
+.dropdown a:hover{background:rgba(255,255,255,.05);color:var(--on-panel)}
+.nav-cta{border:1px solid var(--on-panel);color:var(--on-panel)!important;padding:9px 18px;border-radius:2px;transition:.2s}
+.nav-cta:hover{background:var(--on-panel);color:var(--panel)!important}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px}
+.burger span{width:23px;height:1.6px;background:var(--on-panel);display:block;transition:.3s}
+
+/* mobile overlay menu */
+.mmenu{position:fixed;inset:0;z-index:90;background:var(--panel);transform:translateX(100%);
+  transition:transform .34s ease;display:flex;flex-direction:column;padding:22px;overflow-y:auto;
+  visibility:hidden;pointer-events:none}
+.mmenu.open{transform:none;visibility:visible;pointer-events:auto}
+.mmenu-top{display:flex;justify-content:flex-end}
+.mclose{background:none;border:0;color:var(--on-panel);font-size:30px;cursor:pointer;line-height:1;padding:4px 8px}
+.mlist{margin-top:18px}
+.mlink{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:0;
+  font-family:inherit;cursor:pointer;color:var(--on-panel);font-size:21px;padding:18px 4px;
+  border-bottom:1px solid var(--on-panel-line);letter-spacing:.01em}
+.mlink .mchev{width:9px;height:9px;border-right:1.6px solid var(--on-panel-soft);border-bottom:1.6px solid var(--on-panel-soft);
+  transform:rotate(45deg);transition:transform .25s}
+.msub{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.msub.open{max-height:420px}
+.msub a{display:block;color:var(--on-panel-soft);font-size:15px;padding:13px 4px 13px 16px;border-bottom:1px solid var(--on-panel-line)}
+.mgroup.open .mchev{transform:rotate(225deg)}
+
+/* ---------- BUTTONS ---------- */
+.btn{display:inline-block;font-size:14px;padding:14px 28px;border-radius:2px;border:1px solid var(--ink);
+  background:var(--ink);color:var(--paper);transition:.2s;letter-spacing:.02em;cursor:pointer}
+.btn:hover{background:transparent;color:var(--ink)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-light{border-color:var(--on-panel);background:var(--on-panel);color:var(--panel)}
+.btn-light:hover{background:transparent;color:var(--on-panel)}
+.link-arrow{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:500;color:var(--ink);transition:gap .25s}
+.link-arrow:hover{gap:14px}
+.link-arrow.on-dark{color:var(--on-panel)}
+
+/* ---------- HERO ---------- */
+.hero{background:var(--panel);color:var(--on-panel)}
+.hero .wrap{padding-top:108px;padding-bottom:104px}
+.hero .eyebrow{color:var(--on-panel-soft);display:block;margin-bottom:22px}
+.hero h1{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;line-height:1.04;
+  font-size:clamp(44px,7vw,84px);letter-spacing:.005em;color:var(--on-panel)}
+.hero .lead{font-size:clamp(16px,2.1vw,20px);color:var(--on-panel-soft);max-width:600px;margin-top:26px;line-height:1.65}
+.hero .hero-cta{margin-top:40px;display:flex;gap:14px;flex-wrap:wrap}
+.scrolldown{margin-top:42px;width:46px;height:46px;border:1px solid var(--on-panel-line);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--on-panel-soft);transition:.2s}
+.scrolldown:hover{border-color:var(--on-panel);color:var(--on-panel)}
+
+/* ---------- SECTIONS ---------- */
+.sec{padding:96px 0}
+.sec.tight{padding:72px 0}
+.sec-label{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;margin-bottom:30px}
+.sec-center{text-align:center}
+.sec-center h2{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:clamp(28px,4vw,40px);margin-bottom:18px}
+.sec-h{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:clamp(26px,3.4vw,36px);line-height:1.2;letter-spacing:.005em}
+.lede{font-family:"Bodoni Moda",Georgia,serif;font-weight:500;font-size:clamp(22px,3vw,30px);line-height:1.4;max-width:840px}
+.body-copy{color:var(--ink-soft);font-size:15.5px;line-height:1.85;max-width:760px;margin-top:22px}
+.body-copy p + p{margin-top:16px}
+
+/* What We Do cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:8px}
+.card{border:1px solid var(--line);border-radius:4px;padding:40px 34px;transition:.25s;background:var(--paper)}
+.card:hover{border-color:var(--ink);transform:translateY(-3px)}
+.card h3{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:24px;margin-bottom:16px}
+.card p{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin-bottom:24px}
+
+/* numbered approach */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.steps.four{grid-template-columns:repeat(4,1fr)}
+.step{background:var(--paper);padding:40px 30px}
+.step .n{font-family:"Bodoni Moda",Georgia,serif;font-size:14px;color:var(--ink-soft);letter-spacing:.1em;margin-bottom:20px}
+.step h3{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:21px;margin-bottom:13px}
+.step p{color:var(--ink-soft);font-size:14px;line-height:1.7}
+
+/* markets (real estate) */
+.markets{display:grid;grid-template-columns:1fr 1fr;gap:54px}
+.market .ml{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:16px}
+.market h3{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:24px;margin-bottom:14px}
+.market p{color:var(--ink-soft);font-size:15px;line-height:1.75}
+
+/* ---------- DARK PORTFOLIO ---------- */
+.dark{background:var(--panel);color:var(--on-panel)}
+.dark .sec-label{color:var(--on-panel-soft)}
+.pf-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:6px}
+.pf{background:var(--panel-card);border:1px solid var(--on-panel-line);border-radius:6px;padding:26px;display:flex;flex-direction:column}
+.pf .logo-chip{background:var(--on-panel);border-radius:4px;height:84px;display:flex;align-items:center;justify-content:center;
+  margin-bottom:22px;padding:0 18px}
+.pf .logo-chip span{font-family:"Bodoni Moda",Georgia,serif;font-weight:700;color:var(--panel);font-size:22px;letter-spacing:.01em}
+.pf .pn{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:20px;margin-bottom:12px;line-height:1.25}
+.pf .meta{display:flex;align-items:center;gap:8px;color:var(--on-panel-soft);font-size:13px;margin-bottom:6px}
+.pf .meta .ic{width:14px;height:14px;opacity:.7;flex:none}
+.pf .pf-actions{margin-top:18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.pf .more{border:1px solid var(--on-panel-line);border-radius:3px;padding:8px 14px;font-size:12.5px;color:var(--on-panel-soft);
+  display:inline-flex;align-items:center;gap:7px;transition:.2s;cursor:pointer;background:none}
+.pf .more:hover{border-color:var(--on-panel-soft);color:var(--on-panel)}
+
+/* selected experience (image cards) */
+.xp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:6px}
+.xp{background:var(--panel-card);border:1px solid var(--on-panel-line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+.ph-img{aspect-ratio:16/8;background:linear-gradient(135deg,#1d1d26,#101015);display:flex;align-items:center;justify-content:center;
+  color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+.xp-body{padding:24px 26px 26px}
+.xp .logos{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.xp .lchip{background:var(--on-panel);border-radius:3px;padding:8px 12px;font-family:"Bodoni Moda",serif;font-weight:700;color:var(--panel);font-size:12px}
+.xp .pn{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:20px;margin-bottom:14px}
+.xp .meta{display:flex;align-items:flex-start;gap:9px;color:var(--on-panel-soft);font-size:13px;margin-bottom:7px;line-height:1.5}
+.xp .meta .ic{width:14px;height:14px;opacity:.7;flex:none;margin-top:2px}
+.xp .pf-actions{margin-top:18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+
+/* ---------- LEADERSHIP ---------- */
+.leader{display:grid;grid-template-columns:300px 1fr;gap:54px;align-items:center;text-align:left;margin-top:10px}
+.leader .photo{aspect-ratio:1;background:linear-gradient(135deg,#1d1d26,#101015);border-radius:4px;
+  display:flex;align-items:center;justify-content:center;color:#3c3c47;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.leader .ln{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:26px}
+.leader .lt{font-size:13px;color:var(--ink-soft);letter-spacing:.04em;margin:6px 0 18px}
+.leader .body-copy{margin-top:0}
+
+/* legacy figures */
+.figs{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:34px}
+.fig figcaption{font-size:12px;color:var(--ink-soft);margin-top:10px;text-align:center}
+.fig .ph-img{aspect-ratio:4/3;border-radius:4px}
+
+/* ---------- NEWS ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 44px}
+.filters .pill{border:1px solid var(--line);background:var(--paper);border-radius:40px;padding:9px 18px;font-size:12.5px;
+  color:var(--ink-soft);cursor:pointer;transition:.18s}
+.filters .pill:hover{border-color:var(--ink);color:var(--ink)}
+.filters .pill.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.news-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.na{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:6px;overflow:hidden;transition:.22s;background:var(--paper)}
+.na:hover{border-color:var(--ink);transform:translateY(-3px)}
+.na .ph-img{aspect-ratio:16/8}
+.na-body{padding:24px 26px 26px;display:flex;flex-direction:column;flex:1}
+.na .row1{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.na .cat{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--paper-2);border-radius:3px;padding:5px 10px;color:var(--ink)}
+.na .date{font-size:12px;color:var(--ink-soft)}
+.na h3{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:20px;line-height:1.3;margin-bottom:12px}
+.na p{color:var(--ink-soft);font-size:14px;line-height:1.65;margin-bottom:20px;flex:1}
+.na .link-arrow{font-size:13.5px}
+
+/* ---------- CONTACT ---------- */
+.contact-card{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:48px 44px;margin-top:-60px;position:relative;z-index:2}
+.field{margin-bottom:26px}
+.field label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px}
+.field input,.field textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);
+  padding:11px 0;font-family:inherit;font-size:15px;color:var(--ink);transition:border-color .2s}
+.field input:focus,.field textarea:focus{outline:0;border-color:var(--ink)}
+.field textarea{resize:vertical;min-height:110px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.captcha{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+.captcha label{margin:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink)}
+.captcha input{max-width:120px;border:0;border-bottom:1px solid var(--line);padding:8px 0}
+.formnote{font-size:13px;color:var(--gold);margin-top:14px;min-height:20px}
+.offices{margin-top:50px;padding-top:40px;border-top:1px solid var(--line)}
+.offices .ol{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:24px}
+.office{margin-bottom:26px}
+.office h4{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:21px;margin-bottom:8px}
+.office p{font-size:14px;color:var(--ink-soft);line-height:1.6}
+
+/* simple list page (careers / sitemap) */
+.simple .body-copy{max-width:680px}
+.sitemap-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;margin-top:10px}
+.sitemap-cols h4{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:16px}
+.sitemap-cols a{display:block;padding:7px 0;color:var(--ink);font-size:15px;border-bottom:1px solid var(--line-soft)}
+.sitemap-cols a:hover{color:var(--gold)}
+
+/* ---------- FOOTER ---------- */
+footer.site{background:var(--panel);color:var(--on-panel-soft)}
+footer.site .wrap{padding:72px 44px 40px}
+.foot-top{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid var(--on-panel-line)}
+.foot-brand .fw{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:26px;color:var(--on-panel)}
+.foot-brand p{font-size:13px;line-height:1.7;margin-top:18px;max-width:300px}
+.foot-col h4{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--on-panel);margin-bottom:16px;font-weight:600}
+.foot-col a{display:block;font-size:13.5px;padding:6px 0;transition:color .2s}
+.foot-col a:hover{color:var(--on-panel)}
+.foot-bot{display:flex;justify-content:space-between;align-items:center;padding-top:26px;gap:16px;flex-wrap:wrap;font-size:12px}
+.totop{width:44px;height:44px;border:1px solid var(--on-panel-line);border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:var(--on-panel-soft);transition:.2s}
+.totop:hover{border-color:var(--on-panel);color:var(--on-panel)}
+
+/* Scroll-reveal removed as a hard dependency: content is always visible.
+   A subtle, JS-independent fade plays on load via the rule below. */
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+[data-reveal]{animation:fadeup .7s ease both}
+@keyframes fadeup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){[data-reveal]{animation:none}}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:900px){
+  .wrap{padding:0 22px}
+  .nav-links{display:none}
+  .burger{display:flex}
+  .hero .wrap{padding-top:72px;padding-bottom:76px}
+  .sec{padding:64px 0}
+  .cards,.steps,.steps.four,.markets,.pf-grid,.xp-grid,.news-grid,.figs{grid-template-columns:1fr}
+  .leader{grid-template-columns:1fr;gap:28px;text-align:left}
+  .leader .photo{max-width:240px}
+  .contact-card{padding:34px 24px;margin-top:-40px}
+  .frow{grid-template-columns:1fr}
+  .sitemap-cols{grid-template-columns:1fr 1fr}
+  .foot-top{grid-template-columns:1fr 1fr;gap:32px}
+  .foot-brand{grid-column:1/-1}
+}
+@media (max-width:520px){.sitemap-cols{grid-template-columns:1fr}}
+
+/* ---------- BRAND ACCENTS (gold, used sparingly) ---------- */
+.sec-label,.sec-center h2{position:relative}
+.eyebrow{color:var(--gold)!important}
+.hero .eyebrow{color:var(--gold-soft)}
+.dark .sec-label::before,.sec-label::before{content:"";display:inline-block;width:18px;height:1px;background:var(--gold);
+  vertical-align:middle;margin-right:12px;margin-bottom:3px}
+.link-arrow:hover{color:var(--gold)}
+.link-arrow.on-dark:hover{color:var(--gold-soft)}
+.card:hover{border-color:var(--gold)}
+.na:hover{border-color:var(--gold)}
+.scrolldown:hover{border-color:var(--gold);color:var(--gold-soft)}
+.nav-links a.active{color:var(--on-panel)}
+.nav-links a.active::after{content:"";display:block;height:1px;background:var(--gold);margin-top:5px}
+.step .n{color:var(--gold)}
+.foot-brand .brand-rule{height:19px}

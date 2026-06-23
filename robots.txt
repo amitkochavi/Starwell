@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://starwellholdings.com/sitemap.xml
