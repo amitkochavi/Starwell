@@ -232,7 +232,10 @@ img{max-width:100%;display:block}
 .xp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:6px}
 .xp{background:var(--panel-card);border:1px solid var(--on-panel-line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
 .ph-img{aspect-ratio:16/8;background:linear-gradient(135deg,#1d1d26,#101015);display:flex;align-items:center;justify-content:center;
-  color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+  color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase;overflow:hidden}
+.ph-img img{width:100%;height:100%;object-fit:cover}
+.pf .pf-desc,.xp .xp-desc{color:var(--on-panel-soft);font-size:13.5px;line-height:1.6;margin:2px 0 0}
+.xp .xp-desc{margin-top:10px}
 .xp-body{padding:24px 26px 26px}
 .xp .logos{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
 .xp .lchip{background:var(--on-panel);border-radius:3px;padding:8px 12px;font-family:"Bodoni Moda",serif;font-weight:700;color:var(--panel);font-size:12px}
@@ -243,8 +246,9 @@ img{max-width:100%;display:block}
 
 /* ---------- LEADERSHIP ---------- */
 .leader{display:grid;grid-template-columns:300px 1fr;gap:54px;align-items:center;text-align:left;margin-top:10px}
-.leader .photo{aspect-ratio:1;background:linear-gradient(135deg,#1d1d26,#101015);border-radius:4px;
+.leader .photo{aspect-ratio:1;background:linear-gradient(135deg,#1d1d26,#101015);border-radius:4px;overflow:hidden;
   display:flex;align-items:center;justify-content:center;color:#3c3c47;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.leader .photo img{width:100%;height:100%;object-fit:cover}
 .leader .ln{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:26px}
 .leader .lt{font-size:13px;color:var(--ink-soft);letter-spacing:.04em;margin:6px 0 18px}
 .leader .body-copy{margin-top:0}
@@ -406,9 +410,9 @@ footer.site .wrap{padding:72px 44px 40px}
   <div class="nav-item">
     <button class="nav-trigger" aria-haspopup="true">What We Do <span class="chev"></span></button>
     <div class="dropdown">
-      <a href="technology.html">Starwell Technologies</a>
-      <a href="real-estate.html">Starwell Real Estate</a>
-      <a href="capital.html">Starwell Capital</a>
+      <a href="technology.html">Technology</a>
+      <a href="real-estate.html">Real Estate</a>
+      <a href="capital.html">Capital</a>
     </div>
   </div>
   <div class="nav-item"><a href="news.html">News</a></div>
@@ -435,9 +439,9 @@ footer.site .wrap{padding:72px 44px 40px}
     <div class="mgroup">
       <button class="mlink" aria-expanded="false">What We Do <span class="mchev"></span></button>
       <div class="msub">
-        <a href="technology.html">Starwell Technologies</a>
-        <a href="real-estate.html">Starwell Real Estate</a>
-        <a href="capital.html">Starwell Capital</a>
+        <a href="technology.html">Technology</a>
+        <a href="real-estate.html">Real Estate</a>
+        <a href="capital.html">Capital</a>
       </div>
     </div>
     <a class="mlink" href="news.html">News</a>
@@ -448,80 +452,79 @@ footer.site .wrap{padding:72px 44px 40px}
 <section class="hero">
   <div class="wrap">
     <span class="eyebrow">News</span>
-    <h1>News</h1>
+    <h1>News &amp; Insights</h1>
     <p class="lead">Company news, market commentary, and updates on our investments.</p>
   </div>
 </section>
 
 <div class="wrap">
   <section class="sec" data-reveal>
-    <div class="filters"><button class="pill active" data-cat="all">All</button><button class="pill" data-cat="Real Estate">Real Estate</button><button class="pill" data-cat="Company News">Company News</button><button class="pill" data-cat="Public Markets">Public Markets</button><button class="pill" data-cat="Market Commentary">Market Commentary</button><button class="pill" data-cat="Press Release">Press Release</button></div>
+    <div class="filters"><button class="pill active" data-cat="all">All</button><button class="pill" data-cat="Real Estate">Real Estate</button><button class="pill" data-cat="Company News">Company News</button></div>
     <div class="news-grid">
-      <a class="na" data-cat="Real Estate" href="#" rel="noopener">
-        <div class="ph-img">Tel Aviv</div>
+      <a class="na" data-cat="Real Estate" href="https://www.calcalist.co.il/real-estate/article/bjoi20k003" target="_blank" rel="noopener">
+        <div class="ph-img"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/c758ca080_--beyond---2.jpg" alt="Lipa Meir to Rent Offices in Beyond Tower for 11 Million NIS Per Year" loading="lazy" decoding="async"></div>
         <div class="na-body">
-          <div class="row1"><span class="cat">Real Estate</span><span class="date">Dec 20, 2025</span></div>
+          <div class="row1"><span class="cat">Real Estate</span><span class="date">Dec 21, 2025</span></div>
           <h3>Lipa Meir to Rent Offices in Beyond Tower for 11 Million NIS Per Year</h3>
-          <p>Lipa Meir &amp; Co. is leasing roughly 7,000 sqm of office space across four floors in the Beyond Tower in Tel Aviv.</p>
+          <p>Lipa Meir &amp; Co. is leaving Amot Investments House in Tel Aviv to lease 7,000 sqm of office space across 4 floors in the Beyond Tower project from Tidhar, Union, and Himnuta.</p>
           <span class="link-arrow">Read More &rarr;</span>
         </div>
       </a>
-      <a class="na" data-cat="Company News" href="#" rel="noopener">
-        <div class="ph-img">Company News</div>
+      <a class="na" data-cat="Company News" href="#">
+        <div class="ph-img"><img src="https://www.new-techeurope.com/wp-content/uploads/2025/06/Amit-Kochavi-e1748940333350.jpg" alt="Circles Merges Operations with U.S.-Based Doss" loading="lazy" decoding="async"></div>
         <div class="na-body">
-          <div class="row1"><span class="cat">Company News</span><span class="date">Jun 2, 2025</span></div>
+          <div class="row1"><span class="cat">Company News</span><span class="date">Jun 3, 2025</span></div>
           <h3>Circles Merges Operations with U.S.-Based Doss</h3>
-          <p>Circles is merging its operations with Doss and will become the Israeli sales and marketing center for the company.</p>
+          <p>Circles is merging its operations with U.S.-based Doss and will become the Israeli sales and marketing center for the company.</p>
           <span class="link-arrow">Read More &rarr;</span>
         </div>
       </a>
-      <a class="na" data-cat="Company News" href="#" rel="noopener">
-        <div class="ph-img">Company News</div>
+      <a class="na" data-cat="Company News" href="#">
+        <div class="ph-img"><img src="https://www.ittime.co.il/wp-content/uploads/2025/05/Amit-Cohavi-200x300.jpeg" alt="חברת Circles מתמזגת עם Doss האמריקאית" loading="lazy" decoding="async"></div>
         <div class="na-body">
-          <div class="row1"><span class="cat">Company News</span><span class="date">May 28, 2025</span></div>
-          <h3>Circles and Doss Announce Merger (Hebrew coverage)</h3>
-          <p>Hebrew-language coverage of the Circles and Doss merger and the combined go-to-market in Israel.</p>
+          <div class="row1"><span class="cat">Company News</span><span class="date">May 29, 2025</span></div>
+          <h3>חברת Circles מתמזגת עם Doss האמריקאית</h3>
+          <p>חברת Circles מתמזגת עם Doss האמריקאית ותהפוך למרכז הפיתוח הישראלי שלה. עמית כוכבי ימונה למנהל הפיתוח הגלובלי.</p>
           <span class="link-arrow">Read More &rarr;</span>
         </div>
       </a>
-      <a class="na" data-cat="Real Estate" href="#" rel="noopener">
-        <div class="ph-img">Industrial</div>
+      <a class="na" data-cat="Real Estate" href="#">
+        <div class="ph-img"><img src="https://www.lee-associates.com/atlanta/wp-content/uploads/sites/77/2021/08/Lee-Associates-Atlanta-Logo-2021.png" alt="Lee &amp; Associates – Atlanta Facilitates Sale of 28-Acre Industrial Site to Terminal Logistics" loading="lazy" decoding="async"></div>
         <div class="na-body">
-          <div class="row1"><span class="cat">Real Estate</span><span class="date">May 5, 2025</span></div>
-          <h3>Lee &amp; Associates Atlanta Facilitates Sale of 28-Acre Industrial Site to Terminal Logistics</h3>
-          <p>Center Capital&rsquo;s logistics platform, Terminal Logistics, has acquired a 28-acre site in Gainesville, GA.</p>
+          <div class="row1"><span class="cat">Real Estate</span><span class="date">May 6, 2025</span></div>
+          <h3>Lee &amp; Associates – Atlanta Facilitates Sale of 28-Acre Industrial Site to Terminal Logistics</h3>
+          <p>Center Capital&#x27;s IOS platform, Terminal Logistics, has acquired a 28-acre site in Gainesville, GA.</p>
           <span class="link-arrow">Read More &rarr;</span>
         </div>
       </a>
-      <a class="na" data-cat="Real Estate" href="#" rel="noopener">
-        <div class="ph-img">Givatayim</div>
+      <a class="na" data-cat="Real Estate" href="#">
+        <div class="ph-img"><img src="https://ynet-pic1.yit.co.il/cdn-cgi/image/f=auto,w=740,q=75/picserver5/crop_images/2024/09/04/SysC3IrnR/SysC3IrnR_0_0_1600_1067_0_x-large.jpg" alt="גבעתיים על הגובה: המגדל שהפך לגבוה בישראל" loading="lazy" decoding="async"></div>
         <div class="na-body">
-          <div class="row1"><span class="cat">Real Estate</span><span class="date">Sep 3, 2024</span></div>
-          <h3>New Givatayim Tower Reaches Key Construction Milestone (Hebrew coverage)</h3>
-          <p>Hebrew-language coverage of construction progress on a new high-rise in Givatayim.</p>
+          <div class="row1"><span class="cat">Real Estate</span><span class="date">Sep 4, 2024</span></div>
+          <h3>גבעתיים על הגובה: המגדל שהפך לגבוה בישראל</h3>
+          <p>פרויקט ביונד בגבעתיים חצה את גובה 240 המטרים והפך למגדל הגבוה בישראל. בסיום הבנייה יגיע לגובה 320 מטרים.</p>
           <span class="link-arrow">Read More &rarr;</span>
         </div>
       </a>
-      <a class="na" data-cat="Real Estate" href="#" rel="noopener">
-        <div class="ph-img">Tallest Tower</div>
+      <a class="na" data-cat="Real Estate" href="#">
+        <div class="ph-img"><img src="https://ynet-pic1.yit.co.il/cdn-cgi/image/format=auto/picserver5/crop_images/2024/09/03/S1v8iCV3A/S1v8iCV3A_0_113_460_820_0_x-large.jpg" alt="New Tower Claims Title of Tallest in Israel" loading="lazy" decoding="async"></div>
         <div class="na-body">
-          <div class="row1"><span class="cat">Real Estate</span><span class="date">Sep 3, 2024</span></div>
+          <div class="row1"><span class="cat">Real Estate</span><span class="date">Sep 4, 2024</span></div>
           <h3>New Tower Claims Title of Tallest in Israel</h3>
-          <p>A new tower in Givatayim claims the title of tallest in Israel, rising to 320 meters with office and residential space.</p>
+          <p>New tower in Givataim claims title of tallest in Israel, rising to 320 meters with office and residential space.</p>
           <span class="link-arrow">Read More &rarr;</span>
         </div>
       </a>
-      <a class="na" data-cat="Real Estate" href="#" rel="noopener">
-        <div class="ph-img">Givatayim</div>
+      <a class="na" data-cat="Real Estate" href="#">
+        <div class="ph-img"><img src="https://res.cloudinary.com/globes/image/upload/t_desktop_article_content_header_800%2A392/v1668451686/direct/%D7%94%D7%93%D7%9E%D7%99%D7%94_%D7%91%D7%99%D7%95%D7%A0%D7%93._%D7%A7%D7%A8%D7%93%D7%99%D7%98_-_%D7%A1%D7%98%D7%95%D7%93%D7%99%D7%95_84_2_003_nqik1n.jpg" alt="Meitar Leases 17 Floors in Givatayim Tower" loading="lazy" decoding="async"></div>
         <div class="na-body">
-          <div class="row1"><span class="cat">Real Estate</span><span class="date">Nov 14, 2022</span></div>
+          <div class="row1"><span class="cat">Real Estate</span><span class="date">Nov 15, 2022</span></div>
           <h3>Meitar Leases 17 Floors in Givatayim Tower</h3>
-          <p>Meitar Law Offices leases 17 floors in a Givatayim tower for NIS 54 million annually.</p>
+          <p>Meitar Law Offices leases 17 floors in Givatayim tower for NIS 54 million annually.</p>
           <span class="link-arrow">Read More &rarr;</span>
         </div>
       </a>
     </div>
-    <p class="body-copy" style="font-size:13px;margin-top:34px">Each item links to external coverage. Replace the placeholder links with the source URLs.</p>
   </section>
 </div>
 </main>

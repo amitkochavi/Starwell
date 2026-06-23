@@ -232,7 +232,10 @@ img{max-width:100%;display:block}
 .xp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:6px}
 .xp{background:var(--panel-card);border:1px solid var(--on-panel-line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
 .ph-img{aspect-ratio:16/8;background:linear-gradient(135deg,#1d1d26,#101015);display:flex;align-items:center;justify-content:center;
-  color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+  color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase;overflow:hidden}
+.ph-img img{width:100%;height:100%;object-fit:cover}
+.pf .pf-desc,.xp .xp-desc{color:var(--on-panel-soft);font-size:13.5px;line-height:1.6;margin:2px 0 0}
+.xp .xp-desc{margin-top:10px}
 .xp-body{padding:24px 26px 26px}
 .xp .logos{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
 .xp .lchip{background:var(--on-panel);border-radius:3px;padding:8px 12px;font-family:"Bodoni Moda",serif;font-weight:700;color:var(--panel);font-size:12px}
@@ -243,8 +246,9 @@ img{max-width:100%;display:block}
 
 /* ---------- LEADERSHIP ---------- */
 .leader{display:grid;grid-template-columns:300px 1fr;gap:54px;align-items:center;text-align:left;margin-top:10px}
-.leader .photo{aspect-ratio:1;background:linear-gradient(135deg,#1d1d26,#101015);border-radius:4px;
+.leader .photo{aspect-ratio:1;background:linear-gradient(135deg,#1d1d26,#101015);border-radius:4px;overflow:hidden;
   display:flex;align-items:center;justify-content:center;color:#3c3c47;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.leader .photo img{width:100%;height:100%;object-fit:cover}
 .leader .ln{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:26px}
 .leader .lt{font-size:13px;color:var(--ink-soft);letter-spacing:.04em;margin:6px 0 18px}
 .leader .body-copy{margin-top:0}
@@ -406,9 +410,9 @@ footer.site .wrap{padding:72px 44px 40px}
   <div class="nav-item">
     <button class="nav-trigger" aria-haspopup="true">What We Do <span class="chev"></span></button>
     <div class="dropdown">
-      <a href="technology.html">Starwell Technologies</a>
-      <a href="real-estate.html">Starwell Real Estate</a>
-      <a href="capital.html">Starwell Capital</a>
+      <a href="technology.html">Technology</a>
+      <a href="real-estate.html">Real Estate</a>
+      <a href="capital.html">Capital</a>
     </div>
   </div>
   <div class="nav-item"><a href="news.html">News</a></div>
@@ -435,9 +439,9 @@ footer.site .wrap{padding:72px 44px 40px}
     <div class="mgroup">
       <button class="mlink" aria-expanded="false">What We Do <span class="mchev"></span></button>
       <div class="msub">
-        <a href="technology.html">Starwell Technologies</a>
-        <a href="real-estate.html">Starwell Real Estate</a>
-        <a href="capital.html">Starwell Capital</a>
+        <a href="technology.html">Technology</a>
+        <a href="real-estate.html">Real Estate</a>
+        <a href="capital.html">Capital</a>
       </div>
     </div>
     <a class="mlink" href="news.html">News</a>
@@ -449,16 +453,16 @@ footer.site .wrap{padding:72px 44px 40px}
   <div class="wrap">
     <span class="eyebrow">Technology</span>
     <h1>Starwell<br>Technologies</h1>
-    <p class="lead">We acquire control or significant equity in IT services companies in Israel&rsquo;s lower middle market.</p>
+    <p class="lead">Acquiring control or significant equity in IT services companies in the Israeli lower middle market.</p>
   </div>
 </section>
 
 <div class="wrap">
   <section class="sec" data-reveal>
     <div class="sec-label">Thesis</div>
-    <p class="lede">Israel&rsquo;s IT services market is large, growing, and fragmented. Most of the strongest operators are independent, built on technical expertise and client trust rather than scale.</p>
+    <p class="lede">Israel&rsquo;s IT services market is large, growing, and deeply fragmented. Most strong operators are independent &mdash; built on expertise and client trust, not institutional scale.</p>
     <div class="body-copy">
-      <p>Starwell Technologies acquires control or significant equity in established, profitable IT services companies. We keep what already works in these businesses and add the systems, reporting, and discipline of a larger platform.</p>
+      <p>Starwell Technologies acquires control or significant equity in established, profitable IT services companies in the Israeli lower middle market. We partner with operators to preserve what works while building the infrastructure and discipline of a lasting platform.</p>
     </div>
   </section>
 </div>
@@ -466,9 +470,9 @@ footer.site .wrap{padding:72px 44px 40px}
 <div class="wrap">
   <section class="sec" style="padding-top:0" data-reveal>
     <div class="steps">
-      <div class="step"><div class="n">01</div><h3>Acquire</h3><p>We take control or significant equity in profitable, established IT services companies in the lower middle market.</p></div>
-      <div class="step"><div class="n">02</div><h3>Integrate</h3><p>We centralize systems, share infrastructure, and standardize service delivery across the portfolio.</p></div>
-      <div class="step"><div class="n">03</div><h3>Scale</h3><p>We improve operations, develop talent, and expand service lines to grow each company over time.</p></div>
+      <div class="step"><div class="n">01</div><h3>Acquire</h3><p>Control or significant equity in profitable, established IT services companies operating in the Israeli lower middle market.</p></div>
+      <div class="step"><div class="n">02</div><h3>Integrate</h3><p>Centralized systems, shared infrastructure, and standardized service delivery across the portfolio.</p></div>
+      <div class="step"><div class="n">03</div><h3>Scale</h3><p>Operational improvements, talent development, and expanded service capabilities to drive long-term value creation.</p></div>
     </div>
   </section>
 </div>
@@ -478,16 +482,16 @@ footer.site .wrap{padding:72px 44px 40px}
     <div class="sec-label">Portfolio</div>
     <div class="pf-grid">
       <div class="pf">
-        <div class="logo-chip"><span>Cormi</span></div>
+        <div class="logo-chip"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/fa2134825_Cormi-04.png" alt="Cormi IT logo" loading="lazy" decoding="async" style="max-height:48px;max-width:150px;object-fit:contain"></div>
         <div class="pn">Cormi IT</div>
-        <div class="meta"><span>Role: Founder and Majority Shareholder</span></div>
-        <div class="pf-actions"><button class="more">&#9432; More Info</button></div>
+        <div class="meta"><span>Role: Founder and Majority Shareholder</span></div><p class="pf-desc">Implementation and integration company specializing in ERP, CRM, and workflow systems for traditional businesses.</p>
+        <div class="pf-actions"><a href="https://www.cormi.com/" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">Website &rarr;</a></div>
       </div>
       <div class="pf">
-        <div class="logo-chip"><span>Doss</span></div>
+        <div class="logo-chip"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/2f8d344a1_doss-black.jpg" alt="Doss Inc logo" loading="lazy" decoding="async" style="max-height:48px;max-width:150px;object-fit:contain"></div>
         <div class="pn">Doss Inc</div>
-        <div class="meta"><span>Role: Strategic Partner</span></div>
-        <div class="pf-actions"><button class="more">&#9432; More Info</button></div>
+        <div class="meta"><span>Role: Strategic Partner</span></div><p class="pf-desc">Adaptive ERP and data platform with composable architecture. Unifies fragmented workflows across orders, inventory, procurement, production, and finance.</p>
+        <div class="pf-actions"><a href="https://www.doss.com/" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">Website &rarr;</a></div>
       </div>
     </div>
   </div>
