@@ -27,7 +27,7 @@ DESK_NAV='''  <div class="nav-item"><a href="index.html">Home</a></div>
     </div>
   </div>
   <div class="nav-item"><a href="news.html">News</a></div>
-  <div class="nav-item"><a href="contact.html" class="nav-cta">Contact</a></div>'''
+  <div class="nav-item"><a href="contact.html">Contact</a></div>'''
 
 MOBILE_NAV='''<div class="mmenu" id="mmenu" aria-hidden="true">
   <div class="mmenu-top"><button class="mclose" id="mclose" aria-label="Close menu">&times;</button></div>
