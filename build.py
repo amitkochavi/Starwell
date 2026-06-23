@@ -279,6 +279,24 @@ render("index.html","Starwell Holdings | Private Investment & Operating Company"
   home,extra_ld={"@context":"https://schema.org","@type":"WebSite","name":"Starwell Holdings","url":BASE+"/"})
 
 # =================== OUR STORY ===================
+SB="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/"
+PARTNERS=[
+  ("Tidhar", SB+"ed0e4f174_5aae560d-4622-4639-9a90-a4dc20483398.jpg"),
+  ("Union Group", SB+"d4e85ea44_images2.png"),
+  ("Center Capital", SB+"c020e8ecf_centercaplog.png"),
+  ("Wilpon & Co.", SB+"74d15b488_wilpon.png"),
+  ("Noked Capital", SB+"0b7882a5e_Screenshot2025-12-20at095550.png"),
+  ("Hazavim", SB+"7198da834_logo-black-new.png"),
+]
+# Duplicate the set so the marquee track loops seamlessly (animation shifts by -50%).
+def _pset(hidden):
+    hid=' aria-hidden="true"' if hidden else ''
+    return "".join(
+        f'<span class="m-logo"><img src="{u}" alt="{_esc(n)}" loading="lazy" decoding="async"{hid}></span>'
+        for n,u in PARTNERS)
+partner_marquee=f'''<div class="marquee" aria-label="Selected partners">
+      <div class="marquee-track">{_pset(False)}{_pset(True)}</div>
+    </div>'''
 our=f'''<section class="hero hero-center">
   <div class="wrap">
     <h1>Our Story</h1>
@@ -342,14 +360,7 @@ our=f'''<section class="hero hero-center">
   <section class="sec sec-center" id="partnership" data-reveal>
     <h2 class="serif" style="margin-bottom:20px">Partnership</h2>
     <p class="body-copy" style="margin:0 auto 12px;text-align:center;max-width:760px">We focus on selective, high-conviction investments where we can be thoughtful partners and long-term stewards of capital.</p>
-    <div class="partners">
-      <span class="partner-chip">Tidhar</span>
-      <span class="partner-chip">Union</span>
-      <span class="partner-chip">Center Capital</span>
-      <span class="partner-chip">Wilpon &amp; Co</span>
-      <span class="partner-chip">Noked</span>
-      <span class="partner-chip">Hazavim</span>
-    </div>
+    {partner_marquee}
   </section>
 </div>
 
