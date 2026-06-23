@@ -268,77 +268,92 @@ render("index.html","Starwell Holdings | Private Investment & Operating Company"
   home,extra_ld={"@context":"https://schema.org","@type":"WebSite","name":"Starwell Holdings","url":BASE+"/"})
 
 # =================== OUR STORY ===================
-our=f'''<section class="hero">
+our=f'''<section class="hero hero-center">
   <div class="wrap">
-    <span class="eyebrow">Our Story</span>
     <h1>Our Story</h1>
-    <p class="lead">A privately held investment and operating company, built to own and grow businesses over the long term.</p>
   </div>
 </section>
 
 <div class="wrap">
   <section class="sec" id="about" data-reveal>
-    <div class="sec-center" style="margin-bottom:40px"><h2 class="serif">Starwell Holdings</h2></div>
-    <div class="body-copy" style="max-width:820px;margin:0 auto;text-align:center;font-size:16px">
-      <p>Starwell Holdings is a private investment and operating company. We build, own, and operate businesses across real estate, operating companies, alternative investments, and public markets.</p>
-      <p>Starwell is a long-term owner, not a passive allocator. We found companies, scale platforms, and work alongside management teams to grow durable businesses and real assets. Our work pairs hands-on operating involvement with disciplined investing.</p>
-      <p>We focus where patient ownership and active partnership create lasting value.</p>
+    <div class="sec-center" style="margin-bottom:34px"><h2 class="serif">Starwell Holdings</h2></div>
+    <div class="body-copy" style="max-width:880px;margin:0 auto;text-align:center;font-size:16px">
+      <p>Starwell Holdings is a global private investment and operating company. We invest and build across real estate, operating businesses, alternative investments, and public markets.</p>
+      <p>Beyond capital allocation, Starwell acts as a long-term owner and active partner&mdash;founding companies, scaling platforms, and working alongside management teams to develop durable businesses and real assets. Our approach combines entrepreneurial execution with disciplined investment principles.</p>
+      <p>We focus on opportunities where long-term thinking, operational involvement, and strategic alignment can create enduring value across cycles and generations.</p>
     </div>
   </section>
 </div>
 
-<div class="wrap">
-  <section class="sec" id="business-focus" data-reveal style="border-top:1px solid var(--line)">
+<section class="dark" id="business-focus" data-reveal>
+  <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:18px"><h2 class="serif">Business Focus</h2></div>
-    <p class="body-copy" style="max-width:760px;margin:0 auto 50px;text-align:center">Starwell builds and invests in businesses and assets that reward long-term ownership and active management. Our work spans four areas.</p>
+    <p class="body-copy" style="max-width:780px;margin:0 auto 50px;text-align:center">Starwell focuses on building and investing in businesses and assets where long-term ownership, active management, and operational involvement create lasting value. Our work spans four areas.</p>
     <div class="steps four">
       <div class="step"><h3>Real Estate</h3><p>We develop and operate residential, commercial, and mixed-use assets, partnering with experienced operators through development, asset management, and disposition.</p></div>
       <div class="step"><h3>Operating Businesses</h3><p>We acquire and grow operating companies alongside strong management teams, concentrating on businesses that benefit from operational improvement and patient capital.</p></div>
       <div class="step"><h3>Technology &amp; Innovation</h3><p>We back and build technology-enabled platforms, with an emphasis on applied AI and software that strengthens established industries.</p></div>
       <div class="step"><h3>Public Markets</h3><p>We invest in public equities and alternative strategies with a long-term, fundamentals-driven approach that complements our private holdings.</p></div>
     </div>
-    <p class="body-copy" style="max-width:760px;margin:40px auto 0;text-align:center">Across every area, we invest with conviction, align closely with our partners, and stay involved in the businesses we own.</p>
-  </section>
-</div>
-
-<section class="dark" id="strategy" data-reveal>
-  <div class="wrap sec sec-center">
-    <h2 class="serif" style="color:var(--on-panel);font-size:clamp(28px,4vw,40px);margin-bottom:20px">Strategy</h2>
-    <p class="lede" style="color:var(--on-panel);margin:0 auto;max-width:720px;font-weight:500">We combine patient capital with an operator&rsquo;s mindset, creating value through active involvement and judgment, not financial engineering alone.</p>
   </div>
 </section>
 
 <div class="wrap">
-  <section class="sec" id="leadership" data-reveal>
-    <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">Leadership</h2></div>
+  <section class="sec sec-center" id="strategy" data-reveal>
+    <h2 class="serif" style="margin-bottom:20px">Strategy</h2>
+    <p class="body-copy" style="margin:0 auto;text-align:center;max-width:760px">Our approach combines long-term, disciplined capital with an operator&rsquo;s mindset. We prioritize value creation through active engagement and strategic guidance.</p>
+  </section>
+</div>
+
+<section class="dark" id="leadership" data-reveal>
+  <div class="wrap sec">
+    <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">Starwell Leadership</h2></div>
     <div class="leader">
-      <div class="photo">Portrait</div>
+      <div class="photo">Amit Kochavi</div>
       <div>
         <div class="ln">Amit Kochavi</div>
         <div class="lt">Chairman, CEO &amp; Founder</div>
         <div class="body-copy">
-          <p>Amit Kochavi founded Starwell Holdings to build a private investment and operating company that pairs long-term capital with operational leadership. His work spans technology, real estate, and public service.</p>
-          <p>He founded and holds a stake in Doss, serves as Senior Advisor to the Mayor of Sderot, and takes part in President Herzog&rsquo;s &ldquo;Voice of the People&rdquo; initiative. At Starwell, he leads strategy and capital allocation and stays directly involved in the firm&rsquo;s platforms and partnerships.</p>
+          <p>Amit founded Starwell Holdings to build a global private investment and operating company that combines long-term capital with operational execution.</p>
+          <p>His career spans technology, real estate, and civic leadership. He is the founder of Doss Israel Ltd. and shareholder in Doss Inc., Senior Advisor to the Mayor of Sderot, and a member of President Herzog&rsquo;s &ldquo;Voice of the People&rdquo; initiative.</p>
+          <p>Amit continues to grow Starwell&rsquo;s portfolio of platforms and partnerships, focused on building enduring value across cycles and geographies.</p>
         </div>
       </div>
     </div>
-  </section>
-</div>
+  </div>
+</section>
 
 <div class="wrap">
-  <section class="sec" id="partnership" data-reveal style="border-top:1px solid var(--line)">
-    <div class="sec-center"><h2 class="serif" style="margin-bottom:20px">Partnership</h2>
-    <p class="body-copy" style="margin:0 auto;text-align:center">We take a small number of positions and commit to them. Where we partner, we aim to be steady, long-term stewards of capital.</p></div>
+  <section class="sec sec-center" id="partnership" data-reveal>
+    <h2 class="serif" style="margin-bottom:20px">Partnership</h2>
+    <p class="body-copy" style="margin:0 auto 12px;text-align:center;max-width:760px">We focus on selective, high-conviction investments where we can be thoughtful partners and long-term stewards of capital.</p>
+    <div class="partners">
+      <span class="partner-chip">Noked Capital</span>
+      <span class="partner-chip">Hazavim Funds</span>
+      <span class="partner-chip">Tidhar</span>
+    </div>
   </section>
 </div>
 
 <section class="dark" id="legacy" data-reveal>
   <div class="wrap sec">
-    <div class="sec-center" style="margin-bottom:30px"><h2 class="serif" style="color:var(--on-panel);font-size:clamp(28px,4vw,40px)">Legacy</h2></div>
-    <div class="body-copy" style="max-width:780px;margin:0 auto;color:var(--on-panel-soft);text-align:center">
-      <p>Starwell builds on four generations of entrepreneurship, capital stewardship, and public service.</p>
-      <p>That history traces to Max Factor, who built one of the defining consumer brands of the twentieth century. It runs through David M. Heyman, a businessman and philanthropist whose work helped shape institutions in education and community development. In Israel, it continued with the Buchman family, whose work across business, real estate, and philanthropy contributed to the country&rsquo;s growth over several decades.</p>
-      <p>Starwell is the present-day expression of that lineage: a capital base and an operating company built to start businesses, develop real assets, and partner with experienced operators. The values carry over. Integrity, long-term ownership, and a responsibility to build things that last.</p>
+    <div class="sec-center" style="margin-bottom:24px"><h2 class="serif">Legacy</h2></div>
+    <p class="body-copy" style="max-width:780px;margin:0 auto 54px;text-align:center">Starwell builds on four generations of entrepreneurship, capital stewardship, and public leadership.</p>
+    <div class="legacy-row">
+      <div class="lg-text">
+        <p>The roots of this legacy trace back to Max Factor, the pioneering entrepreneur who transformed the global cosmetics industry and built one of the most enduring consumer brands of the 20th century through innovation, craftsmanship, and an uncompromising standard of excellence.</p>
+      </div>
+      <figure class="legacy-fig"><div class="ph-img portrait">Max Factor</div><figcaption>Max Factor</figcaption></figure>
+    </div>
+    <div class="legacy-row">
+      <figure class="legacy-fig"><div class="ph-img portrait">David M. Heyman</div><figcaption>David M. Heyman</figcaption></figure>
+      <div class="lg-text">
+        <p>They also extend to David M. Heyman, a distinguished philanthropist and business leader whose work helped shape modern philanthropic institutions, with a lasting focus on education, community development, and long-term societal progress.</p>
+      </div>
+    </div>
+    <div class="body-copy" style="max-width:820px;margin:8px auto 0;text-align:center">
+      <p>In Israel, the legacy continued through the Buchman family, whose multi-generational involvement in business, real estate, and philanthropy contributed meaningfully to the country&rsquo;s economic development and social fabric. Across decades, the family combined disciplined capital allocation with a deep sense of responsibility to the communities in which they operated.</p>
+      <p>Starwell is the modern expression of these roots &mdash; a capital platform and operational engine designed to create companies, develop real assets, and partner with exceptional operators. The underlying values remain constant: integrity, long-term ownership, and a responsibility to build things that endure.</p>
     </div>
   </div>
 </section>'''
