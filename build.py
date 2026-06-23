@@ -62,9 +62,7 @@ def header():
 <header class="nav">
   <div class="wrap nav-in">
     <a href="index.html" class="brand" aria-label="Starwell Holdings home">
-      <span class="brand-word">Starwell</span>
-      <span class="brand-rule"></span>
-      <span class="brand-sub">Holdings</span>
+      <span class="brand-word">Starwell Holdings</span>
     </a>
     <nav class="nav-links" aria-label="Primary">
 {DESK_NAV}
@@ -78,7 +76,7 @@ FOOTER='''<footer class="site">
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
-        <div class="brand foot-lockup"><span class="brand-word" style="font-size:27px">Starwell</span><span class="brand-rule" style="height:19px"></span><span class="brand-sub">Holdings</span></div>
+        <div class="brand foot-lockup"><span class="brand-word" style="font-size:27px">Starwell Holdings</span></div>
         <p>A privately held global investment firm building and owning platforms across technology, real estate, and capital.</p>
       </div>
       <div class="foot-col">
