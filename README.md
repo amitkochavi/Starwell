@@ -76,18 +76,19 @@ python3 build.py   # rewrites all pages after you edit styles.css, script.js, or
 Editing one page's text directly is fine too; just avoid hand-editing the inlined
 `<style>`/`<script>` blocks, since `build.py` will overwrite them on the next run.
 
+The content of every page (copy, portfolio, news, leadership, and the project,
+partner, and news images) mirrors the live site at starwellholdings.com. The
+images are referenced from their hosted URLs; download them into `assets/` if you
+prefer to self-host.
+
 ## To do before launch
 
-1. **Portfolio & partner logos.** The cards currently show text placeholders
-   (e.g., a box reading "Cormi"). Add real logo images to `assets/logos/` and
-   replace the `<span>` inside each `.logo-chip` / `.lchip` with an `<img>`.
-2. **News links.** Each news card `href="#"` is a placeholder. Replace with the real
-   source URLs. The cards already link out and filter by category.
-3. **Photos.** The Leadership portrait, Legacy figures, and project/news images are
-   styled placeholders (the dark blocks). Swap in real images.
-4. **LinkedIn.** Replace the `href="#"` LinkedIn links (footer + contact) with the URL,
+1. **News links.** Most news cards link to their source article. A few items have
+   no public source URL yet and fall back to `href="#"` — fill those in as the
+   coverage is published.
+2. **LinkedIn.** Replace the `href="#"` LinkedIn links (footer + contact) with the URL,
    and add it to the JSON-LD `sameAs` if you want it in structured data.
-5. **Contact form.** Works automatically on Netlify (already wired). On other hosts,
+3. **Contact form.** Works automatically on Netlify (already wired). On other hosts,
    point it at Formspree — see DEPLOY.md.
 
 ## Managing the portfolio (dashboard)

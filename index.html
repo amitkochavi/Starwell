@@ -233,7 +233,10 @@ img{max-width:100%;display:block}
 .xp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:6px}
 .xp{background:var(--panel-card);border:1px solid var(--on-panel-line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
 .ph-img{aspect-ratio:16/8;background:linear-gradient(135deg,#1d1d26,#101015);display:flex;align-items:center;justify-content:center;
-  color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+  color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase;overflow:hidden}
+.ph-img img{width:100%;height:100%;object-fit:cover}
+.pf .pf-desc,.xp .xp-desc{color:var(--on-panel-soft);font-size:13.5px;line-height:1.6;margin:2px 0 0}
+.xp .xp-desc{margin-top:10px}
 .xp-body{padding:24px 26px 26px}
 .xp .logos{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
 .xp .lchip{background:var(--on-panel);border-radius:3px;padding:8px 12px;font-family:"Bodoni Moda",serif;font-weight:700;color:var(--panel);font-size:12px}
@@ -244,8 +247,9 @@ img{max-width:100%;display:block}
 
 /* ---------- LEADERSHIP ---------- */
 .leader{display:grid;grid-template-columns:300px 1fr;gap:54px;align-items:center;text-align:left;margin-top:10px}
-.leader .photo{aspect-ratio:1;background:linear-gradient(135deg,#1d1d26,#101015);border-radius:4px;
+.leader .photo{aspect-ratio:1;background:linear-gradient(135deg,#1d1d26,#101015);border-radius:4px;overflow:hidden;
   display:flex;align-items:center;justify-content:center;color:#3c3c47;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.leader .photo img{width:100%;height:100%;object-fit:cover}
 .leader .ln{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:26px}
 .leader .lt{font-size:13px;color:var(--ink-soft);letter-spacing:.04em;margin:6px 0 18px}
 .leader .body-copy{margin-top:0}
@@ -407,9 +411,9 @@ footer.site .wrap{padding:72px 44px 40px}
   <div class="nav-item">
     <button class="nav-trigger" aria-haspopup="true">What We Do <span class="chev"></span></button>
     <div class="dropdown">
-      <a href="technology.html">Starwell Technologies</a>
-      <a href="real-estate.html">Starwell Real Estate</a>
-      <a href="capital.html">Starwell Capital</a>
+      <a href="technology.html">Technology</a>
+      <a href="real-estate.html">Real Estate</a>
+      <a href="capital.html">Capital</a>
     </div>
   </div>
   <div class="nav-item"><a href="news.html">News</a></div>
@@ -436,9 +440,9 @@ footer.site .wrap{padding:72px 44px 40px}
     <div class="mgroup">
       <button class="mlink" aria-expanded="false">What We Do <span class="mchev"></span></button>
       <div class="msub">
-        <a href="technology.html">Starwell Technologies</a>
-        <a href="real-estate.html">Starwell Real Estate</a>
-        <a href="capital.html">Starwell Capital</a>
+        <a href="technology.html">Technology</a>
+        <a href="real-estate.html">Real Estate</a>
+        <a href="capital.html">Capital</a>
       </div>
     </div>
     <a class="mlink" href="news.html">News</a>
@@ -464,17 +468,17 @@ footer.site .wrap{padding:72px 44px 40px}
     <div class="cards">
       <div class="card">
         <h3>Technology</h3>
-        <p>We acquire and operate IT managed service providers, applying AI to improve how services are delivered.</p>
+        <p>IT services platform: acquiring and operating MSPs, AI-driven service delivery.</p>
         <a href="technology.html" class="link-arrow">Learn More &rarr;</a>
       </div>
       <div class="card">
         <h3>Real Estate</h3>
-        <p>Development and general-partner positions in Israel, with select co-investments.</p>
+        <p>Development and GP investments in Israel, select co-investments.</p>
         <a href="real-estate.html" class="link-arrow">Learn More &rarr;</a>
       </div>
       <div class="card">
         <h3>Capital</h3>
-        <p>A long-term portfolio across public markets and direct private positions.</p>
+        <p>Long-term investment portfolio across public markets and direct private positions.</p>
         <a href="capital.html" class="link-arrow">Learn More &rarr;</a>
       </div>
     </div>
@@ -492,25 +496,46 @@ footer.site .wrap{padding:72px 44px 40px}
     </div>
     <div class="pf-carousel" id="hl-carousel">
       <div class="xp">
-        <div class="ph-img">Industrial Logistics</div>
+        <div class="ph-img"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/a895ebd2e_Screenshot2025-12-19at215702.png" alt="Terminal Logistics Fund II" loading="lazy" decoding="async"></div>
         <div class="xp-body">
-          <div class="logos"><span class="lchip"><span>Terminal</span></span></div>
+          <div class="logos"><span class="lchip">Terminal</span></div>
           <div class="pn">Terminal Logistics Fund II</div>
-          <div class="meta"><span>&#9679;</span><span>U.S. Logistics Markets</span></div><div class="meta"><span>&#9632;</span><span>Limited Partner</span></div><div class="meta"><span>&#9651;</span><span>Partner: Center Capital Partners</span></div>
-          <div class="pf-actions"><button class="more">&#9432; More Info</button></div>
+          <div class="meta"><span>&#9679;</span><span>US Logistics Markets</span></div><div class="meta"><span>&#9632;</span><span>Limited Partner</span></div><div class="meta"><span>&#9651;</span><span>Center Capital Partners</span></div>
+          <p class="xp-desc">Private real estate fund focused on industrial logistics assets across US markets.</p>
+          <div class="pf-actions"><a href="https://www.terminallogistics.com/" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">Website &rarr;</a></div>
         </div>
       </div>
       <div class="pf">
-        <div class="logo-chip"><span>Pioneers</span></div>
-        <div class="pn">Pioneers: Healthcare Staffing AI Roll-Up</div>
-        <div class="meta"><span>Role: Investor</span></div>
-        <div class="pf-actions"><button class="more">&#9432; More Info</button></div>
+        <div class="logo-chip"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/0a07f19ca_Screenshot2026-03-16at184317.png" alt="Pioneers — Healthcare Staffing AI Roll-Up logo" loading="lazy" decoding="async" style="max-height:48px;max-width:150px;object-fit:contain"></div>
+        <div class="pn">Pioneers — Healthcare Staffing AI Roll-Up</div>
+        <div class="meta"><span>Role: Investor</span></div><p class="pf-desc">AI-native roll-up of healthcare staffing agencies, modernizing legacy operators with proprietary AI to automate workflows and dramatically improve recruiter output.</p>
+        <div class="pf-actions"><a href="https://legionholdings.ai/" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">Website &rarr;</a></div>
       </div>
       <div class="pf">
-        <div class="logo-chip"><span>Legion</span></div>
+        <div class="logo-chip"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/bb4d49516_LogoBluewithLegiononsidetransparentwithadditionalheightemailsig_1756064682174-C1uX8d2f.png" alt="Legion Holdings logo" loading="lazy" decoding="async" style="max-height:48px;max-width:150px;object-fit:contain"></div>
         <div class="pn">Legion Holdings</div>
-        <div class="meta"><span>Role: Investor</span></div>
-        <div class="pf-actions"><button class="more">&#9432; More Info</button></div>
+        <div class="meta"><span>Role: Investor</span></div><p class="pf-desc">AI-native growth buyout firm investing in business services companies, modernizing their operations with AI, and compounding value through disciplined M&amp;A.</p>
+        <div class="pf-actions"><a href="https://legionholdings.ai/" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">Website &rarr;</a></div>
+      </div>
+      <div class="xp">
+        <div class="ph-img"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/c758ca080_--beyond---2.jpg" alt="Beyond Towers" loading="lazy" decoding="async"></div>
+        <div class="xp-body">
+          <div class="logos"><span class="lchip"><span>Beyond</span></span></div>
+          <div class="pn">Beyond Towers</div>
+          <div class="meta"><span>&#9679;</span><span>Tel Aviv, Israel</span></div><div class="meta"><span>&#9632;</span><span>Advisory &amp; Owner Representative (Doron Kochavi)</span></div><div class="meta"><span>&#9651;</span><span>Tidhar Group, Union Group, Himnuta–KKL</span></div>
+          <p class="xp-desc">Large-scale mixed-use development comprising office, residential, and commercial space. Total project value estimated at NIS 4–4.5 billion.</p>
+          
+        </div>
+      </div>
+      <div class="xp">
+        <div class="ph-img"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/3d8bac403_Screenshot2025-09-17at084300.png" alt="The Dawson" loading="lazy" decoding="async"></div>
+        <div class="xp-body">
+          <div class="logos"><span class="lchip">Dawson</span></div>
+          <div class="pn">The Dawson</div>
+          <div class="meta"><span>&#9679;</span><span>Cartersville, Georgia, US</span></div><div class="meta"><span>&#9632;</span><span>Limited Partner</span></div><div class="meta"><span>&#9651;</span><span>Wilpon &amp; Co.</span></div>
+          <p class="xp-desc">192-unit multifamily value-add acquisition.</p>
+          
+        </div>
       </div>
     </div>
   </div>

@@ -232,7 +232,10 @@ img{max-width:100%;display:block}
 .xp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:6px}
 .xp{background:var(--panel-card);border:1px solid var(--on-panel-line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
 .ph-img{aspect-ratio:16/8;background:linear-gradient(135deg,#1d1d26,#101015);display:flex;align-items:center;justify-content:center;
-  color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+  color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase;overflow:hidden}
+.ph-img img{width:100%;height:100%;object-fit:cover}
+.pf .pf-desc,.xp .xp-desc{color:var(--on-panel-soft);font-size:13.5px;line-height:1.6;margin:2px 0 0}
+.xp .xp-desc{margin-top:10px}
 .xp-body{padding:24px 26px 26px}
 .xp .logos{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
 .xp .lchip{background:var(--on-panel);border-radius:3px;padding:8px 12px;font-family:"Bodoni Moda",serif;font-weight:700;color:var(--panel);font-size:12px}
@@ -243,8 +246,9 @@ img{max-width:100%;display:block}
 
 /* ---------- LEADERSHIP ---------- */
 .leader{display:grid;grid-template-columns:300px 1fr;gap:54px;align-items:center;text-align:left;margin-top:10px}
-.leader .photo{aspect-ratio:1;background:linear-gradient(135deg,#1d1d26,#101015);border-radius:4px;
+.leader .photo{aspect-ratio:1;background:linear-gradient(135deg,#1d1d26,#101015);border-radius:4px;overflow:hidden;
   display:flex;align-items:center;justify-content:center;color:#3c3c47;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.leader .photo img{width:100%;height:100%;object-fit:cover}
 .leader .ln{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:26px}
 .leader .lt{font-size:13px;color:var(--ink-soft);letter-spacing:.04em;margin:6px 0 18px}
 .leader .body-copy{margin-top:0}
@@ -406,9 +410,9 @@ footer.site .wrap{padding:72px 44px 40px}
   <div class="nav-item">
     <button class="nav-trigger" aria-haspopup="true">What We Do <span class="chev"></span></button>
     <div class="dropdown">
-      <a href="technology.html">Starwell Technologies</a>
-      <a href="real-estate.html">Starwell Real Estate</a>
-      <a href="capital.html">Starwell Capital</a>
+      <a href="technology.html">Technology</a>
+      <a href="real-estate.html">Real Estate</a>
+      <a href="capital.html">Capital</a>
     </div>
   </div>
   <div class="nav-item"><a href="news.html">News</a></div>
@@ -435,9 +439,9 @@ footer.site .wrap{padding:72px 44px 40px}
     <div class="mgroup">
       <button class="mlink" aria-expanded="false">What We Do <span class="mchev"></span></button>
       <div class="msub">
-        <a href="technology.html">Starwell Technologies</a>
-        <a href="real-estate.html">Starwell Real Estate</a>
-        <a href="capital.html">Starwell Capital</a>
+        <a href="technology.html">Technology</a>
+        <a href="real-estate.html">Real Estate</a>
+        <a href="capital.html">Capital</a>
       </div>
     </div>
     <a class="mlink" href="news.html">News</a>
@@ -460,12 +464,12 @@ footer.site .wrap{padding:72px 44px 40px}
       <div class="market">
         <div class="ml">Israel</div>
         <h3>Development &amp; Advisory</h3>
-        <p>Residential and mixed-use development in Tel Aviv and central Israel, alongside institutional developers and public-sector partners. We focus on urban renewal and projects with durable demand.</p>
+        <p>Residential and mixed-use development in Tel Aviv and central Israel, alongside institutional developers and public-sector partners. Focus on urban renewal and projects with structural demand tailwinds.</p>
       </div>
       <div class="market">
         <div class="ml">United States</div>
         <h3>Capital Allocation</h3>
-        <p>Limited-partner investments in value-add multifamily and industrial logistics, alongside institutional operators with established track records.</p>
+        <p>Limited partner investments in value-add multifamily and industrial logistics strategies, alongside institutional operators with demonstrated track records.</p>
       </div>
     </div>
   </section>
@@ -476,39 +480,43 @@ footer.site .wrap{padding:72px 44px 40px}
     <div class="sec-label">Selected Experience</div>
     <div class="xp-grid">
       <div class="xp">
-        <div class="ph-img">Tel Aviv</div>
+        <div class="ph-img"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/c758ca080_--beyond---2.jpg" alt="Beyond Towers" loading="lazy" decoding="async"></div>
         <div class="xp-body">
           <div class="logos"><span class="lchip"><span>Beyond</span></span></div>
           <div class="pn">Beyond Towers</div>
-          <div class="meta"><span>&#9679;</span><span>Tel Aviv, Israel</span></div><div class="meta"><span>&#9632;</span><span>Advisory and owner representation (Doron Kochavi)</span></div><div class="meta"><span>&#9651;</span><span>Partners: Tidhar Group, Union Group, Himnuta-KKL</span></div>
-          <div class="pf-actions"><button class="more">&#9432; More Info</button></div>
+          <div class="meta"><span>&#9679;</span><span>Tel Aviv, Israel</span></div><div class="meta"><span>&#9632;</span><span>Advisory &amp; Owner Representative (Doron Kochavi)</span></div><div class="meta"><span>&#9651;</span><span>Tidhar Group, Union Group, Himnuta–KKL</span></div>
+          <p class="xp-desc">Large-scale mixed-use development comprising office, residential, and commercial space. Total project value estimated at NIS 4–4.5 billion.</p>
+          
         </div>
       </div>
       <div class="xp">
         <div class="ph-img">Urban Renewal</div>
         <div class="xp-body">
           <div class="logos"><span class="lchip"><span>Rova 7</span></span></div>
-          <div class="pn">Rova 7, Mevoot Yafo</div>
-          <div class="meta"><span>&#9679;</span><span>Tel Aviv, Israel</span></div><div class="meta"><span>&#9632;</span><span>Strategic advisory: municipality relations, commercial concept, marketing</span></div><div class="meta"><span>&#9651;</span><span>Partners: Keren Realty, Kardan Real Estate (50/50 JV)</span></div>
-          <div class="pf-actions"><button class="more">&#9432; More Info</button></div>
+          <div class="pn">Rova 7 — Mevoot Yafo</div>
+          <div class="meta"><span>&#9679;</span><span>Tel Aviv, Israel</span></div><div class="meta"><span>&#9632;</span><span>Strategic Advisory — municipality relations, commercial concept, and marketing strategy</span></div><div class="meta"><span>&#9651;</span><span>Keren Reality, Kardan Real Estate (50/50 JV)</span></div>
+          <p class="xp-desc">55-dunam urban renewal project encompassing approximately 890 residential units, 5,000 sqm of commercial space, 20,000 sqm of office space, and 12 dunams of public area. Approved master plan (May 2023).</p>
+          
         </div>
       </div>
       <div class="xp">
-        <div class="ph-img">Multifamily</div>
+        <div class="ph-img"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/3d8bac403_Screenshot2025-09-17at084300.png" alt="The Dawson" loading="lazy" decoding="async"></div>
         <div class="xp-body">
-          <div class="logos"><span class="lchip"><span>Dawson</span></span></div>
+          <div class="logos"><span class="lchip">Dawson</span></div>
           <div class="pn">The Dawson</div>
-          <div class="meta"><span>&#9679;</span><span>Cartersville, Georgia, US</span></div><div class="meta"><span>&#9632;</span><span>Limited Partner</span></div><div class="meta"><span>&#9651;</span><span>Partner: Wilpon &amp; Co.</span></div>
-          <div class="pf-actions"><button class="more">&#9432; More Info</button></div>
+          <div class="meta"><span>&#9679;</span><span>Cartersville, Georgia, US</span></div><div class="meta"><span>&#9632;</span><span>Limited Partner</span></div><div class="meta"><span>&#9651;</span><span>Wilpon &amp; Co.</span></div>
+          <p class="xp-desc">192-unit multifamily value-add acquisition.</p>
+          
         </div>
       </div>
       <div class="xp">
-        <div class="ph-img">Industrial Logistics</div>
+        <div class="ph-img"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/a895ebd2e_Screenshot2025-12-19at215702.png" alt="Terminal Logistics Fund II" loading="lazy" decoding="async"></div>
         <div class="xp-body">
-          <div class="logos"><span class="lchip"><span>Terminal</span></span></div>
+          <div class="logos"><span class="lchip">Terminal</span></div>
           <div class="pn">Terminal Logistics Fund II</div>
-          <div class="meta"><span>&#9679;</span><span>U.S. Logistics Markets</span></div><div class="meta"><span>&#9632;</span><span>Limited Partner</span></div><div class="meta"><span>&#9651;</span><span>Partner: Center Capital Partners</span></div>
-          <div class="pf-actions"><button class="more">&#9432; More Info</button></div>
+          <div class="meta"><span>&#9679;</span><span>US Logistics Markets</span></div><div class="meta"><span>&#9632;</span><span>Limited Partner</span></div><div class="meta"><span>&#9651;</span><span>Center Capital Partners</span></div>
+          <p class="xp-desc">Private real estate fund focused on industrial logistics assets across US markets.</p>
+          <div class="pf-actions"><a href="https://www.terminallogistics.com/" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">Website &rarr;</a></div>
         </div>
       </div>
       <div class="xp">
@@ -516,8 +524,9 @@ footer.site .wrap{padding:72px 44px 40px}
         <div class="xp-body">
           <div class="logos"><span class="lchip"><span>Kochavi</span></span></div>
           <div class="pn">Kochavi Real Estate Portfolio</div>
-          <div class="meta"><span>&#9679;</span><span>Tel Aviv, Israel</span></div><div class="meta"><span>&#9632;</span><span>Portfolio management, advisory, future development planning</span></div><div class="meta"><span>&#9651;</span><span>Developer: Doron Kochavi</span></div>
-          <div class="pf-actions"><button class="more">&#9432; More Info</button></div>
+          <div class="meta"><span>&#9679;</span><span>Tel Aviv, Israel</span></div><div class="meta"><span>&#9632;</span><span>Portfolio-level management, advisory, and future development planning</span></div><div class="meta"><span>&#9651;</span><span>Developer: Doron Kochavi</span></div>
+          <p class="xp-desc">Multi-decade development and investment portfolio built by Doron Kochavi, encompassing over 750 units across more than 20 buildings in Tel Aviv.</p>
+          
         </div>
       </div>
     </div>

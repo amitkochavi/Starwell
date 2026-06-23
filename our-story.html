@@ -232,7 +232,10 @@ img{max-width:100%;display:block}
 .xp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:6px}
 .xp{background:var(--panel-card);border:1px solid var(--on-panel-line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
 .ph-img{aspect-ratio:16/8;background:linear-gradient(135deg,#1d1d26,#101015);display:flex;align-items:center;justify-content:center;
-  color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+  color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase;overflow:hidden}
+.ph-img img{width:100%;height:100%;object-fit:cover}
+.pf .pf-desc,.xp .xp-desc{color:var(--on-panel-soft);font-size:13.5px;line-height:1.6;margin:2px 0 0}
+.xp .xp-desc{margin-top:10px}
 .xp-body{padding:24px 26px 26px}
 .xp .logos{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
 .xp .lchip{background:var(--on-panel);border-radius:3px;padding:8px 12px;font-family:"Bodoni Moda",serif;font-weight:700;color:var(--panel);font-size:12px}
@@ -243,8 +246,9 @@ img{max-width:100%;display:block}
 
 /* ---------- LEADERSHIP ---------- */
 .leader{display:grid;grid-template-columns:300px 1fr;gap:54px;align-items:center;text-align:left;margin-top:10px}
-.leader .photo{aspect-ratio:1;background:linear-gradient(135deg,#1d1d26,#101015);border-radius:4px;
+.leader .photo{aspect-ratio:1;background:linear-gradient(135deg,#1d1d26,#101015);border-radius:4px;overflow:hidden;
   display:flex;align-items:center;justify-content:center;color:#3c3c47;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.leader .photo img{width:100%;height:100%;object-fit:cover}
 .leader .ln{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:26px}
 .leader .lt{font-size:13px;color:var(--ink-soft);letter-spacing:.04em;margin:6px 0 18px}
 .leader .body-copy{margin-top:0}
@@ -406,9 +410,9 @@ footer.site .wrap{padding:72px 44px 40px}
   <div class="nav-item">
     <button class="nav-trigger" aria-haspopup="true">What We Do <span class="chev"></span></button>
     <div class="dropdown">
-      <a href="technology.html">Starwell Technologies</a>
-      <a href="real-estate.html">Starwell Real Estate</a>
-      <a href="capital.html">Starwell Capital</a>
+      <a href="technology.html">Technology</a>
+      <a href="real-estate.html">Real Estate</a>
+      <a href="capital.html">Capital</a>
     </div>
   </div>
   <div class="nav-item"><a href="news.html">News</a></div>
@@ -435,9 +439,9 @@ footer.site .wrap{padding:72px 44px 40px}
     <div class="mgroup">
       <button class="mlink" aria-expanded="false">What We Do <span class="mchev"></span></button>
       <div class="msub">
-        <a href="technology.html">Starwell Technologies</a>
-        <a href="real-estate.html">Starwell Real Estate</a>
-        <a href="capital.html">Starwell Capital</a>
+        <a href="technology.html">Technology</a>
+        <a href="real-estate.html">Real Estate</a>
+        <a href="capital.html">Capital</a>
       </div>
     </div>
     <a class="mlink" href="news.html">News</a>
@@ -465,13 +469,17 @@ footer.site .wrap{padding:72px 44px 40px}
 <section class="dark" id="business-focus" data-reveal>
   <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:18px"><h2 class="serif">Business Focus</h2></div>
-    <p class="body-copy" style="max-width:780px;margin:0 auto 50px;text-align:center">Starwell focuses on building and investing in businesses and assets where long-term ownership, active management, and operational involvement create lasting value. Our work spans four areas.</p>
-    <div class="steps four">
-      <div class="step"><h3>Real Estate</h3><p>We develop and operate residential, commercial, and mixed-use assets, partnering with experienced operators through development, asset management, and disposition.</p></div>
-      <div class="step"><h3>Operating Businesses</h3><p>We acquire and grow operating companies alongside strong management teams, concentrating on businesses that benefit from operational improvement and patient capital.</p></div>
-      <div class="step"><h3>Technology &amp; Innovation</h3><p>We back and build technology-enabled platforms, with an emphasis on applied AI and software that strengthens established industries.</p></div>
-      <div class="step"><h3>Public Markets</h3><p>We invest in public equities and alternative strategies with a long-term, fundamentals-driven approach that complements our private holdings.</p></div>
+    <div class="body-copy" style="max-width:780px;margin:0 auto 50px;text-align:center">
+      <p>Starwell focuses on building and investing in businesses and assets where long-term ownership, active involvement, and disciplined execution drive sustainable value.</p>
+      <p>Our activities span four core areas:</p>
     </div>
+    <div class="steps four">
+      <div class="step"><h3>Real Estate</h3><p>We invest in, develop, and operate residential, commercial, and mixed-use assets, partnering with experienced operators and taking an owner-led approach to development, asset management, and value creation.</p></div>
+      <div class="step"><h3>Operating Businesses</h3><p>Starwell builds and scales operating companies alongside strong management teams, with a focus on businesses that benefit from strategic guidance, operational improvement, and long-term capital support.</p></div>
+      <div class="step"><h3>Technology &amp; Innovation</h3><p>We back and help build technology-enabled platforms, with particular emphasis on applied technology, AI-driven solutions, and businesses that enhance traditional industries through innovation.</p></div>
+      <div class="step"><h3>Public Markets &amp; Alternatives</h3><p>We allocate capital across public equities and alternative investments with a long-term, fundamentals-driven mindset, complementing our private market and operating activities.</p></div>
+    </div>
+    <p class="body-copy" style="max-width:780px;margin:50px auto 0;text-align:center">Across all areas, Starwell prioritizes conviction-led investments, alignment with partners, and a hands-on approach that reflects our belief in building enduring value over time.</p>
   </div>
 </section>
 
@@ -486,7 +494,7 @@ footer.site .wrap{padding:72px 44px 40px}
   <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">Starwell Leadership</h2></div>
     <div class="leader">
-      <div class="photo">Amit Kochavi</div>
+      <div class="photo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/3f93d596d_AmitKochaviPic.jpg" alt="Amit Kochavi" loading="lazy" decoding="async"></div>
       <div>
         <div class="ln">Amit Kochavi</div>
         <div class="lt">Chairman, CEO &amp; Founder</div>
@@ -505,9 +513,12 @@ footer.site .wrap{padding:72px 44px 40px}
     <h2 class="serif" style="margin-bottom:20px">Partnership</h2>
     <p class="body-copy" style="margin:0 auto 12px;text-align:center;max-width:760px">We focus on selective, high-conviction investments where we can be thoughtful partners and long-term stewards of capital.</p>
     <div class="partners">
-      <span class="partner-chip">Noked Capital</span>
-      <span class="partner-chip">Hazavim Funds</span>
       <span class="partner-chip">Tidhar</span>
+      <span class="partner-chip">Union</span>
+      <span class="partner-chip">Center Capital</span>
+      <span class="partner-chip">Wilpon &amp; Co</span>
+      <span class="partner-chip">Noked</span>
+      <span class="partner-chip">Hazavim</span>
     </div>
   </section>
 </div>
@@ -520,10 +531,10 @@ footer.site .wrap{padding:72px 44px 40px}
       <div class="lg-text">
         <p>The roots of this legacy trace back to Max Factor, the pioneering entrepreneur who transformed the global cosmetics industry and built one of the most enduring consumer brands of the 20th century through innovation, craftsmanship, and an uncompromising standard of excellence.</p>
       </div>
-      <figure class="legacy-fig"><div class="ph-img portrait">Max Factor</div><figcaption>Max Factor</figcaption></figure>
+      <figure class="legacy-fig"><div class="ph-img portrait"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/0a8a8dcfb_max-factor-portrait.jpg" alt="Max Factor" loading="lazy" decoding="async"></div><figcaption>Max Factor</figcaption></figure>
     </div>
     <div class="legacy-row">
-      <figure class="legacy-fig"><div class="ph-img portrait">David M. Heyman</div><figcaption>David M. Heyman</figcaption></figure>
+      <figure class="legacy-fig"><div class="ph-img portrait"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/9c712cf33_DavidHeyman.jpg" alt="David M. Heyman" loading="lazy" decoding="async"></div><figcaption>David M. Heyman</figcaption></figure>
       <div class="lg-text">
         <p>They also extend to David M. Heyman, a distinguished philanthropist and business leader whose work helped shape modern philanthropic institutions, with a lasting focus on education, community development, and long-term societal progress.</p>
       </div>

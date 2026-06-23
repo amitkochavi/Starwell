@@ -21,9 +21,9 @@ DESK_NAV='''  <div class="nav-item"><a href="index.html">Home</a></div>
   <div class="nav-item">
     <button class="nav-trigger" aria-haspopup="true">What We Do <span class="chev"></span></button>
     <div class="dropdown">
-      <a href="technology.html">Starwell Technologies</a>
-      <a href="real-estate.html">Starwell Real Estate</a>
-      <a href="capital.html">Starwell Capital</a>
+      <a href="technology.html">Technology</a>
+      <a href="real-estate.html">Real Estate</a>
+      <a href="capital.html">Capital</a>
     </div>
   </div>
   <div class="nav-item"><a href="news.html">News</a></div>
@@ -47,9 +47,9 @@ MOBILE_NAV='''<div class="mmenu" id="mmenu" aria-hidden="true">
     <div class="mgroup">
       <button class="mlink" aria-expanded="false">What We Do <span class="mchev"></span></button>
       <div class="msub">
-        <a href="technology.html">Starwell Technologies</a>
-        <a href="real-estate.html">Starwell Real Estate</a>
-        <a href="capital.html">Starwell Capital</a>
+        <a href="technology.html">Technology</a>
+        <a href="real-estate.html">Real Estate</a>
+        <a href="capital.html">Capital</a>
       </div>
     </div>
     <a class="mlink" href="news.html">News</a>
@@ -177,33 +177,44 @@ def _web(e):
     href=u if u not in (True,"true") else '#'
     return f'<a href="{_esc(href)}" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">Website &rarr;</a>'
 def pf_from(e):
+    role=f'<div class="meta"><span>Role: {_esc(e.get("role"))}</span></div>' if e.get("role") else ''
+    desc=f'<p class="pf-desc">{_esc(e.get("description"))}</p>' if e.get("description") else ''
+    web=_web(e)
+    actions=f'<div class="pf-actions">{web}</div>' if web else ''
     return f'''      <div class="pf">
         <div class="logo-chip">{_chip(e)}</div>
         <div class="pn">{_esc(e["name"])}</div>
-        <div class="meta"><span>Role: {_esc(e.get("role"))}</span></div>
-        <div class="pf-actions"><button class="more">&#9432; More Info</button>{_web(e)}</div>
+        {role}{desc}
+        {actions}
       </div>'''
 def xp_from(e):
     rows=f'<div class="meta"><span>&#9679;</span><span>{_esc(e.get("location"))}</span></div>' if e.get("location") else ''
     rows+=f'<div class="meta"><span>&#9632;</span><span>{_esc(e.get("role"))}</span></div>' if e.get("role") else ''
     rows+=f'<div class="meta"><span>&#9651;</span><span>{_esc(e.get("partner"))}</span></div>' if e.get("partner") else ''
+    desc=f'<p class="xp-desc">{_esc(e.get("description"))}</p>' if e.get("description") else ''
+    web=_web(e)
+    actions=f'<div class="pf-actions">{web}</div>' if web else ''
+    media=f'<img src="{_esc(e.get("imageUrl"))}" alt="{_esc(e["name"])}" loading="lazy" decoding="async">' if e.get("imageUrl") else _esc(e.get("image") or "Project")
     return f'''      <div class="xp">
-        <div class="ph-img">{_esc(e.get("image") or "Project")}</div>
+        <div class="ph-img">{media}</div>
         <div class="xp-body">
           <div class="logos"><span class="lchip">{_chip(e) if not e.get("logo") else _esc(e.get("logoText") or e["name"])}</span></div>
           <div class="pn">{_esc(e["name"])}</div>
           {rows}
-          <div class="pf-actions"><button class="more">&#9432; More Info</button>{_web(e)}</div>
+          {desc}
+          {actions}
         </div>
       </div>'''
 def cards_for(pillar):
     items=[e for e in PORTFOLIO if e.get("pillar")==pillar]
+    items.sort(key=lambda e:e.get("order",99))
     if not items: return '      <p style="color:var(--on-panel-soft)">No entries yet.</p>'
     fn=xp_from if pillar=="real-estate" else pf_from
     return "\n".join(fn(e) for e in items)
 def highlights():
     items=[e for e in PORTFOLIO if e.get("highlight")]
     if not items: items=PORTFOLIO[:2]
+    items.sort(key=lambda e:e.get("highlightOrder",99))
     return "\n".join((xp_from(e) if e.get("pillar")=="real-estate" else pf_from(e)) for e in items)
 
 # ---- legacy helper renderers (kept for any manual use) ----
@@ -232,17 +243,17 @@ home=f'''<section class="hero hero-home">
     <div class="cards">
       <div class="card">
         <h3>Technology</h3>
-        <p>We acquire and operate IT managed service providers, applying AI to improve how services are delivered.</p>
+        <p>IT services platform: acquiring and operating MSPs, AI-driven service delivery.</p>
         <a href="technology.html" class="link-arrow">Learn More &rarr;</a>
       </div>
       <div class="card">
         <h3>Real Estate</h3>
-        <p>Development and general-partner positions in Israel, with select co-investments.</p>
+        <p>Development and GP investments in Israel, select co-investments.</p>
         <a href="real-estate.html" class="link-arrow">Learn More &rarr;</a>
       </div>
       <div class="card">
         <h3>Capital</h3>
-        <p>A long-term portfolio across public markets and direct private positions.</p>
+        <p>Long-term investment portfolio across public markets and direct private positions.</p>
         <a href="capital.html" class="link-arrow">Learn More &rarr;</a>
       </div>
     </div>
@@ -288,13 +299,17 @@ our=f'''<section class="hero hero-center">
 <section class="dark" id="business-focus" data-reveal>
   <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:18px"><h2 class="serif">Business Focus</h2></div>
-    <p class="body-copy" style="max-width:780px;margin:0 auto 50px;text-align:center">Starwell focuses on building and investing in businesses and assets where long-term ownership, active management, and operational involvement create lasting value. Our work spans four areas.</p>
-    <div class="steps four">
-      <div class="step"><h3>Real Estate</h3><p>We develop and operate residential, commercial, and mixed-use assets, partnering with experienced operators through development, asset management, and disposition.</p></div>
-      <div class="step"><h3>Operating Businesses</h3><p>We acquire and grow operating companies alongside strong management teams, concentrating on businesses that benefit from operational improvement and patient capital.</p></div>
-      <div class="step"><h3>Technology &amp; Innovation</h3><p>We back and build technology-enabled platforms, with an emphasis on applied AI and software that strengthens established industries.</p></div>
-      <div class="step"><h3>Public Markets</h3><p>We invest in public equities and alternative strategies with a long-term, fundamentals-driven approach that complements our private holdings.</p></div>
+    <div class="body-copy" style="max-width:780px;margin:0 auto 50px;text-align:center">
+      <p>Starwell focuses on building and investing in businesses and assets where long-term ownership, active involvement, and disciplined execution drive sustainable value.</p>
+      <p>Our activities span four core areas:</p>
     </div>
+    <div class="steps four">
+      <div class="step"><h3>Real Estate</h3><p>We invest in, develop, and operate residential, commercial, and mixed-use assets, partnering with experienced operators and taking an owner-led approach to development, asset management, and value creation.</p></div>
+      <div class="step"><h3>Operating Businesses</h3><p>Starwell builds and scales operating companies alongside strong management teams, with a focus on businesses that benefit from strategic guidance, operational improvement, and long-term capital support.</p></div>
+      <div class="step"><h3>Technology &amp; Innovation</h3><p>We back and help build technology-enabled platforms, with particular emphasis on applied technology, AI-driven solutions, and businesses that enhance traditional industries through innovation.</p></div>
+      <div class="step"><h3>Public Markets &amp; Alternatives</h3><p>We allocate capital across public equities and alternative investments with a long-term, fundamentals-driven mindset, complementing our private market and operating activities.</p></div>
+    </div>
+    <p class="body-copy" style="max-width:780px;margin:50px auto 0;text-align:center">Across all areas, Starwell prioritizes conviction-led investments, alignment with partners, and a hands-on approach that reflects our belief in building enduring value over time.</p>
   </div>
 </section>
 
@@ -309,7 +324,7 @@ our=f'''<section class="hero hero-center">
   <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">Starwell Leadership</h2></div>
     <div class="leader">
-      <div class="photo">Amit Kochavi</div>
+      <div class="photo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/3f93d596d_AmitKochaviPic.jpg" alt="Amit Kochavi" loading="lazy" decoding="async"></div>
       <div>
         <div class="ln">Amit Kochavi</div>
         <div class="lt">Chairman, CEO &amp; Founder</div>
@@ -328,9 +343,12 @@ our=f'''<section class="hero hero-center">
     <h2 class="serif" style="margin-bottom:20px">Partnership</h2>
     <p class="body-copy" style="margin:0 auto 12px;text-align:center;max-width:760px">We focus on selective, high-conviction investments where we can be thoughtful partners and long-term stewards of capital.</p>
     <div class="partners">
-      <span class="partner-chip">Noked Capital</span>
-      <span class="partner-chip">Hazavim Funds</span>
       <span class="partner-chip">Tidhar</span>
+      <span class="partner-chip">Union</span>
+      <span class="partner-chip">Center Capital</span>
+      <span class="partner-chip">Wilpon &amp; Co</span>
+      <span class="partner-chip">Noked</span>
+      <span class="partner-chip">Hazavim</span>
     </div>
   </section>
 </div>
@@ -343,10 +361,10 @@ our=f'''<section class="hero hero-center">
       <div class="lg-text">
         <p>The roots of this legacy trace back to Max Factor, the pioneering entrepreneur who transformed the global cosmetics industry and built one of the most enduring consumer brands of the 20th century through innovation, craftsmanship, and an uncompromising standard of excellence.</p>
       </div>
-      <figure class="legacy-fig"><div class="ph-img portrait">Max Factor</div><figcaption>Max Factor</figcaption></figure>
+      <figure class="legacy-fig"><div class="ph-img portrait"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/0a8a8dcfb_max-factor-portrait.jpg" alt="Max Factor" loading="lazy" decoding="async"></div><figcaption>Max Factor</figcaption></figure>
     </div>
     <div class="legacy-row">
-      <figure class="legacy-fig"><div class="ph-img portrait">David M. Heyman</div><figcaption>David M. Heyman</figcaption></figure>
+      <figure class="legacy-fig"><div class="ph-img portrait"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/9c712cf33_DavidHeyman.jpg" alt="David M. Heyman" loading="lazy" decoding="async"></div><figcaption>David M. Heyman</figcaption></figure>
       <div class="lg-text">
         <p>They also extend to David M. Heyman, a distinguished philanthropist and business leader whose work helped shape modern philanthropic institutions, with a lasting focus on education, community development, and long-term societal progress.</p>
       </div>
@@ -366,16 +384,16 @@ tech=f'''<section class="hero">
   <div class="wrap">
     <span class="eyebrow">Technology</span>
     <h1>Starwell<br>Technologies</h1>
-    <p class="lead">We acquire control or significant equity in IT services companies in Israel&rsquo;s lower middle market.</p>
+    <p class="lead">Acquiring control or significant equity in IT services companies in the Israeli lower middle market.</p>
   </div>
 </section>
 
 <div class="wrap">
   <section class="sec" data-reveal>
     <div class="sec-label">Thesis</div>
-    <p class="lede">Israel&rsquo;s IT services market is large, growing, and fragmented. Most of the strongest operators are independent, built on technical expertise and client trust rather than scale.</p>
+    <p class="lede">Israel&rsquo;s IT services market is large, growing, and deeply fragmented. Most strong operators are independent &mdash; built on expertise and client trust, not institutional scale.</p>
     <div class="body-copy">
-      <p>Starwell Technologies acquires control or significant equity in established, profitable IT services companies. We keep what already works in these businesses and add the systems, reporting, and discipline of a larger platform.</p>
+      <p>Starwell Technologies acquires control or significant equity in established, profitable IT services companies in the Israeli lower middle market. We partner with operators to preserve what works while building the infrastructure and discipline of a lasting platform.</p>
     </div>
   </section>
 </div>
@@ -383,9 +401,9 @@ tech=f'''<section class="hero">
 <div class="wrap">
   <section class="sec" style="padding-top:0" data-reveal>
     <div class="steps">
-      <div class="step"><div class="n">01</div><h3>Acquire</h3><p>We take control or significant equity in profitable, established IT services companies in the lower middle market.</p></div>
-      <div class="step"><div class="n">02</div><h3>Integrate</h3><p>We centralize systems, share infrastructure, and standardize service delivery across the portfolio.</p></div>
-      <div class="step"><div class="n">03</div><h3>Scale</h3><p>We improve operations, develop talent, and expand service lines to grow each company over time.</p></div>
+      <div class="step"><div class="n">01</div><h3>Acquire</h3><p>Control or significant equity in profitable, established IT services companies operating in the Israeli lower middle market.</p></div>
+      <div class="step"><div class="n">02</div><h3>Integrate</h3><p>Centralized systems, shared infrastructure, and standardized service delivery across the portfolio.</p></div>
+      <div class="step"><div class="n">03</div><h3>Scale</h3><p>Operational improvements, talent development, and expanded service capabilities to drive long-term value creation.</p></div>
     </div>
   </section>
 </div>
@@ -418,12 +436,12 @@ re=f'''<section class="hero">
       <div class="market">
         <div class="ml">Israel</div>
         <h3>Development &amp; Advisory</h3>
-        <p>Residential and mixed-use development in Tel Aviv and central Israel, alongside institutional developers and public-sector partners. We focus on urban renewal and projects with durable demand.</p>
+        <p>Residential and mixed-use development in Tel Aviv and central Israel, alongside institutional developers and public-sector partners. Focus on urban renewal and projects with structural demand tailwinds.</p>
       </div>
       <div class="market">
         <div class="ml">United States</div>
         <h3>Capital Allocation</h3>
-        <p>Limited-partner investments in value-add multifamily and industrial logistics, alongside institutional operators with established track records.</p>
+        <p>Limited partner investments in value-add multifamily and industrial logistics strategies, alongside institutional operators with demonstrated track records.</p>
       </div>
     </div>
   </section>
@@ -446,16 +464,16 @@ cap=f'''<section class="hero">
   <div class="wrap">
     <span class="eyebrow">Capital</span>
     <h1>Starwell<br>Capital</h1>
-    <p class="lead">The capital allocation arm of Starwell Holdings. We deploy capital across private equity, public markets, hedge funds, and real estate.</p>
+    <p class="lead">The capital allocation arm of Starwell Holdings &mdash; deploying capital across private equity, public markets, hedge funds, and real estate.</p>
   </div>
 </section>
 
 <div class="wrap">
   <section class="sec" data-reveal>
     <div class="sec-label">Approach</div>
-    <p class="lede">Patient capital allocation across private equity, public markets, and alternative strategies.</p>
+    <p class="lede">Patient, conviction-driven capital allocation across private equity, public markets, and alternative strategies.</p>
     <div class="body-copy">
-      <p>Starwell Capital manages the firm&rsquo;s external investments. The mandate covers private equity, with a focus on AI-enabled roll-ups; long-term public market holdings; allocations to long-biased hedge funds; and real estate. We invest with a long horizon and concentrate capital in our best ideas.</p>
+      <p>Starwell Capital oversees the firm&rsquo;s external capital deployment. The mandate spans private equity with a focus on AI-enabled roll-ups, long-term public market holdings, allocations to long-strategy hedge funds, and real estate. We invest with a long time horizon and concentrate where we have genuine conviction.</p>
     </div>
   </section>
 </div>
@@ -463,10 +481,10 @@ cap=f'''<section class="hero">
 <div class="wrap">
   <section class="sec" style="padding-top:0" data-reveal>
     <div class="steps four">
-      <div class="step"><div class="n">01</div><h3>AI Roll-Ups</h3><p>Private equity in AI-native roll-ups that acquire and modernize traditional service businesses.</p></div>
-      <div class="step"><div class="n">02</div><h3>Public Markets</h3><p>Long-term, concentrated positions in public companies we understand well and intend to hold.</p></div>
-      <div class="step"><div class="n">03</div><h3>Hedge Funds</h3><p>Selective allocations to long-biased managers with a differentiated process and a consistent record.</p></div>
-      <div class="step"><div class="n">04</div><h3>Real Estate</h3><p>Allocations to real estate funds and structures within a diversified, long-term portfolio.</p></div>
+      <div class="step"><div class="n">01</div><h3>AI Roll-Ups</h3><p>Private equity investments in AI-native roll-up strategies acquiring and modernizing traditional service businesses at scale.</p></div>
+      <div class="step"><div class="n">02</div><h3>Public Markets</h3><p>Long-term concentrated holdings in public companies where the firm has deep conviction in the business and management team.</p></div>
+      <div class="step"><div class="n">03</div><h3>Hedge Funds</h3><p>Selective allocations to long-strategy hedge funds with differentiated process and consistent risk-adjusted performance.</p></div>
+      <div class="step"><div class="n">04</div><h3>Real Estate</h3><p>Capital allocations to real estate funds and structures as part of a diversified long-term portfolio.</p></div>
     </div>
   </section>
 </div>
@@ -484,32 +502,43 @@ render("capital.html","Starwell Capital | Starwell Holdings",
   cap)
 
 # =================== NEWS ===================
+# (cat, date, title, excerpt, source_url, image_url) — mirrors the live NewsArticle records
 NEWS=[
- ("Real Estate","Dec 20, 2025","Lipa Meir to Rent Offices in Beyond Tower for 11 Million NIS Per Year",
-  "Lipa Meir &amp; Co. is leasing roughly 7,000 sqm of office space across four floors in the Beyond Tower in Tel Aviv.","Tel Aviv"),
- ("Company News","Jun 2, 2025","Circles Merges Operations with U.S.-Based Doss",
-  "Circles is merging its operations with Doss and will become the Israeli sales and marketing center for the company.","Company News"),
- ("Company News","May 28, 2025","Circles and Doss Announce Merger (Hebrew coverage)",
-  "Hebrew-language coverage of the Circles and Doss merger and the combined go-to-market in Israel.","Company News"),
- ("Real Estate","May 5, 2025","Lee &amp; Associates Atlanta Facilitates Sale of 28-Acre Industrial Site to Terminal Logistics",
-  "Center Capital&rsquo;s logistics platform, Terminal Logistics, has acquired a 28-acre site in Gainesville, GA.","Industrial"),
- ("Real Estate","Sep 3, 2024","New Givatayim Tower Reaches Key Construction Milestone (Hebrew coverage)",
-  "Hebrew-language coverage of construction progress on a new high-rise in Givatayim.","Givatayim"),
- ("Real Estate","Sep 3, 2024","New Tower Claims Title of Tallest in Israel",
-  "A new tower in Givatayim claims the title of tallest in Israel, rising to 320 meters with office and residential space.","Tallest Tower"),
- ("Real Estate","Nov 14, 2022","Meitar Leases 17 Floors in Givatayim Tower",
-  "Meitar Law Offices leases 17 floors in a Givatayim tower for NIS 54 million annually.","Givatayim"),
+ ('Real Estate','Dec 21, 2025','Lipa Meir to Rent Offices in Beyond Tower for 11 Million NIS Per Year',
+  'Lipa Meir & Co. is leaving Amot Investments House in Tel Aviv to lease 7,000 sqm of office space across 4 floors in the Beyond Tower project from Tidhar, Union, and Himnuta.',
+  'https://www.calcalist.co.il/real-estate/article/bjoi20k003','https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/c758ca080_--beyond---2.jpg'),
+ ('Company News','Jun 3, 2025','Circles Merges Operations with U.S.-Based Doss',
+  'Circles is merging its operations with U.S.-based Doss and will become the Israeli sales and marketing center for the company.',
+  '','https://www.new-techeurope.com/wp-content/uploads/2025/06/Amit-Kochavi-e1748940333350.jpg'),
+ ('Company News','May 29, 2025','חברת Circles מתמזגת עם Doss האמריקאית',
+  'חברת Circles מתמזגת עם Doss האמריקאית ותהפוך למרכז הפיתוח הישראלי שלה. עמית כוכבי ימונה למנהל הפיתוח הגלובלי.',
+  '','https://www.ittime.co.il/wp-content/uploads/2025/05/Amit-Cohavi-200x300.jpeg'),
+ ('Real Estate','May 6, 2025','Lee & Associates – Atlanta Facilitates Sale of 28-Acre Industrial Site to Terminal Logistics',
+  "Center Capital's IOS platform, Terminal Logistics, has acquired a 28-acre site in Gainesville, GA.",
+  '','https://www.lee-associates.com/atlanta/wp-content/uploads/sites/77/2021/08/Lee-Associates-Atlanta-Logo-2021.png'),
+ ('Real Estate','Sep 4, 2024','גבעתיים על הגובה: המגדל שהפך לגבוה בישראל',
+  'פרויקט ביונד בגבעתיים חצה את גובה 240 המטרים והפך למגדל הגבוה בישראל. בסיום הבנייה יגיע לגובה 320 מטרים.',
+  '','https://ynet-pic1.yit.co.il/cdn-cgi/image/f=auto,w=740,q=75/picserver5/crop_images/2024/09/04/SysC3IrnR/SysC3IrnR_0_0_1600_1067_0_x-large.jpg'),
+ ('Real Estate','Sep 4, 2024','New Tower Claims Title of Tallest in Israel',
+  'New tower in Givataim claims title of tallest in Israel, rising to 320 meters with office and residential space.',
+  '','https://ynet-pic1.yit.co.il/cdn-cgi/image/format=auto/picserver5/crop_images/2024/09/03/S1v8iCV3A/S1v8iCV3A_0_113_460_820_0_x-large.jpg'),
+ ('Real Estate','Nov 15, 2022','Meitar Leases 17 Floors in Givatayim Tower',
+  'Meitar Law Offices leases 17 floors in Givatayim tower for NIS 54 million annually.',
+  '','https://res.cloudinary.com/globes/image/upload/t_desktop_article_content_header_800%2A392/v1668451686/direct/%D7%94%D7%93%D7%9E%D7%99%D7%94_%D7%91%D7%99%D7%95%D7%A0%D7%93._%D7%A7%D7%A8%D7%93%D7%99%D7%98_-_%D7%A1%D7%98%D7%95%D7%93%D7%99%D7%95_84_2_003_nqik1n.jpg'),
 ]
-cats=["All","Real Estate","Company News","Public Markets","Market Commentary","Press Release"]
+cats=["All"]+list(dict.fromkeys(n[0] for n in NEWS))
 pills="".join(f'<button class="pill{" active" if c=="All" else ""}" data-cat="{("all" if c=="All" else c)}">{c}</button>' for c in cats)
 cards=""
-for cat,date,title,blurb,img in NEWS:
-    cards+=f'''      <a class="na" data-cat="{cat}" href="#" rel="noopener">
-        <div class="ph-img">{img}</div>
+for cat,date,title,blurb,src,img in NEWS:
+    href=src or "#"
+    tgt=' target="_blank" rel="noopener"' if src else ''
+    media=f'<img src="{_esc(img)}" alt="{_esc(title)}" loading="lazy" decoding="async">' if img else cat
+    cards+=f'''      <a class="na" data-cat="{_esc(cat)}" href="{_esc(href)}"{tgt}>
+        <div class="ph-img">{media}</div>
         <div class="na-body">
-          <div class="row1"><span class="cat">{cat}</span><span class="date">{date}</span></div>
-          <h3>{title}</h3>
-          <p>{blurb}</p>
+          <div class="row1"><span class="cat">{_esc(cat)}</span><span class="date">{date}</span></div>
+          <h3>{_esc(title)}</h3>
+          <p>{_esc(blurb)}</p>
           <span class="link-arrow">Read More &rarr;</span>
         </div>
       </a>
@@ -517,7 +546,7 @@ for cat,date,title,blurb,img in NEWS:
 news=f'''<section class="hero">
   <div class="wrap">
     <span class="eyebrow">News</span>
-    <h1>News</h1>
+    <h1>News &amp; Insights</h1>
     <p class="lead">Company news, market commentary, and updates on our investments.</p>
   </div>
 </section>
@@ -527,7 +556,6 @@ news=f'''<section class="hero">
     <div class="filters">{pills}</div>
     <div class="news-grid">
 {cards}    </div>
-    <p class="body-copy" style="font-size:13px;margin-top:34px">Each item links to external coverage. Replace the placeholder links with the source URLs.</p>
   </section>
 </div>'''
 render("news.html","News | Starwell Holdings",
@@ -539,7 +567,7 @@ contact='''<section class="hero">
   <div class="wrap">
     <span class="eyebrow">Contact</span>
     <h1>Get in Touch</h1>
-    <p class="lead">For investment opportunities, partnerships, or transactions, use the form below. A member of our team will respond.</p>
+    <p class="lead">For inquiries about investment opportunities, partnerships, or potential transactions, please complete the form below. A member of our team will respond promptly.</p>
   </div>
 </section>
 
@@ -559,47 +587,64 @@ contact='''<section class="hero">
       <div class="captcha"><label for="captchaAnswer">What is 10 + 10?</label><input id="captchaAnswer" name="captcha" type="text" autocomplete="off" required></div>
       <button type="submit" class="btn">Submit</button>
       <div class="formnote" id="formnote" role="status" aria-live="polite"></div>
-
-      <div class="offices">
-        <div class="ol">Offices</div>
-        <div class="office"><h4>Tel Aviv</h4><p>Beyond Towers<br>Giv&rsquo;atayim, Israel</p></div>
-        <div class="office"><h4>Los Angeles</h4><p>11601 Wilshire Blvd<br>Los Angeles, CA 90025<br>USA</p></div>
-      </div>
     </form>
   </div>
 </div>
 <div style="height:60px"></div>'''
 render("contact.html","Contact | Starwell Holdings",
-  "Contact Starwell Holdings for investment opportunities, partnerships, or transactions. Offices in Tel Aviv and Los Angeles.",
+  "Contact Starwell Holdings about investment opportunities, partnerships, or potential transactions. A member of our team will respond promptly.",
   contact)
 
 # =================== CAREERS ===================
-careers='''<section class="hero">
+CAREER_VALUES=[
+  ("Long-Term Thinking","We build for decades, not quarters. Every decision is made with durability and permanence in mind."),
+  ("Operational Excellence","We get into the details. Great outcomes come from rigorous execution and deep domain knowledge."),
+  ("Integrity","We say what we mean and do what we say — with partners, portfolio companies, and each other."),
+  ("Entrepreneurial Spirit","We are builders. We back people who create things that didn’t exist before."),
+]
+value_cards="".join(f'      <div class="step"><h3>{t}</h3><p>{d}</p></div>\n' for t,d in CAREER_VALUES)
+CAREER_CATS=["All","Technology","Real Estate","Capital & Investments","Operations","Finance"]
+career_pills="".join(f'<button class="pill{" active" if c=="All" else ""}" data-cat="{("all" if c=="All" else c)}">{c}</button>' for c in CAREER_CATS)
+careers=f'''<section class="hero hero-center">
   <div class="wrap">
-    <span class="eyebrow">Careers</span>
-    <h1>Careers</h1>
-    <p class="lead">We are a small team and hire rarely. When we do, we look for people who think like owners.</p>
+    <span class="eyebrow">Join Us</span>
+    <h1>Careers at Starwell</h1>
+    <p class="lead" style="margin-left:auto;margin-right:auto">We&rsquo;re a small, high-conviction team building platforms across technology, real estate, and capital markets. We look for people who think long-term and operate with precision.</p>
   </div>
 </section>
-<div class="wrap simple">
-  <section class="sec" data-reveal>
-    <div class="body-copy">
-      <p>Starwell is a privately held investment and operating company. Our work spans technology, real estate, and capital, and the people who do well here tend to be generalists who take ownership and operate with judgment.</p>
-      <p>We are not running an active search at the moment, but we are always glad to hear from exceptional people. If that sounds like you, write to us with a short note about what you have built.</p>
-    </div>
-    <div style="margin-top:30px"><a href="mailto:careers@starwellholdings.com" class="btn">careers@starwellholdings.com</a></div>
+
+<div class="wrap">
+  <section class="sec sec-center" data-reveal>
+    <h2 class="serif" style="margin-bottom:44px">How We Work</h2>
+    <div class="steps four" style="text-align:left">
+{value_cards}    </div>
+  </section>
+</div>
+
+<section class="dark" data-reveal>
+  <div class="wrap sec sec-center">
+    <h2 class="serif" style="margin-bottom:8px">Open Positions</h2>
+    <p class="body-copy" style="margin:0 auto 34px">Click any role to learn more and apply.</p>
+    <div class="filters" style="justify-content:center">{career_pills}</div>
+    <p class="body-copy" style="margin:40px auto 0">No open positions in this category at the moment. Check back soon or reach out directly at <a href="mailto:careers@starwellholdings.com" class="link-arrow on-dark">careers@starwellholdings.com</a>.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="sec sec-center" data-reveal>
+    <h2 class="serif" style="margin-bottom:14px">Don&rsquo;t see the right role?</h2>
+    <p class="body-copy" style="margin:0 auto 28px">We&rsquo;re always interested in meeting exceptional people. Send us a note and tell us how you&rsquo;d contribute.</p>
+    <a href="mailto:careers@starwellholdings.com" class="btn">Get in Touch</a>
   </section>
 </div>'''
 render("careers.html","Careers | Starwell Holdings",
-  "Careers at Starwell Holdings. We hire rarely and look for people who think like owners across technology, real estate, and capital.",
+  "Careers at Starwell Holdings. We're a small, high-conviction team building platforms across technology, real estate, and capital markets.",
   careers)
 
 # =================== SITEMAP (human) ===================
-sm='''<section class="hero">
+sm='''<section class="hero hero-center">
   <div class="wrap">
-    <span class="eyebrow">Sitemap</span>
     <h1>Sitemap</h1>
-    <p class="lead">Every page on starwellholdings.com.</p>
   </div>
 </section>
 <div class="wrap">
@@ -608,13 +653,11 @@ sm='''<section class="hero">
       <div><h4>Company</h4>
         <a href="index.html">Home</a><a href="our-story.html">Our Story</a>
         <a href="news.html">News</a><a href="contact.html">Contact</a><a href="careers.html">Careers</a></div>
-      <div><h4>What We Do</h4>
-        <a href="technology.html">Starwell Technologies</a><a href="real-estate.html">Starwell Real Estate</a>
-        <a href="capital.html">Starwell Capital</a></div>
-      <div><h4>Our Story</h4>
-        <a href="our-story.html#about">About Starwell</a><a href="our-story.html#business-focus">Business Focus</a>
-        <a href="our-story.html#strategy">Strategy</a><a href="our-story.html#leadership">Leadership</a>
-        <a href="our-story.html#partnership">Partnership</a><a href="our-story.html#legacy">Legacy</a></div>
+      <div><h4>Core Activities</h4>
+        <a href="technology.html">Technology</a><a href="capital.html">Capital</a>
+        <a href="real-estate.html">Real Estate</a></div>
+      <div><h4>Other</h4>
+        <a href="sitemap.html">Sitemap</a></div>
     </div>
   </section>
 </div>'''
