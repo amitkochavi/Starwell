@@ -382,7 +382,6 @@ render("our-story.html","Our Story | Starwell Holdings",
 # =================== TECHNOLOGY ===================
 tech=f'''<section class="hero">
   <div class="wrap">
-    <span class="eyebrow">Technology</span>
     <h1>Starwell<br>Technologies</h1>
     <p class="lead">Acquiring control or significant equity in IT services companies in the Israeli lower middle market.</p>
   </div>
@@ -423,7 +422,6 @@ render("technology.html","Starwell Technologies | Starwell Holdings",
 # =================== REAL ESTATE ===================
 re=f'''<section class="hero">
   <div class="wrap">
-    <span class="eyebrow">Real Estate</span>
     <h1>Starwell<br>Real Estate</h1>
     <p class="lead">Development and strategic real estate investment across Israel and the United States.</p>
   </div>
@@ -462,7 +460,6 @@ render("real-estate.html","Starwell Real Estate | Starwell Holdings",
 # =================== CAPITAL ===================
 cap=f'''<section class="hero">
   <div class="wrap">
-    <span class="eyebrow">Capital</span>
     <h1>Starwell<br>Capital</h1>
     <p class="lead">The capital allocation arm of Starwell Holdings &mdash; deploying capital across private equity, public markets, hedge funds, and real estate.</p>
   </div>
