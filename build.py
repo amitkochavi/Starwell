@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import json, os
-OUT="/mnt/user-data/outputs/starwell-website"
+OUT=os.environ.get("STARWELL_OUT", os.path.dirname(os.path.abspath(__file__)))
 BASE="https://starwellholdings.com"
 CSS=open(os.path.join(OUT,"styles.css")).read()
 JS=open(os.path.join(OUT,"script.js")).read()
