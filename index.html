@@ -13,6 +13,7 @@
 <meta property="og:title" content="Starwell Holdings | Private Investment & Operating Company">
 <meta property="og:description" content="Starwell Holdings is a private investment and operating company based in Tel Aviv, building platforms across technology, real estate, and capital markets.">
 <meta property="og:url" content="https://starwellholdings.com/">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://starwellholdings.com/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -52,6 +53,9 @@ img{max-width:100%;display:block}
 .serif{font-family:"Bodoni Moda",Georgia,"Times New Roman",serif}
 .eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft);font-weight:500}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.skip-link{position:absolute;left:8px;top:-60px;z-index:200;background:var(--ink);color:var(--paper);
+  padding:10px 18px;border-radius:0 0 4px 4px;font-size:13px;transition:top .2s}
+.skip-link:focus{top:0}
 
 /* ---------- NAV ---------- */
 .nav{position:sticky;top:0;z-index:80;background:rgba(11,11,15,.92);
@@ -75,7 +79,8 @@ img{max-width:100%;display:block}
 .dropdown{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(8px);
   background:var(--panel-2);border:1px solid var(--on-panel-line);border-radius:4px;padding:10px;
   min-width:210px;opacity:0;visibility:hidden;transition:.22s;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
-.nav-item:hover .dropdown{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.nav-item:hover .dropdown,.nav-item:focus-within .dropdown{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.nav-item:focus-within .chev{transform:rotate(225deg);margin-top:2px}
 .dropdown a{display:block;padding:10px 14px;border-radius:3px;color:var(--on-panel-soft);font-size:13px;transition:.15s}
 .dropdown a:hover{background:rgba(255,255,255,.05);color:var(--on-panel)}
 .nav-cta{border:1px solid var(--on-panel);color:var(--on-panel)!important;padding:9px 18px;border-radius:2px;transition:.2s}
@@ -301,6 +306,7 @@ footer.site .wrap{padding:72px 44px 40px}
 </style>
 </head>
 <body id="top">
+<a href="#main" class="skip-link">Skip to content</a>
 <header class="nav">
   <div class="wrap nav-in">
     <a href="index.html" class="brand" aria-label="Starwell Holdings home">
@@ -308,7 +314,7 @@ footer.site .wrap{padding:72px 44px 40px}
       <span class="brand-rule"></span>
       <span class="brand-sub">Holdings</span>
     </a>
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Primary">
   <div class="nav-item"><a href="index.html">Home</a></div>
   <div class="nav-item">
     <button class="nav-trigger" aria-haspopup="true">Our Story <span class="chev"></span></button>
@@ -332,15 +338,15 @@ footer.site .wrap{padding:72px 44px 40px}
   <div class="nav-item"><a href="news.html">News</a></div>
   <div class="nav-item"><a href="contact.html" class="nav-cta">Contact</a></div>
     </nav>
-    <button class="burger" id="burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mmenu"><span></span><span></span><span></span></button>
   </div>
 </header>
-<div class="mmenu" id="mmenu">
+<div class="mmenu" id="mmenu" aria-hidden="true">
   <div class="mmenu-top"><button class="mclose" id="mclose" aria-label="Close menu">&times;</button></div>
   <div class="mlist">
     <a class="mlink" href="index.html">Home</a>
     <div class="mgroup">
-      <button class="mlink">Our Story <span class="mchev"></span></button>
+      <button class="mlink" aria-expanded="false">Our Story <span class="mchev"></span></button>
       <div class="msub">
         <a href="our-story.html#about">About Starwell</a>
         <a href="our-story.html#business-focus">Business Focus</a>
@@ -351,7 +357,7 @@ footer.site .wrap{padding:72px 44px 40px}
       </div>
     </div>
     <div class="mgroup">
-      <button class="mlink">What We Do <span class="mchev"></span></button>
+      <button class="mlink" aria-expanded="false">What We Do <span class="mchev"></span></button>
       <div class="msub">
         <a href="technology.html">Starwell Technologies</a>
         <a href="real-estate.html">Starwell Real Estate</a>
@@ -362,7 +368,7 @@ footer.site .wrap{padding:72px 44px 40px}
     <a class="mlink" href="contact.html">Contact</a>
   </div>
 </div>
-<main>
+<main id="main">
 <section class="hero">
   <div class="wrap">
     <span class="eyebrow">Private Investment &amp; Operating Company</span>
@@ -476,14 +482,21 @@ footer.site .wrap{padding:72px 44px 40px}
     var burger=document.getElementById('burger');
     var mmenu=document.getElementById('mmenu');
     var mclose=document.getElementById('mclose');
-    function openM(){if(mmenu){mmenu.classList.add('open');document.body.style.overflow='hidden';}}
-    function closeM(){if(mmenu){mmenu.classList.remove('open');document.body.style.overflow='';}}
+    function openM(){if(mmenu){mmenu.classList.add('open');mmenu.setAttribute('aria-hidden','false');
+      if(burger)burger.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';
+      if(mclose)mclose.focus();}}
+    function closeM(){if(mmenu){mmenu.classList.remove('open');mmenu.setAttribute('aria-hidden','true');
+      if(burger){burger.setAttribute('aria-expanded','false');burger.focus();}document.body.style.overflow='';}}
     if(burger)burger.addEventListener('click',openM);
     if(mclose)mclose.addEventListener('click',closeM);
+    document.addEventListener('keydown',function(e){
+      if(e.key==='Escape'&&mmenu&&mmenu.classList.contains('open'))closeM();
+    });
     document.querySelectorAll('.mgroup .mlink').forEach(function(btn){
       btn.addEventListener('click',function(){
         var g=btn.closest('.mgroup');var sub=g.querySelector('.msub');
-        g.classList.toggle('open');if(sub)sub.classList.toggle('open');
+        var open=g.classList.toggle('open');if(sub)sub.classList.toggle('open');
+        btn.setAttribute('aria-expanded',open?'true':'false');
       });
     });
     document.querySelectorAll('.mmenu a').forEach(function(a){a.addEventListener('click',closeM);});

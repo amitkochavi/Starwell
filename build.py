@@ -29,12 +29,12 @@ DESK_NAV='''  <div class="nav-item"><a href="index.html">Home</a></div>
   <div class="nav-item"><a href="news.html">News</a></div>
   <div class="nav-item"><a href="contact.html" class="nav-cta">Contact</a></div>'''
 
-MOBILE_NAV='''<div class="mmenu" id="mmenu">
+MOBILE_NAV='''<div class="mmenu" id="mmenu" aria-hidden="true">
   <div class="mmenu-top"><button class="mclose" id="mclose" aria-label="Close menu">&times;</button></div>
   <div class="mlist">
     <a class="mlink" href="index.html">Home</a>
     <div class="mgroup">
-      <button class="mlink">Our Story <span class="mchev"></span></button>
+      <button class="mlink" aria-expanded="false">Our Story <span class="mchev"></span></button>
       <div class="msub">
         <a href="our-story.html#about">About Starwell</a>
         <a href="our-story.html#business-focus">Business Focus</a>
@@ -45,7 +45,7 @@ MOBILE_NAV='''<div class="mmenu" id="mmenu">
       </div>
     </div>
     <div class="mgroup">
-      <button class="mlink">What We Do <span class="mchev"></span></button>
+      <button class="mlink" aria-expanded="false">What We Do <span class="mchev"></span></button>
       <div class="msub">
         <a href="technology.html">Starwell Technologies</a>
         <a href="real-estate.html">Starwell Real Estate</a>
@@ -58,17 +58,18 @@ MOBILE_NAV='''<div class="mmenu" id="mmenu">
 </div>'''
 
 def header():
-    return f'''<header class="nav">
+    return f'''<a href="#main" class="skip-link">Skip to content</a>
+<header class="nav">
   <div class="wrap nav-in">
     <a href="index.html" class="brand" aria-label="Starwell Holdings home">
       <span class="brand-word">Starwell</span>
       <span class="brand-rule"></span>
       <span class="brand-sub">Holdings</span>
     </a>
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Primary">
 {DESK_NAV}
     </nav>
-    <button class="burger" id="burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mmenu"><span></span><span></span><span></span></button>
   </div>
 </header>
 {MOBILE_NAV}'''
@@ -131,6 +132,7 @@ def render(filename,title,desc,body,extra_ld=None,index=True):
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{canonical}">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="{BASE}/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -152,7 +154,7 @@ def render(filename,title,desc,body,extra_ld=None,index=True):
 </head>
 <body id="top">
 {header()}
-<main>
+<main id="main">
 {body}
 </main>
 {FOOTER}
@@ -169,7 +171,7 @@ PORTFOLIO=json.load(open(os.path.join(OUT,"data","portfolio.json"),encoding="utf
 def _esc(s): return _html.escape(s or "",quote=True)
 def _chip(e):
     if e.get("logo"):
-        return f'<img src="{e["logo"]}" alt="{_esc(e["name"])} logo" style="max-height:48px;max-width:150px;object-fit:contain">'
+        return f'<img src="{e["logo"]}" alt="{_esc(e["name"])} logo" loading="lazy" decoding="async" style="max-height:48px;max-width:150px;object-fit:contain">'
     return f'<span>{_esc(e.get("logoText") or e["name"])}</span>'
 def _web(e):
     u=e.get("website")
@@ -538,7 +540,7 @@ contact='''<section class="hero">
       <div class="field"><label for="msg">Message</label><textarea id="msg" name="message"></textarea></div>
       <div class="captcha"><label for="captchaAnswer">What is 10 + 10?</label><input id="captchaAnswer" name="captcha" type="text" autocomplete="off" required></div>
       <button type="submit" class="btn">Submit</button>
-      <div class="formnote" id="formnote"></div>
+      <div class="formnote" id="formnote" role="status" aria-live="polite"></div>
 
       <div class="offices">
         <div class="ol">Offices</div>
