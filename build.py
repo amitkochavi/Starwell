@@ -214,11 +214,10 @@ def xp_card(name,location,role,partner,logos,website=False,img="Project"):
                     "logoText":logos[0] if logos else name,"website":"#" if website else "","image":img})
 
 # =================== HOME ===================
-home=f'''<section class="hero">
+home=f'''<section class="hero hero-home">
   <div class="wrap">
-    <span class="eyebrow">Private Investment &amp; Operating Company</span>
-    <h1>Dream with<br>Starwell.</h1>
-    <p class="lead">Starwell Holdings is a private investment and operating company based in Tel Aviv. We build and hold platforms across technology, real estate, and capital markets.</p>
+    <h1>Dream with Starwell.</h1>
+    <p class="lead">Starwell Holdings is a private investment and operating company headquartered in Tel Aviv, building platforms across technology, real estate, and capital markets.</p>
     <a href="#what-we-do" class="scrolldown" aria-label="Scroll down">&darr;</a>
   </div>
 </section>
