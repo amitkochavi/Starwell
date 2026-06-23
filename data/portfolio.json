@@ -9,7 +9,7 @@
   { "id": "kochavi-re", "pillar": "real-estate", "type": "Portfolio", "name": "Kochavi Real Estate Portfolio", "role": "Portfolio management, advisory, future development planning", "location": "Tel Aviv, Israel", "partner": "Developer: Doron Kochavi", "website": "", "logo": "", "logoText": "Kochavi", "description": "", "status": "Active", "highlight": false, "image": "Portfolio" },
 
   { "id": "pioneers", "pillar": "capital", "type": "Investment", "name": "Pioneers: Healthcare Staffing AI Roll-Up", "role": "Investor", "location": "", "partner": "", "website": "", "logo": "", "logoText": "Pioneers", "description": "", "status": "Active", "highlight": true, "image": "Capital" },
-  { "id": "legion", "pillar": "capital", "type": "Investment", "name": "Legion Holdings", "role": "Investor", "location": "", "partner": "", "website": "", "logo": "", "logoText": "Legion", "description": "", "status": "Active", "highlight": false, "image": "Capital" },
+  { "id": "legion", "pillar": "capital", "type": "Investment", "name": "Legion Holdings", "role": "Investor", "location": "", "partner": "", "website": "", "logo": "", "logoText": "Legion", "description": "", "status": "Active", "highlight": true, "image": "Capital" },
   { "id": "noked", "pillar": "capital", "type": "Investment", "name": "Noked Capital", "role": "Investor", "location": "", "partner": "", "website": "", "logo": "", "logoText": "Noked", "description": "", "status": "Active", "highlight": false, "image": "Capital" },
   { "id": "hazavim", "pillar": "capital", "type": "Investment", "name": "Hazavim", "role": "Investor", "location": "", "partner": "", "website": "", "logo": "", "logoText": "Hazavim", "description": "", "status": "Active", "highlight": false, "image": "Capital" }
 ]

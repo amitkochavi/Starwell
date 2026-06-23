@@ -254,8 +254,14 @@ home=f'''<section class="hero">
 
 <section class="dark" data-reveal>
   <div class="wrap sec">
-    <div class="sec-label">Activity Highlights</div>
-    <div class="pf-grid">
+    <div class="carousel-head">
+      <h2 class="serif">Activity Highlights</h2>
+      <div class="carousel-nav">
+        <button class="cbtn cprev" type="button" aria-label="Previous">&#8249;</button>
+        <button class="cbtn cnext" type="button" aria-label="Next">&#8250;</button>
+      </div>
+    </div>
+    <div class="pf-carousel" id="hl-carousel">
 {highlights()}
     </div>
   </div>

@@ -55,6 +55,21 @@
   }catch(err){}
 
   try{
+    var car=document.getElementById('hl-carousel');
+    if(car){
+      var cprev=document.querySelector('.cprev'),cnext=document.querySelector('.cnext');
+      function step(){var c=car.querySelector('.pf,.xp');return c?c.getBoundingClientRect().width+22:360;}
+      function upd(){
+        if(cprev)cprev.disabled=car.scrollLeft<=2;
+        if(cnext)cnext.disabled=car.scrollLeft+car.clientWidth>=car.scrollWidth-2;
+      }
+      if(cprev)cprev.addEventListener('click',function(){car.scrollBy({left:-step(),behavior:'smooth'});});
+      if(cnext)cnext.addEventListener('click',function(){car.scrollBy({left:step(),behavior:'smooth'});});
+      car.addEventListener('scroll',upd);window.addEventListener('resize',upd);upd();
+    }
+  }catch(err){}
+
+  try{
     var f=document.getElementById('contactForm');
     if(f)f.addEventListener('submit',function(e){
       e.preventDefault();
