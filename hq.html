@@ -68,6 +68,10 @@ iframe.portal{width:100%;height:640px;border:0;display:block;background:#fff;ove
 .row .acts{display:flex;gap:8px;flex:none}
 .tag{display:inline-block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;background:#f0eee9;color:#6b5a3e;border-radius:4px;padding:2px 8px;margin-right:6px}
 .empty{color:var(--soft);padding:30px;text-align:center;border:1px dashed var(--line);border-radius:10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi-l{font-size:12px;color:var(--soft);text-transform:uppercase;letter-spacing:.04em}
+.kpi-v{font-size:22px;font-weight:600;margin-top:4px}
 
 /* ---- modal form ---- */
 .overlay{position:fixed;inset:0;background:rgba(10,10,14,.55);display:flex;align-items:flex-start;justify-content:center;padding:30px 16px;overflow:auto;z-index:40}
@@ -90,7 +94,7 @@ iframe.portal{width:100%;height:640px;border:0;display:block;background:#fff;ove
 window.STARWELL_CONFIG = {
   SUPABASE_URL: "https://leozizmosbwhwfkzoovt.supabase.co",
   SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxlb3ppem1vc2J3aHdma3pvb3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODQ3MjQsImV4cCI6MjA5Nzg2MDcyNH0.eFb8e5a4x09QYYFHZ1ER23v5bzie8WJz6ZLdsfrcd6s",
-  ONEDRIVE_EMBED_URL: ""   // paste the OneDrive "Embed" iframe URL here to show your workbook in the Workbook tab
+  WORKBOOK_CSV_URL: ""   // a Google Sheet "Publish to web → CSV" link; the Workbook tab renders live charts from it
 };
 </script>
 
@@ -173,6 +177,8 @@ window.STARWELL_CONFIG = {
 <div id="modalRoot"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
 (function(){
   "use strict";
@@ -236,7 +242,6 @@ window.STARWELL_CONFIG = {
     $("#whoEmail").textContent = email;
     var pf=document.getElementById("portalFrame");
     if(pf && !pf.getAttribute("src")) pf.setAttribute("src","wealth-portal.html");
-    renderWorkbook();
     loadAll();
   }
 
@@ -248,6 +253,7 @@ window.STARWELL_CONFIG = {
       t.classList.add("active");
       $("#view-"+t.dataset.view).classList.add("active");
       if(t.dataset.view==="investments") setTimeout(fitPortal,60);
+      if(t.dataset.view==="workbook") renderWorkbook();
     });
   });
 
@@ -267,15 +273,45 @@ window.STARWELL_CONFIG = {
     window.addEventListener("resize", fitPortal);
   })();
 
-  // ---------- Workbook tab (OneDrive / Excel) ----------
+  // ---------- Workbook tab: live charts from a published Google Sheet CSV ----------
+  var wbChart=null;
+  function wbNum(v){ if(v==null) return null; var n=parseFloat(String(v).replace(/[,$₪€£%\s]/g,"")); return isNaN(n)?null:n; }
   function renderWorkbook(){
     var box=document.getElementById("workbookBox"); if(!box) return;
-    var url=(window.STARWELL_CONFIG||{}).ONEDRIVE_EMBED_URL || "";
-    if(url){
-      box.innerHTML='<iframe src="'+url.replace(/"/g,"&quot;")+'" style="width:100%;height:calc(100vh - 150px);border:1px solid var(--line);border-radius:10px;background:#fff" frameborder="0" scrolling="no"></iframe>';
-    } else {
-      box.innerHTML='<div class="empty">No workbook connected yet.<br><br>In OneDrive, open the file → <strong>Share → Embed</strong> (or “Anyone with the link → view”), copy the embed URL, and paste it into <code>ONEDRIVE_EMBED_URL</code> in the CONFIG block of hq.html.</div>';
+    var url=(window.STARWELL_CONFIG||{}).WORKBOOK_CSV_URL || "";
+    if(!url){
+      box.innerHTML='<div class="empty">No data connected yet.<br><br>Put your data in a Google Sheet (you can import/paste the OneDrive Excel into one), then <strong>File → Share → Publish to web → choose the sheet → CSV</strong>, copy that link, and paste it into <code>WORKBOOK_CSV_URL</code> in the CONFIG block of <code>hq.html</code>. This tab will then show live charts — never the raw spreadsheet.</div>';
+      return;
     }
+    box.innerHTML='<div class="muted">Loading data…</div>';
+    fetch(url).then(function(r){return r.text();}).then(function(txt){
+      var rows = window.Papa ? Papa.parse(txt,{header:true,skipEmptyLines:true}).data : [];
+      buildWorkbook(box, rows);
+    }).catch(function(e){ box.innerHTML='<div class="empty">Couldn’t load the data: '+esc(e.message)+'</div>'; });
+  }
+  function buildWorkbook(box, rows){
+    if(!rows || !rows.length){ box.innerHTML='<div class="empty">No rows found in the published sheet.</div>'; return; }
+    var cols=Object.keys(rows[0]).filter(function(c){return c!=="";});
+    var numCols=cols.filter(function(c){var n=0,t=0;rows.forEach(function(r){var v=r[c];if(v!==""&&v!=null){t++;if(wbNum(v)!=null)n++;}});return t>0&&n/t>=0.6;});
+    if(!numCols.length){ box.innerHTML='<div class="empty">No numeric columns detected to chart. Check the published sheet.</div>'; return; }
+    var labelCol=cols.find(function(c){return numCols.indexOf(c)<0;})||cols[0];
+    var lastRow=null; for(var i=rows.length-1;i>=0;i--){ if(numCols.some(function(c){return wbNum(rows[i][c])!=null;})){lastRow=rows[i];break;} }
+    var kpis=numCols.map(function(c){var v=lastRow?wbNum(lastRow[c]):null;return '<div class="kpi"><div class="kpi-l">'+esc(c)+'</div><div class="kpi-v">'+(v==null?"—":v.toLocaleString())+'</div></div>';}).join("");
+    var opts=numCols.map(function(c){return '<option>'+esc(c)+'</option>';}).join("");
+    box.innerHTML='<div class="kpis">'+kpis+'</div>'+
+      '<div class="view-head" style="margin:24px 0 10px"><h3 style="font-size:16px;font-weight:600">Chart</h3><select id="wbMetric" style="width:auto;min-width:160px">'+opts+'</select></div>'+
+      '<div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;height:380px"><canvas id="wbChartC"></canvas></div>'+
+      '<div class="muted" style="font-size:12px;margin-top:8px">'+rows.length+' rows · live from your published sheet</div>';
+    var sel=document.getElementById("wbMetric"); sel.addEventListener("change",draw);
+    function draw(){
+      var metric=sel.value, labels=rows.map(function(r){return r[labelCol];}), data=rows.map(function(r){return wbNum(r[metric]);});
+      var isTime=labels.slice(0,6).filter(Boolean).every(function(l){return /\d{4}/.test(l)||/^[A-Za-z]{3,}/.test(l)||!isNaN(Date.parse(l));});
+      if(wbChart) wbChart.destroy();
+      wbChart=new Chart(document.getElementById("wbChartC"),{type:isTime?"line":"bar",
+        data:{labels:labels,datasets:[{label:metric,data:data,borderColor:"#9A7B4F",backgroundColor:isTime?"rgba(154,123,79,.15)":"rgba(154,123,79,.55)",tension:.25,fill:isTime,borderWidth:2,pointRadius:isTime?2:0}]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:12}},y:{beginAtZero:false}}}});
+    }
+    draw();
   }
 
   // ---------- CONTENT MODELS ----------
