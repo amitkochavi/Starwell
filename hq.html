@@ -43,6 +43,8 @@ header.bar .who{font-size:13px;color:#b9b9c0;display:flex;align-items:center;gap
 .tabs{display:flex;gap:2px;background:#fff;border-bottom:1px solid var(--line);padding:0 14px;position:sticky;top:62px;z-index:19;overflow-x:auto}
 .tab{background:none;border:0;padding:15px 18px;font-size:14px;color:var(--soft);border-bottom:2px solid transparent;white-space:nowrap}
 .tab.active{color:var(--ink);border-bottom-color:var(--gold);font-weight:600}
+.tab-link{margin-left:auto;color:var(--gold);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+.tab-link:hover{color:var(--ink)}
 main{max-width:1100px;margin:0 auto;padding:26px 22px 80px}
 .view{display:none} .view.active{display:block}
 .view-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
@@ -120,18 +122,13 @@ window.STARWELL_CONFIG = {
     <div class="who"><span id="whoEmail"></span><button class="btn ghost sm" id="logoutBtn" style="color:#fff;border-color:#3a3a45">Sign out</button></div>
   </header>
   <nav class="tabs">
-    <button class="tab active" data-view="investments">Investments</button>
-    <button class="tab" data-view="news">News</button>
+    <button class="tab active" data-view="news">News</button>
     <button class="tab" data-view="careers">Careers</button>
     <button class="tab" data-view="portfolio">Portfolio</button>
+    <a class="tab tab-link" href="wealth-portal.html">Investments &#8599;</a>
   </nav>
   <main>
-    <section class="view active" id="view-investments">
-      <div class="view-head"><h2>Investments — Wealth Portal</h2></div>
-      <iframe class="portal" id="portalFrame" title="Wealth Portal" scrolling="no"></iframe>
-    </section>
-
-    <section class="view" id="view-news">
+    <section class="view active" id="view-news">
       <div class="view-head"><h2>News</h2><button class="btn" data-add="news">+ Add article</button></div>
       <div id="list-news"></div>
     </section>
@@ -212,42 +209,18 @@ window.STARWELL_CONFIG = {
     $("#login").classList.add("hidden");
     $("#app").classList.remove("hidden");
     $("#whoEmail").textContent = email;
-    // load the portal only now that we have an authenticated session
-    var pf=document.getElementById("portalFrame");
-    if(pf && !pf.getAttribute("src")) pf.setAttribute("src","wealth-portal.html");
     loadAll();
   }
 
   // ---------- TABS ----------
-  document.querySelectorAll(".tab").forEach(function(t){
+  document.querySelectorAll(".tab[data-view]").forEach(function(t){
     t.addEventListener("click", function(){
-      document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");});
+      document.querySelectorAll(".tab[data-view]").forEach(function(x){x.classList.remove("active");});
       document.querySelectorAll(".view").forEach(function(x){x.classList.remove("active");});
       t.classList.add("active");
       $("#view-"+t.dataset.view).classList.add("active");
-      if(t.dataset.view==="investments") setTimeout(fitPortal,60);
     });
   });
-
-  // ---------- make the embedded Wealth Portal flow like a page ----------
-  function fitPortal(){
-    var f=document.getElementById("portalFrame");
-    if(!f||!f.contentWindow) return;
-    try{ var d=f.contentWindow.document;
-      var h=Math.max(d.body.scrollHeight, d.documentElement.scrollHeight);
-      if(h>0) f.style.height=h+"px";
-    }catch(e){}
-  }
-  (function(){
-    var f=document.getElementById("portalFrame"); if(!f) return;
-    f.addEventListener("load", function(){
-      fitPortal();
-      try{ new ResizeObserver(fitPortal).observe(f.contentWindow.document.body); }catch(e){}
-      // charts/data load asynchronously after the sheet fetch — keep refitting briefly
-      var n=0, iv=setInterval(function(){ fitPortal(); if(++n>24) clearInterval(iv); }, 500);
-    });
-    window.addEventListener("resize", fitPortal);
-  })();
 
   // ---------- CONTENT MODELS ----------
   var MODELS = {
