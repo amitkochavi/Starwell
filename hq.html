@@ -128,7 +128,7 @@ window.STARWELL_CONFIG = {
   <main>
     <section class="view active" id="view-investments">
       <div class="view-head"><h2>Investments — Wealth Portal</h2></div>
-      <iframe class="portal" id="portalFrame" src="wealth-portal.html" title="Wealth Portal" scrolling="no"></iframe>
+      <iframe class="portal" id="portalFrame" title="Wealth Portal" scrolling="no"></iframe>
     </section>
 
     <section class="view" id="view-news">
@@ -212,6 +212,9 @@ window.STARWELL_CONFIG = {
     $("#login").classList.add("hidden");
     $("#app").classList.remove("hidden");
     $("#whoEmail").textContent = email;
+    // load the portal only now that we have an authenticated session
+    var pf=document.getElementById("portalFrame");
+    if(pf && !pf.getAttribute("src")) pf.setAttribute("src","wealth-portal.html");
     loadAll();
   }
 

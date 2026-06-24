@@ -715,8 +715,14 @@ for fn,pr in pages:
     urls+=f"  <url>\n    <loc>{loc}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>{pr}</priority>\n  </url>\n"
 open(os.path.join(OUT,"sitemap.xml"),"w").write(
   '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls+'</urlset>\n')
+# Private pages (hq, wealth-portal, dashboard) are intentionally NOT listed
+# here. Listing them in robots.txt would advertise their URLs, and a
+# Disallow would actually PREVENT Google from reading their "noindex"
+# directive (a disallowed page can still be indexed if discovered). Instead
+# they carry a noindex meta tag AND an X-Robots-Tag: noindex header
+# (see netlify.toml), which is the authoritative way to keep them out of search.
 open(os.path.join(OUT,"robots.txt"),"w").write(
-  "User-agent: *\nAllow: /\nDisallow: /hq.html\nDisallow: /wealth-portal.html\nDisallow: /dashboard.html\n\nSitemap: "+BASE+"/sitemap.xml\n")
+  "User-agent: *\nAllow: /\n\nSitemap: "+BASE+"/sitemap.xml\n")
 open(os.path.join(OUT,"site.webmanifest"),"w").write(json.dumps({
   "name":"Starwell Holdings","short_name":"Starwell","start_url":"/","display":"standalone",
   "background_color":"#0B0B0F","theme_color":"#0B0B0F",
@@ -732,11 +738,29 @@ open(os.path.join(OUT,"netlify.toml"),"w").write('''[build]
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "SAMEORIGIN"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/hq.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
+
+[[headers]]
+  for = "/wealth-portal.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
+
+[[headers]]
+  for = "/dashboard.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
 ''')
 open(os.path.join(OUT,"vercel.json"),"w").write(json.dumps({
   "cleanUrls":False,"trailingSlash":False,
-  "headers":[{"source":"/(.*)","headers":[
-    {"key":"X-Content-Type-Options","value":"nosniff"},
-    {"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"}]}]},indent=2))
+  "headers":[
+    {"source":"/(.*)","headers":[
+      {"key":"X-Content-Type-Options","value":"nosniff"},
+      {"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"}]},
+    {"source":"/(hq|wealth-portal|dashboard).html","headers":[
+      {"key":"X-Robots-Tag","value":"noindex, nofollow, noarchive, nosnippet"}]}]},indent=2))
 print("PAGES BUILT")
 print(sorted(os.listdir(OUT)))
