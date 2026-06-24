@@ -93,8 +93,7 @@ iframe.portal{width:100%;height:640px;border:0;display:block;background:#fff;ove
    Row-Level Security (see supabase/schema.sql). */
 window.STARWELL_CONFIG = {
   SUPABASE_URL: "https://leozizmosbwhwfkzoovt.supabase.co",
-  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxlb3ppem1vc2J3aHdma3pvb3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODQ3MjQsImV4cCI6MjA5Nzg2MDcyNH0.eFb8e5a4x09QYYFHZ1ER23v5bzie8WJz6ZLdsfrcd6s",
-  WORKBOOK_CSV_URL: "https://docs.google.com/spreadsheets/d/13aJVlGm8o6RS3tEQKrhhXFIEG0IsRTmV/export?format=csv"
+  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxlb3ppem1vc2J3aHdma3pvb3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODQ3MjQsImV4cCI6MjA5Nzg2MDcyNH0.eFb8e5a4x09QYYFHZ1ER23v5bzie8WJz6ZLdsfrcd6s"
 };
 </script>
 
@@ -138,7 +137,6 @@ window.STARWELL_CONFIG = {
       <div class="side-brand serif">Starwell HQ</div>
       <nav class="side-nav">
         <button class="tab active" data-view="investments">Investments</button>
-        <button class="tab" data-view="workbook">Workbook</button>
         <button class="tab" data-view="news">News</button>
         <button class="tab" data-view="careers">Careers</button>
         <button class="tab" data-view="portfolio">Portfolio</button>
@@ -149,11 +147,6 @@ window.STARWELL_CONFIG = {
       <section class="view active" id="view-investments">
         <div class="view-head"><h2>Investments — Wealth Portal</h2></div>
         <iframe class="portal" id="portalFrame" title="Wealth Portal" scrolling="no"></iframe>
-      </section>
-
-      <section class="view" id="view-workbook">
-        <div class="view-head"><h2>Workbook</h2></div>
-        <div id="workbookBox"></div>
       </section>
 
       <section class="view" id="view-news">
@@ -177,8 +170,6 @@ window.STARWELL_CONFIG = {
 <div id="modalRoot"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
 (function(){
   "use strict";
@@ -253,7 +244,6 @@ window.STARWELL_CONFIG = {
       t.classList.add("active");
       $("#view-"+t.dataset.view).classList.add("active");
       if(t.dataset.view==="investments") setTimeout(fitPortal,60);
-      if(t.dataset.view==="workbook") renderWorkbook();
     });
   });
 
@@ -273,92 +263,6 @@ window.STARWELL_CONFIG = {
     window.addEventListener("resize", fitPortal);
   })();
 
-  // ---------- Workbook tab: live charts from a published Google Sheet CSV ----------
-  var wbCharts={}, YEAR=/^(19|20)\d{2}$/;
-  function wbNum(v){ if(v==null) return null; var n=parseFloat(String(v).replace(/[,$₪€£%\s]/g,"")); return isNaN(n)?null:n; }
-  function wbCur(label){ return /usd|\$/i.test(label)?"$":/ils|nis|₪|shekel/i.test(label)?"₪":""; }
-  function wbFmt(v,cur){ if(v==null) return "—"; var p=cur||"",a=Math.abs(v);
-    if(a>=1e9)return p+(v/1e9).toFixed(2)+"B"; if(a>=1e6)return p+(v/1e6).toFixed(1)+"M"; if(a>=1e3)return p+Math.round(v/1e3)+"K"; return p+Math.round(v).toLocaleString(); }
-  function wbOpts(cur,stacked){ return {responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:!!stacked,labels:{boxWidth:10,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+wbFmt(c.parsed.y,cur);}}}},
-    scales:{y:{stacked:!!stacked,ticks:{callback:function(v){return wbFmt(v,cur);}}},x:{ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:14}}}}; }
-
-  function renderWorkbook(){
-    var box=document.getElementById("workbookBox"); if(!box) return;
-    var url=(window.STARWELL_CONFIG||{}).WORKBOOK_CSV_URL || "";
-    if(!url){ box.innerHTML='<div class="empty">No data connected yet.<br><br>Put your data in a Google Sheet, then <strong>File → Share → Publish to web → CSV</strong> and paste the link into <code>WORKBOOK_CSV_URL</code> in the CONFIG block of <code>hq.html</code>. This tab then shows live charts — never the raw spreadsheet.</div>'; return; }
-    box.innerHTML='<div class="muted">Loading data…</div>';
-    fetch(url).then(function(r){return r.text();}).then(function(txt){ buildWorkbook(box,txt); })
-      .catch(function(e){ box.innerHTML='<div class="empty">Couldn’t load the data: '+esc(e.message)+'</div>'; });
-  }
-
-  function buildWorkbook(box, txt){
-    var raw = window.Papa ? Papa.parse(txt,{skipEmptyLines:false}).data : [];
-    if(!raw.length){ box.innerHTML='<div class="empty">No data found.</div>'; return; }
-    // find the header row containing the most year columns
-    var yIdx=-1,yCount=0;
-    raw.forEach(function(row,i){ var c=(row||[]).filter(function(v){return YEAR.test(String(v).trim());}).length; if(c>yCount){yCount=c;yIdx=i;} });
-    if(yIdx<0||yCount<3){ return buildWorkbookGeneric(box,txt); }
-    var yearCols=[],years=[];
-    raw[yIdx].forEach(function(v,i){ if(YEAR.test(String(v).trim())){yearCols.push(i);years.push(String(v).trim());} });
-    var series=[],seen={};
-    for(var r=yIdx+1;r<raw.length;r++){
-      var row=raw[r]||[],label=String(row[0]||"").trim();
-      if(!label||YEAR.test(label)||/^year$/i.test(label)) continue;
-      var vals=yearCols.map(function(i){return wbNum(row[i]);});
-      if(vals.every(function(v){return v==null;})) continue;
-      if(seen[label]) continue; seen[label]=1;
-      series.push({label:label,vals:vals});
-    }
-    if(!series.length){ return buildWorkbookGeneric(box,txt); }
-    var curY=String(new Date().getFullYear());
-    function latest(s){ var ci=years.indexOf(curY); if(ci>=0&&s.vals[ci]!=null) return {v:s.vals[ci],y:curY}; for(var i=s.vals.length-1;i>=0;i--) if(s.vals[i]!=null) return {v:s.vals[i],y:years[i]}; return {v:null,y:""}; }
-    var totals=series.filter(function(s){return /total/i.test(s.label);});
-    var kpiSeries=totals.length?totals:series.slice(0,4);
-    var kpis=kpiSeries.map(function(s){var l=latest(s);return '<div class="kpi"><div class="kpi-l">'+esc(s.label.replace(/\s*\(.*?\)\s*/g,' ').trim())+'</div><div class="kpi-v">'+wbFmt(l.v,wbCur(s.label))+'</div><div class="kpi-l" style="text-transform:none;margin-top:3px">'+esc(l.y)+'</div></div>';}).join("");
-    var defIdx=series.findIndex(function(s){return /total holdings.*usd/i.test(s.label);});
-    if(defIdx<0)defIdx=series.findIndex(function(s){return /total/i.test(s.label);}); if(defIdx<0)defIdx=0;
-    var opts=series.map(function(s,i){return '<option value="'+i+'"'+(i===defIdx?' selected':'')+'>'+esc(s.label)+'</option>';}).join("");
-    var comp=wbComposition(raw);
-    var html='<div class="kpis">'+kpis+'</div>'+
-      '<div class="view-head" style="margin:24px 0 10px"><h3 style="font-size:16px;font-weight:600">Over time</h3><select id="wbMetric" style="width:auto;min-width:230px">'+opts+'</select></div>'+
-      '<div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;height:360px"><canvas id="wbMain"></canvas></div>';
-    if(comp) html+='<div class="view-head" style="margin:26px 0 10px"><h3 style="font-size:16px;font-weight:600">Composition</h3></div><div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;height:360px"><canvas id="wbComp"></canvas></div>';
-    html+='<div class="muted" style="font-size:12px;margin-top:8px">Live from your published sheet · '+years[0]+'–'+years[years.length-1]+'</div>';
-    box.innerHTML=html;
-    var sel=document.getElementById("wbMetric");
-    function drawMain(){var s=series[+sel.value];if(wbCharts.main)wbCharts.main.destroy();
-      wbCharts.main=new Chart(document.getElementById("wbMain"),{type:'line',data:{labels:years,datasets:[{label:s.label,data:s.vals,borderColor:'#9A7B4F',backgroundColor:'rgba(154,123,79,.15)',fill:true,tension:.25,borderWidth:2,pointRadius:2,spanGaps:true}]},options:wbOpts(wbCur(s.label),false)});}
-    sel.addEventListener("change",drawMain); drawMain();
-    if(comp){var pal=['#2b5ea7','#1a7a5a','#9a6b17','#5b3ea7','#b5342a','#3d8888'];if(wbCharts.comp)wbCharts.comp.destroy();
-      wbCharts.comp=new Chart(document.getElementById("wbComp"),{type:'line',data:{labels:comp.years,datasets:comp.series.map(function(s,i){return {label:s.label,data:s.vals,borderColor:pal[i%pal.length],backgroundColor:pal[i%pal.length]+'66',fill:true,stack:'s',tension:.25,borderWidth:1.5,pointRadius:0,spanGaps:true};})},options:wbOpts(wbCur((comp.series[0]||{}).label||''),true)});}
-  }
-  function wbComposition(raw){
-    var idx=raw.findIndex(function(row){return (row||[]).some(function(c){return /holdings composition/i.test(String(c));});});
-    if(idx<0) return null;
-    var hi=-1; for(var i=idx+1;i<raw.length;i++){ if((raw[i]||[]).filter(function(v){return YEAR.test(String(v).trim());}).length>=3){hi=i;break;} }
-    if(hi<0) return null;
-    var cols=[],yrs=[]; raw[hi].forEach(function(v,i){if(YEAR.test(String(v).trim())){cols.push(i);yrs.push(String(v).trim());}});
-    var s=[];
-    for(var r=hi+1;r<raw.length;r++){var row=raw[r]||[],label=String(row[0]||'').trim();if(!label)break;var vals=cols.map(function(i){return wbNum(row[i]);});if(vals.every(function(v){return v==null;}))break;s.push({label:label,vals:vals});}
-    return s.length?{years:yrs,series:s}:null;
-  }
-  // fallback for ordinary sheets (headers in row 1, columns = metrics)
-  function buildWorkbookGeneric(box, txt){
-    var rows=window.Papa?Papa.parse(txt,{header:true,skipEmptyLines:true}).data:[];
-    if(!rows.length){ box.innerHTML='<div class="empty">No rows found.</div>'; return; }
-    var cols=Object.keys(rows[0]).filter(function(c){return c!=="";});
-    var numCols=cols.filter(function(c){var n=0,t=0;rows.forEach(function(r){var v=r[c];if(v!==""&&v!=null){t++;if(wbNum(v)!=null)n++;}});return t>0&&n/t>=0.6;});
-    if(!numCols.length){ box.innerHTML='<div class="empty">No numeric columns detected.</div>'; return; }
-    var labelCol=cols.find(function(c){return numCols.indexOf(c)<0;})||cols[0];
-    var lastRow=null;for(var i=rows.length-1;i>=0;i--){if(numCols.some(function(c){return wbNum(rows[i][c])!=null;})){lastRow=rows[i];break;}}
-    var kpis=numCols.map(function(c){var v=lastRow?wbNum(lastRow[c]):null;return '<div class="kpi"><div class="kpi-l">'+esc(c)+'</div><div class="kpi-v">'+wbFmt(v,wbCur(c))+'</div></div>';}).join("");
-    var opts=numCols.map(function(c){return '<option>'+esc(c)+'</option>';}).join("");
-    box.innerHTML='<div class="kpis">'+kpis+'</div><div class="view-head" style="margin:24px 0 10px"><h3 style="font-size:16px;font-weight:600">Chart</h3><select id="wbMetric" style="width:auto;min-width:160px">'+opts+'</select></div><div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;height:360px"><canvas id="wbMain"></canvas></div>';
-    var sel=document.getElementById("wbMetric");
-    function draw(){var m=sel.value,labels=rows.map(function(r){return r[labelCol];}),data=rows.map(function(r){return wbNum(r[m]);});var t=labels.slice(0,6).filter(Boolean).every(function(l){return /\d{4}/.test(l)||/^[A-Za-z]{3,}/.test(l)||!isNaN(Date.parse(l));});if(wbCharts.main)wbCharts.main.destroy();wbCharts.main=new Chart(document.getElementById("wbMain"),{type:t?'line':'bar',data:{labels:labels,datasets:[{label:m,data:data,borderColor:'#9A7B4F',backgroundColor:t?'rgba(154,123,79,.15)':'rgba(154,123,79,.55)',fill:t,tension:.25,borderWidth:2,pointRadius:t?2:0}]},options:wbOpts(wbCur(m),false)});}
-    sel.addEventListener("change",draw); draw();
-  }
 
   // ---------- CONTENT MODELS ----------
   var MODELS = {
