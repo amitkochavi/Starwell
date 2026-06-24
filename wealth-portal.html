@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Starwell Holdings — Wealth Portal</title>
+  <meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+:root{--bg:#faf9f7;--card:#fff;--border:#e8e6e1;--t1:#1a1a18;--t2:#6b6a65;--t3:#9d9c97;--green:#1a7a5a;--greenbg:#e8f5ef;--red:#b5342a;--redbg:#fdeeed;--blue:#2b5ea7;--bluebg:#eaf1fb;--amber:#9a6b17;--amberbg:#fdf4e3;--accent:#1a1a18;}
+@media(prefers-color-scheme:dark){:root{--bg:#141413;--card:#1e1e1c;--border:#2e2e2b;--t1:#e8e6e1;--t2:#9d9c97;--t3:#6b6a65;--green:#4ec9a0;--greenbg:#1a2e25;--red:#f07b73;--redbg:#2e1a1a;--blue:#7aadeb;--bluebg:#1a2540;--amber:#e8b44a;--amberbg:#2e2510;--accent:#e8e6e1;}}
+*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);line-height:1.5;}
+.wrap{max-width:1100px;margin:0 auto;padding:32px 24px 64px;}
+.header{margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.hdr-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.header h1{font-size:20px;font-weight:600;}.header .sub{font-size:12px;color:var(--t3);}
+.hdr-right{display:flex;align-items:center;gap:12px;}
+.btn{font-size:11px;color:var(--t2);background:var(--card);border:1px solid var(--border);border-radius:6px;padding:6px 12px;cursor:pointer;font-family:inherit;}
+.toggle{display:flex;background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.toggle button{padding:6px 14px;border:none;background:transparent;color:var(--t3);cursor:pointer;font-family:inherit;font-weight:600;font-size:11px;}
+.toggle button.active{background:var(--accent);color:var(--bg);}
+.filter-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.filter-bar .label{font-size:11px;color:var(--t3);margin-right:4px;text-transform:uppercase;letter-spacing:.5px;font-weight:600;}
+.fc{font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--t2);cursor:pointer;font-family:inherit;font-weight:500;transition:all .15s;}
+.fc:hover{border-color:var(--t2);}.fc.active{background:var(--accent);color:var(--bg);border-color:var(--accent);}
+.fc.preset{border-style:dashed;}.fc.preset.active{border-style:solid;}
+.fsep{width:1px;height:20px;background:var(--border);margin:0 4px;}
+.loading{text-align:center;padding:80px 0;color:var(--t3);font-size:14px;}
+.spinner{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--t2);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+@media(max-width:768px){.g3,.g2,.g4{grid-template-columns:1fr;}}
+.m{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
+.m .l{font-size:12px;color:var(--t2);margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px;}
+.m .v{font-size:24px;font-weight:600;letter-spacing:-.5px;}
+.m .s{font-size:11px;color:var(--t3);margin-top:2px;}
+.m.green .v{color:var(--green);}.m.red .v{color:var(--red);}
+.sect{margin-top:40px;}.sect h2{font-size:13px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:16px;}
+.card h3{font-size:14px;font-weight:600;margin-bottom:12px;}
+table{width:100%;font-size:12px;border-collapse:collapse;}
+th{text-align:left;padding:7px 5px;color:var(--t3);font-weight:500;font-size:10px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);}
+td{padding:7px 5px;border-bottom:1px solid var(--border);}tr:last-child td{border-bottom:none;}
+.r{text-align:right;}.green{color:var(--green);}.red{color:var(--red);}.bold{font-weight:600;}
+.badge{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:500;white-space:nowrap;}
+.badge-new{background:var(--bluebg);color:var(--blue);}.badge-wd{background:var(--redbg);color:var(--red);}.badge-add{background:var(--greenbg);color:var(--green);}
+.brow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;}.brow:last-of-type{border-bottom:none;}
+.brow .bv{font-weight:600;font-family:'JetBrains Mono',monospace;font-size:12px;}
+.btotal{display:flex;justify-content:space-between;padding:8px 0;font-weight:600;font-size:14px;border-top:2px solid var(--accent);margin-top:4px;}
+.hm td{text-align:center;padding:7px 4px;font-size:10px;font-weight:600;border:1px solid var(--border);font-family:'JetBrains Mono',monospace;}
+.hm th{text-align:center;font-size:9px;padding:7px 4px;}.hm .acct{text-align:left;font-weight:500;font-size:10px;min-width:90px;font-family:'DM Sans',sans-serif;}
+.ch{position:relative;width:100%;}.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:10px;color:var(--t2);}
+.legend span{display:flex;align-items:center;gap:4px;}.dot{width:8px;height:8px;border-radius:2px;display:inline-block;}
+.note{font-size:11px;color:var(--t3);margin-top:8px;line-height:1.6;}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;}
+.tab{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:var(--card);font-size:11px;font-weight:500;cursor:pointer;color:var(--t2);font-family:inherit;}
+.tab.active{background:var(--accent);color:var(--bg);border-color:var(--accent);}
+.tab-content{display:none;}.tab-content.active{display:block;}
+.dp{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--t2);}
+.dp select{font-family:inherit;font-size:12px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--t1);cursor:pointer;}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;}.sh h2{margin-bottom:0;}
+details{font-size:11px;color:var(--t3);margin-top:4px;}details summary{cursor:pointer;}
+#debugLog{font-family:'JetBrains Mono',monospace;white-space:pre-wrap;margin-top:4px;font-size:10px;}
+</style>
+</head><body>
+<div class="wrap">
+<div class="header">
+<div class="hdr-top"><div><h1>Starwell Holdings</h1><div class="sub">Family wealth portal</div></div>
+<div class="hdr-right"><div class="toggle" id="ccyToggle"><button class="active" data-ccy="USD">USD</button><button data-ccy="ILS">ILS</button></div>
+<div style="text-align:right"><div class="sub" id="asOf"></div><button class="btn" onclick="location.reload()">↻</button></div></div></div>
+<div class="filter-bar" id="filterBar"></div>
+</div>
+<div id="loading" class="loading"><div class="spinner"></div><span id="loadMsg">Loading...</span><details><summary>Debug</summary><div id="debugLog"></div></details></div>
+<div id="app" style="display:none">
+<div id="topMetrics"></div>
+<div class="sect"><h2>Year-to-date performance</h2><div class="g3" id="ytdMetrics"></div><div class="card" style="margin-top:12px;overflow-x:auto"><table id="ytdTable"></table></div><div class="note" id="ytdNote"></div></div>
+<div class="sect"><h2>Asset breakdown by owner</h2><div id="ownerBreaks"></div></div>
+<div class="sect"><div class="sh"><h2>Account performance — organic growth (XIRR)</h2><div class="dp">From <select id="perfFrom"></select></div></div><div class="card" style="overflow-x:auto"><table id="perfTable"></table></div><div class="note">Organic Δ = (Current + Withdrawn) − (Start + Added). Pure investment return. XIRR adjusts for timing of all cash flows.</div></div>
+<div class="sect"><div class="sh"><h2>Cash flow impact on IRR</h2><div class="dp">From <select id="wdFrom"></select></div></div><div class="card" style="overflow-x:auto"><table id="wdTable"></table></div><div class="note" id="wdNote"></div></div>
+<div class="sect"><h2>Total AUM — all assets by owner (year-end)</h2><div class="card"><div class="ch" style="height:340px"><canvas id="cTotalAUM"></canvas></div><div class="legend" id="lgTotalAUM"></div></div></div>
+<div class="sect"><h2>Liquid AUM — investment accounts only (year-end)</h2><div class="card"><div class="ch" style="height:320px"><canvas id="cAUM"></canvas></div></div></div>
+<div class="sect"><h2>Liquid AUM by account (year-end)</h2><div class="card"><div class="ch" style="height:360px"><canvas id="cStack"></canvas></div><div class="legend" id="lgStack"></div></div></div>
+<div class="sect"><h2>Annual IRR heatmap (XIRR, year-over-year)</h2><div class="card" style="overflow-x:auto"><table class="hm" id="heatmap"></table></div></div>
+<div class="sect"><div class="sh"><h2>Trailing returns (XIRR)</h2><div class="dp">From <select id="trailFrom"></select></div></div><div class="card" style="overflow-x:auto"><table id="trailTable"></table></div></div>
+<div class="sect"><h2>Annual IRR trend (XIRR)</h2><div class="card"><div class="ch" style="height:300px"><canvas id="cIRR"></canvas></div><div class="legend" id="lgIRR"></div></div></div>
+<div class="sect"><h2>Year-over-year liquid growth</h2><div class="card"><div class="ch" style="height:220px"><canvas id="cYoY"></canvas></div></div></div>
+<div class="sect"><h2>Account details — year-end statements & annual yield</h2><div class="tabs" id="acctTabs"></div><div id="acctDetails"></div></div>
+<div class="sect"><h2>Cash flow — monthly tracker</h2><div class="card" style="overflow-x:auto"><table id="cfTable"></table></div><div class="note">Data from Expenses tab. Shows Starwell revenue, costs, personal inflows/outflows, and self-sufficiency metrics.</div></div>
+<div class="sect"><h2>AUM forecast — 5 year projection</h2>
+<div class="card"><div class="ch" style="height:320px"><canvas id="cForecast"></canvas></div><div class="legend" id="lgForecast"></div></div>
+<div class="card" style="overflow-x:auto"><table id="forecastTable"></table></div>
+<div class="note">Base case: account-specific growth rates based on trailing performance. Assumes $150K/yr Tamar withdrawals, $150K/yr Amit savings from MSP income starting 2027, $800K GST loan for MSP in 2027. No inheritance included.</div></div>
+<div class="sect"><h2>Vitkin apartment — valuation history</h2><div class="card" style="overflow-x:auto"><table id="vitkinTable"></table></div></div>
+<div class="sect"><h2>Other assets — alternatives, jewelry & real estate</h2><div id="otherAssets"></div></div>
+<div class="note" style="margin-top:32px">Data from Main DB Google Sheet. All IRR = XIRR adjusted for cash flows. 1 USD = ₪<span id="fxD">3.17</span>.</div>
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const PUB_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTsevjMs6FgZ0c-uSSJDCa-Yvk2UEaUC2ZrPnS2M9MEVf2WngeKlOfeF93be8uVoLxcvD76TLbcUbu5';
+const dk=matchMedia('(prefers-color-scheme:dark)').matches;
+const gc=dk?'rgba(255,255,255,.06)':'rgba(0,0,0,.05)',tc=dk?'#9d9c97':'#6b6a65';
+const COLORS=['#2b5ea7','#1a7a5a','#c4622a','#5b3ea7','#5a8a22','#888883','#9a6b17','#3d8888','#a06040','#6a6aaa','#aa5a6a','#4a7a4a','#8a6a2a'];
+const log=m=>{const el=document.getElementById('debugLog');if(el)el.textContent+=m+'\n';};
+const num=v=>{if(v==null||v==='')return null;const n=parseFloat(String(v).replace(/[,$]/g,''));return isNaN(n)?null:n;};
+function parseDate(v){if(!v)return null;const s=String(v).trim();const asN=parseFloat(s);if(!isNaN(asN)&&asN>30000&&asN<60000)return new Date(Date.UTC(1899,11,30)+asN*864e5);let d=new Date(s);if(!isNaN(d.getTime())&&d.getFullYear()>2000)return d;const gm=s.match(/Date\((\d+),(\d+),(\d+)\)/);if(gm)return new Date(+gm[1],+gm[2],+gm[3]);const p=s.split(/[-\/\.]/);if(p.length===3){const[a,b,c]=p.map(Number);if(a>1000)return new Date(a,b-1,c);if(c>1000&&a>12)return new Date(c,b-1,a);if(c>1000)return new Date(c,a-1,b);}return null;}
+
+let CCY='USD',FX=3.17;
+const cx=v=>CCY==='USD'?v:v*FX;const S=()=>CCY==='USD'?'$':'₪';
+const cf=v=>{const val=cx(v),s=S();if(Math.abs(val)>=1e6)return s+(val/1e6).toFixed(2)+'M';if(Math.abs(val)>=1e3)return s+Math.round(val/1e3).toLocaleString()+'K';return s+Math.round(val).toLocaleString();};
+const cfS=v=>S()+(cx(v)/1e6).toFixed(1)+'M';
+const cTk=v=>{if(Math.abs(v)>=1e6)return S()+(v/1e6).toFixed(1)+'M';return S()+Math.round(v/1e3)+'K';};
+const cTt=v=>S()+(v/1e6).toFixed(2)+'M';
+
+let DATA={},charts={},activeOwners=null,displayNames={},shortNames={};
+function mc(id,cfg){if(charts[id])charts[id].destroy();charts[id]=new Chart(document.getElementById(id),cfg);}
+function bb(el,items,total){el.innerHTML='';items.forEach(([n,v])=>{el.innerHTML+=`<div class="brow"><span>${n}</span><span class="bv">${cf(v)}</span></div>`;});el.innerHTML+=`<div class="btotal"><span>Total</span><span>${cf(total)}</span></div>`;}
+function irrCol(v){if(v==null)return{b:dk?'#2a2a28':'#f1efe8',f:dk?'#6b6a65':'#888'};if(v>=30)return{b:dk?'#1a7a5a':'#085041',f:'#fff'};if(v>=20)return{b:dk?'#1a6a4a':'#1a7a5a',f:'#fff'};if(v>=10)return{b:dk?'#1a3a2a':'#c8edda',f:dk?'#4ec9a0':'#085041'};if(v>=0)return{b:dk?'#1a2a20':'#e8f5ef',f:dk?'#4ec9a0':'#1a7a5a'};if(v>=-10)return{b:dk?'#2e1a1a':'#fdeeed',f:dk?'#f07b73':'#b5342a'};if(v>=-20)return{b:dk?'#3e1a1a':'#f5c4b3',f:dk?'#f07b73':'#712b13'};return{b:dk?'#4e1a1a':'#993c1d',f:'#fff'};}
+function xirr(cfs){if(cfs.length<2)return null;const d0=cfs[0][0],days=cfs.map(c=>(c[0]-d0)/864e5);if(days[days.length-1]===0)return null;const npv=r=>cfs.reduce((s,c,i)=>s+c[1]/Math.pow(1+r,days[i]/365),0);let lo=-0.5,hi=5;for(let i=0;i<100;i++){const mid=(lo+hi)/2;if(npv(mid)>0)lo=mid;else hi=mid;}const res=(lo+hi)/2;return Math.abs(res)>4.9?null:res;}
+async function fetchCSV(gid){const resp=await fetch(PUB_URL+'/pub?gid='+gid+'&single=true&output=csv');const text=await resp.text();return Papa.parse(text,{header:true,dynamicTyping:false,skipEmptyLines:true}).data;}
+
+function AN(aid){return displayNames[aid]||DATA.acctNm[aid]||aid;}
+function ANs(aid){return shortNames[aid]||DATA.acctNm[aid]||aid;}
+
+// Check if an account should be visible for a given set of active owners
+// Joint accounts (owner contains "and") should show if ANY constituent owner is selected
+function ownerMatchesFilter(ownerStr){
+  if(!activeOwners)return true;
+  if(activeOwners.has(ownerStr))return true;
+  // Joint account: "Uziella Buchman Heyman and Doron Kochavi"
+  if(ownerStr.includes(' and ')){
+    const parts=ownerStr.split(' and ').map(s=>s.trim());
+    return parts.some(p=>activeOwners.has(p));
+  }
+  // Starwell follows Amit
+  if(ownerStr==='Starwell Holdings'&&activeOwners.has('Amit Kochavi'))return true;
+  return false;
+}
+function visibleAccts(){return DATA.allAcctIds.filter(aid=>ownerMatchesFilter(DATA.ownerMap[aid]||''));}
+
+// Get "primary" owners (not joint, not Starwell) for display grouping
+function primaryOwners(){
+  const owners=new Set();
+  Object.values(DATA.ownerMap).forEach(o=>{
+    if(o==='Starwell Holdings')return;
+    if(o.includes(' and ')){o.split(' and ').forEach(p=>owners.add(p.trim()));}
+    else owners.add(o);
+  });
+  return [...owners].sort();
+}
+
+async function loadData(){
+  log('Discovering GIDs...');const resp=await fetch(PUB_URL+'/pubhtml');const html=await resp.text();
+  const ids=[...new Set([...html.matchAll(/gid=(\d+)/g)].map(m=>m[1]))];
+  log('Found GIDs: '+ids.join(', '));
+
+  // Try to extract tab names from pubhtml page
+  const gids={};
+  const tabMatches=[...html.matchAll(/<li[^>]*>[\s]*<a[^>]*href=["']?#gid=(\d+)["']?[^>]*>([^<]+)<\/a>/gi)];
+  if(tabMatches.length>0){
+    tabMatches.forEach(m=>{gids[m[2].trim()]=m[1];log('  Tab: "'+m[2].trim()+'" = gid='+m[1]);});
+  } else {
+    // Fallback: try to detect by fetching each GID and checking first row
+    log('  No tab names in HTML, detecting by content...');
+    for(const id of ids){
+      try{
+        const testData=await fetchCSV(id);
+        if(testData.length>0){
+          const cols=Object.keys(testData[0]).join(',').toLowerCase();
+          if(cols.includes('accountid')&&cols.includes('institution'))gids['Accounts']=id;
+          else if(cols.includes('accountid')&&cols.includes('statementdate'))gids['Statements']=id;
+          else if(cols.includes('deal name'))gids['Investment Ledger']=id;
+          else if(cols.includes('propertyid')||cols.includes('propertyname'))gids['Glaser Real Estate']=id;
+          else if(cols.includes('item')&&cols.includes('value')&&cols.includes('owner'))gids['Jewelry ']=id;
+          else if(cols.includes('75 sqm')||cols.includes('vitkin')||cols.includes('price per sqm'))gids['20 Vitkin Street - APT #2']=id;
+          else if(cols.includes('cash flow')||cols.includes('tracker'))gids['Expenses']=id;
+          else log('    Unknown tab gid='+id+': '+cols.substring(0,80));
+        }
+      }catch(e){log('    Error probing gid='+id+': '+e.message);}
+    }
+  }
+
+  // If still missing critical tabs, try positional mapping as last resort
+  const needed=['Accounts','Statements','Investment Ledger','20 Vitkin Street - APT #2','Glaser Real Estate','Jewelry '];
+  const missing=needed.filter(n=>!gids[n]);
+  if(missing.length>0){
+    log('  Missing tabs: '+missing.join(', ')+'. Trying positional fallback...');
+    // Try known GIDs from previous sessions
+    const knownGIDs={'0':'Accounts','1325329671':'Statements','50891389':'Investment Ledger','1949017741':'20 Vitkin Street - APT #2','2060666191':'Glaser Real Estate','1279600534':'Jewelry '};
+    ids.forEach(id=>{if(knownGIDs[id]&&!gids[knownGIDs[id]])gids[knownGIDs[id]]=id;});
+  }
+
+  log('Final mapping: '+JSON.stringify(gids));
+  document.getElementById('loadMsg').textContent='Loading...';
+
+  // Fetch required tabs
+  const fetches=[
+    gids['Accounts']?fetchCSV(gids['Accounts']):Promise.resolve([]),
+    gids['Statements']?fetchCSV(gids['Statements']):Promise.resolve([]),
+    gids['Investment Ledger']?fetchCSV(gids['Investment Ledger']):Promise.resolve([]),
+    gids['20 Vitkin Street - APT #2']?fetchCSV(gids['20 Vitkin Street - APT #2']):Promise.resolve([]),
+    gids['Glaser Real Estate']?fetchCSV(gids['Glaser Real Estate']):Promise.resolve([]),
+    gids['Jewelry ']?fetchCSV(gids['Jewelry ']):Promise.resolve([]),
+    gids['Expenses']?fetchCSV(gids['Expenses']):Promise.resolve([])
+  ];
+  const[accounts,rawStmts,investments,vitkinRaw,glaserRE,jewelryRaw,expensesRaw]=await Promise.all(fetches);
+  log('Loaded: Accts='+accounts.length+' Stmts='+rawStmts.length+' Inv='+investments.length+' Vit='+vitkinRaw.length+' RE='+glaserRE.length+' Jew='+jewelryRaw.length+' Exp='+expensesRaw.length);
+
+  // Store expenses for cashflow dashboard
+  DATA.expensesRaw=expensesRaw;
+
+  const ownerMap={},acctNm={},instMap={},maskMap={},ownerAccts={};
+  accounts.forEach(a=>{const id=a.AccountID||'';if(!id)return;
+    ownerMap[id]=a.Owner||'';acctNm[id]=a.AccountName||'';instMap[id]=a.Institution||'';maskMap[id]=a.AccountNumberMasked||'';
+    const o=a.Owner||'Unknown';if(!ownerAccts[o])ownerAccts[o]=[];ownerAccts[o].push(id);
+  });
+
+  // Build display names: "Institution — Name — ***XXXX"
+  Object.keys(acctNm).forEach(aid=>{
+    const inst=instMap[aid]||'',name=acctNm[aid]||aid,mask=maskMap[aid]||'';
+    let cleanName=name;if(name.includes('GST'))cleanName='GST Trust';
+    displayNames[aid]=[inst,cleanName,mask].filter(Boolean).join(' — ');
+    shortNames[aid]=inst?inst+' — '+cleanName:cleanName;
+  });
+
+  const stmts=rawStmts.map(s=>{const id=s.AccountID||'';const d=parseDate(s.StatementDate);
+    return{AccountID:id,date:d,EndingValueUSD:num(s.EndingValueUSD)||num(s.EndingValue),W:num(s.Withdrawals)||0,A:num(s.Additions)||0,owner:ownerMap[id]||''};
+  }).filter(s=>s.AccountID&&s.date&&s.EndingValueUSD>0).sort((a,b)=>a.date-b.date);
+  const seen=new Set();const clean=stmts.filter(s=>{const k=s.AccountID+'|'+s.date.toISOString().slice(0,10);if(seen.has(k))return false;seen.add(k);return true;});
+  log('Loaded: '+clean.length+' stmts, '+accounts.length+' accounts');
+
+  let vitkinVal=0;const vitkinHistory=[];
+  vitkinRaw.forEach(r=>{const vals=Object.values(r);const usdVal=num(vals[vals.length-1]);if(usdVal&&usdVal>100000){vitkinVal=Math.max(vitkinVal,usdVal);const d=parseDate(vals[0]);if(d)vitkinHistory.push({date:d,usd:usdVal,ils:num(vals[2])||0,ppsqm:num(vals[1])||0,fx:num(vals[3])||3.5});}});
+  if(!vitkinVal)vitkinVal=1772469;
+
+  const jewelryItems=jewelryRaw.filter(r=>{if(!r.Item)return false;const it=String(r.Item).toLowerCase().trim();return it!=='total'&&!it.startsWith('total')&&it!=='sum';});
+  const jewelryTotal=jewelryItems.reduce((s,r)=>s+(num(r.Value)||0),0);
+  log('Jewelry: '+jewelryItems.length+' items, $'+jewelryTotal);
+
+  DATA={clean,ownerMap,acctNm,instMap,ownerAccts,latest:{},yearEnd:[],years:[],ye2025:{},vitkinVal,vitkinHistory,
+    reTotal:glaserRE.reduce((s,r)=>s+(num(r.OwnerShareValue)||0),0),reData:glaserRE,
+    invTotal:investments.reduce((s,r)=>s+(num(r['Current Value'])||0),0),investments,
+    jewelryTotal,jewelryItems,
+    allAcctIds:[...new Set(clean.map(s=>s.AccountID))]};
+  clean.forEach(s=>{DATA.latest[s.AccountID]=s;});
+  DATA.yearEnd=clean.filter(s=>s.date.getMonth()===11);
+  DATA.years=[...new Set(DATA.yearEnd.map(s=>s.date.getFullYear()))].sort();
+  DATA.yearEnd.filter(s=>s.date.getFullYear()===2025).forEach(s=>{DATA.ye2025[s.AccountID]=s;});
+
+  // Include current year in pickers even if no Dec row yet
+  const pickerYears=[...DATA.years];
+  const currentYear=new Date().getFullYear();
+  if(!pickerYears.includes(currentYear))pickerYears.push(currentYear);
+  document.getElementById('perfFrom').innerHTML=pickerYears.map(y=>`<option value="${y}">${y}${y===currentYear&&!DATA.years.includes(y)?' (YTD)':''}</option>`).join('');
+  document.getElementById('trailFrom').innerHTML='<option value="all">Inception</option>'+pickerYears.filter(y=>y>=2018).map(y=>`<option value="${y}"${y===2020?' selected':''}>${y}${y===currentYear&&!DATA.years.includes(y)?' (YTD)':''}</option>`).join('');
+  document.getElementById('wdFrom').innerHTML='<option value="all">Inception</option>'+pickerYears.filter(y=>y>=2018).map(y=>`<option value="${y}">${y}${y===currentYear&&!DATA.years.includes(y)?' (YTD)':''}</option>`).join('');
+
+  buildFilterBar();
+}
+
+function buildFilterBar(){
+  const owners=primaryOwners();
+  const presets=[{label:'Everyone',owners:null},{label:'Amit + Tamar',owners:['Amit Kochavi','Tamar Glaser Kochavi','Starwell Holdings']}];
+  if(owners.includes('Doron Kochavi'))presets.push({label:'Amit + Doron',owners:['Amit Kochavi','Doron Kochavi','Starwell Holdings']});
+  if(owners.some(o=>o.includes('Uziella')))presets.push({label:'Doron + Uziella',owners:owners.filter(o=>o.includes('Doron')||o.includes('Uziella'))});
+
+  let html='<span class="label">View:</span>';
+  presets.forEach((p,i)=>{html+=`<button class="fc preset${i===0?' active':''}" data-preset="${i}">${p.label}</button>`;});
+  html+='<span class="fsep"></span><span class="label">Pick:</span>';
+  owners.forEach(o=>{html+=`<button class="fc owner" data-owner="${o}">${o}</button>`;});
+
+  const bar=document.getElementById('filterBar');bar.innerHTML=html;bar._presets=presets;
+  bar.addEventListener('click',e=>{
+    const ch=e.target.closest('.fc');if(!ch)return;
+    if(ch.classList.contains('preset')){
+      const p=bar._presets[parseInt(ch.dataset.preset)];
+      activeOwners=p.owners?new Set(p.owners):null;
+      bar.querySelectorAll('.fc').forEach(c=>c.classList.remove('active'));ch.classList.add('active');
+      if(p.owners)bar.querySelectorAll('.owner').forEach(c=>{c.classList.toggle('active',p.owners.includes(c.dataset.owner));});
+    } else {
+      bar.querySelectorAll('.preset').forEach(c=>c.classList.remove('active'));ch.classList.toggle('active');
+      const sel=[...bar.querySelectorAll('.owner.active')].map(c=>c.dataset.owner);
+      if(!sel.length){activeOwners=null;bar.querySelector('.preset').classList.add('active');}
+      else{activeOwners=new Set(sel);if(activeOwners.has('Amit Kochavi'))activeOwners.add('Starwell Holdings');}
+    }
+    render();
+  });
+}
+
+function calcIRR(aid,sy){const rows=DATA.clean.filter(s=>s.AccountID===aid);if(!sy){if(rows.length<2)return null;const s=rows[0],e=rows[rows.length-1];const cf=[[s.date,-s.EndingValueUSD]];rows.slice(1).forEach(r=>{if(r.A>0)cf.push([r.date,-r.A]);if(r.W>0)cf.push([r.date,r.W]);});cf.push([e.date,e.EndingValueUSD]);return xirr(cf);}let sr=rows.filter(s=>s.date.getFullYear()===sy&&s.date.getMonth()===11);if(!sr.length)sr=rows.filter(s=>s.date.getFullYear()===sy);if(!sr.length)return null;const s=sr[0],e=rows[rows.length-1];if(s.date>=e.date)return null;const b=rows.filter(r=>r.date>s.date&&r.date<=e.date);const cf=[[s.date,-s.EndingValueUSD]];b.forEach(r=>{if(r.A>0)cf.push([r.date,-r.A]);if(r.W>0)cf.push([r.date,r.W]);});cf.push([e.date,e.EndingValueUSD]);return xirr(cf);}
+function annIRR(aid,y){const rows=DATA.clean.filter(s=>s.AccountID===aid);const s=rows.filter(r=>r.date.getFullYear()===y-1&&r.date.getMonth()===11);const e=rows.filter(r=>r.date.getFullYear()===y&&r.date.getMonth()===11);if(!s.length||!e.length)return null;const b=rows.filter(r=>r.date>s[0].date&&r.date<=e[0].date);const cf=[[s[0].date,-s[0].EndingValueUSD]];b.forEach(r=>{if(r.A>0)cf.push([r.date,-r.A]);if(r.W>0)cf.push([r.date,r.W]);});cf.push([e[0].date,e[0].EndingValueUSD]);return xirr(cf);}
+
+function render(){
+const D=DATA,vis=visibleAccts(),visSet=new Set(vis);
+
+// Check which asset owners are in view
+const showAmit=vis.some(a=>D.ownerMap[a]==='Amit Kochavi'||D.ownerMap[a]==='Starwell Holdings');
+const showTamar=vis.some(a=>D.ownerMap[a]==='Tamar Glaser Kochavi');
+
+// Total liquid
+let totalLiq=0;vis.forEach(a=>{if(D.latest[a])totalLiq+=D.latest[a].EndingValueUSD;});
+const vitkin=showAmit?D.vitkinVal:0;
+const alts=showAmit?D.invTotal:0;
+const jewelry=showAmit?D.jewelryTotal:0;
+const re=showTamar?D.reTotal:0;
+const totalAUM=totalLiq+vitkin+alts+jewelry+re;
+
+// YTD
+function ytdInfo(aid){
+  const cur=D.latest[aid];if(!cur)return null;const ye=D.ye2025[aid];
+  const cutoff=ye?ye.date:new Date(2025,11,31);
+  const rows26=D.clean.filter(s=>s.AccountID===aid&&s.date>cutoff);
+  const add26=rows26.reduce((s,r)=>s+r.A,0),wd26=rows26.reduce((s,r)=>s+r.W,0);
+  if(ye){const org=(cur.EndingValueUSD+wd26)-(ye.EndingValueUSD+add26);return{organic:org,add:add26,wd:wd26,pct:ye.EndingValueUSD>0?(org/ye.EndingValueUSD*100):0,isNew:false,base:ye.EndingValueUSD};}
+  const eA=add26>0?add26:cur.EndingValueUSD;const org=add26>0?(cur.EndingValueUSD+wd26-add26):0;
+  return{organic:org,add:eA,wd:wd26,pct:0,isNew:true,base:0};
+}
+let fOrg=0,fAdd=0,fWd=0;
+vis.forEach(aid=>{const o=ytdInfo(aid);if(o){fOrg+=o.organic;fAdd+=o.add;fWd+=o.wd;}});
+
+const latD=Object.values(D.latest).reduce((m,s)=>s.date>m?s.date:m,new Date(0));
+document.getElementById('asOf').textContent='Through '+latD.toLocaleDateString('en-US',{month:'short',year:'numeric'})+' · '+vis.length+' accounts · 1 USD = ₪'+FX;
+document.getElementById('fxD').textContent=FX;
+
+// Owner cards - group by primary owners visible
+const pOwners=primaryOwners().filter(o=>{
+  if(!activeOwners)return true;
+  return activeOwners.has(o);
+});
+let topHTML='<div class="g'+(Math.min(pOwners.length+1,4))+'">';
+topHTML+=`<div class="m"><div class="l">Total AUM (liquid + illiquid)</div><div class="v">${cf(totalAUM)}</div><div class="s">${vis.length} accounts + RE + Vitkin + Alts + Jewelry</div></div>`;
+pOwners.forEach(owner=>{
+  // Sum accounts for this owner (including joint accounts where this owner is part)
+  let ownerLiq=0;
+  vis.forEach(aid=>{
+    const ow=D.ownerMap[aid]||'';
+    if(ow===owner||ow==='Starwell Holdings'&&owner==='Amit Kochavi'||(ow.includes(' and ')&&ow.includes(owner)))ownerLiq+=D.latest[aid]?.EndingValueUSD||0;
+  });
+  let extra=0;
+  if(owner==='Amit Kochavi')extra=vitkin+alts+jewelry;
+  if(owner==='Tamar Glaser Kochavi')extra=re;
+  topHTML+=`<div class="m"><div class="l">${owner}</div><div class="v">${cf(ownerLiq+extra)}</div><div class="s">${totalAUM>0?Math.round((ownerLiq+extra)/totalAUM*100)+'%':''}</div></div>`;
+});
+topHTML+='</div>';
+document.getElementById('topMetrics').innerHTML=topHTML;
+
+// YTD
+document.getElementById('ytdMetrics').innerHTML=`
+<div class="m ${fOrg>=0?'green':'red'}"><div class="l">Organic growth YTD</div><div class="v">${fOrg>=0?'+':''}${cf(fOrg)}</div><div class="s">Investment returns only</div></div>
+<div class="m"><div class="l">Cash added YTD</div><div class="v" style="color:var(--blue)">${fAdd>0?'+'+cf(fAdd):cf(0)}</div></div>
+<div class="m ${fWd>0?'red':''}"><div class="l">Cash withdrawn YTD</div><div class="v">${fWd>0?'-'+cf(fWd):cf(0)}</div></div>`;
+
+// YTD table
+let yH='<thead><tr><th>Account</th><th>Owner</th><th class="r">YE 2025</th><th class="r">Current</th><th class="r">Organic Δ</th><th class="r">Cash</th></tr></thead><tbody>';
+vis.forEach(aid=>{
+  const cur=D.latest[aid];if(!cur)return;const o=ytdInfo(aid);if(!o)return;
+  let cb='';if(o.add>0)cb+=`<span class="badge badge-add">+${cf(o.add)}</span> `;if(o.wd>0)cb+=`<span class="badge badge-wd">-${cf(o.wd)}</span>`;if(!cb)cb='—';
+  const os=o.isNew&&o.organic===0?'—':`${o.organic>=0?'+':''}${cf(Math.abs(o.organic))}${o.pct?' ('+o.pct.toFixed(1)+'%)':''}`;
+  yH+=`<tr><td>${AN(aid)}${o.isNew?' <span class="badge badge-new">New</span>':''}</td><td style="color:var(--t3);font-size:11px">${D.ownerMap[aid]||''}</td><td class="r">${o.isNew?'—':cf(o.base)}</td><td class="r bold">${cf(cur.EndingValueUSD)}</td><td class="r ${o.organic>=0?'green':'red'}">${os}</td><td class="r">${cb}</td></tr>`;
+});
+document.getElementById('ytdTable').innerHTML=yH+'</tbody>';
+document.getElementById('ytdNote').textContent='Organic Δ = investment return stripped of cash added/withdrawn.';
+
+// Owner breakdowns (dynamic, filtered, includes non-liquid assets per owner)
+let obHTML='<div class="g2">';
+pOwners.forEach(owner=>{
+  const aids=vis.filter(aid=>{const ow=D.ownerMap[aid]||'';return ow===owner||(ow==='Starwell Holdings'&&owner==='Amit Kochavi')||(ow.includes(' and ')&&ow.includes(owner));});
+  const items=aids.map(a=>[ANs(a),D.latest[a]?.EndingValueUSD||0]);
+  if(owner==='Amit Kochavi'){items.push(['Vitkin Apartment',D.vitkinVal],['Alternatives',D.invTotal],['Jewelry',D.jewelryTotal]);}
+  if(owner==='Tamar Glaser Kochavi'){D.reData.filter(r=>r.PropertyName).forEach(r=>{items.push([r.PropertyName,num(r.OwnerShareValue)||0]);});}
+  const total=items.reduce((s,i)=>s+i[1],0);
+  obHTML+=`<div class="card"><h3>${owner}</h3><div id="ob_${owner.replace(/\W/g,'_')}"></div></div>`;
+});
+obHTML+='</div>';
+document.getElementById('ownerBreaks').innerHTML=obHTML;
+pOwners.forEach(owner=>{
+  const el=document.getElementById('ob_'+owner.replace(/\W/g,'_'));if(!el)return;
+  const aids=vis.filter(aid=>{const ow=D.ownerMap[aid]||'';return ow===owner||(ow==='Starwell Holdings'&&owner==='Amit Kochavi')||(ow.includes(' and ')&&ow.includes(owner));});
+  const items=aids.map(a=>[ANs(a),D.latest[a]?.EndingValueUSD||0]);
+  if(owner==='Amit Kochavi')items.push(['Vitkin Apartment',D.vitkinVal],['Alternatives',D.invTotal],['Jewelry',D.jewelryTotal]);
+  if(owner==='Tamar Glaser Kochavi')D.reData.filter(r=>r.PropertyName).forEach(r=>{items.push([r.PropertyName,num(r.OwnerShareValue)||0]);});
+  bb(el,items,items.reduce((s,i)=>s+i[1],0));
+});
+
+// Performance table
+const perfFrom=parseInt(document.getElementById('perfFrom').value)||D.years[0];
+let pH='<thead><tr><th>Account</th><th>Owner</th><th class="r">Start</th><th class="r">Current</th><th class="r">Added</th><th class="r">W/D</th><th class="r">Organic Δ</th><th class="r">%</th><th class="r">XIRR</th></tr></thead><tbody>';
+vis.forEach(aid=>{
+  const rows=D.clean.filter(s=>s.AccountID===aid);if(!rows.length)return;
+  let sr=rows.filter(s=>s.date.getFullYear()===perfFrom&&s.date.getMonth()===11);
+  if(!sr.length)sr=rows.filter(s=>s.date.getFullYear()===perfFrom);
+  if(!sr.length)sr=[rows[0]];const s=sr[0],e=rows[rows.length-1];
+  const bet=rows.filter(r=>r.date>s.date&&r.date<=e.date);
+  const tW=bet.reduce((x,r)=>x+r.W,0),tA=bet.reduce((x,r)=>x+r.A,0);
+  const capIn=s.EndingValueUSD+tA,org=(e.EndingValueUSD+tW)-capIn,orgP=capIn>0?(org/capIn*100):0;
+  const cf2=[[s.date,-s.EndingValueUSD]];bet.forEach(r=>{if(r.A>0)cf2.push([r.date,-r.A]);if(r.W>0)cf2.push([r.date,r.W]);});cf2.push([e.date,e.EndingValueUSD]);const irr=xirr(cf2);
+  pH+=`<tr><td>${AN(aid)}</td><td style="color:var(--t3);font-size:11px">${D.ownerMap[aid]||''}</td><td class="r">${cf(s.EndingValueUSD)}</td><td class="r bold">${cf(e.EndingValueUSD)}</td><td class="r ${tA>0?'green':''}">${tA>0?'+'+cf(tA):'—'}</td><td class="r ${tW>0?'red':''}">${tW>0?'-'+cf(tW):'—'}</td><td class="r ${org>=0?'green':'red'} bold">${org>=0?'+':''}${cf(Math.abs(org))}</td><td class="r ${orgP>=0?'green':'red'}">${orgP>=0?'+':''}${orgP.toFixed(1)}%</td><td class="r bold ${irr&&irr>=.1?'green':''}">${irr!=null?(irr*100).toFixed(1)+'%':'—'}</td></tr>`;
+});
+document.getElementById('perfTable').innerHTML=pH+'</tbody>';
+
+// WD impact — with date picker
+const wdFromVal=document.getElementById('wdFrom').value;
+const wdStartYear=wdFromVal==='all'?null:parseInt(wdFromVal);
+let wH='<thead><tr><th>Account</th><th>Owner</th><th class="r">W/D</th><th class="r">Added</th><th class="r">IRR (flows)</th><th class="r">IRR (simple)</th><th class="r">Impact</th><th class="r">Period</th></tr></thead><tbody>';
+let totalWd=0;
+vis.forEach(aid=>{
+  const allRows=D.clean.filter(s=>s.AccountID===aid);if(allRows.length<2)return;
+  // Find start row based on picker
+  let startRow;
+  if(wdStartYear){
+    const sr=allRows.filter(s=>s.date.getFullYear()===wdStartYear&&s.date.getMonth()===11);
+    if(!sr.length)return;startRow=sr[0];
+  } else {startRow=allRows[0];}
+  const endRow=allRows[allRows.length-1];
+  const rows=allRows.filter(r=>r.date>=startRow.date&&r.date<=endRow.date);
+  const bet=rows.filter(r=>r.date>startRow.date&&r.date<=endRow.date);
+  const tW=bet.reduce((s,r)=>s+r.W,0),tA=bet.reduce((s,r)=>s+r.A,0);
+  if(tW===0&&tA===0)return;totalWd+=tW;
+  // IRR with flows
+  const cf1=[[startRow.date,-startRow.EndingValueUSD]];
+  bet.forEach(r=>{if(r.A>0)cf1.push([r.date,-r.A]);if(r.W>0)cf1.push([r.date,r.W]);});
+  cf1.push([endRow.date,endRow.EndingValueUSD]);
+  const iW=xirr(cf1);
+  // IRR simple (no flows)
+  const iS=xirr([[startRow.date,-startRow.EndingValueUSD],[endRow.date,endRow.EndingValueUSD]]);
+  const imp=iW!=null&&iS!=null?((iW-iS)*100).toFixed(1):null;
+  const yrs=((endRow.date-startRow.date)/864e5/365).toFixed(1);
+  wH+=`<tr><td>${AN(aid)}</td><td style="color:var(--t3);font-size:11px">${D.ownerMap[aid]||''}</td><td class="r ${tW>0?'red':''}">${tW>0?'-'+cf(tW):'—'}</td><td class="r ${tA>0?'green':''}">${tA>0?'+'+cf(tA):'—'}</td><td class="r bold">${iW!=null?(iW*100).toFixed(1)+'%':'—'}</td><td class="r">${iS!=null?(iS*100).toFixed(1)+'%':'—'}</td><td class="r ${imp&&+imp>0?'green':imp&&+imp<0?'red':''}">${imp!=null?(+imp>=0?'+':'')+imp+'pp':'—'}</td><td class="r" style="color:var(--t3)">${yrs}yr</td></tr>`;
+});
+document.getElementById('wdTable').innerHTML=wH+'</tbody>';
+document.getElementById('wdNote').textContent=`Total withdrawn (period): ${cf(totalWd)}. "IRR flows" = true XIRR. "IRR simple" = start→end ignoring cash. Impact = difference in pp.`;
+
+// === CASH FLOW DASHBOARD ===
+if(D.expensesRaw&&D.expensesRaw.length>3){
+  const expCols=Object.keys(D.expensesRaw[0]);
+  let headerIdx=-1;
+  for(let i=0;i<Math.min(5,D.expensesRaw.length);i++){
+    const fv=String(D.expensesRaw[i][expCols[0]]||'').trim();
+    if(fv==='Item'){headerIdx=i;break;}
+  }
+  if(headerIdx>=0){
+    const hRow=D.expensesRaw[headerIdx];
+    const months=expCols.slice(3).filter(c=>{const v=hRow[c];return v&&String(v).match(/\d{4}-\d{2}/);}).map(c=>({col:c,month:String(hRow[c])}));
+    const showMonths=months.slice(-12);
+    const totalCols=expCols.filter(c=>{const v=hRow[c];return v&&String(v).includes('Total');});
+    let cfH='<thead><tr><th style="min-width:180px">Item</th>';
+    showMonths.forEach(m=>{cfH+=`<th class="r">${m.month.slice(2)}</th>`;});
+    totalCols.forEach(c=>{cfH+=`<th class="r bold">${String(hRow[c])}</th>`;});
+    cfH+='</tr></thead><tbody>';
+    for(let i=headerIdx+1;i<D.expensesRaw.length;i++){
+      const row=D.expensesRaw[i];const item=String(row[expCols[0]]||'').trim();if(!item)continue;
+      const isSection=item===item.toUpperCase()&&item.length>3;
+      cfH+=`<tr${isSection?' style="background:var(--border);font-weight:600"':''}><td${isSection?' colspan="'+(showMonths.length+totalCols.length+1)+'"':''}>${item}</td>`;
+      if(!isSection){
+        showMonths.forEach(m=>{const v=num(row[m.col]);if(v!==null){const cls=v>0?'green':v<0?'red':'';const fmt=item.includes('%')?(v*100).toFixed(0)+'%':cf(v);cfH+=`<td class="r ${cls}">${fmt}</td>`;}else cfH+=`<td class="r" style="color:var(--t3)">—</td>`;});
+        totalCols.forEach(c=>{const v=num(row[c]);if(v!==null){const cls=v>0?'green':v<0?'red':'';cfH+=`<td class="r bold ${cls}">${item.includes('%')?(v*100).toFixed(0)+'%':cf(v)}</td>`;}else cfH+=`<td class="r">—</td>`;});
+      }
+      cfH+='</tr>';
+    }
+    document.getElementById('cfTable').innerHTML=cfH+'</tbody>';
+  }
+} else {document.getElementById('cfTable').innerHTML='<tr><td style="color:var(--t3);padding:20px">No cash flow data yet.</td></tr>';}
+
+// === AUM FORECAST ===
+const fAccts=vis.filter(aid=>D.latest[aid]);
+const fYears=[2026,2027,2028,2029,2030,2031];
+const gRates={};
+fAccts.forEach(aid=>{let r=calcIRR(aid,2022)||calcIRR(aid)||0.08;if(r>0.25)r=0.25;if(r<0)r=0.02;gRates[aid]=r;});
+const fData={};
+fAccts.forEach(aid=>{
+  fData[aid]=[D.latest[aid].EndingValueUSD];let val=D.latest[aid].EndingValueUSD;
+  for(let i=1;i<fYears.length;i++){
+    val*=(1+gRates[aid]);
+    if(aid==='CNB_48492010')val-=150000;
+    if(aid==='CNB_48784990'&&fYears[i]===2027)val-=800000;
+    if(aid==='FIBI_314390'&&fYears[i]>=2027)val+=150000;
+    fData[aid].push(Math.max(0,val));
+  }
+});
+const fByOwner={};
+pOwners.forEach(owner=>{fByOwner[owner]=fYears.map((_,yi)=>{let t=0;fAccts.forEach(aid=>{const ow=D.ownerMap[aid]||'';if(ow===owner||(ow==='Starwell Holdings'&&owner==='Amit Kochavi')||(ow.includes(' and ')&&ow.includes(owner)))t+=fData[aid][yi];});return t;});});
+const fFamily=fYears.map((_,yi)=>Object.values(fByOwner).reduce((s,d)=>s+d[yi],0));
+
+const fcDs=[{label:'Family',data:fFamily.map(cx),borderColor:COLORS[0],backgroundColor:dk?'rgba(43,94,167,.1)':'rgba(43,94,167,.05)',fill:true,borderWidth:3,tension:.3,pointRadius:4}];
+pOwners.forEach((o,i)=>{fcDs.push({label:o,data:fByOwner[o].map(cx),borderColor:COLORS[(i+1)%COLORS.length],backgroundColor:'transparent',borderWidth:2,tension:.3,pointRadius:3});});
+mc('cForecast',{type:'line',data:{labels:fYears.map(y=>y===2026?'Now':String(y)),datasets:fcDs},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+cTt(c.raw)}}},scales:{x:{grid:{display:false},ticks:{color:tc}},y:{grid:{color:gc},ticks:{color:tc,callback:cTk}}}}});
+document.getElementById('lgForecast').innerHTML=fcDs.map(d=>`<span><span class="dot" style="background:${d.borderColor}"></span>${d.label}</span>`).join('');
+
+let fcH='<thead><tr><th>Account</th><th class="r">Rate</th>';
+fYears.forEach(y=>{fcH+=`<th class="r">${y===2026?'Current':y}</th>`;});
+fcH+='</tr></thead><tbody>';
+fAccts.forEach(aid=>{fcH+=`<tr><td>${ANs(aid)}</td><td class="r">${(gRates[aid]*100).toFixed(1)}%</td>`;fData[aid].forEach((v,i)=>{fcH+=`<td class="r ${i===0?'bold':''}">${cf(v)}</td>`;});fcH+='</tr>';});
+pOwners.forEach(owner=>{fcH+=`<tr style="font-weight:600;border-top:2px solid var(--accent)"><td>${owner}</td><td></td>`;fByOwner[owner].forEach(v=>{fcH+=`<td class="r">${cf(v)}</td>`;});fcH+='</tr>';});
+fcH+=`<tr style="font-weight:600;background:var(--greenbg)"><td>Family Total</td><td></td>`;fFamily.forEach(v=>{fcH+=`<td class="r">${cf(v)}</td>`;});fcH+='</tr>';
+document.getElementById('forecastTable').innerHTML=fcH+'</tbody>';
+
+// Vitkin rendering
+if(D.vitkinHistory.length){let vH='<thead><tr><th>Year</th><th class="r">₪/sqm</th><th class="r">ILS</th><th class="r">FX</th><th class="r">USD</th></tr></thead><tbody>';D.vitkinHistory.sort((a,b)=>a.date-b.date).forEach(r=>{vH+=`<tr><td>${r.date.getFullYear()}</td><td class="r">₪${Math.round(r.ppsqm).toLocaleString()}</td><td class="r">₪${Math.round(r.ils).toLocaleString()}</td><td class="r">${r.fx.toFixed(2)}</td><td class="r bold">$${Math.round(r.usd).toLocaleString()}</td></tr>`;});document.getElementById('vitkinTable').innerHTML=vH+'</tbody>';}
+
+// Other assets (filtered by owner)
+let oaHTML='<div class="g2">';
+if(showAmit){oaHTML+=`<div class="card"><h3>Alternative investments</h3><div id="altsB"></div></div>`;oaHTML+=`<div class="card"><h3>Jewelry</h3><div id="jewB"></div></div>`;}
+if(showTamar){oaHTML+=`<div class="card"><h3>Real estate (Tamar share)</h3><div id="reB"></div></div>`;}
+oaHTML+='</div>';
+document.getElementById('otherAssets').innerHTML=oaHTML;
+if(showAmit){
+  bb(document.getElementById('altsB'),D.investments.filter(r=>r['Deal Name']).map(r=>[r['Deal Name'],num(r['Current Value'])||0]),D.invTotal);
+  bb(document.getElementById('jewB'),D.jewelryItems.map(r=>[r.Item,num(r.Value)||0]),D.jewelryTotal);
+}
+if(showTamar){bb(document.getElementById('reB'),D.reData.filter(r=>r.PropertyName).map(r=>[r.PropertyName,num(r.OwnerShareValue)||0]),D.reTotal);}
+
+// === CHARTS ===
+const yP=[...D.years,'2026 YTD'];
+const sD=vis.map(aid=>yP.map(y=>{if(y==='2026 YTD')return cx(D.latest[aid]?.EndingValueUSD||0);const r=D.yearEnd.find(s=>s.date.getFullYear()===y&&s.AccountID===aid);return cx(r?r.EndingValueUSD:0);}));
+const liqByY=yP.map((_,i)=>sD.reduce((s,d)=>s+d[i],0));
+const yoy=D.years.slice(1).map((_,i)=>{const p=liqByY[i],c=liqByY[i+1];return p>0?Math.round((c/p-1)*1000)/10:null;});
+
+// Total AUM chart (liquid + illiquid per owner)
+// Vitkin history for Amit
+const vHist={2020:1530523,2021:1661706,2022:1630755,2023:1515477,2024:1537363,2025:1761511,'2026 YTD':1882300};
+// Build total AUM per owner per year, including illiquid assets
+const totalAUMbyOwner=pOwners.map(owner=>{
+  const aids=vis.filter(aid=>{const ow=D.ownerMap[aid]||'';return ow===owner||(ow==='Starwell Holdings'&&owner==='Amit Kochavi')||(ow.includes(' and ')&&ow.includes(owner));});
+  const data=yP.map((y,yi)=>{
+    // Liquid from accounts
+    let liq=aids.reduce((s,a)=>{const idx=vis.indexOf(a);return idx>=0?s+sD[idx][yi]:s;},0);
+    // Add illiquid assets for relevant owners
+    if(owner==='Amit Kochavi'){
+      liq+=cx(vHist[y]||0); // Vitkin
+      if(typeof y==='number'&&y>=2024||y==='2026 YTD')liq+=cx(D.invTotal); // Alternatives (tracked from 2024)
+      liq+=cx(D.jewelryTotal); // Jewelry
+    }
+    if(owner==='Tamar Glaser Kochavi'){
+      if(typeof y==='number'&&y>=2018||y==='2026 YTD')liq+=cx(D.reTotal); // RE
+    }
+    return liq;
+  });
+  return{name:owner,data};
+});
+// Family total line
+const familyTotalByY=yP.map((_,i)=>totalAUMbyOwner.reduce((s,o)=>s+o.data[i],0));
+
+// Datasets: family total first (filled), then each owner
+const totalAUMdatasets=[{label:'Family total',data:familyTotalByY,borderColor:COLORS[0],backgroundColor:dk?'rgba(43,94,167,.1)':'rgba(43,94,167,.05)',fill:true,borderWidth:3,tension:.3,pointRadius:yP.map((_,i)=>i===yP.length-1?6:3),pointBackgroundColor:yP.map((_,i)=>i===yP.length-1?COLORS[2]:COLORS[0]),segment:{borderDash:ctx=>ctx.p1DataIndex===yP.length-1?[6,4]:undefined}},...totalAUMbyOwner.map((o,i)=>({label:o.name,data:o.data,borderColor:COLORS[(i+1)%COLORS.length],backgroundColor:'transparent',borderWidth:2,tension:.3,pointRadius:3,pointBackgroundColor:COLORS[(i+1)%COLORS.length]}))];
+
+mc('cTotalAUM',{type:'line',data:{labels:yP,datasets:totalAUMdatasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+cTt(c.raw)}}},scales:{x:{grid:{display:false},ticks:{color:tc,autoSkip:false,font:{size:10}}},y:{grid:{color:gc},ticks:{color:tc,callback:cTk}}}}});
+document.getElementById('lgTotalAUM').innerHTML=[{name:'Family total',c:COLORS[0]},...totalAUMbyOwner.map((o,i)=>({name:o.name,c:COLORS[(i+1)%COLORS.length]}))].map(o=>`<span><span class="dot" style="background:${o.c}"></span>${o.name}</span>`).join('');
+
+mc('cAUM',{type:'line',data:{labels:yP,datasets:[{data:liqByY,borderColor:COLORS[0],backgroundColor:dk?'rgba(43,94,167,.12)':'rgba(43,94,167,.06)',fill:true,tension:.3,pointRadius:yP.map((_,i)=>i===yP.length-1?6:3),pointBackgroundColor:yP.map((_,i)=>i===yP.length-1?COLORS[2]:COLORS[0]),borderWidth:2,segment:{borderDash:ctx=>ctx.p1DataIndex===yP.length-1?[6,4]:undefined}}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>cTt(c.raw)}}},scales:{x:{grid:{display:false},ticks:{color:tc,autoSkip:false,font:{size:10}}},y:{grid:{color:gc},ticks:{color:tc,callback:cTk}}}}});
+
+mc('cStack',{type:'bar',data:{labels:yP,datasets:vis.map((aid,i)=>({label:ANs(aid),data:sD[i],backgroundColor:COLORS[i%COLORS.length],borderWidth:0}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+cTt(c.raw)}}},scales:{x:{stacked:true,grid:{display:false},ticks:{color:tc,autoSkip:false,font:{size:10}}},y:{stacked:true,grid:{color:gc},ticks:{color:tc,callback:cTk}}}}});
+document.getElementById('lgStack').innerHTML=vis.map((aid,i)=>`<span><span class="dot" style="background:${COLORS[i%COLORS.length]}"></span>${ANs(aid)}</span>`).join('');
+
+// IRR
+const irrAccts=vis.filter(aid=>D.yearEnd.some(s=>s.AccountID===aid));
+const hY=D.years.filter(y=>y>=2017);
+const aIRR={};irrAccts.forEach(aid=>{aIRR[aid]=hY.map(y=>{const v=annIRR(aid,y);return v!==null?Math.round(v*1000)/10:null;});});
+let hm='<thead><tr><th class="acct"></th>'+hY.map(y=>`<th>${y}</th>`).join('')+'</tr></thead><tbody>';
+irrAccts.forEach(aid=>{hm+=`<tr><td class="acct">${ANs(aid)}</td>`;aIRR[aid].forEach(v=>{const c=irrCol(v);hm+=`<td style="background:${c.b};color:${c.f}">${v==null?'—':(v>=0?'+':'')+v.toFixed(1)+'%'}</td>`;});hm+='</tr>';});
+document.getElementById('heatmap').innerHTML=hm+'</tbody>';
+
+const tSY=document.getElementById('trailFrom').value;const tSYn=tSY==='all'?null:parseInt(tSY);
+let tH='<thead><tr><th>Account</th><th>Owner</th><th class="r">XIRR</th><th class="r">Period</th></tr></thead><tbody>';
+irrAccts.map(aid=>{
+  const irr=tSYn?calcIRR(aid,tSYn):calcIRR(aid);
+  const rows=D.clean.filter(s=>s.AccountID===aid);
+  let sd;if(tSYn){let sr=rows.filter(s=>s.date.getFullYear()===tSYn&&s.date.getMonth()===11);if(!sr.length)sr=rows.filter(s=>s.date.getFullYear()===tSYn);sd=sr.length?sr[0].date:null;}else sd=rows.length?rows[0].date:null;
+  const ed=rows.length?rows[rows.length-1].date:null;
+  return{aid,name:ANs(aid),owner:D.ownerMap[aid]||'',irr,yrs:sd&&ed?((ed-sd)/864e5/365).toFixed(1)+'yr':''};
+}).sort((a,b)=>(b.irr||0)-(a.irr||0)).forEach(d=>{
+  tH+=`<tr><td>${d.name}</td><td style="color:var(--t3);font-size:11px">${d.owner}</td><td class="r bold ${d.irr&&d.irr>=.1?'green':''}">${d.irr!=null?(d.irr*100).toFixed(1)+'%':'—'}</td><td class="r" style="color:var(--t3)">${d.yrs}</td></tr>`;
+});
+document.getElementById('trailTable').innerHTML=tH+'</tbody>';
+
+mc('cIRR',{type:'line',data:{labels:hY,datasets:irrAccts.map((aid,i)=>({label:ANs(aid),data:aIRR[aid],borderColor:COLORS[i%COLORS.length],backgroundColor:'transparent',borderWidth:2,tension:.3,pointRadius:3,pointBackgroundColor:COLORS[i%COLORS.length],spanGaps:false}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.raw>=0?'+':'')+c.raw.toFixed(1)+'%'}}},scales:{x:{grid:{display:false},ticks:{color:tc,autoSkip:false}},y:{grid:{color:gc},ticks:{color:tc,callback:v=>v+'%'}}}}});
+document.getElementById('lgIRR').innerHTML=irrAccts.map((aid,i)=>`<span><span class="dot" style="background:${COLORS[i%COLORS.length]}"></span>${ANs(aid)}</span>`).join('');
+
+mc('cYoY',{type:'bar',data:{labels:D.years.slice(1),datasets:[{data:yoy,backgroundColor:yoy.map(v=>v>=0?'#1a7a5a':'#b5342a'),borderWidth:0,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw.toFixed(1)+'%'}}},scales:{x:{grid:{display:false},ticks:{color:tc,autoSkip:false}},y:{grid:{color:gc},ticks:{color:tc,callback:v=>v+'%'}}}}});
+
+// Account detail tabs
+let tabsHTML='',detHTML='';
+vis.forEach((aid,idx)=>{
+  tabsHTML+=`<button class="tab${idx===0?' active':''}" data-aid="${aid}">${ANs(aid)}</button>`;
+  const rows=D.clean.filter(s=>s.AccountID===aid).sort((a,b)=>a.date-b.date);
+  const yeRows=rows.filter(r=>r.date.getMonth()===11);
+  let t=`<div class="tab-content${idx===0?' active':''}" id="tc_${aid}"><div class="card">`;
+  if(rows.length>0){
+    const first=rows[0],last=rows[rows.length-1],tW=rows.reduce((s,r)=>s+r.W,0),tA=rows.reduce((s,r)=>s+r.A,0);
+    const irr=calcIRR(aid);
+    t+=`<div class="g3" style="margin-bottom:16px"><div class="m"><div class="l">Current</div><div class="v">${cf(last.EndingValueUSD)}</div><div class="s">${last.date.toLocaleDateString('en-US',{month:'short',year:'numeric'})} · ${D.ownerMap[aid]}</div></div><div class="m"><div class="l">XIRR</div><div class="v ${irr&&irr>=.1?'green':''}">${irr!=null?(irr*100).toFixed(1)+'%':'—'}</div><div class="s">Since ${first.date.getFullYear()}</div></div><div class="m"><div class="l">Net flows</div><div class="v">${cf(tA-tW)}</div><div class="s">In: ${cf(tA)} · Out: ${cf(tW)}</div></div></div>`;
+  }
+  t+=`<h3>Year-end & annual yield</h3><table><thead><tr><th>Year</th><th class="r">Value</th><th class="r">W/D</th><th class="r">Added</th><th class="r">Organic Δ</th><th class="r">Yield</th><th class="r">XIRR</th></tr></thead><tbody>`;
+  let prev=null;
+  yeRows.forEach(r=>{
+    const y=r.date.getFullYear();
+    const yr=rows.filter(s=>prev?s.date>prev.date&&s.date<=r.date:s.date<=r.date);
+    const wd=yr.reduce((s,x)=>s+x.W,0),add=yr.reduce((s,x)=>s+x.A,0);
+    let org=0,yp=0,iv=null;
+    if(prev){org=(r.EndingValueUSD+wd)-(prev.EndingValueUSD+add);yp=prev.EndingValueUSD>0?(org/prev.EndingValueUSD*100):0;iv=annIRR(aid,y);}
+    t+=`<tr><td>${y}</td><td class="r bold">${cf(r.EndingValueUSD)}</td><td class="r ${wd>0?'red':''}">${wd>0?'-'+cf(wd):'—'}</td><td class="r ${add>0?'green':''}">${add>0?'+'+cf(add):'—'}</td><td class="r ${org>=0?'green':'red'}">${prev?(org>=0?'+':'')+cf(Math.abs(org)):'—'}</td><td class="r ${yp>=0?'green':'red'}">${prev?(yp>=0?'+':'')+yp.toFixed(1)+'%':'—'}</td><td class="r bold">${iv!=null?(iv*100).toFixed(1)+'%':'—'}</td></tr>`;
+    prev=r;
+  });
+  const lr=rows[rows.length-1];
+  if(lr&&lr.date.getMonth()!==11&&prev){
+    const yr=rows.filter(s=>s.date>prev.date&&s.date<=lr.date);
+    const wd=yr.reduce((s,x)=>s+x.W,0),add=yr.reduce((s,x)=>s+x.A,0);
+    const org=(lr.EndingValueUSD+wd)-(prev.EndingValueUSD+add);
+    const yp=prev.EndingValueUSD>0?(org/prev.EndingValueUSD*100):0;
+    t+=`<tr style="background:var(--greenbg)"><td>${lr.date.getFullYear()} YTD</td><td class="r bold">${cf(lr.EndingValueUSD)}</td><td class="r ${wd>0?'red':''}">${wd>0?'-'+cf(wd):'—'}</td><td class="r ${add>0?'green':''}">${add>0?'+'+cf(add):'—'}</td><td class="r ${org>=0?'green':'red'}">${(org>=0?'+':'')+cf(Math.abs(org))}</td><td class="r ${yp>=0?'green':'red'}">${(yp>=0?'+':'')+yp.toFixed(1)}%</td><td class="r">YTD</td></tr>`;
+  }
+  t+=`</tbody></table></div></div>`;detHTML+=t;
+});
+document.getElementById('acctTabs').innerHTML=tabsHTML;
+document.getElementById('acctDetails').innerHTML=detHTML;
+document.getElementById('acctTabs').addEventListener('click',e=>{const c=e.target.closest('.tab');if(!c)return;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));c.classList.add('active');document.getElementById('tc_'+c.dataset.aid)?.classList.add('active');});
+
+document.getElementById('loading').style.display='none';document.getElementById('app').style.display='block';
+}
+
+document.getElementById('ccyToggle').addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')return;CCY=e.target.dataset.ccy;document.querySelectorAll('#ccyToggle button').forEach(b=>b.classList.toggle('active',b.dataset.ccy===CCY));if(DATA.clean)render();});
+['perfFrom','trailFrom','wdFrom'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{if(DATA.clean)render();});});
+async function init(){try{await loadData();render();}catch(err){document.getElementById('loadMsg').textContent='Error: '+err.message;document.getElementById('loadMsg').style.color='var(--red)';console.error(err);}}
+init();
+</script>
+</body></html>

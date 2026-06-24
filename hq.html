@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starwell HQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230F0F12'/%3E%3Ctext x='50' y='50' dy='.35em' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='62' fill='%23F4F3F0'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600;6..96,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0F0F12;--paper:#FBFBFC;--line:#E6E6EA;--soft:#5A5B61;--gold:#9A7B4F;--panel:#0B0B0F;--ok:#1f7a4d;--err:#b3261e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:#F4F4F6;color:var(--ink);line-height:1.55;font-size:15px}
+.serif{font-family:"Bodoni Moda",Georgia,serif}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:14px;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--gold)}
+textarea{resize:vertical;min-height:84px}
+label{display:block;font-size:12px;letter-spacing:.04em;color:var(--soft);margin:0 0 6px;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:#fff;border:1px solid var(--ink);border-radius:6px;padding:10px 18px;font-size:14px;font-weight:500}
+.btn:hover{opacity:.9}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.sm{padding:6px 12px;font-size:13px}
+.btn.danger{background:transparent;border-color:#e3c9c7;color:var(--err)}
+.muted{color:var(--soft)}
+.hidden{display:none!important}
+
+/* ---- login ---- */
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--panel);padding:24px}
+.card{background:#fff;border-radius:12px;padding:40px;max-width:420px;width:100%;box-shadow:0 30px 80px -40px rgba(0,0,0,.6)}
+.card h1{font-size:26px;font-weight:600;margin-bottom:6px}
+.lock{width:46px;height:46px;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px}
+.note{font-size:13px;margin-top:14px;min-height:18px}
+.note.ok{color:var(--ok)} .note.err{color:var(--err)}
+.field{margin-bottom:16px}
+
+/* ---- app ---- */
+header.bar{background:var(--panel);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 22px;height:62px;position:sticky;top:0;z-index:20}
+header.bar .brand{font-size:19px;font-weight:600}
+header.bar .who{font-size:13px;color:#b9b9c0;display:flex;align-items:center;gap:14px}
+.tabs{display:flex;gap:2px;background:#fff;border-bottom:1px solid var(--line);padding:0 14px;position:sticky;top:62px;z-index:19;overflow-x:auto}
+.tab{background:none;border:0;padding:15px 18px;font-size:14px;color:var(--soft);border-bottom:2px solid transparent;white-space:nowrap}
+.tab.active{color:var(--ink);border-bottom-color:var(--gold);font-weight:600}
+main{max-width:1100px;margin:0 auto;padding:26px 22px 80px}
+.view{display:none} .view.active{display:block}
+.view-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.view-head h2{font-size:22px;font-weight:600}
+iframe.portal{width:100%;height:calc(100vh - 150px);border:1px solid var(--line);border-radius:10px;background:#fff}
+
+.row{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:12px;display:flex;gap:14px;align-items:flex-start;justify-content:space-between}
+.row .meta{font-size:12px;color:var(--soft);margin-top:3px}
+.row .ttl{font-weight:600}
+.row .acts{display:flex;gap:8px;flex:none}
+.tag{display:inline-block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;background:#f0eee9;color:#6b5a3e;border-radius:4px;padding:2px 8px;margin-right:6px}
+.empty{color:var(--soft);padding:30px;text-align:center;border:1px dashed var(--line);border-radius:10px}
+
+/* ---- modal form ---- */
+.overlay{position:fixed;inset:0;background:rgba(10,10,14,.55);display:flex;align-items:flex-start;justify-content:center;padding:30px 16px;overflow:auto;z-index:40}
+.modal{background:#fff;border-radius:12px;width:100%;max-width:640px;padding:28px}
+.modal h3{font-size:19px;font-weight:600;margin-bottom:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.modal .field{margin-bottom:14px}
+.modal .actions{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
+.cfgwarn{background:#fff4e5;border:1px solid #f0d9a8;color:#7a5a16;padding:12px 16px;border-radius:8px;margin-bottom:18px;font-size:13px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}.card{padding:28px}}
+</style>
+</head>
+<body>
+
+<!-- ====================== CONFIG ====================== -->
+<script>
+/* Fill these in from your Supabase project (Settings → API).
+   The anon key is safe to expose publicly — your data is protected by
+   Row-Level Security (see supabase/schema.sql). */
+window.STARWELL_CONFIG = {
+  SUPABASE_URL: "",          // e.g. https://xxxxxxxx.supabase.co
+  SUPABASE_ANON_KEY: ""      // the public "anon" key
+};
+</script>
+
+<!-- ====================== LOGIN ====================== -->
+<section id="login">
+  <div class="card">
+    <div class="lock">&#128274;</div>
+    <h1 class="serif">Starwell HQ</h1>
+    <p class="muted" style="margin-bottom:22px">Secure access by one-time code.</p>
+
+    <div id="cfgMissing" class="cfgwarn hidden">
+      Supabase is not configured yet. Add your project URL and anon key in the
+      <strong>CONFIG</strong> block of this file, then run <code>supabase/schema.sql</code>.
+    </div>
+
+    <div id="step-email">
+      <div class="field">
+        <label for="email">Work email</label>
+        <input id="email" type="email" autocomplete="email" placeholder="you@starwellholdings.com">
+      </div>
+      <button class="btn" id="sendBtn" style="width:100%">Send one-time code</button>
+    </div>
+
+    <div id="step-code" class="hidden">
+      <div class="field">
+        <label for="code">6-digit code (check your email)</label>
+        <input id="code" inputmode="numeric" autocomplete="one-time-code" placeholder="123456">
+      </div>
+      <button class="btn" id="verifyBtn" style="width:100%">Verify &amp; sign in</button>
+      <button class="btn ghost sm" id="backBtn" style="width:100%;margin-top:10px">Use a different email</button>
+    </div>
+
+    <div class="note" id="loginNote"></div>
+  </div>
+</section>
+
+<!-- ====================== APP ====================== -->
+<div id="app" class="hidden">
+  <header class="bar">
+    <div class="brand serif">Starwell HQ</div>
+    <div class="who"><span id="whoEmail"></span><button class="btn ghost sm" id="logoutBtn" style="color:#fff;border-color:#3a3a45">Sign out</button></div>
+  </header>
+  <nav class="tabs">
+    <button class="tab active" data-view="investments">Investments</button>
+    <button class="tab" data-view="news">News</button>
+    <button class="tab" data-view="careers">Careers</button>
+    <button class="tab" data-view="portfolio">Portfolio</button>
+  </nav>
+  <main>
+    <section class="view active" id="view-investments">
+      <div class="view-head"><h2>Investments — Wealth Portal</h2></div>
+      <iframe class="portal" src="wealth-portal.html" title="Wealth Portal"></iframe>
+    </section>
+
+    <section class="view" id="view-news">
+      <div class="view-head"><h2>News</h2><button class="btn" data-add="news">+ Add article</button></div>
+      <div id="list-news"></div>
+    </section>
+
+    <section class="view" id="view-careers">
+      <div class="view-head"><h2>Careers</h2><button class="btn" data-add="careers">+ Add role</button></div>
+      <div id="list-careers"></div>
+    </section>
+
+    <section class="view" id="view-portfolio">
+      <div class="view-head"><h2>Portfolio</h2><button class="btn" data-add="portfolio">+ Add holding</button></div>
+      <div id="list-portfolio"></div>
+    </section>
+  </main>
+</div>
+
+<div id="modalRoot"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  "use strict";
+  var CFG = window.STARWELL_CONFIG || {};
+  var configured = !!(CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY);
+  var sb = configured ? window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY) : null;
+  var $ = function(s,r){return (r||document).querySelector(s);};
+  var note = function(msg, kind){var n=$("#loginNote");n.textContent=msg||"";n.className="note "+(kind||"");};
+  var esc = function(s){return (s==null?"":String(s)).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});};
+
+  if(!configured){ $("#cfgMissing").classList.remove("hidden"); $("#sendBtn").disabled=true; }
+
+  // ---------- AUTH ----------
+  var currentEmail = "";
+  $("#sendBtn") && $("#sendBtn").addEventListener("click", async function(){
+    var email = $("#email").value.trim().toLowerCase();
+    if(!email){ note("Enter your email.","err"); return; }
+    this.disabled=true; note("Sending code…");
+    var r = await sb.auth.signInWithOtp({ email: email, options:{ shouldCreateUser:true } });
+    this.disabled=false;
+    if(r.error){ note(r.error.message,"err"); return; }
+    currentEmail = email;
+    $("#step-email").classList.add("hidden");
+    $("#step-code").classList.remove("hidden");
+    note("Code sent to "+email+".","ok");
+    $("#code").focus();
+  });
+  $("#backBtn") && $("#backBtn").addEventListener("click", function(){
+    $("#step-code").classList.add("hidden"); $("#step-email").classList.remove("hidden"); note("");
+  });
+  $("#verifyBtn") && $("#verifyBtn").addEventListener("click", async function(){
+    var token = $("#code").value.trim();
+    if(!token){ note("Enter the 6-digit code.","err"); return; }
+    this.disabled=true; note("Verifying…");
+    var r = await sb.auth.verifyOtp({ email: currentEmail, token: token, type:"email" });
+    this.disabled=false;
+    if(r.error){ note(r.error.message,"err"); return; }
+    gateOrReject();
+  });
+  $("#logoutBtn") && $("#logoutBtn").addEventListener("click", async function(){
+    await sb.auth.signOut(); location.reload();
+  });
+
+  // Confirm the signed-in user is on the members allowlist; otherwise sign out.
+  async function gateOrReject(){
+    var u = (await sb.auth.getUser()).data.user;
+    if(!u){ return; }
+    var m = await sb.from("members").select("email").eq("email", u.email).maybeSingle();
+    if(m.error || !m.data){
+      await sb.auth.signOut();
+      $("#step-code").classList.add("hidden"); $("#step-email").classList.remove("hidden");
+      note("This account is not authorized for Starwell HQ.","err");
+      return;
+    }
+    enterApp(u.email);
+  }
+
+  function enterApp(email){
+    $("#login").classList.add("hidden");
+    $("#app").classList.remove("hidden");
+    $("#whoEmail").textContent = email;
+    loadAll();
+  }
+
+  // ---------- TABS ----------
+  document.querySelectorAll(".tab").forEach(function(t){
+    t.addEventListener("click", function(){
+      document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");});
+      document.querySelectorAll(".view").forEach(function(x){x.classList.remove("active");});
+      t.classList.add("active");
+      $("#view-"+t.dataset.view).classList.add("active");
+    });
+  });
+
+  // ---------- CONTENT MODELS ----------
+  var MODELS = {
+    news: {
+      table:"news_articles", order:[["featured",false],["publish_date",false]],
+      title:function(r){return r.title;},
+      sub:function(r){return [r.category, r.publish_date, r.featured?"★ featured":""].filter(Boolean).join("  ·  ");},
+      fields:[
+        {k:"title",label:"Title",t:"text",full:true,req:true},
+        {k:"category",label:"Category",t:"text"},
+        {k:"publish_date",label:"Publish date",t:"date"},
+        {k:"excerpt",label:"Excerpt",t:"textarea",full:true},
+        {k:"source_url",label:"Source / article link",t:"text",full:true},
+        {k:"featured_image_url",label:"Image URL",t:"text",full:true},
+        {k:"author",label:"Author",t:"text"},
+        {k:"featured",label:"Feature on top",t:"check"},
+        {k:"sort_order",label:"Sort order",t:"number"}
+      ]
+    },
+    careers: {
+      table:"job_postings", order:[["sort_order",true]],
+      title:function(r){return r.title;},
+      sub:function(r){return [r.category, r.location, r.employment_type, r.active?"open":"closed"].filter(Boolean).join("  ·  ");},
+      fields:[
+        {k:"title",label:"Role title",t:"text",full:true,req:true},
+        {k:"category",label:"Category",t:"text"},
+        {k:"location",label:"Location",t:"text"},
+        {k:"employment_type",label:"Type (Full-time…)",t:"text"},
+        {k:"description",label:"Description",t:"textarea",full:true},
+        {k:"apply_url",label:"Apply link (or mailto:)",t:"text",full:true},
+        {k:"active",label:"Open / accepting applications",t:"check"},
+        {k:"sort_order",label:"Sort order",t:"number"}
+      ]
+    },
+    portfolio: {
+      table:"portfolio_companies", order:[["pillar",true],["sort_order",true]],
+      title:function(r){return r.name;},
+      sub:function(r){return [r.pillar, r.role, r.highlight?"★ homepage":""].filter(Boolean).join("  ·  ");},
+      fields:[
+        {k:"name",label:"Name",t:"text",full:true,req:true},
+        {k:"pillar",label:"Pillar",t:"select",opts:["technology","real-estate","capital"],req:true},
+        {k:"role",label:"Role",t:"text"},
+        {k:"description",label:"Description",t:"textarea",full:true},
+        {k:"website_url",label:"Website URL",t:"text",full:true},
+        {k:"logo_url",label:"Logo URL",t:"text",full:true},
+        {k:"partner",label:"Partner",t:"text"},
+        {k:"location",label:"Location",t:"text"},
+        {k:"image_label",label:"Image label (real-estate cards)",t:"text"},
+        {k:"highlight",label:"Show in homepage highlights",t:"check"},
+        {k:"sort_order",label:"Sort order",t:"number"}
+      ]
+    }
+  };
+
+  function loadAll(){ Object.keys(MODELS).forEach(renderList); }
+
+  async function renderList(key){
+    var m = MODELS[key], box = $("#list-"+key);
+    box.innerHTML = '<div class="muted">Loading…</div>';
+    var q = sb.from(m.table).select("*");
+    m.order.forEach(function(o){ q = q.order(o[0], {ascending:o[1]}); });
+    var r = await q;
+    if(r.error){ box.innerHTML = '<div class="empty">'+esc(r.error.message)+'</div>'; return; }
+    if(!r.data.length){ box.innerHTML = '<div class="empty">Nothing yet. Use “Add” to create the first one.</div>'; return; }
+    box.innerHTML = r.data.map(function(row){
+      return '<div class="row"><div><div class="ttl">'+esc(m.title(row))+'</div>'+
+        '<div class="meta">'+esc(m.sub(row))+'</div></div>'+
+        '<div class="acts"><button class="btn ghost sm" data-edit="'+key+'" data-id="'+row.id+'">Edit</button>'+
+        '<button class="btn danger sm" data-del="'+key+'" data-id="'+row.id+'">Delete</button></div></div>';
+    }).join("");
+    box._rows = {}; r.data.forEach(function(row){ box._rows[row.id]=row; });
+  }
+
+  // add / edit / delete (event delegation)
+  document.addEventListener("click", function(e){
+    var add=e.target.closest("[data-add]"), ed=e.target.closest("[data-edit]"), del=e.target.closest("[data-del]");
+    if(add) openForm(add.dataset.add, null);
+    if(ed){ var row=$("#list-"+ed.dataset.edit)._rows[ed.dataset.id]; openForm(ed.dataset.edit, row); }
+    if(del) doDelete(del.dataset.del, del.dataset.id);
+  });
+
+  function openForm(key, row){
+    var m=MODELS[key]; var editing=!!row; row=row||{};
+    var html='<div class="overlay"><div class="modal"><h3>'+(editing?"Edit":"Add")+" — "+key+'</h3><div class="grid2">';
+    m.fields.forEach(function(f){
+      var v = row[f.k]; var id="f_"+f.k;
+      var ctl;
+      if(f.t==="textarea") ctl='<textarea id="'+id+'">'+esc(v||"")+'</textarea>';
+      else if(f.t==="check") ctl='<input type="checkbox" id="'+id+'" style="width:auto" '+(v?"checked":"")+'>';
+      else if(f.t==="select") ctl='<select id="'+id+'">'+f.opts.map(function(o){return '<option '+(v===o?"selected":"")+'>'+o+'</option>';}).join("")+'</select>';
+      else ctl='<input id="'+id+'" type="'+(f.t==="number"?"number":f.t==="date"?"date":"text")+'" value="'+esc(v==null?"":v)+'">';
+      html+='<div class="field" style="grid-column:'+(f.full?"1/-1":"auto")+'"><label for="'+id+'">'+f.label+(f.req?" *":"")+'</label>'+ctl+'</div>';
+    });
+    html+='</div><div class="actions"><button class="btn ghost" id="cancelF">Cancel</button><button class="btn" id="saveF">Save</button></div>'+
+      '<div class="note" id="formNote"></div></div></div>';
+    $("#modalRoot").innerHTML=html;
+    $("#cancelF").onclick=function(){$("#modalRoot").innerHTML="";};
+    $("#saveF").onclick=async function(){
+      var rec={};
+      for(var i=0;i<m.fields.length;i++){var f=m.fields[i],el=$("#f_"+f.k);
+        if(f.t==="check") rec[f.k]=el.checked;
+        else if(f.t==="number") rec[f.k]= el.value===""?0:Number(el.value);
+        else { var val=el.value.trim(); rec[f.k]= val===""?null:val; }
+        if(f.req && (rec[f.k]==null||rec[f.k]==="")){ $("#formNote").className="note err"; $("#formNote").textContent=f.label+" is required."; return; }
+      }
+      this.disabled=true;
+      var res = editing ? await sb.from(m.table).update(rec).eq("id",row.id)
+                        : await sb.from(m.table).insert(rec);
+      this.disabled=false;
+      if(res.error){ $("#formNote").className="note err"; $("#formNote").textContent=res.error.message; return; }
+      $("#modalRoot").innerHTML=""; renderList(key);
+    };
+  }
+
+  async function doDelete(key,id){
+    if(!confirm("Delete this item? This cannot be undone.")) return;
+    var res = await sb.from(MODELS[key].table).delete().eq("id",id);
+    if(res.error){ alert(res.error.message); return; }
+    renderList(key);
+  }
+
+  // ---------- resume existing session ----------
+  if(configured){
+    sb.auth.getSession().then(function(r){ if(r.data.session) gateOrReject(); });
+  }
+})();
+</script>
+</body>
+</html>
