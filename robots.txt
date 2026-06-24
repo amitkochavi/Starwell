@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /hq.html
+Disallow: /wealth-portal.html
+Disallow: /dashboard.html
 
 Sitemap: https://starwellholdings.com/sitemap.xml

@@ -5,6 +5,18 @@ BASE="https://starwellholdings.com"
 CSS=open(os.path.join(OUT,"styles.css")).read()
 JS=open(os.path.join(OUT,"script.js")).read()
 
+# ---- Supabase (public, read-only): lets the live site show content edited
+# in the HQ dashboard. The anon key is public by design; writes are blocked by
+# Row-Level Security. Leave blank to keep the site fully static (baked content).
+SB_URL=os.environ.get("STARWELL_SB_URL","")
+SB_ANON=os.environ.get("STARWELL_SB_ANON","")
+def live_script(kind):
+    if not (SB_URL and SB_ANON): return ""
+    sdk='<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>'
+    body=open(os.path.join(OUT,"assets","live-"+kind+".js")).read()
+    cfg=f'window.SB_URL={json.dumps(SB_URL)};window.SB_ANON={json.dumps(SB_ANON)};'
+    return f'{sdk}\n<script>{cfg}\n{body}</script>'
+
 # ---- shared chrome ----
 DESK_NAV='''  <div class="nav-item"><a href="index.html">Home</a></div>
   <div class="nav-item">
@@ -110,7 +122,7 @@ ORG_LD={"@context":"https://schema.org","@type":"Organization","name":"Starwell 
   "foundingDate":"2025","address":{"@type":"PostalAddress","addressLocality":"Tel Aviv","addressCountry":"IL"},
   "sameAs":["https://www.linkedin.com/company/starwell-holdings/"]}
 
-def render(filename,title,desc,body,extra_ld=None,index=True):
+def render(filename,title,desc,body,extra_ld=None,index=True,extra=""):
     title=title.replace(" \u2014 "," | ")
     canonical=BASE+"/"+("" if filename=="index.html" else filename)
     robots="index, follow, max-image-preview:large, max-snippet:-1" if index else "noindex, follow"
@@ -160,6 +172,7 @@ def render(filename,title,desc,body,extra_ld=None,index=True):
 <script>
 {JS}
 </script>
+{extra}
 </body>
 </html>'''
     open(os.path.join(OUT,filename),"w").write(html)
@@ -569,7 +582,7 @@ news=f'''<section class="hero">
 </div>'''
 render("news.html","News | Starwell Holdings",
   "Company news, market commentary, and updates on Starwell Holdings investments and activities.",
-  news)
+  news,extra=live_script("news"))
 
 # =================== CONTACT ===================
 contact='''<section class="hero">
@@ -641,7 +654,8 @@ careers=f'''<section class="hero hero-center">
     <h2 class="serif" style="margin-bottom:8px">Open Positions</h2>
     <p class="body-copy" style="margin:0 auto 34px">Click any role to learn more and apply.</p>
     <div class="filters" style="justify-content:center">{career_pills}</div>
-    <p class="body-copy" style="margin:40px auto 0">No open positions in this category at the moment. Check back soon or reach out directly at <a href="mailto:careers@starwellholdings.com" class="link-arrow on-dark">careers@starwellholdings.com</a>.</p>
+    <div id="positions" style="text-align:left;max-width:760px;margin:0 auto"></div>
+    <p class="body-copy" id="posEmpty" style="margin:40px auto 0">No open positions in this category at the moment. Check back soon or reach out directly at <a href="mailto:careers@starwellholdings.com" class="link-arrow on-dark">careers@starwellholdings.com</a>.</p>
   </div>
 </section>
 
@@ -654,7 +668,7 @@ careers=f'''<section class="hero hero-center">
 </div>'''
 render("careers.html","Careers | Starwell Holdings",
   "Careers at Starwell Holdings. We're a small, high-conviction team building platforms across technology, real estate, and capital markets.",
-  careers)
+  careers,extra=live_script("careers"))
 
 # =================== SITEMAP (human) ===================
 sm='''<section class="hero hero-center">
@@ -701,7 +715,8 @@ for fn,pr in pages:
     urls+=f"  <url>\n    <loc>{loc}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>{pr}</priority>\n  </url>\n"
 open(os.path.join(OUT,"sitemap.xml"),"w").write(
   '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls+'</urlset>\n')
-open(os.path.join(OUT,"robots.txt"),"w").write("User-agent: *\nAllow: /\n\nSitemap: "+BASE+"/sitemap.xml\n")
+open(os.path.join(OUT,"robots.txt"),"w").write(
+  "User-agent: *\nAllow: /\nDisallow: /hq.html\nDisallow: /wealth-portal.html\nDisallow: /dashboard.html\n\nSitemap: "+BASE+"/sitemap.xml\n")
 open(os.path.join(OUT,"site.webmanifest"),"w").write(json.dumps({
   "name":"Starwell Holdings","short_name":"Starwell","start_url":"/","display":"standalone",
   "background_color":"#0B0B0F","theme_color":"#0B0B0F",
