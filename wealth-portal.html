@@ -92,6 +92,14 @@ details{font-size:11px;color:var(--t3);margin-top:4px;}details summary{cursor:po
 <div class="hdr-right"><div class="toggle" id="ccyToggle"><button class="active" data-ccy="USD">USD</button><button data-ccy="ILS">ILS</button></div>
 <div style="text-align:right"><div class="sub" id="asOf"></div><button class="btn" onclick="location.reload()">↻</button></div></div></div>
 <div class="filter-bar" id="filterBar"></div>
+<div class="filter-bar" id="rangeBar" style="margin-top:8px">
+  <span class="label">Range</span>
+  <button class="fc" data-range="ytd">YTD</button>
+  <button class="fc" data-range="1y">1Y</button>
+  <button class="fc" data-range="3y">3Y</button>
+  <button class="fc" data-range="5y">5Y</button>
+  <button class="fc" data-range="max">Max</button>
+</div>
 </div>
 <div id="loading" class="loading"><div class="spinner"></div><span id="loadMsg">Loading...</span><details><summary>Debug</summary><div id="debugLog"></div></details></div>
 <div id="app" style="display:none">
@@ -127,7 +135,7 @@ const log=m=>{const el=document.getElementById('debugLog');if(el)el.textContent+
 const num=v=>{if(v==null||v==='')return null;const n=parseFloat(String(v).replace(/[,$]/g,''));return isNaN(n)?null:n;};
 function parseDate(v){if(!v)return null;const s=String(v).trim();const asN=parseFloat(s);if(!isNaN(asN)&&asN>30000&&asN<60000)return new Date(Date.UTC(1899,11,30)+asN*864e5);let d=new Date(s);if(!isNaN(d.getTime())&&d.getFullYear()>2000)return d;const gm=s.match(/Date\((\d+),(\d+),(\d+)\)/);if(gm)return new Date(+gm[1],+gm[2],+gm[3]);const p=s.split(/[-\/\.]/);if(p.length===3){const[a,b,c]=p.map(Number);if(a>1000)return new Date(a,b-1,c);if(c>1000&&a>12)return new Date(c,b-1,a);if(c>1000)return new Date(c,a-1,b);}return null;}
 
-let CCY='USD',FX=3.17;
+let CCY='USD',FX=3.17,FXLIVE=false;
 const cx=v=>CCY==='USD'?v:v*FX;const S=()=>CCY==='USD'?'$':'₪';
 const cf=v=>{const val=cx(v),s=S();if(Math.abs(val)>=1e6)return s+(val/1e6).toFixed(2)+'M';if(Math.abs(val)>=1e3)return s+Math.round(val/1e3).toLocaleString()+'K';return s+Math.round(val).toLocaleString();};
 const cfS=v=>S()+(cx(v)/1e6).toFixed(1)+'M';
@@ -341,8 +349,8 @@ let fOrg=0,fAdd=0,fWd=0;
 vis.forEach(aid=>{const o=ytdInfo(aid);if(o){fOrg+=o.organic;fAdd+=o.add;fWd+=o.wd;}});
 
 const latD=Object.values(D.latest).reduce((m,s)=>s.date>m?s.date:m,new Date(0));
-document.getElementById('asOf').textContent='Through '+latD.toLocaleDateString('en-US',{month:'short',year:'numeric'})+' · '+vis.length+' accounts · 1 USD = ₪'+FX;
-document.getElementById('fxD').textContent=FX;
+document.getElementById('asOf').textContent='Through '+latD.toLocaleDateString('en-US',{month:'short',year:'numeric'})+' · '+vis.length+' accounts · 1 USD = ₪'+(+FX).toFixed(2)+(FXLIVE?' (live)':'');
+document.getElementById('fxD').textContent=(+FX).toFixed(2)+(FXLIVE?' (live)':'');
 
 // Owner cards - group by primary owners visible
 const pOwners=primaryOwners().filter(o=>{
@@ -640,8 +648,25 @@ document.getElementById('loading').style.display='none';document.getElementById(
 }
 
 document.getElementById('ccyToggle').addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')return;CCY=e.target.dataset.ccy;document.querySelectorAll('#ccyToggle button').forEach(b=>b.classList.toggle('active',b.dataset.ccy===CCY));if(DATA.clean)render();});
-['perfFrom','trailFrom','wdFrom'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{if(DATA.clean)render();});});
-async function init(){try{await loadData();render();}catch(err){document.getElementById('loadMsg').textContent='Error: '+err.message;document.getElementById('loadMsg').style.color='var(--red)';console.error(err);}}
+['perfFrom','trailFrom','wdFrom'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{document.querySelectorAll('#rangeBar .fc').forEach(b=>b.classList.remove('active'));if(DATA.clean)render();});});
+
+// ----- quick date ranges, relative to the data's actual span -----
+function setSel(id,val){const el=document.getElementById(id);if(!el)return;const opts=[...el.options].map(o=>o.value);if(opts.includes(String(val))){el.value=String(val);return;}const nums=opts.filter(o=>o!=='all').map(Number).filter(n=>!isNaN(n)).sort((a,b)=>a-b);if(!nums.length)return;const t=parseInt(val);let pick=nums.find(n=>n>=t);if(pick==null)pick=nums[nums.length-1];el.value=String(pick);}
+function applyRange(kind){if(!DATA.years||!DATA.years.length)return;const years=DATA.years.slice().sort((a,b)=>a-b);const latest=years[years.length-1],earliest=years[0];let y;if(kind==='max')y='all';else if(kind==='ytd')y=latest;else{const n={'1y':1,'3y':3,'5y':5}[kind]||0;y=Math.max(earliest,latest-n);}
+  setSel('perfFrom', y==='all'?earliest:y);
+  setSel('trailFrom', y==='all'?'all':Math.max(2018,y));
+  setSel('wdFrom', y==='all'?'all':Math.max(2018,y));
+  document.querySelectorAll('#rangeBar .fc').forEach(b=>b.classList.toggle('active',b.dataset.range===kind));
+  if(DATA.clean)render();}
+document.getElementById('rangeBar').addEventListener('click',e=>{const b=e.target.closest('.fc');if(b)applyRange(b.dataset.range);});
+
+// ----- live USD→ILS rate (falls back to the built-in rate if offline) -----
+async function fetchFX(){let rate=null;
+  try{const r=await fetch('https://open.er-api.com/v6/latest/USD');if(r.ok){const j=await r.json();if(j&&j.rates&&j.rates.ILS)rate=j.rates.ILS;}}catch(e){}
+  if(rate==null){try{const r=await fetch('https://api.frankfurter.app/latest?from=USD&to=ILS');if(r.ok){const j=await r.json();if(j&&j.rates&&j.rates.ILS)rate=j.rates.ILS;}}catch(e){}}
+  if(rate!=null&&isFinite(rate)&&rate>0){FX=rate;FXLIVE=true;const fxd=document.getElementById('fxD');if(fxd)fxd.textContent=(+FX).toFixed(2)+' (live)';if(DATA.clean)render();}}
+
+async function init(){try{await loadData();render();fetchFX();}catch(err){document.getElementById('loadMsg').textContent='Error: '+err.message;document.getElementById('loadMsg').style.color='var(--red)';console.error(err);}}
 init();
 </script>
 </body></html>
