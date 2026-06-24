@@ -2,6 +2,18 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Starwell Holdings — Wealth Portal</title>
+<!-- Access gate: this page renders investment data, so it must only run for a
+     signed-in HQ session. Runs synchronously, before any data is fetched. -->
+<script>
+(function(){
+  try{
+    var raw=localStorage.getItem("sb-leozizmosbwhwfkzoovt-auth-token");
+    var ok=false;
+    if(raw){ var s=JSON.parse(raw); ok=!!(s && (s.access_token || (s.currentSession && s.currentSession.access_token))); }
+    if(!ok){ document.documentElement.innerHTML=""; location.replace("/hq.html"); }
+  }catch(e){ location.replace("/hq.html"); }
+})();
+</script>
   <meta name="robots" content="noindex, nofollow">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
