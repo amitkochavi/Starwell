@@ -11,10 +11,10 @@ DESK_NAV='''  <div class="nav-item"><a href="index.html">Home</a></div>
     <button class="nav-trigger" aria-haspopup="true">Our Story <span class="chev"></span></button>
     <div class="dropdown">
       <a href="our-story.html#about">About Starwell</a>
+      <a href="our-story.html#partnership">Partnership</a>
       <a href="our-story.html#business-focus">Business Focus</a>
       <a href="our-story.html#strategy">Strategy</a>
       <a href="our-story.html#leadership">Leadership</a>
-      <a href="our-story.html#partnership">Partnership</a>
       <a href="our-story.html#legacy">Legacy</a>
     </div>
   </div>
@@ -37,10 +37,10 @@ MOBILE_NAV='''<div class="mmenu" id="mmenu" aria-hidden="true">
       <button class="mlink" aria-expanded="false">Our Story <span class="mchev"></span></button>
       <div class="msub">
         <a href="our-story.html#about">About Starwell</a>
+        <a href="our-story.html#partnership">Partnership</a>
         <a href="our-story.html#business-focus">Business Focus</a>
         <a href="our-story.html#strategy">Strategy</a>
         <a href="our-story.html#leadership">Leadership</a>
-        <a href="our-story.html#partnership">Partnership</a>
         <a href="our-story.html#legacy">Legacy</a>
       </div>
     </div>
