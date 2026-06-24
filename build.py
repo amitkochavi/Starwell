@@ -93,7 +93,7 @@ FOOTER='''<footer class="site">
       </div>
       <div class="foot-col">
         <h4>Connect</h4>
-        <a href="#" rel="noopener">LinkedIn</a>
+        <a href="https://www.linkedin.com/company/starwell-holdings/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="mailto:contact@starwellholdings.com">contact@starwellholdings.com</a>
       </div>
     </div>
@@ -107,7 +107,8 @@ FOOTER='''<footer class="site">
 ORG_LD={"@context":"https://schema.org","@type":"Organization","name":"Starwell Holdings",
   "url":BASE+"/","logo":BASE+"/assets/icon-512.png","image":BASE+"/assets/og-image.png",
   "description":"A privately held global investment and operating company building platforms across technology, real estate, and capital.",
-  "foundingDate":"2025","address":{"@type":"PostalAddress","addressLocality":"Tel Aviv","addressCountry":"IL"}}
+  "foundingDate":"2025","address":{"@type":"PostalAddress","addressLocality":"Tel Aviv","addressCountry":"IL"},
+  "sameAs":["https://www.linkedin.com/company/starwell-holdings/"]}
 
 def render(filename,title,desc,body,extra_ld=None,index=True):
     title=title.replace(" \u2014 "," | ")
