@@ -636,6 +636,28 @@ footer.site .wrap{padding:72px 44px 40px}
 })();
 
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>window.SB_URL="https://leozizmosbwhwfkzoovt.supabase.co";window.SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxlb3ppem1vc2J3aHdma3pvb3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODQ3MjQsImV4cCI6MjA5Nzg2MDcyNH0.eFb8e5a4x09QYYFHZ1ER23v5bzie8WJz6ZLdsfrcd6s";
+/* Live Careers — if Supabase is configured and there are open roles, list
+   them in the Open Positions section. Fails silently to the baked empty state. */
+(function(){
+  if(!window.SB_URL||!window.SB_ANON||!window.supabase)return;
+  var sb=window.supabase.createClient(window.SB_URL,window.SB_ANON);
+  function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+  sb.from("job_postings").select("*").eq("active",true).order("sort_order",{ascending:true}).then(function(r){
+    if(r.error||!r.data||!r.data.length)return;
+    var box=document.querySelector("#positions");if(!box)return;
+    var empty=document.querySelector("#posEmpty");if(empty)empty.style.display="none";
+    box.innerHTML=r.data.map(function(j){
+      var href=j.apply_url||"mailto:careers@starwellholdings.com";
+      var meta=[j.category,j.location,j.employment_type].filter(Boolean).join("  ·  ");
+      return '<a class="jrow" href="'+esc(href)+'" target="_blank" rel="noopener"><div class="jrow-main">'+
+        '<div class="jt">'+esc(j.title)+'</div>'+(meta?'<div class="jm">'+esc(meta)+'</div>':"")+
+        (j.description?'<p class="jd">'+esc(j.description)+'</p>':"")+'</div>'+
+        '<span class="link-arrow">Apply &rarr;</span></a>';
+    }).join("");
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
