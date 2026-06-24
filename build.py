@@ -745,12 +745,27 @@ open(os.path.join(OUT,"netlify.toml"),"w").write('''[build]
     X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
 
 [[headers]]
+  for = "/hq"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
+
+[[headers]]
   for = "/wealth-portal.html"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
 
 [[headers]]
+  for = "/wealth-portal"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
+
+[[headers]]
   for = "/dashboard.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
+
+[[headers]]
+  for = "/dashboard"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
 ''')
