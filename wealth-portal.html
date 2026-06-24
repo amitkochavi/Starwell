@@ -92,14 +92,6 @@ details{font-size:11px;color:var(--t3);margin-top:4px;}details summary{cursor:po
 <div class="hdr-right"><div class="toggle" id="ccyToggle"><button class="active" data-ccy="USD">USD</button><button data-ccy="ILS">ILS</button></div>
 <div style="text-align:right"><div class="sub" id="asOf"></div><button class="btn" onclick="location.reload()">↻</button></div></div></div>
 <div class="filter-bar" id="filterBar"></div>
-<div class="filter-bar" id="rangeBar" style="margin-top:8px">
-  <span class="label">Range</span>
-  <button class="fc" data-range="ytd">YTD</button>
-  <button class="fc" data-range="1y">1Y</button>
-  <button class="fc" data-range="3y">3Y</button>
-  <button class="fc" data-range="5y">5Y</button>
-  <button class="fc" data-range="max">Max</button>
-</div>
 </div>
 <div id="loading" class="loading"><div class="spinner"></div><span id="loadMsg">Loading...</span><details><summary>Debug</summary><div id="debugLog"></div></details></div>
 <div id="app" style="display:none">
@@ -300,6 +292,7 @@ function buildFilterBar(){
   owners.forEach(o=>{html+=`<button class="fc owner" data-owner="${o}">${o}</button>`;});
 
   const bar=document.getElementById('filterBar');bar.innerHTML=html;bar._presets=presets;
+  const saveView=()=>{try{localStorage.setItem('wp_view',JSON.stringify(activeOwners?[...activeOwners]:null));}catch(_){}};
   bar.addEventListener('click',e=>{
     const ch=e.target.closest('.fc');if(!ch)return;
     if(ch.classList.contains('preset')){
@@ -313,8 +306,19 @@ function buildFilterBar(){
       if(!sel.length){activeOwners=null;bar.querySelector('.preset').classList.add('active');}
       else{activeOwners=new Set(sel);if(activeOwners.has('Amit Kochavi'))activeOwners.add('Starwell Holdings');}
     }
+    saveView();
     render();
   });
+  // restore the last selection (defaults to "Everyone" on first visit)
+  (function(){let saved;try{saved=JSON.parse(localStorage.getItem('wp_view'));}catch(_){return;}
+    if(!Array.isArray(saved)||!saved.length)return;
+    activeOwners=new Set(saved);if(activeOwners.has('Amit Kochavi'))activeOwners.add('Starwell Holdings');
+    const norm=a=>[...new Set(a)].sort().join('|'),key=norm(saved);let mi=-1;
+    presets.forEach((p,i)=>{if(p.owners&&norm(p.owners)===key)mi=i;});
+    bar.querySelectorAll('.fc').forEach(c=>c.classList.remove('active'));
+    if(mi>=0){bar.querySelectorAll('.preset')[mi].classList.add('active');bar.querySelectorAll('.owner').forEach(c=>c.classList.toggle('active',presets[mi].owners.includes(c.dataset.owner)));}
+    else{bar.querySelectorAll('.owner').forEach(c=>c.classList.toggle('active',saved.includes(c.dataset.owner)));}
+  })();
 }
 
 function calcIRR(aid,sy){const rows=DATA.clean.filter(s=>s.AccountID===aid);if(!sy){if(rows.length<2)return null;const s=rows[0],e=rows[rows.length-1];const cf=[[s.date,-s.EndingValueUSD]];rows.slice(1).forEach(r=>{if(r.A>0)cf.push([r.date,-r.A]);if(r.W>0)cf.push([r.date,r.W]);});cf.push([e.date,e.EndingValueUSD]);return xirr(cf);}let sr=rows.filter(s=>s.date.getFullYear()===sy&&s.date.getMonth()===11);if(!sr.length)sr=rows.filter(s=>s.date.getFullYear()===sy);if(!sr.length)return null;const s=sr[0],e=rows[rows.length-1];if(s.date>=e.date)return null;const b=rows.filter(r=>r.date>s.date&&r.date<=e.date);const cf=[[s.date,-s.EndingValueUSD]];b.forEach(r=>{if(r.A>0)cf.push([r.date,-r.A]);if(r.W>0)cf.push([r.date,r.W]);});cf.push([e.date,e.EndingValueUSD]);return xirr(cf);}
@@ -647,24 +651,17 @@ document.getElementById('acctTabs').addEventListener('click',e=>{const c=e.targe
 document.getElementById('loading').style.display='none';document.getElementById('app').style.display='block';
 }
 
-document.getElementById('ccyToggle').addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')return;CCY=e.target.dataset.ccy;document.querySelectorAll('#ccyToggle button').forEach(b=>b.classList.toggle('active',b.dataset.ccy===CCY));if(DATA.clean)render();});
-['perfFrom','trailFrom','wdFrom'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{document.querySelectorAll('#rangeBar .fc').forEach(b=>b.classList.remove('active'));if(DATA.clean)render();});});
-
-// ----- quick date ranges, relative to the data's actual span -----
-function setSel(id,val){const el=document.getElementById(id);if(!el)return;const opts=[...el.options].map(o=>o.value);if(opts.includes(String(val))){el.value=String(val);return;}const nums=opts.filter(o=>o!=='all').map(Number).filter(n=>!isNaN(n)).sort((a,b)=>a-b);if(!nums.length)return;const t=parseInt(val);let pick=nums.find(n=>n>=t);if(pick==null)pick=nums[nums.length-1];el.value=String(pick);}
-function applyRange(kind){if(!DATA.years||!DATA.years.length)return;const years=DATA.years.slice().sort((a,b)=>a-b);const latest=years[years.length-1],earliest=years[0];let y;if(kind==='max')y='all';else if(kind==='ytd')y=latest;else{const n={'1y':1,'3y':3,'5y':5}[kind]||0;y=Math.max(earliest,latest-n);}
-  setSel('perfFrom', y==='all'?earliest:y);
-  setSel('trailFrom', y==='all'?'all':Math.max(2018,y));
-  setSel('wdFrom', y==='all'?'all':Math.max(2018,y));
-  document.querySelectorAll('#rangeBar .fc').forEach(b=>b.classList.toggle('active',b.dataset.range===kind));
-  if(DATA.clean)render();}
-document.getElementById('rangeBar').addEventListener('click',e=>{const b=e.target.closest('.fc');if(b)applyRange(b.dataset.range);});
+document.getElementById('ccyToggle').addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')return;CCY=e.target.dataset.ccy;try{localStorage.setItem('wp_ccy',CCY);}catch(_){}document.querySelectorAll('#ccyToggle button').forEach(b=>b.classList.toggle('active',b.dataset.ccy===CCY));if(DATA.clean)render();});
+['perfFrom','trailFrom','wdFrom'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{if(DATA.clean)render();});});
 
 // ----- live USD→ILS rate (falls back to the built-in rate if offline) -----
 async function fetchFX(){let rate=null;
   try{const r=await fetch('https://open.er-api.com/v6/latest/USD');if(r.ok){const j=await r.json();if(j&&j.rates&&j.rates.ILS)rate=j.rates.ILS;}}catch(e){}
   if(rate==null){try{const r=await fetch('https://api.frankfurter.app/latest?from=USD&to=ILS');if(r.ok){const j=await r.json();if(j&&j.rates&&j.rates.ILS)rate=j.rates.ILS;}}catch(e){}}
   if(rate!=null&&isFinite(rate)&&rate>0){FX=rate;FXLIVE=true;const fxd=document.getElementById('fxD');if(fxd)fxd.textContent=(+FX).toFixed(2)+' (live)';if(DATA.clean)render();}}
+
+// restore last currency choice
+try{const c=localStorage.getItem('wp_ccy');if(c==='ILS'||c==='USD'){CCY=c;document.querySelectorAll('#ccyToggle button').forEach(b=>b.classList.toggle('active',b.dataset.ccy===CCY));}}catch(_){}
 
 async function init(){try{await loadData();render();fetchFX();}catch(err){document.getElementById('loadMsg').textContent='Error: '+err.message;document.getElementById('loadMsg').style.color='var(--red)';console.error(err);}}
 init();
