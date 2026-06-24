@@ -8,8 +8,8 @@ JS=open(os.path.join(OUT,"script.js")).read()
 # ---- Supabase (public, read-only): lets the live site show content edited
 # in the HQ dashboard. The anon key is public by design; writes are blocked by
 # Row-Level Security. Leave blank to keep the site fully static (baked content).
-SB_URL=os.environ.get("STARWELL_SB_URL","")
-SB_ANON=os.environ.get("STARWELL_SB_ANON","")
+SB_URL=os.environ.get("STARWELL_SB_URL","https://leozizmosbwhwfkzoovt.supabase.co")
+SB_ANON=os.environ.get("STARWELL_SB_ANON","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxlb3ppem1vc2J3aHdma3pvb3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODQ3MjQsImV4cCI6MjA5Nzg2MDcyNH0.eFb8e5a4x09QYYFHZ1ER23v5bzie8WJz6ZLdsfrcd6s")
 def live_script(kind):
     if not (SB_URL and SB_ANON): return ""
     sdk='<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>'
