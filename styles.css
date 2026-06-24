@@ -330,13 +330,15 @@ footer.site .wrap{padding:72px 44px 40px}
 @media (prefers-reduced-motion:reduce){[data-reveal]{animation:none}}
 
 /* ---------- RESPONSIVE ---------- */
+/* Tablet (≤900px): collapse to 2 columns, switch to the mobile menu */
 @media (max-width:900px){
   .wrap{padding:0 22px}
   .nav-links{display:none}
   .burger{display:flex}
   .hero .wrap{padding-top:72px;padding-bottom:76px}
   .sec{padding:64px 0}
-  .cards,.steps,.steps.four,.markets,.pf-grid,.xp-grid,.news-grid,.figs{grid-template-columns:1fr}
+  .cards,.steps,.steps.four,.pf-grid,.xp-grid,.news-grid,.figs{grid-template-columns:repeat(2,1fr)}
+  .markets{grid-template-columns:1fr;gap:32px}
   .leader{grid-template-columns:1fr;gap:28px;text-align:left}
   .leader .photo{max-width:240px}
   .contact-card{padding:34px 24px;margin-top:-40px}
@@ -345,7 +347,14 @@ footer.site .wrap{padding:72px 44px 40px}
   .foot-top{grid-template-columns:1fr 1fr;gap:32px}
   .foot-brand{grid-column:1/-1}
 }
-@media (max-width:520px){.sitemap-cols{grid-template-columns:1fr}}
+/* Phone (≤600px): single column everywhere */
+@media (max-width:600px){
+  .wrap{padding:0 20px}
+  .sec{padding:54px 0}
+  .cards,.steps,.steps.four,.pf-grid,.xp-grid,.news-grid,.figs,.sitemap-cols{grid-template-columns:1fr}
+  .foot-top{grid-template-columns:1fr;gap:26px}
+  .foot-brand{grid-column:auto}
+}
 
 /* ---------- BRAND ACCENTS (gold, used sparingly) ---------- */
 .sec-label,.sec-center h2{position:relative}
