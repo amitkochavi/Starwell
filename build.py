@@ -116,10 +116,13 @@ FOOTER='''<footer class="site">
   </div>
 </footer>'''
 
-ORG_LD={"@context":"https://schema.org","@type":"Organization","name":"Starwell Holdings",
-  "url":BASE+"/","logo":BASE+"/assets/icon-512.png","image":BASE+"/assets/og-image.png",
+ORG_LD={"@context":"https://schema.org","@type":"Organization","@id":BASE+"/#organization",
+  "name":"Starwell Holdings","alternateName":"Starwell","legalName":"Starwell Holdings",
+  "url":BASE+"/","logo":{"@type":"ImageObject","url":BASE+"/assets/icon-512.png","width":512,"height":512},
+  "image":BASE+"/assets/og-image.png",
   "description":"A privately held global investment and operating company building platforms across technology, real estate, and capital.",
   "foundingDate":"2025","address":{"@type":"PostalAddress","addressLocality":"Tel Aviv","addressCountry":"IL"},
+  "contactPoint":{"@type":"ContactPoint","email":"contact@starwellholdings.com","contactType":"investor relations"},
   "sameAs":["https://www.linkedin.com/company/starwell-holdings/"]}
 
 def render(filename,title,desc,body,extra_ld=None,index=True,extra=""):
@@ -153,6 +156,7 @@ def render(filename,title,desc,body,extra_ld=None,index=True,extra=""):
 <meta name="twitter:image" content="{BASE}/assets/og-image.png">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230F0F12'/%3E%3Ctext x='50' y='50' dy='.35em' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='62' fill='%23F4F3F0'%3ES%3C/text%3E%3C/svg%3E">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -290,7 +294,9 @@ home=f'''<section class="hero hero-home">
 </section>'''
 render("index.html","Starwell Holdings | Private Investment & Operating Company",
   "Starwell Holdings is a private investment and operating company based in Tel Aviv, building platforms across technology, real estate, and capital markets.",
-  home,extra_ld={"@context":"https://schema.org","@type":"WebSite","name":"Starwell Holdings","url":BASE+"/"})
+  home,extra_ld={"@context":"https://schema.org","@type":"WebSite","@id":BASE+"/#website",
+    "name":"Starwell Holdings","alternateName":"Starwell","url":BASE+"/",
+    "publisher":{"@id":BASE+"/#organization"}})
 
 # =================== OUR STORY ===================
 SB="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/"
