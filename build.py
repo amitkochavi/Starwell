@@ -595,12 +595,18 @@ contact='''<section class="hero">
       <div class="captcha"><label for="captchaAnswer">What is 10 + 10?</label><input id="captchaAnswer" name="captcha" type="text" autocomplete="off" required></div>
       <button type="submit" class="btn">Submit</button>
       <div class="formnote" id="formnote" role="status" aria-live="polite"></div>
+
+      <div class="offices">
+        <div class="ol">Offices</div>
+        <div class="office"><h4>Tel Aviv</h4><p>Beyond Towers<br>Giv&rsquo;atayim, Israel</p></div>
+        <div class="office"><h4>Los Angeles</h4><p>11601 Wilshire Blvd<br>Los Angeles, CA 90025<br>USA</p></div>
+      </div>
     </form>
   </div>
 </div>
 <div style="height:60px"></div>'''
 render("contact.html","Contact | Starwell Holdings",
-  "Contact Starwell Holdings about investment opportunities, partnerships, or potential transactions. A member of our team will respond promptly.",
+  "Contact Starwell Holdings about investment opportunities, partnerships, or potential transactions. Offices in Tel Aviv and Los Angeles.",
   contact)
 
 # =================== CAREERS ===================
