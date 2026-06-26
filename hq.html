@@ -72,6 +72,31 @@ iframe.portal{width:100%;height:640px;border:0;display:block;background:#fff;ove
 .kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
 .kpi-l{font-size:12px;color:var(--soft);text-transform:uppercase;letter-spacing:.04em}
 .kpi-v{font-size:22px;font-weight:600;margin-top:4px}
+/* stocks */
+.up{color:#1a7a4f}.down{color:#b3261e}
+.stk-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.stk-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.stk-card-l{font-size:11px;color:var(--soft);text-transform:uppercase;letter-spacing:.05em}
+.stk-card-v{font-size:22px;font-weight:600;margin-top:4px}
+.stk-card-s{font-size:12px;margin-top:2px}
+.stk-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+.stk-tablewrap{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:auto}
+.stk-table{width:100%;border-collapse:collapse;font-size:13px}
+.stk-table th{text-align:right;padding:11px 12px;color:var(--soft);font-size:11px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap;background:#fafafa;position:sticky;top:0}
+.stk-table th.l{text-align:left}
+.stk-table td{padding:9px 12px;border-bottom:1px solid #eee;white-space:nowrap}
+.stk-table tbody tr:hover{background:#fafafa}
+.stk-table .r{text-align:right}.stk-table .bold{font-weight:600}
+.stk-name{display:flex;align-items:center;gap:11px}
+.stk-tk{font-weight:600}
+.stk-nm{font-size:11px;color:var(--soft);max-width:230px;overflow:hidden;text-overflow:ellipsis}
+.stk-sub2{font-size:11px;opacity:.75}
+.stk-logo{position:relative;width:34px;height:34px;border-radius:7px;overflow:hidden;background:#f0eee9;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.stk-mono{position:absolute;font-size:11px;font-weight:700;color:#6b5a3e}
+.stk-logo img{position:relative;width:100%;height:100%;object-fit:contain;background:#fff}
+.stk-alloc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px}
+.stk-alloc-h{font-size:13px;font-weight:600;margin-bottom:10px}
+@media(max-width:980px){.stk-grid{grid-template-columns:1fr}}
 
 /* ---- modal form ---- */
 .overlay{position:fixed;inset:0;background:rgba(10,10,14,.55);display:flex;align-items:flex-start;justify-content:center;padding:30px 16px;overflow:auto;z-index:40}
@@ -93,7 +118,8 @@ iframe.portal{width:100%;height:640px;border:0;display:block;background:#fff;ove
    Row-Level Security (see supabase/schema.sql). */
 window.STARWELL_CONFIG = {
   SUPABASE_URL: "https://leozizmosbwhwfkzoovt.supabase.co",
-  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxlb3ppem1vc2J3aHdma3pvb3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODQ3MjQsImV4cCI6MjA5Nzg2MDcyNH0.eFb8e5a4x09QYYFHZ1ER23v5bzie8WJz6ZLdsfrcd6s"
+  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxlb3ppem1vc2J3aHdma3pvb3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODQ3MjQsImV4cCI6MjA5Nzg2MDcyNH0.eFb8e5a4x09QYYFHZ1ER23v5bzie8WJz6ZLdsfrcd6s",
+  FMP_API_KEY: ""   // free key from financialmodelingprep.com → live stock prices in the Stocks tab (logos work without it)
 };
 </script>
 
@@ -137,6 +163,7 @@ window.STARWELL_CONFIG = {
       <div class="side-brand serif">Starwell HQ</div>
       <nav class="side-nav">
         <button class="tab active" data-view="investments">Investments</button>
+        <button class="tab" data-view="stocks">Stocks</button>
         <button class="tab" data-view="news">News</button>
         <button class="tab" data-view="careers">Careers</button>
         <button class="tab" data-view="portfolio">Portfolio</button>
@@ -147,6 +174,14 @@ window.STARWELL_CONFIG = {
       <section class="view active" id="view-investments">
         <div class="view-head"><h2>Investments — Wealth Portal</h2></div>
         <iframe class="portal" id="portalFrame" title="Wealth Portal" scrolling="no"></iframe>
+      </section>
+
+      <section class="view" id="view-stocks">
+        <div class="view-head" style="align-items:flex-end">
+          <div><h2>Stocks</h2><div class="muted" id="stkSub" style="font-size:13px"></div></div>
+          <button class="btn ghost sm" id="stkRefresh">↻ Refresh</button>
+        </div>
+        <div id="stocksBox"></div>
       </section>
 
       <section class="view" id="view-news">
@@ -170,6 +205,7 @@ window.STARWELL_CONFIG = {
 <div id="modalRoot"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 (function(){
   "use strict";
@@ -244,8 +280,11 @@ window.STARWELL_CONFIG = {
       t.classList.add("active");
       $("#view-"+t.dataset.view).classList.add("active");
       if(t.dataset.view==="investments") setTimeout(fitPortal,60);
+      if(t.dataset.view==="stocks") renderStocks();
     });
   });
+  var stkRefBtn=document.getElementById("stkRefresh");
+  if(stkRefBtn) stkRefBtn.addEventListener("click", function(){ renderStocks(); });
 
   // ---------- embedded Wealth Portal: size to content (no inner scrollbar) ----------
   function fitPortal(){
@@ -263,6 +302,73 @@ window.STARWELL_CONFIG = {
     window.addEventListener("resize", fitPortal);
   })();
 
+  // ---------- Stocks: portfolio tracker (Supabase holdings + live FMP prices/logos) ----------
+  var stkChart=null, stkSort={key:"mv",dir:-1};
+  function stkFull(v){ if(v==null||isNaN(v)) return "—"; return (v<0?"-":"")+"$"+Math.abs(v).toLocaleString(undefined,{maximumFractionDigits:0}); }
+  function stkMoney(v,sign){ if(v==null||isNaN(v)) return "—"; var s=v<0?"-":(sign&&v>0?"+":""),a=Math.abs(v);
+    return s+"$"+(a>=1e6?(a/1e6).toFixed(2)+"M":a>=1e3?(a/1e3).toFixed(1)+"K":a.toFixed(0)); }
+  function stkLogo(t){ var sym=t.replace(/\./g,"-");
+    return '<span class="stk-logo"><span class="stk-mono">'+esc(t.slice(0,2))+'</span><img src="https://financialmodelingprep.com/image-stock/'+encodeURIComponent(sym)+'.png" alt="" loading="lazy" onerror="this.style.display=\'none\'"></span>'; }
+  function stkCard(l,v,pct,dir){ return '<div class="stk-card"><div class="stk-card-l">'+esc(l)+'</div><div class="stk-card-v '+(dir||"")+'">'+v+'</div>'+(pct!=null?'<div class="stk-card-s '+(dir||"")+'">'+(pct>=0?"+":"")+pct.toFixed(2)+'%</div>':"")+'</div>'; }
+  function stkTh(l,k,left){ var ar=stkSort.key===k?(stkSort.dir<0?" ↓":" ↑"):""; return '<th data-k="'+k+'" class="'+(left?"l":"r")+'">'+esc(l)+ar+'</th>'; }
+  function stkCmp(a,b){ var k=stkSort.key,d=stkSort.dir,av=a[k],bv=b[k]; if(typeof av==="string")return av.localeCompare(bv)*d; return ((av==null?-1e18:av)-(bv==null?-1e18:bv))*d; }
+
+  async function renderStocks(){
+    var box=document.getElementById("stocksBox"); if(!box) return;
+    box.innerHTML='<div class="muted">Loading holdings…</div>';
+    var h=await sb.from("stock_holdings").select("*").order("sort_order",{ascending:true});
+    if(h.error){ box.innerHTML='<div class="empty">Holdings aren’t set up yet. Run <code>supabase/stocks.sql</code> in your Supabase project to create and load the table.<br><br><span style="font-size:12px;opacity:.7">'+esc(h.error.message)+'</span></div>'; return; }
+    if(!h.data||!h.data.length){ box.innerHTML='<div class="empty">No holdings loaded yet. Run <code>supabase/stocks.sql</code> in your Supabase project to load your positions.</div>'; return; }
+    var positions=h.data.filter(function(r){return !r.is_cash;}), cash=h.data.filter(function(r){return r.is_cash;});
+    var key=(window.STARWELL_CONFIG||{}).FMP_API_KEY||"", quotes={}, live=false;
+    if(key){ try{
+      var syms=positions.map(function(p){return p.ticker.replace(/\./g,"-");});
+      var resp=await fetch("https://financialmodelingprep.com/api/v3/quote/"+syms.join(",")+"?apikey="+encodeURIComponent(key));
+      var arr=await resp.json(); if(Array.isArray(arr)){ arr.forEach(function(q){quotes[q.symbol]=q;}); live=Object.keys(quotes).length>0; }
+    }catch(e){} }
+    var cashTot=cash.reduce(function(s,c){return s+(+c.market_value_stmt||0);},0);
+    var items=positions.map(function(p){
+      var q=quotes[p.ticker.replace(/\./g,"-")];
+      var price=(q&&q.price!=null)?q.price:(p.quantity?(+p.market_value_stmt/(+p.quantity)):0);
+      var qty=+p.quantity, mv=qty*price, cost=+p.cost_basis||0, gl=mv-cost;
+      return {t:p.ticker,name:p.name,qty:qty,avg:qty?cost/qty:0,price:price,mv:mv,cost:cost,gl:gl,glp:cost?gl/cost*100:0,
+              dchp:(q&&q.changesPercentage!=null)?+q.changesPercentage:null,dayVal:(q&&q.change!=null)?qty*(+q.change):0};
+    });
+    var totMv=items.reduce(function(s,i){return s+i.mv;},0), totVal=totMv+cashTot,
+        totCost=items.reduce(function(s,i){return s+i.cost;},0), totGl=totMv-totCost,
+        totDay=items.reduce(function(s,i){return s+i.dayVal;},0);
+    items.forEach(function(i){i.w=totMv?i.mv/totMv*100:0;});
+    document.getElementById("stkSub").textContent=positions.length+" positions · "+(live?"live prices":"prices from latest statement")+(cashTot?" · incl. cash":"");
+    var dayPct=(totMv-totDay)?totDay/(totMv-totDay)*100:0, glPct=totCost?totGl/totCost*100:0;
+    var sum='<div class="stk-sum">'+stkCard("Total value",stkFull(totVal),null,"")+
+      (live?stkCard("Today",stkMoney(totDay,1),dayPct,totDay>=0?"up":"down"):"")+
+      stkCard("Total gain/loss",stkMoney(totGl,1),glPct,totGl>=0?"up":"down")+
+      stkCard("Equities",stkFull(totMv),null,"")+stkCard("Cash",stkFull(cashTot),null,"")+'</div>';
+    function paint(){
+      var arr=items.slice().sort(stkCmp);
+      var thead='<tr>'+stkTh("Symbol","t",1)+stkTh("Qty","qty")+stkTh("Avg cost","avg")+stkTh("Price","price")+stkTh("Day","dchp")+stkTh("Mkt value","mv")+stkTh("Gain/Loss","gl")+stkTh("Weight","w")+'</tr>';
+      var body=arr.map(function(i){var glc=i.gl>=0?"up":"down",dc=i.dchp==null?"":(i.dchp>=0?"up":"down");
+        return '<tr><td class="stk-name">'+stkLogo(i.t)+'<div><div class="stk-tk">'+esc(i.t)+'</div><div class="stk-nm">'+esc(i.name)+'</div></div></td>'+
+          '<td class="r">'+i.qty.toLocaleString()+'</td><td class="r">$'+i.avg.toFixed(2)+'</td><td class="r">$'+i.price.toFixed(2)+'</td>'+
+          '<td class="r '+dc+'">'+(i.dchp==null?"—":(i.dchp>=0?"+":"")+i.dchp.toFixed(2)+"%")+'</td>'+
+          '<td class="r bold">'+stkFull(i.mv)+'</td><td class="r '+glc+'">'+stkMoney(i.gl,1)+' <span class="stk-sub2">'+(i.glp>=0?"+":"")+i.glp.toFixed(1)+'%</span></td>'+
+          '<td class="r">'+i.w.toFixed(1)+'%</td></tr>';}).join("");
+      box.innerHTML=sum+'<div class="stk-tablewrap" style="margin-bottom:18px"><table class="stk-table"><thead>'+thead+'</thead><tbody>'+body+'</tbody></table></div>'+
+        '<div class="stk-alloc"><div class="stk-alloc-h">Allocation</div><div style="position:relative;height:320px;max-width:580px;margin:0 auto"><canvas id="stkChart"></canvas></div></div>';
+      box.querySelectorAll("th[data-k]").forEach(function(th){th.addEventListener("click",function(){var k=th.dataset.k;if(stkSort.key===k)stkSort.dir*=-1;else{stkSort.key=k;stkSort.dir=(k==="t")?1:-1;}paint();});});
+      drawAlloc();
+    }
+    function drawAlloc(){
+      var top=items.slice().sort(function(a,b){return b.mv-a.mv;}),labels=[],data=[],other=0;
+      top.forEach(function(i,ix){if(ix<8){labels.push(i.t);data.push(i.mv);}else other+=i.mv;});
+      if(other>0){labels.push("Other");data.push(other);} if(cashTot>0){labels.push("Cash");data.push(cashTot);}
+      var pal=['#2b5ea7','#1a7a5a','#9a6b17','#5b3ea7','#b5342a','#3d8888','#a06040','#6a6aaa','#888883','#4a7a4a'];
+      if(stkChart)stkChart.destroy();
+      stkChart=new Chart(document.getElementById("stkChart"),{type:"doughnut",data:{labels:labels,datasets:[{data:data,backgroundColor:labels.map(function(_,i){return pal[i%pal.length];}),borderWidth:0}]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"right",labels:{boxWidth:10,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.label+": "+stkFull(c.parsed);}}}},cutout:"58%"}});
+    }
+    paint();
+  }
 
   // ---------- CONTENT MODELS ----------
   var MODELS = {
