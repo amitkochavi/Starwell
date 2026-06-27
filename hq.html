@@ -96,6 +96,17 @@ iframe.portal{width:100%;height:640px;border:0;display:block;background:#fff;ove
 .stk-logo img{position:relative;width:100%;height:100%;object-fit:contain;background:#fff}
 .stk-alloc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px}
 .stk-alloc-h{font-size:13px;font-weight:600;margin-bottom:10px}
+.stk-caret{flex:none;width:18px;height:18px;border:none;background:none;cursor:pointer;color:var(--soft);font-size:11px;display:inline-flex;align-items:center;justify-content:center;transition:transform .15s;padding:0}
+.stk-caret.open{transform:rotate(90deg)}
+.stk-caret.hide{visibility:hidden}
+.stk-table tr.stk-master.open{background:#f6f4ef}
+.stk-table tr.stk-master{cursor:pointer}
+.stk-table tr.stk-child td{background:#faf9f6;border-bottom:1px solid #f0eee9;font-size:12px;color:var(--soft)}
+.stk-table tr.stk-child td.stk-acct{padding-left:54px;color:#3a3a3a}
+.stk-acct-badge{display:inline-block;font-size:11px;font-weight:500}
+.stk-up{background:#fff;border:1px solid var(--line);border-left:3px solid #2b5ea7;border-radius:8px;padding:11px 14px;margin-bottom:14px;font-size:13px}
+.stk-up.err{border-left-color:#b5342a}
+.stk-up.ok{border-left-color:#1a7a5a}
 @media(max-width:980px){.stk-grid{grid-template-columns:1fr}}
 
 /* ---- modal form ---- */
@@ -179,8 +190,12 @@ window.STARWELL_CONFIG = {
       <section class="view" id="view-stocks">
         <div class="view-head" style="align-items:flex-end">
           <div><h2>Stocks</h2><div class="muted" id="stkSub" style="font-size:13px"></div></div>
-          <button class="btn ghost sm" id="stkRefresh">↻ Refresh</button>
+          <div style="display:flex;gap:8px">
+            <label class="btn ghost sm" style="cursor:pointer">⬆ Upload statement<input type="file" id="stkFile" accept=".csv,.txt" multiple hidden></label>
+            <button class="btn ghost sm" id="stkRefresh">↻ Refresh</button>
+          </div>
         </div>
+        <div id="stkUp" class="stk-up" hidden></div>
         <div id="stocksBox"></div>
       </section>
 
@@ -206,6 +221,7 @@ window.STARWELL_CONFIG = {
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
 (function(){
   "use strict";
@@ -303,7 +319,10 @@ window.STARWELL_CONFIG = {
   })();
 
   // ---------- Stocks: portfolio tracker (Supabase holdings + live FMP prices/logos) ----------
-  var stkChart=null, stkSort={key:"mv",dir:-1};
+  var stkChart=null, stkSort={key:"mv",dir:-1}, stkOpen={};
+  function stkAcctShort(a){ if(!a) return "Account"; a=String(a);
+    var m=a.match(/\.\.\.?\s*(\d{3,})/); if(m) return "····"+m[1];
+    return a.length>26?a.slice(0,24)+"…":a; }
   function stkFull(v){ if(v==null||isNaN(v)) return "—"; return (v<0?"-":"")+"$"+Math.abs(v).toLocaleString(undefined,{maximumFractionDigits:0}); }
   function stkMoney(v,sign){ if(v==null||isNaN(v)) return "—"; var s=v<0?"-":(sign&&v>0?"+":""),a=Math.abs(v);
     return s+"$"+(a>=1e6?(a/1e6).toFixed(2)+"M":a>=1e3?(a/1e3).toFixed(1)+"K":a.toFixed(0)); }
@@ -322,40 +341,68 @@ window.STARWELL_CONFIG = {
     var positions=h.data.filter(function(r){return !r.is_cash;}), cash=h.data.filter(function(r){return r.is_cash;});
     var key=(window.STARWELL_CONFIG||{}).FMP_API_KEY||"", quotes={}, live=false;
     if(key){ try{
-      var syms=positions.map(function(p){return p.ticker.replace(/\./g,"-");});
+      var uniq={}; positions.forEach(function(p){uniq[p.ticker.replace(/\./g,"-")]=1;});
+      var syms=Object.keys(uniq);
       var resp=await fetch("https://financialmodelingprep.com/stable/batch-quote?symbols="+syms.join(",")+"&apikey="+encodeURIComponent(key));
       var arr=await resp.json(); if(Array.isArray(arr)){ arr.forEach(function(q){quotes[q.symbol]=q;}); live=Object.keys(quotes).length>0; }
     }catch(e){} }
     var cashTot=cash.reduce(function(s,c){return s+(+c.market_value_stmt||0);},0);
-    var items=positions.map(function(p){
-      var q=quotes[p.ticker.replace(/\./g,"-")];
-      var price=(q&&q.price!=null)?q.price:(p.quantity?(+p.market_value_stmt/(+p.quantity)):0);
-      var qty=+p.quantity, mv=qty*price, cost=+p.cost_basis||0, gl=mv-cost;
-      return {t:p.ticker,name:p.name,qty:qty,avg:qty?cost/qty:0,price:price,mv:mv,cost:cost,gl:gl,glp:cost?gl/cost*100:0,
-              dchp:(q&&q.changePercentage!=null)?+q.changePercentage:null,dayVal:(q&&q.change!=null)?qty*(+q.change):0};
+    // --- consolidate positions by ticker across all accounts ---
+    var groups={};
+    positions.forEach(function(p){
+      var t=p.ticker, g=groups[t];
+      if(!g){ g=groups[t]={t:t,name:p.name,qty:0,cost:0,stmtMv:0,accts:[]}; }
+      var q=+p.quantity||0, c=+p.cost_basis||0, mvs=+p.market_value_stmt||0;
+      g.qty+=q; g.cost+=c; g.stmtMv+=mvs;
+      g.accts.push({account:p.account||"—",qty:q,cost:c,mvStmt:mvs});
+    });
+    var nAcct={}; positions.forEach(function(p){nAcct[p.account||"—"]=1;});
+    var items=Object.keys(groups).map(function(t){
+      var g=groups[t], q=quotes[t.replace(/\./g,"-")];
+      var price=(q&&q.price!=null)?q.price:(g.qty?g.stmtMv/g.qty:0);
+      var mv=g.qty*price, gl=mv-g.cost;
+      g.accts.forEach(function(a){ a.mv=a.qty*price; a.gl=a.mv-a.cost; });
+      g.accts.sort(function(a,b){return b.mv-a.mv;});
+      return {t:g.t,name:g.name,qty:g.qty,avg:g.qty?g.cost/g.qty:0,price:price,mv:mv,cost:g.cost,gl:gl,glp:g.cost?gl/g.cost*100:0,
+              dchp:(q&&q.changePercentage!=null)?+q.changePercentage:null,dayVal:(q&&q.change!=null)?g.qty*(+q.change):0,
+              accts:g.accts,n:g.accts.length};
     });
     var totMv=items.reduce(function(s,i){return s+i.mv;},0), totVal=totMv+cashTot,
         totCost=items.reduce(function(s,i){return s+i.cost;},0), totGl=totMv-totCost,
         totDay=items.reduce(function(s,i){return s+i.dayVal;},0);
     items.forEach(function(i){i.w=totMv?i.mv/totMv*100:0;});
-    document.getElementById("stkSub").textContent=positions.length+" positions · "+(live?"live prices":"prices from latest statement")+(cashTot?" · incl. cash":"");
+    var nAcctC=Object.keys(nAcct).length;
+    document.getElementById("stkSub").textContent=items.length+" tickers · "+positions.length+" holdings across "+nAcctC+" account"+(nAcctC===1?"":"s")+" · "+(live?"live prices":"statement prices")+(cashTot?" · incl. cash":"");
     var dayPct=(totMv-totDay)?totDay/(totMv-totDay)*100:0, glPct=totCost?totGl/totCost*100:0;
     var sum='<div class="stk-sum">'+stkCard("Total value",stkFull(totVal),null,"")+
       (live?stkCard("Today",stkMoney(totDay,1),dayPct,totDay>=0?"up":"down"):"")+
       stkCard("Total gain/loss",stkMoney(totGl,1),glPct,totGl>=0?"up":"down")+
       stkCard("Equities",stkFull(totMv),null,"")+stkCard("Cash",stkFull(cashTot),null,"")+'</div>';
+    function qfmt(n){ return (Math.round(n*1e4)/1e4).toLocaleString(undefined,{maximumFractionDigits:4}); }
     function paint(){
       var arr=items.slice().sort(stkCmp);
       var thead='<tr>'+stkTh("Symbol","t",1)+stkTh("Qty","qty")+stkTh("Avg cost","avg")+stkTh("Price","price")+stkTh("Day","dchp")+stkTh("Mkt value","mv")+stkTh("Gain/Loss","gl")+stkTh("Weight","w")+'</tr>';
       var body=arr.map(function(i){var glc=i.gl>=0?"up":"down",dc=i.dchp==null?"":(i.dchp>=0?"up":"down");
-        return '<tr><td class="stk-name">'+stkLogo(i.t)+'<div><div class="stk-tk">'+esc(i.t)+'</div><div class="stk-nm">'+esc(i.name)+'</div></div></td>'+
-          '<td class="r">'+i.qty.toLocaleString()+'</td><td class="r">$'+i.avg.toFixed(2)+'</td><td class="r">$'+i.price.toFixed(2)+'</td>'+
+        var multi=i.n>1, isOpen=multi&&stkOpen[i.t];
+        var caret='<button class="stk-caret'+(isOpen?" open":"")+(multi?"":" hide")+'" data-tk="'+esc(i.t)+'" aria-label="Toggle accounts">▶</button>';
+        var master='<tr class="stk-master'+(isOpen?" open":"")+'" data-tk="'+esc(i.t)+'"><td class="stk-name">'+caret+stkLogo(i.t)+'<div><div class="stk-tk">'+esc(i.t)+(multi?' <span class="stk-sub2">'+i.n+' accts</span>':'')+'</div><div class="stk-nm">'+esc(i.name)+'</div></div></td>'+
+          '<td class="r">'+qfmt(i.qty)+'</td><td class="r">$'+i.avg.toFixed(2)+'</td><td class="r">$'+i.price.toFixed(2)+'</td>'+
           '<td class="r '+dc+'">'+(i.dchp==null?"—":(i.dchp>=0?"+":"")+i.dchp.toFixed(2)+"%")+'</td>'+
           '<td class="r bold">'+stkFull(i.mv)+'</td><td class="r '+glc+'">'+stkMoney(i.gl,1)+' <span class="stk-sub2">'+(i.glp>=0?"+":"")+i.glp.toFixed(1)+'%</span></td>'+
-          '<td class="r">'+i.w.toFixed(1)+'%</td></tr>';}).join("");
+          '<td class="r">'+i.w.toFixed(1)+'%</td></tr>';
+        if(isOpen){
+          master+=i.accts.map(function(a){var agl=a.gl>=0?"up":"down";
+            return '<tr class="stk-child"><td class="stk-acct"><span class="stk-acct-badge">'+esc(stkAcctShort(a.account))+'</span></td>'+
+              '<td class="r">'+qfmt(a.qty)+'</td><td class="r"></td><td class="r"></td><td class="r"></td>'+
+              '<td class="r">'+stkFull(a.mv)+'</td><td class="r '+agl+'">'+stkMoney(a.gl,1)+'</td><td class="r">'+(i.mv?(a.mv/i.mv*100).toFixed(0):"0")+'%</td></tr>';}).join("");
+        }
+        return master;}).join("");
       box.innerHTML=sum+'<div class="stk-tablewrap" style="margin-bottom:18px"><table class="stk-table"><thead>'+thead+'</thead><tbody>'+body+'</tbody></table></div>'+
         '<div class="stk-alloc"><div class="stk-alloc-h">Allocation</div><div style="position:relative;height:320px;max-width:580px;margin:0 auto"><canvas id="stkChart"></canvas></div></div>';
       box.querySelectorAll("th[data-k]").forEach(function(th){th.addEventListener("click",function(){var k=th.dataset.k;if(stkSort.key===k)stkSort.dir*=-1;else{stkSort.key=k;stkSort.dir=(k==="t")?1:-1;}paint();});});
+      box.querySelectorAll("tr.stk-master").forEach(function(tr){tr.addEventListener("click",function(e){
+        if(e.target.closest("a"))return; var tk=tr.dataset.tk; var it=items.filter(function(x){return x.t===tk;})[0];
+        if(!it||it.n<2)return; stkOpen[tk]=!stkOpen[tk]; paint();});});
       drawAlloc();
     }
     function drawAlloc(){
@@ -369,6 +416,97 @@ window.STARWELL_CONFIG = {
     }
     paint();
   }
+
+  // ---------- Stocks: upload brokerage statement (Schwab / Fidelity CSV) ----------
+  function stkNum(s){ if(s==null) return 0; s=String(s).replace(/^="?|"?$/g,"").replace(/[$,%\s]/g,"").trim();
+    if(s===""||s==="--"||/^N\/A$/i.test(s)||/incomplete/i.test(s)) return 0; var n=parseFloat(s); return isNaN(n)?0:n; }
+  function stkClean(s){ return s==null?"":String(s).replace(/^="?|"?$/g,"").trim(); }
+  function parseCSV(text){ if(window.Papa){ var r=Papa.parse(text,{skipEmptyLines:true}); return r.data; }
+    return text.split(/\r?\n/).filter(function(l){return l.trim();}).map(function(l){
+      var out=[],cur="",q=false; for(var i=0;i<l.length;i++){var c=l[i];
+        if(c==='"'){ if(q&&l[i+1]==='"'){cur+='"';i++;} else q=!q; }
+        else if(c===","&&!q){out.push(cur);cur="";} else cur+=c; } out.push(cur); return out; }); }
+
+  // Charles Schwab "Positions" export
+  function parseSchwab(rows){
+    var acct="Account", hdr=-1, sym=0,desc=1,qty=2,mkt=5,cost=8;
+    for(var r=0;r<rows.length;r++){
+      var first=stkClean((rows[r][0]||""));
+      var m=first.match(/Positions for account (.+?) as of/i); if(m){ acct=m[1].trim(); }
+      if(/^symbol$/i.test(first) && rows[r].length>5){ hdr=r;
+        rows[r].forEach(function(c,ix){ c=stkClean(c).toLowerCase();
+          if(c==="symbol")sym=ix; else if(/description/.test(c))desc=ix;
+          else if(/^qty/.test(c))qty=ix; else if(/mkt val|market value/.test(c))mkt=ix;
+          else if(/cost basis/.test(c))cost=ix; }); break; }
+    }
+    if(hdr<0) return null;
+    var out=[];
+    for(var i=hdr+1;i<rows.length;i++){ var row=rows[i]; var s=stkClean(row[sym]||"");
+      if(!s) continue;
+      if(/^positions total/i.test(s)) break;
+      if(/cash & cash|cash and cash|money market/i.test(s)){
+        out.push({ticker:"CASH",name:"Cash & Cash Investments",quantity:0,cost_basis:0,market_value_stmt:stkNum(row[mkt]),is_cash:true}); continue; }
+      out.push({ticker:s.toUpperCase(),name:stkClean(row[desc]||s),quantity:stkNum(row[qty]),cost_basis:stkNum(row[cost]),market_value_stmt:stkNum(row[mkt]),is_cash:false});
+    }
+    return {account:acct,rows:out};
+  }
+
+  // Fidelity tax-lot export (aggregates lots per ticker)
+  function parseFidelity(rows){
+    var hdr=-1, col={};
+    for(var r=0;r<rows.length;r++){ var lc=rows[r].map(function(c){return stkClean(c).toLowerCase();});
+      if(lc.indexOf("ticker")>=0 && lc.some(function(c){return /federal cost|cost basis/.test(c);})){ hdr=r;
+        lc.forEach(function(c,ix){
+          if(c==="ticker")col.tk=ix; else if(/account name/.test(c))col.an=ix;
+          else if(/asset name|description/.test(c))col.nm=ix; else if(/^quantity/.test(c))col.qty=ix;
+          else if(/federal cost|cost basis/.test(c))col.cost=ix; else if(/market value/.test(c))col.mv=ix; }); break; }
+    }
+    if(hdr<0||col.tk==null) return null;
+    var acct="Account", agg={};
+    for(var i=hdr+1;i<rows.length;i++){ var row=rows[i]; var tk=stkClean(row[col.tk]||"").toUpperCase();
+      if(!tk) continue; if(col.an!=null && stkClean(row[col.an])) acct=stkClean(row[col.an]);
+      var g=agg[tk]; if(!g){ g=agg[tk]={ticker:tk,name:stkClean(col.nm!=null?row[col.nm]:tk)||tk,quantity:0,cost_basis:0,market_value_stmt:0,is_cash:false}; }
+      g.quantity+=stkNum(row[col.qty]); g.cost_basis+=stkNum(row[col.cost]); g.market_value_stmt+=stkNum(row[col.mv]);
+    }
+    var out=Object.keys(agg).map(function(k){return agg[k];});
+    return {account:acct,rows:out};
+  }
+
+  function parseStatement(text){
+    var rows=parseCSV(text); if(!rows||!rows.length) return null;
+    var head=text.slice(0,400);
+    if(/Positions for account/i.test(head)) return parseSchwab(rows);
+    if(/\bticker\b/i.test(head) && /federal cost|cost basis/i.test(head)) return parseFidelity(rows);
+    // fallback: try both
+    return parseSchwab(rows) || parseFidelity(rows);
+  }
+
+  function stkBanner(cls,msg){ var b=document.getElementById("stkUp"); if(!b)return; b.hidden=false; b.className="stk-up"+(cls?" "+cls:""); b.innerHTML=msg; }
+
+  async function uploadStatements(files){
+    var done=[], failed=[];
+    for(var fi=0;fi<files.length;fi++){ var f=files[fi];
+      stkBanner("", "Reading <strong>"+esc(f.name)+"</strong>… ("+(fi+1)+"/"+files.length+")");
+      var text; try{ text=await f.text(); }catch(e){ failed.push(f.name+" (unreadable)"); continue; }
+      var parsed=parseStatement(text);
+      if(!parsed||!parsed.account||!parsed.rows.length){ failed.push(f.name+" (unrecognized format)"); continue; }
+      parsed.rows.forEach(function(r,ix){ r.account=parsed.account; r.sort_order=ix; });
+      var del=await sb.from("stock_holdings").delete().eq("account",parsed.account);
+      if(del.error){ failed.push(f.name+" — "+del.error.message); continue; }
+      var ins=await sb.from("stock_holdings").insert(parsed.rows);
+      if(ins.error){ failed.push(f.name+" — "+ins.error.message); continue; }
+      done.push(parsed.account+" ("+parsed.rows.filter(function(r){return !r.is_cash;}).length+" positions)");
+    }
+    var msg="";
+    if(done.length) msg+='✓ Updated: '+done.map(esc).join(", ");
+    if(failed.length) msg+=(msg?"<br>":"")+'✕ Skipped: '+failed.map(esc).join("; ");
+    stkBanner(failed.length?(done.length?"":"err"):"ok", msg||"Nothing to import.");
+    if(done.length) await renderStocks();
+  }
+
+  (function(){ var fi=document.getElementById("stkFile"); if(!fi) return;
+    fi.addEventListener("change", function(){ if(fi.files&&fi.files.length){ uploadStatements(Array.prototype.slice.call(fi.files)); fi.value=""; } });
+  })();
 
   // ---------- CONTENT MODELS ----------
   var MODELS = {
