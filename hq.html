@@ -191,7 +191,7 @@ window.STARWELL_CONFIG = {
         <div class="view-head" style="align-items:flex-end">
           <div><h2>Stocks</h2><div class="muted" id="stkSub" style="font-size:13px"></div></div>
           <div style="display:flex;gap:8px">
-            <label class="btn ghost sm" style="cursor:pointer">⬆ Upload statement<input type="file" id="stkFile" accept=".csv,.txt" multiple hidden></label>
+            <label class="btn ghost sm" style="cursor:pointer">⬆ Upload statement<input type="file" id="stkFile" accept=".csv,.txt,.xls,.xlsx" multiple hidden></label>
             <button class="btn ghost sm" id="stkRefresh">↻ Refresh</button>
           </div>
         </div>
@@ -222,6 +222,7 @@ window.STARWELL_CONFIG = {
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 (function(){
   "use strict";
@@ -343,8 +344,16 @@ window.STARWELL_CONFIG = {
     if(key){ try{
       var uniq={}; positions.forEach(function(p){uniq[p.ticker.replace(/\./g,"-")]=1;});
       var syms=Object.keys(uniq);
-      var resp=await fetch("https://financialmodelingprep.com/stable/batch-quote?symbols="+syms.join(",")+"&apikey="+encodeURIComponent(key));
-      var arr=await resp.json(); if(Array.isArray(arr)){ arr.forEach(function(q){quotes[q.symbol]=q;}); live=Object.keys(quotes).length>0; }
+      // Free FMP plan: one symbol per /stable/quote call (batch endpoints are premium).
+      // Fetch each unique ticker; anything restricted/unknown just falls back to statement price.
+      async function chunk(list,n,fn){ for(var i=0;i<list.length;i+=n){ await Promise.all(list.slice(i,i+n).map(fn)); } }
+      await chunk(syms,8,function(s){
+        return fetch("https://financialmodelingprep.com/stable/quote?symbol="+encodeURIComponent(s)+"&apikey="+encodeURIComponent(key))
+          .then(function(r){return r.json();})
+          .then(function(a){ if(Array.isArray(a)&&a[0]&&a[0].price!=null) quotes[a[0].symbol]=a[0]; })
+          .catch(function(){});
+      });
+      live=Object.keys(quotes).length>0;
     }catch(e){} }
     var cashTot=cash.reduce(function(s,c){return s+(+c.market_value_stmt||0);},0);
     // --- consolidate positions by ticker across all accounts ---
@@ -481,14 +490,70 @@ window.STARWELL_CONFIG = {
     return parseSchwab(rows) || parseFidelity(rows);
   }
 
+  // First International Bank of Israel (FIBI) — Hebrew portfolio export (.xlsx).
+  // Converts agorot-quoted Israeli securities to USD using the FX implied by the sheet's own USD rows.
+  var FIBI_NAMES={'524017':['GILON','Gilon Gov’t Floating Bond'],'1159029':['TASE','Tel Aviv Stock Exchange Ltd'],
+    '1157403':['ISCD','Isracard Ltd'],'604611':['LUMI','Bank Leumi'],'662577':['POLI','Bank Hapoalim'],
+    '5127725':['MOR-IH','More Investment House Fund'],'5124326':['MOR-YT','More Yeter Fund'],
+    '5119466':['MOR-IL','More Israel Equities Fund'],'1148949':['HRL-BNK','Harel Israel Banks Index'],
+    '1146570':['KTA35','KSM TA-35 Index ETF']};
+  var FIBI_US={'AMZN':'Amazon.com Inc','TSM':'Taiwan Semiconductor ADR','RSP':'Invesco S&P 500 Equal Weight ETF'};
+  function fNum(s){ if(s==null) return null; s=String(s).replace(/,/g,"").replace(/[%\s]/g,"").trim();
+    if(s===""||s==="--") return null; var n=parseFloat(s); return isNaN(n)?null:n; }
+  function isFIBI(rows){ for(var i=0;i<Math.min(rows.length,15);i++){ for(var j=0;j<rows[i].length;j++){
+    var c=String(rows[i][j]==null?"":rows[i][j]); if(c.indexOf("נייר")===0||c.indexOf("תיק ני")>=0||c.indexOf("שווי אחזקה")>=0) return true; } } return false; }
+  function parseFIBI(rows){
+    var H={name:"נייר",sec:"מספר נייר",sym:"סימבול",
+      qty:"כמות",ccy:"מטבע",adj:"שער עלות מותאם",
+      hvils:"שווי אחזקה בשח",hvccy:"שווי אחזקה במטבע"};
+    var hdr=-1,col={};
+    for(var i=0;i<rows.length;i++){ var r=rows[i].map(function(c){return String(c==null?"":c).trim();});
+      if(r.indexOf(H.name)>=0 && r.indexOf(H.qty)>=0){ hdr=i;
+        Object.keys(H).forEach(function(k){ var ix=r.indexOf(H[k]); if(ix>=0) col[k]=ix; }); break; } }
+    if(hdr<0||col.name==null) return null;
+    var acct="FIBI", cash=0;
+    for(var i=0;i<rows.length;i++){ for(var j=0;j<rows[i].length;j++){ var c=String(rows[i][j]==null?"":rows[i][j]);
+      var m=c.match(/חשבון[:\s]*([0-9]+)/); if(m) acct="FIBI ..."+m[1].slice(-3);
+      if(c.indexOf("יתרה למסחר")>=0){ var nx=fNum(rows[i][j+1]); if(nx!=null) cash=nx; } } }
+    var raw=[],fxs=[];
+    for(var i=hdr+1;i<rows.length;i++){ var r=rows[i]; var name=String(r[col.name]==null?"":r[col.name]).trim();
+      if(!name||name.indexOf("סה\"כ")===0) continue;
+      var q=fNum(r[col.qty]), ccy=String(r[col.ccy]==null?"":r[col.ccy]).trim();
+      if(q==null||(ccy!=="₪"&&ccy!=="$")) continue;
+      var hvils=fNum(r[col.hvils]), hvccy=fNum(r[col.hvccy]);
+      if(ccy==="$"&&hvils&&hvccy) fxs.push(hvils/hvccy);
+      raw.push({name:name,sec:String(r[col.sec]||"").trim(),sym:String(r[col.sym]||"").trim().toUpperCase(),
+        qty:q,adj:fNum(r[col.adj])||0,ccy:ccy,hvils:hvils||0,hvccy:hvccy||0}); }
+    var FX=fxs.length?fxs.reduce(function(a,b){return a+b;},0)/fxs.length:0;
+    var out=[];
+    raw.forEach(function(x){ var tk,nm,cost,mv;
+      if(x.ccy==="$"){ tk=x.sym; nm=FIBI_US[tk]||x.name; cost=Math.round(x.qty*x.adj*100)/100; mv=Math.round(x.hvccy*100)/100; }
+      else { var mp=FIBI_NAMES[x.sec]; tk=mp?mp[0]:x.sec; nm=(mp?mp[1]:x.name)+" ("+x.sec+")";
+        cost=FX?Math.round((x.qty*x.adj/100)/FX*100)/100:0; mv=FX?Math.round(x.hvils/FX*100)/100:0; }
+      out.push({ticker:tk,name:nm,quantity:x.qty,cost_basis:cost,market_value_stmt:mv,is_cash:false}); });
+    if(cash) out.push({ticker:"CASH",name:"Cash balance for trading",quantity:0,cost_basis:0,market_value_stmt:FX?Math.round(cash/FX*100)/100:cash,is_cash:true});
+    if(!out.length) return null;
+    return {account:acct,rows:out};
+  }
+
   function stkBanner(cls,msg){ var b=document.getElementById("stkUp"); if(!b)return; b.hidden=false; b.className="stk-up"+(cls?" "+cls:""); b.innerHTML=msg; }
 
   async function uploadStatements(files){
     var done=[], failed=[];
     for(var fi=0;fi<files.length;fi++){ var f=files[fi];
       stkBanner("", "Reading <strong>"+esc(f.name)+"</strong>… ("+(fi+1)+"/"+files.length+")");
-      var text; try{ text=await f.text(); }catch(e){ failed.push(f.name+" (unreadable)"); continue; }
-      var parsed=parseStatement(text);
+      var parsed=null;
+      try{
+        if(/\.xlsx?$/i.test(f.name)){
+          if(!window.XLSX){ failed.push(f.name+" (spreadsheet reader not loaded)"); continue; }
+          var buf=await f.arrayBuffer();
+          var wb=XLSX.read(buf,{type:"array"});
+          var grid=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,raw:false,defval:""});
+          if(isFIBI(grid)) parsed=parseFIBI(grid);
+        } else {
+          parsed=parseStatement(await f.text());
+        }
+      }catch(e){ failed.push(f.name+" ("+(e.message||"unreadable")+")"); continue; }
       if(!parsed||!parsed.account||!parsed.rows.length){ failed.push(f.name+" (unrecognized format)"); continue; }
       parsed.rows.forEach(function(r,ix){ r.account=parsed.account; r.sort_order=ix; });
       var del=await sb.from("stock_holdings").delete().eq("account",parsed.account);
