@@ -481,13 +481,50 @@ window.STARWELL_CONFIG = {
     return {account:acct,rows:out};
   }
 
+  // Fidelity "Holdings Detail" export (As of Date / Asset Type / % of Holdings columns).
+  // Money-market/deposit-sweep rows are treated as cash; firm-total rows (blank Account
+  // Number) are merged in only to supply cost basis, never to double-count quantity.
+  function parseFidelityHoldings(rows){
+    var hdr=-1, col={};
+    for(var r=0;r<rows.length;r++){ var lc=rows[r].map(function(c){return stkClean(c).toLowerCase();});
+      if(lc.indexOf("ticker")>=0 && lc.indexOf("market value")>=0 && lc.some(function(c){return /% of holdings/.test(c);})){ hdr=r;
+        lc.forEach(function(c,ix){
+          if(c==="ticker")col.tk=ix; else if(/asset name/.test(c))col.nm=ix;
+          else if(/asset type/.test(c))col.at=ix; else if(/account number/.test(c))col.acn=ix;
+          else if(/account name/.test(c))col.an=ix; else if(/^quantity/.test(c))col.qty=ix;
+          else if(/market value/.test(c))col.mv=ix; else if(/federal cost|cost basis/.test(c))col.cost=ix; }); break; }
+    }
+    if(hdr<0||col.tk==null) return null;
+    var account="Account", reals={}, totals={};
+    for(var i=hdr+1;i<rows.length;i++){ var row=rows[i]; if(!row) continue;
+      var tk=stkClean(row[col.tk]).toUpperCase(), atype=col.at!=null?stkClean(row[col.at]):"";
+      var acctno=col.acn!=null?stkClean(row[col.acn]):"", acctname=col.an!=null?stkClean(row[col.an]):"";
+      var name=col.nm!=null?stkClean(row[col.nm]):tk, qty=stkNum(row[col.qty]), mv=stkNum(row[col.mv]), cost=col.cost!=null?stkNum(row[col.cost]):0;
+      if(acctname) account=acctname;
+      var iscash=/cash/i.test(atype);
+      if(!tk) continue;
+      if(!acctno){ totals[tk]={qty:qty,mv:mv,cost:cost,name:name,iscash:iscash}; }
+      else { var d=reals[tk]||(reals[tk]={qty:0,mv:0,cost:0,name:name,iscash:iscash});
+        d.qty+=qty; d.mv+=mv; d.cost+=cost; d.name=name; d.iscash=iscash; }
+    }
+    var keys={}; Object.keys(reals).forEach(function(k){keys[k]=1;}); Object.keys(totals).forEach(function(k){keys[k]=1;});
+    var out=[];
+    Object.keys(keys).forEach(function(tk){ var d=reals[tk]||totals[tk];
+      if(d.cost===0 && totals[tk] && totals[tk].cost) d.cost=totals[tk].cost;
+      out.push({ticker:d.iscash?"CASH":tk,name:d.name,quantity:Math.round(d.qty*1e4)/1e4,
+        cost_basis:d.iscash?null:Math.round(d.cost*100)/100,market_value_stmt:Math.round(d.mv*100)/100,is_cash:d.iscash}); });
+    if(!out.length) return null;
+    return {account:account,rows:out};
+  }
+
   function parseStatement(text){
     var rows=parseCSV(text); if(!rows||!rows.length) return null;
     var head=text.slice(0,400);
     if(/Positions for account/i.test(head)) return parseSchwab(rows);
+    if(/% of Holdings/i.test(head)) return parseFidelityHoldings(rows);
     if(/\bticker\b/i.test(head) && /federal cost|cost basis/i.test(head)) return parseFidelity(rows);
-    // fallback: try both
-    return parseSchwab(rows) || parseFidelity(rows);
+    // fallback: try all
+    return parseSchwab(rows) || parseFidelityHoldings(rows) || parseFidelity(rows);
   }
 
   // First International Bank of Israel (FIBI) — Hebrew portfolio export (.xlsx).
