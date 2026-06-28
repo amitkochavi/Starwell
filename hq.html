@@ -104,6 +104,24 @@ iframe.portal{width:100%;height:640px;border:0;display:block;background:#fff;ove
 .stk-table tr.stk-child td{background:#faf9f6;border-bottom:1px solid #f0eee9;font-size:12px;color:var(--soft)}
 .stk-table tr.stk-child td.stk-acct{padding-left:54px;color:#3a3a3a}
 .stk-acct-badge{display:inline-block;font-size:11px;font-weight:500}
+.stk-toggle{display:inline-flex;background:#f0eee9;border:1px solid var(--line);border-radius:9px;padding:3px;margin-bottom:16px;gap:2px}
+.stk-toggle button{border:none;background:none;cursor:pointer;font:inherit;font-size:13px;padding:6px 16px;border-radius:7px;color:var(--soft)}
+.stk-toggle button.active{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.stk-accts{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.stk-acard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.stk-acard-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.stk-acard-nm{font-weight:600;font-size:14px;line-height:1.3}
+.stk-acard-v{font-size:21px;font-weight:600;white-space:nowrap}
+.stk-acard-sub{font-size:12px;color:var(--soft);margin-top:3px}
+.stk-acard-stats{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:11px;font-size:12.5px}
+.stk-acard-exp{margin-top:12px;border:none;background:none;cursor:pointer;font:inherit;font-size:12px;color:#2b5ea7;padding:0}
+.stk-ahold{margin-top:10px;border-top:1px solid #eee;padding-top:8px}
+.stk-mini{width:100%;border-collapse:collapse;font-size:12.5px}
+.stk-mini td{padding:5px 4px;border-bottom:1px solid #f3f1ec}
+.stk-mini tr:last-child td{border-bottom:none}
+.stk-mname{display:flex;align-items:center;gap:8px}
+.stk-mname .stk-logo{width:24px;height:24px;border-radius:5px}
+.stk-mini .r{text-align:right}.stk-mini .bold{font-weight:600}
 .stk-up{background:#fff;border:1px solid var(--line);border-left:3px solid #2b5ea7;border-radius:8px;padding:11px 14px;margin-bottom:14px;font-size:13px}
 .stk-up.err{border-left-color:#b5342a}
 .stk-up.ok{border-left-color:#1a7a5a}
@@ -320,7 +338,7 @@ window.STARWELL_CONFIG = {
   })();
 
   // ---------- Stocks: portfolio tracker (Supabase holdings + live FMP prices/logos) ----------
-  var stkChart=null, stkSort={key:"mv",dir:-1}, stkOpen={};
+  var stkChart=null, stkSort={key:"mv",dir:-1}, stkOpen={}, stkView="consol", stkAcctOpen={};
   function stkAcctShort(a){ if(!a) return "Account"; a=String(a);
     var m=a.match(/\.\.\.?\s*(\d{3,})/); if(m) return "····"+m[1];
     return a.length>26?a.slice(0,24)+"…":a; }
@@ -388,6 +406,50 @@ window.STARWELL_CONFIG = {
       stkCard("Total gain/loss",stkMoney(totGl,1),glPct,totGl>=0?"up":"down")+
       stkCard("Equities",stkFull(totMv),null,"")+stkCard("Cash",stkFull(cashTot),null,"")+'</div>';
     function qfmt(n){ return (Math.round(n*1e4)/1e4).toLocaleString(undefined,{maximumFractionDigits:4}); }
+
+    // --- per-account aggregation (for the "By account" view) ---
+    var acctMap={}, acctOrder=[];
+    function acc(n){ n=n||"—"; if(!acctMap[n]){acctMap[n]={name:n,mv:0,cost:0,dayVal:0,cash:0,holds:[]};acctOrder.push(n);} return acctMap[n]; }
+    items.forEach(function(i){ var cps=i.qty?i.dayVal/i.qty:0;
+      i.accts.forEach(function(a){ var A=acc(a.account); A.mv+=a.mv; A.cost+=a.cost; A.dayVal+=a.qty*cps;
+        A.holds.push({t:i.t,name:i.name,qty:a.qty,price:i.price,mv:a.mv,gl:a.gl,glp:a.cost?a.gl/a.cost*100:0,dchp:i.dchp}); }); });
+    cash.forEach(function(c){ acc(c.account).cash+=(+c.market_value_stmt||0); });
+    var accts=acctOrder.map(function(n){var A=acctMap[n]; A.val=A.mv+A.cash; A.gl=A.mv-A.cost; A.glp=A.cost?A.gl/A.cost*100:0;
+      A.dayPct=(A.mv-A.dayVal)?A.dayVal/(A.mv-A.dayVal)*100:0; A.w=totVal?A.val/totVal*100:0;
+      A.holds.sort(function(a,b){return b.mv-a.mv;}); return A;});
+    accts.sort(function(a,b){return b.val-a.val;});
+
+    function toggleHtml(){ return '<div class="stk-toggle">'+
+      '<button data-v="consol" class="'+(stkView==="consol"?"active":"")+'">Consolidated</button>'+
+      '<button data-v="accounts" class="'+(stkView==="accounts"?"active":"")+'">By account</button></div>'; }
+    function dispatch(){ if(stkView==="accounts") paintAccounts(); else paint(); }
+    function wireToggle(){ box.querySelectorAll(".stk-toggle button").forEach(function(b){
+      b.addEventListener("click",function(){ stkView=b.dataset.v; dispatch(); }); }); }
+
+    function paintAccounts(){
+      var cards=accts.map(function(A){
+        var open=stkAcctOpen[A.name], glc=A.gl>=0?"up":"down", dc=A.dayVal>=0?"up":"down";
+        var holds=open?'<div class="stk-ahold"><table class="stk-mini"><tbody>'+A.holds.map(function(p){
+            var pglc=p.gl>=0?"up":"down";
+            return '<tr><td class="stk-mname">'+stkLogo(p.t)+'<span class="stk-tk">'+esc(p.t)+'</span></td>'+
+              '<td class="r">'+qfmt(p.qty)+'</td><td class="r bold">'+stkFull(p.mv)+'</td>'+
+              '<td class="r '+pglc+'">'+stkMoney(p.gl,1)+'</td></tr>';}).join("")+'</tbody></table></div>':'';
+        return '<div class="stk-acard'+(open?" open":"")+'">'+
+          '<div class="stk-acard-h"><div class="stk-acard-nm">'+esc(A.name)+'</div><div class="stk-acard-v">'+stkFull(A.val)+'</div></div>'+
+          '<div class="stk-acard-sub">'+A.w.toFixed(1)+'% of portfolio · '+A.holds.length+' position'+(A.holds.length===1?"":"s")+'</div>'+
+          '<div class="stk-acard-stats">'+
+            (live?'<span class="'+dc+'">Today '+stkMoney(A.dayVal,1)+' ('+(A.dayPct>=0?"+":"")+A.dayPct.toFixed(2)+'%)</span>':'')+
+            '<span class="'+glc+'">Gain/Loss '+stkMoney(A.gl,1)+' ('+(A.glp>=0?"+":"")+A.glp.toFixed(1)+'%)</span>'+
+            (A.cash?'<span>Cash '+stkFull(A.cash)+'</span>':'')+'</div>'+
+          (A.holds.length?'<button class="stk-acard-exp" data-acct="'+esc(A.name)+'">'+(open?"Hide holdings ▴":"View holdings ▾")+'</button>':'')+
+          holds+'</div>';
+      }).join("");
+      box.innerHTML=sum+toggleHtml()+'<div class="stk-accts">'+cards+'</div>';
+      wireToggle();
+      box.querySelectorAll(".stk-acard-exp").forEach(function(b){b.addEventListener("click",function(){
+        var n=b.dataset.acct; stkAcctOpen[n]=!stkAcctOpen[n]; paintAccounts();});});
+    }
+
     function paint(){
       var arr=items.slice().sort(stkCmp);
       var thead='<tr>'+stkTh("Symbol","t",1)+stkTh("Qty","qty")+stkTh("Avg cost","avg")+stkTh("Price","price")+stkTh("Day","dchp")+stkTh("Mkt value","mv")+stkTh("Gain/Loss","gl")+stkTh("Weight","w")+'</tr>';
@@ -406,8 +468,9 @@ window.STARWELL_CONFIG = {
               '<td class="r">'+stkFull(a.mv)+'</td><td class="r '+agl+'">'+stkMoney(a.gl,1)+'</td><td class="r">'+(i.mv?(a.mv/i.mv*100).toFixed(0):"0")+'%</td></tr>';}).join("");
         }
         return master;}).join("");
-      box.innerHTML=sum+'<div class="stk-tablewrap" style="margin-bottom:18px"><table class="stk-table"><thead>'+thead+'</thead><tbody>'+body+'</tbody></table></div>'+
+      box.innerHTML=sum+toggleHtml()+'<div class="stk-tablewrap" style="margin-bottom:18px"><table class="stk-table"><thead>'+thead+'</thead><tbody>'+body+'</tbody></table></div>'+
         '<div class="stk-alloc"><div class="stk-alloc-h">Allocation</div><div style="position:relative;height:320px;max-width:580px;margin:0 auto"><canvas id="stkChart"></canvas></div></div>';
+      wireToggle();
       box.querySelectorAll("th[data-k]").forEach(function(th){th.addEventListener("click",function(){var k=th.dataset.k;if(stkSort.key===k)stkSort.dir*=-1;else{stkSort.key=k;stkSort.dir=(k==="t")?1:-1;}paint();});});
       box.querySelectorAll("tr.stk-master").forEach(function(tr){tr.addEventListener("click",function(e){
         if(e.target.closest("a"))return; var tk=tr.dataset.tk; var it=items.filter(function(x){return x.t===tk;})[0];
@@ -423,7 +486,7 @@ window.STARWELL_CONFIG = {
       stkChart=new Chart(document.getElementById("stkChart"),{type:"doughnut",data:{labels:labels,datasets:[{data:data,backgroundColor:labels.map(function(_,i){return pal[i%pal.length];}),borderWidth:0}]},
         options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"right",labels:{boxWidth:10,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.label+": "+stkFull(c.parsed);}}}},cutout:"58%"}});
     }
-    paint();
+    dispatch();
   }
 
   // ---------- Stocks: upload brokerage statement (Schwab / Fidelity CSV) ----------
