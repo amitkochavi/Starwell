@@ -617,10 +617,13 @@ window.STARWELL_CONFIG = {
       title:function(r){return r.title;},
       sub:function(r){return [r.category, r.publish_date, r.featured?"★ featured":""].filter(Boolean).join("  ·  ");},
       fields:[
-        {k:"title",label:"Title",t:"text",full:true,req:true},
+        {k:"title",label:"Title (English)",t:"text",full:true,req:true},
+        {k:"title_he",label:"כותרת (Hebrew title)",t:"text",full:true,rtl:true},
         {k:"category",label:"Category",t:"text"},
+        {k:"category_he",label:"קטגוריה (Hebrew category)",t:"text",rtl:true},
         {k:"publish_date",label:"Publish date",t:"date"},
-        {k:"excerpt",label:"Excerpt",t:"textarea",full:true},
+        {k:"excerpt",label:"Excerpt (English)",t:"textarea",full:true},
+        {k:"excerpt_he",label:"תקציר (Hebrew excerpt)",t:"textarea",full:true,rtl:true},
         {k:"source_url",label:"Source / article link",t:"text",full:true},
         {k:"featured_image_url",label:"Image URL",t:"text",full:true},
         {k:"author",label:"Author",t:"text"},
@@ -633,11 +636,16 @@ window.STARWELL_CONFIG = {
       title:function(r){return r.title;},
       sub:function(r){return [r.category, r.location, r.employment_type, r.active?"open":"closed"].filter(Boolean).join("  ·  ");},
       fields:[
-        {k:"title",label:"Role title",t:"text",full:true,req:true},
+        {k:"title",label:"Role title (English)",t:"text",full:true,req:true},
+        {k:"title_he",label:"שם המשרה (Hebrew title)",t:"text",full:true,rtl:true},
         {k:"category",label:"Category",t:"text"},
+        {k:"category_he",label:"קטגוריה (Hebrew)",t:"text",rtl:true},
         {k:"location",label:"Location",t:"text"},
+        {k:"location_he",label:"מיקום (Hebrew)",t:"text",rtl:true},
         {k:"employment_type",label:"Type (Full-time…)",t:"text"},
-        {k:"description",label:"Description",t:"textarea",full:true},
+        {k:"employment_type_he",label:"היקף משרה (Hebrew)",t:"text",rtl:true},
+        {k:"description",label:"Description (English)",t:"textarea",full:true},
+        {k:"description_he",label:"תיאור (Hebrew description)",t:"textarea",full:true,rtl:true},
         {k:"apply_url",label:"Apply link (or mailto:)",t:"text",full:true},
         {k:"active",label:"Open / accepting applications",t:"check"},
         {k:"sort_order",label:"Sort order",t:"number"}
@@ -696,10 +704,11 @@ window.STARWELL_CONFIG = {
     m.fields.forEach(function(f){
       var v = row[f.k]; var id="f_"+f.k;
       var ctl;
-      if(f.t==="textarea") ctl='<textarea id="'+id+'">'+esc(v||"")+'</textarea>';
+      var rtl=f.rtl?' dir="rtl" style="text-align:right"':'';
+      if(f.t==="textarea") ctl='<textarea id="'+id+'"'+rtl+'>'+esc(v||"")+'</textarea>';
       else if(f.t==="check") ctl='<input type="checkbox" id="'+id+'" style="width:auto" '+(v?"checked":"")+'>';
       else if(f.t==="select") ctl='<select id="'+id+'">'+f.opts.map(function(o){return '<option '+(v===o?"selected":"")+'>'+o+'</option>';}).join("")+'</select>';
-      else ctl='<input id="'+id+'" type="'+(f.t==="number"?"number":f.t==="date"?"date":"text")+'" value="'+esc(v==null?"":v)+'">';
+      else ctl='<input id="'+id+'" type="'+(f.t==="number"?"number":f.t==="date"?"date":"text")+'" value="'+esc(v==null?"":v)+'"'+rtl+'>';
       html+='<div class="field" style="grid-column:'+(f.full?"1/-1":"auto")+'"><label for="'+id+'">'+f.label+(f.req?" *":"")+'</label>'+ctl+'</div>';
     });
     html+='</div><div class="actions"><button class="btn ghost" id="cancelF">Cancel</button><button class="btn" id="saveF">Save</button></div>'+
