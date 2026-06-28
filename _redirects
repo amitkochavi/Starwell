@@ -1,0 +1,23 @@
+# Legacy base44 routes -> current pages (301, de-indexes the old URLs)
+/Home  /  301!
+/home  /  301!
+/Index  /  301!
+/OurStory  /our-story.html  301!
+/ourstory  /our-story.html  301!
+/Our-Story  /our-story.html  301!
+/About  /our-story.html  301!
+/Technology  /technology.html  301!
+/technology  /technology.html  301!
+/RealEstate  /real-estate.html  301!
+/realestate  /real-estate.html  301!
+/Real-Estate  /real-estate.html  301!
+/Capital  /capital.html  301!
+/capital  /capital.html  301!
+/News  /news.html  301!
+/news  /news.html  301!
+/Contact  /contact.html  301!
+/contact  /contact.html  301!
+/Careers  /careers.html  301!
+/careers  /careers.html  301!
+/Sitemap  /sitemap.html  301!
+/sitemap  /sitemap.html  301!

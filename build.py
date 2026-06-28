@@ -798,6 +798,27 @@ for fn,pr in pages:
 open(os.path.join(OUT,"sitemap.xml"),"w").write(
   '<?xml version="1.0" encoding="UTF-8"?>\n'
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'+urls+'</urlset>\n')
+
+# ---- legacy base44 URL redirects -------------------------------------------
+# The previous (base44) site used PascalCase SPA routes like /RealEstate that
+# Google still has indexed; they now 404. A 301 sends visitors to the right
+# page AND tells Google to drop the old URL and replace it with the target —
+# the correct way to retire a stale indexed URL (much faster than a bare 404).
+# Both case variants are listed because Netlify path matching is case-sensitive.
+LEGACY=[
+  ("/Home","/"),("/home","/"),("/Index","/"),
+  ("/OurStory","/our-story.html"),("/ourstory","/our-story.html"),("/Our-Story","/our-story.html"),("/About","/our-story.html"),
+  ("/Technology","/technology.html"),("/technology","/technology.html"),
+  ("/RealEstate","/real-estate.html"),("/realestate","/real-estate.html"),("/Real-Estate","/real-estate.html"),
+  ("/Capital","/capital.html"),("/capital","/capital.html"),
+  ("/News","/news.html"),("/news","/news.html"),
+  ("/Contact","/contact.html"),("/contact","/contact.html"),
+  ("/Careers","/careers.html"),("/careers","/careers.html"),
+  ("/Sitemap","/sitemap.html"),("/sitemap","/sitemap.html"),
+]
+open(os.path.join(OUT,"_redirects"),"w").write(
+  "# Legacy base44 routes -> current pages (301, de-indexes the old URLs)\n"+
+  "\n".join(f"{src}  {dst}  301!" for src,dst in LEGACY)+"\n")
 # Private pages (hq, wealth-portal, dashboard) are intentionally NOT listed
 # here. Listing them in robots.txt would advertise their URLs, and a
 # Disallow would actually PREVENT Google from reading their "noindex"
