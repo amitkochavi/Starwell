@@ -31,31 +31,41 @@ on the static site and can't run the server-side AI pipeline).
 > or **S3** (same interface). The worker likewise wants an always-on host; the
 > `/process` route drains the queue in-process so the loop also works without it.
 
+## Deploy to Vercel (Postgres + Blob) — step by step
+
+The app is **Postgres-backed** (Vercel serverless can't use SQLite files) and stores
+uploads in **Vercel Blob**. `vercel.json` sets the build to
+`prisma generate && prisma migrate deploy && prisma db seed && next build`, so **every
+deploy auto-creates the tables and seeds the fixtures if the DB is empty** — no manual
+DB commands.
+
+1. **Import the repo** in Vercel → **New Project**. Set **Root Directory = `deal-hub-app`**.
+2. **Storage → Create Database → Postgres** (or Neon). Connect it to the project — this
+   sets `DATABASE_URL` (and `POSTGRES_*`) automatically. **Use `DATABASE_URL`.**
+3. **Storage → Create → Blob.** Connect it — this sets `BLOB_READ_WRITE_TOKEN`
+   automatically (uploads then go to Blob).
+4. **Settings → Environment Variables** → add:
+   - `ANTHROPIC_API_KEY` = your `sk-ant-…` key (create at console.anthropic.com; keep it secret)
+   - `ANTHROPIC_MODEL` = `claude-sonnet-5`
+5. **Redeploy** (Deployments → ⋯ → Redeploy). The build migrates + seeds; `/deals` now works.
+6. **Worker (optional).** The `/process` route drains the queue in-request, so the AI
+   loop works without a worker. If you later want continuous background processing,
+   run `npm run worker` on a small always-on host (Railway/Render/Fly) pointed at the
+   same `DATABASE_URL`, or a Vercel Cron that POSTs `/api/deals/*/process`.
+
+> **Blob access:** M2 uses `access: 'public'` blobs (unguessable URLs) served through
+> the app's `/api/files/*` route. For sensitive deal documents, tighten this to signed
+> URLs + auth before real use — noted as an M2 follow-up.
+
 ## Run locally
-
+Local dev also uses Postgres now (provider is `postgresql`). Easiest: a free **Neon**
+DB — put its URL in `.env` as `DATABASE_URL`. Then:
 ```bash
-cd deal-hub-app
-cp .env.example .env         # set ANTHROPIC_API_KEY (server-side only)
+cp .env.example .env          # set DATABASE_URL + ANTHROPIC_API_KEY
 npm install
-npm run db:push              # create the SQLite schema (dev.db)
-npm run db:seed              # seed users + RVM / Net Core / Example fixtures
-npm run dev                  # http://localhost:3000  -> /deals
-# in a second terminal, once the pipeline lands:
-npm run worker
+npm run db:push && npm run db:seed
+npm run dev                   # http://localhost:3000
 ```
-
-## Deploy to Vercel
-
-1. Push this repo; in Vercel **New Project → import**, set **Root Directory = `deal-hub-app`**.
-2. Env vars: `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, and `DATABASE_URL`.
-   - For production use **Postgres** (Vercel Postgres / Neon / Supabase): change
-     `datasource.provider` in `prisma/schema.prisma` from `sqlite` to `postgresql`
-     and point `DATABASE_URL` at it. The schema is already Postgres-compatible.
-3. Build command `npm run build` (runs `prisma generate` first). Add a Postgres
-   `prisma migrate deploy` step or run `db:push` once against the prod DB.
-4. The **worker** (`npm run worker`) is a long-running process — run it on a small
-   always-on host (Railway/Render/Fly) or a Vercel Cron that drains the queue.
-   Vercel serverless functions are stateless, so the poller doesn't belong in a route.
 
 ## Layout
 
