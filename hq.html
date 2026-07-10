@@ -752,22 +752,22 @@ window.STARWELL_CONFIG = {
   })();
 
   // ================= DEAL HUB (Module A + Module B shell) =================
-  var DH = { status:"All", q:"", deals:[], deal:null, pages:{}, page:"exec-summary" };
+  var DH = { status:"All", q:"", deals:[], deal:null, pages:{}, page:"exec-summary", sel:{}, compare:false };
   var DH_STATUSES = ["Underwriting","Call scheduled","IC","Approved","Pass","Hold","Lost","Closed"];
   var DH_DOCS = ["CIM","Executed NDA","Model","QoE","Customer file","Tax Returns (3Y)"];
   // 23-page workspace catalog (Kodiak parity). type: special renderer or "text".
   var DH_PAGES = [
     {g:"MEMO", k:"exec-summary", t:"Executive Summary", type:"exec"},
     {g:"MEMO", k:"financials",   t:"Financials", type:"fin"},
-    {g:"MEMO", k:"revenue-mix",  t:"Revenue Mix & Customers", hint:"Service-line split, recurring % (MRR/ARR), contract base, top-1/top-5 concentration."},
+    {g:"MEMO", k:"revenue-mix",  t:"Revenue Mix & Customers", type:"revmix"},
     {g:"MEMO", k:"market",        t:"Market", hint:"Geography, competitive density, verticals, demand drivers, pricing environment."},
     {g:"MEMO", k:"thesis",        t:"Investment Thesis", type:"thesis"},
-    {g:"MEMO", k:"growth",        t:"Growth Plan & Strategy", hint:"Growth levers (pricing, cross-sell, contracts, tuck-ins), 100-day plan, org plan, roll-up fit."},
+    {g:"MEMO", k:"growth",        t:"Growth Plan & Strategy", type:"growth"},
     {g:"MEMO", k:"risks",         t:"Risks & Mitigants", type:"risks"},
     {g:"MEMO", k:"projections",   t:"Projections", type:"projections"},
     {g:"MEMO", k:"transaction",   t:"Transaction", type:"transaction"},
-    {g:"MEMO", k:"governance",    t:"Governance & Terms", hint:"Board/control, seller employment & transition, non-compete, R&W, conditions to close, exclusivity dates."},
-    {g:"MEMO", k:"exit",          t:"Exit Path", hint:"Exit options, exit-multiple range + rationale, hold period, MOIC-by-exit-year."},
+    {g:"MEMO", k:"governance",    t:"Governance & Terms", type:"governance"},
+    {g:"MEMO", k:"exit",          t:"Exit Path", type:"exit"},
     {g:"SCORING", k:"quant", t:"Quantitative Scoring", type:"score", axes:["Valuation & Leverage","Growth & Trajectory","Margins & Cash Conversion","Revenue Quality & Retention","Coverage & Structure"]},
     {g:"SCORING", k:"qual",  t:"Qualitative Scoring", type:"score", axes:["Business Model","Team & Owner Dependence","Market & Competition","Transition & Execution Risk","Data Quality & Diligence Confidence"]},
     {g:"SCORING", k:"diligence", t:"Diligence Qs", type:"diligence"},
@@ -776,7 +776,7 @@ window.STARWELL_CONFIG = {
     {g:"AGENTIC OUTPUTS", k:"lbo",     t:"LBO Analysis", type:"lbo"},
     {g:"AGENTIC OUTPUTS", k:"similar", t:"Similar Deals & Patterns", hint:"Decision gate, historical gate rules, pattern match (GOOD/BAD), decision flow, red-flag gate."},
     {g:"AGENTIC OUTPUTS", k:"cohort",  t:"Cohort Analysis", hint:"Customer file → NRR/GRR/HHI, retention bridges, concentration, top-25 matrix. (Deterministic engine: later track.)"},
-    {g:"AGENTIC OUTPUTS", k:"industry",t:"Industry Comparison", hint:"This deal vs pipeline & MSP benchmarks (margins, recurring %, rev/employee, entry multiples)."},
+    {g:"AGENTIC OUTPUTS", k:"industry",t:"Industry Comparison", type:"industry"},
     {g:"AGENTIC OUTPUTS", k:"dataroom",t:"Dataroom & Checklist", type:"dataroom"},
     {g:"AGENTIC OUTPUTS", k:"extras",  t:"Memo Extras", hint:"Free-form appendix — pinned analyses, extra tables, pasted exhibits."},
     {g:"TECHNICAL", k:"crosscheck", t:"Cross-Check Register", type:"crosscheck"}
@@ -818,6 +818,7 @@ window.STARWELL_CONFIG = {
   }
   function paintDeals(){
     var box=document.getElementById("dealHub");
+    if(DH.compare){ renderCompare(); return; }
     var all=DH.deals, q=DH.q.toLowerCase();
     function match(d){ return !q || (d.project_name||"").toLowerCase().indexOf(q)>=0 || (d.business_profile||"").toLowerCase().indexOf(q)>=0 || (d.deal_lead||"").toLowerCase().indexOf(q)>=0; }
     var counts={All:0}; DH_STATUSES.forEach(function(s){counts[s]=0;});
@@ -825,18 +826,21 @@ window.STARWELL_CONFIG = {
     var tabs=["All"].concat(DH_STATUSES).map(function(s){
       return '<button class="dh-tab'+(DH.status===s?" active":"")+'" data-s="'+esc(s)+'">'+esc(s)+'<span class="n">'+(counts[s]||0)+'</span></button>';}).join("");
     var rows=all.filter(function(d){return (DH.status==="All"||d.status===DH.status)&&match(d);});
+    var nsel=Object.keys(DH.sel).length;
     var head='<div class="dh-head"><h2>Deal Hub</h2><div class="dh-tools">'+
+      (nsel>=2?'<button class="btn" id="dhCompare">Compare ('+nsel+')</button>':'')+
+      (nsel>=1?'<button class="btn ghost" id="dhClearSel">Clear</button>':'')+
       '<input class="dh-search" id="dhSearch" placeholder="Search deals…" value="'+esc(DH.q)+'">'+
       '<button class="btn" id="dhNew">+ New deal</button></div></div>';
     var body;
     if(!rows.length){ body='<div class="dh-empty">No deals'+(DH.status==="All"?"":" in “"+esc(DH.status)+"”")+' yet. Use <b>+ New deal</b> to add one.</div>'; }
     else {
-      var thead='<tr><th>Status</th><th>Project</th><th>Lead</th><th>Priority</th><th class="r">Revenue</th><th class="r">EBITDA</th><th class="r">Entry ×</th><th>Type</th><th>Industry</th><th>Key docs</th><th>Next steps</th></tr>';
+      var thead='<tr><th style="width:30px"></th><th>Status</th><th>Project</th><th>Lead</th><th>Priority</th><th class="r">Revenue</th><th class="r">EBITDA</th><th class="r">Entry ×</th><th>Type</th><th>Industry</th><th>Key docs</th><th>Next steps</th></tr>';
       var trs=rows.map(function(d){
         var em=(dnum(d.ev_m)!=null&&dnum(d.ebitda_m))? d.ev_m/d.ebitda_m : null;
         var sc=d.status==="Call scheduled"?"Call":d.status;
         var docs=(d.key_documents||[]).map(function(x){return '<span class="dh-doc">'+esc(x)+'</span>';}).join("");
-        return '<tr data-id="'+d.id+'"><td><span class="dh-chip s-'+esc(sc)+'">'+esc(d.status)+'</span></td>'+
+        return '<tr data-id="'+d.id+'"><td><input type="checkbox" class="dh-cb" data-cb="'+d.id+'"'+(DH.sel[d.id]?" checked":"")+' style="width:auto"></td><td><span class="dh-chip s-'+esc(sc)+'">'+esc(d.status)+'</span></td>'+
           '<td><b>'+esc(d.project_name)+'</b></td><td>'+esc(d.deal_lead||"—")+'</td>'+
           '<td><span class="dh-pri '+esc(d.priority||"")+'">'+esc(d.priority||"—")+'</span></td>'+
           '<td class="r">'+dm(d.revenue_m)+'</td><td class="r">'+dm(d.ebitda_m)+'</td>'+
@@ -849,9 +853,46 @@ window.STARWELL_CONFIG = {
     }
     box.innerHTML=head+'<div class="dh-tabs">'+tabs+'</div>'+body;
     box.querySelectorAll(".dh-tab").forEach(function(b){b.addEventListener("click",function(){DH.status=b.dataset.s;paintDeals();});});
-    var s=document.getElementById("dhSearch"); if(s) s.addEventListener("input",function(){DH.q=s.value; var box2=document.getElementById("dealHub"); var scroll=box2.scrollTop; paintDeals(); document.getElementById("dhSearch").focus();});
+    var s=document.getElementById("dhSearch"); if(s) s.addEventListener("input",function(){DH.q=s.value; paintDeals(); document.getElementById("dhSearch").focus();});
     document.getElementById("dhNew").addEventListener("click",function(){dealForm(null);});
-    box.querySelectorAll(".dh-table tbody tr").forEach(function(tr){tr.addEventListener("click",function(){openDeal(tr.dataset.id);});});
+    var cmp=document.getElementById("dhCompare"); if(cmp) cmp.onclick=function(){DH.compare=true;paintDeals();};
+    var clr=document.getElementById("dhClearSel"); if(clr) clr.onclick=function(){DH.sel={};paintDeals();};
+    box.querySelectorAll(".dh-cb").forEach(function(cb){cb.addEventListener("click",function(e){e.stopPropagation();if(cb.checked)DH.sel[cb.dataset.cb]=1;else delete DH.sel[cb.dataset.cb];paintDeals();});});
+    box.querySelectorAll(".dh-table tbody tr").forEach(function(tr){tr.addEventListener("click",function(e){if(e.target.closest(".dh-cb"))return;openDeal(tr.dataset.id);});});
+  }
+
+  // Module E — side-by-side comparison of 2–6 selected deals
+  function renderCompare(){
+    var box=document.getElementById("dealHub");
+    var ds=DH.deals.filter(function(d){return DH.sel[d.id];}).slice(0,6);
+    function em(d){return (dnum(d.ev_m)!=null&&dnum(d.ebitda_m))? d.ev_m/d.ebitda_m : null;}
+    function marg(d){return (dnum(d.ebitda_m)!=null&&dnum(d.revenue_m))? d.ebitda_m/d.revenue_m*100 : null;}
+    // rows: [group, label, valueFn, betterDir] dir: -1 lower better, +1 higher better, 0 none
+    var ROWS=[
+      ["Identity","Status",function(d){return d.status;},0],
+      ["Identity","Deal type",function(d){return d.deal_type||"—";},0],
+      ["Identity","Industry",function(d){return d.sub_industry||d.industry||"—";},0],
+      ["Price & Deal","TEV",function(d){return dnum(d.ev_m);},0,dm],
+      ["Price & Deal","Entry multiple",function(d){return em(d);},-1,dx],
+      ["Financials","LTM Revenue",function(d){return dnum(d.revenue_m);},1,dm],
+      ["Financials","LTM EBITDA",function(d){return dnum(d.ebitda_m);},1,dm],
+      ["Financials","EBITDA margin",function(d){return marg(d);},1,function(v){return dpct(v);}],
+      ["Scores","Overall score",function(d){return dnum(d.score);},1,function(v){return v==null?"—":v+" /5";}]
+    ];
+    var grpSeen={};
+    var trs=ROWS.map(function(r){
+      var vals=ds.map(r[2]); var nums=vals.filter(function(v){return typeof v==="number"&&!isNaN(v);});
+      var best=null; if(r[3]&&nums.length){ best=r[3]>0?Math.max.apply(null,nums):Math.min.apply(null,nums); }
+      var fmt=r[4]||function(v){return v==null?"—":v;};
+      var grpH=""; if(!grpSeen[r[0]]){grpSeen[r[0]]=1; grpH='<tr><td colspan="'+(ds.length+1)+'" style="background:#f5f4f1;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#777">'+esc(r[0])+'</td></tr>';}
+      return grpH+'<tr><td style="text-align:left;color:#555">'+esc(r[1])+'</td>'+ds.map(function(d,i){var v=vals[i];var isBest=(best!=null&&typeof v==="number"&&v===best&&nums.length>1);
+        return '<td class="r"'+(isBest?' style="background:#e3f3ea;font-weight:600"':'')+'>'+esc(fmt(v))+'</td>';}).join("")+'</tr>';
+    }).join("");
+    box.innerHTML='<div class="dh-head"><h2>Compare deals</h2><div class="dh-tools"><button class="btn ghost" id="cmpBack">← Back to Deal Hub</button></div></div>'+
+      '<div class="dh-tablewrap"><table class="dh-table" style="min-width:'+(200+ds.length*160)+'px"><thead><tr><th style="text-align:left">Metric</th>'+
+      ds.map(function(d){return '<th class="r">'+esc(d.project_name)+'</th>';}).join("")+'</tr></thead><tbody>'+trs+'</tbody></table></div>'+
+      '<div class="sub" style="margin-top:10px;color:#999;font-size:12px">Green = best in row (lower entry multiple / higher revenue, EBITDA, margin, score). Missing values excluded.</div>';
+    document.getElementById("cmpBack").onclick=function(){DH.compare=false;paintDeals();};
   }
 
   var DH_FIELDS=[
@@ -955,26 +996,38 @@ window.STARWELL_CONFIG = {
     if(meta.type==="exec"){
       var em=(dnum(d.ev_m)!=null&&dnum(d.ebitda_m))? d.ev_m/d.ebitda_m : null;
       var marg=(dnum(d.ebitda_m)!=null&&dnum(d.revenue_m))? d.ebitda_m/d.revenue_m*100 : null;
-      function card(l,v,s,miss,prov){ return '<div class="dw-mcard'+(miss?" miss":"")+'"><div class="l">'+l+'</div><div class="v">'+v+(prov?'<span class="dw-prov '+prov[0]+'">'+prov[1]+'</span>':'')+'</div>'+(s?'<div class="s">'+s+'</div>':'')+'</div>'; }
+      function card(l,v,s,miss,prov,tip){ return '<div class="dw-mcard'+(miss?" miss":"")+'"'+(tip?' title="'+esc(tip)+'"':'')+'><div class="l">'+l+'</div><div class="v">'+v+(prov?'<span class="dw-prov '+prov[0]+'">'+prov[1]+'</span>':'')+'</div>'+(s?'<div class="s">'+s+'</div>':'')+'</div>'; }
       var cards=[
-        card("Entry Multiple", dx(em), "EV ÷ "+(d.valuation_basis||"EBITDA"), em==null, ["calc","Calc"]),
-        card("LTM Revenue", dm(d.revenue_m), null, dnum(d.revenue_m)==null, ["man","Manual"]),
-        card("LTM EBITDA", dm(d.ebitda_m), marg!=null?("Margin "+dpct(marg)):null, dnum(d.ebitda_m)==null, ["man","Manual"]),
-        card("TEV", dm(d.ev_m), null, dnum(d.ev_m)==null, ["man","Manual"]),
-        card("LTV %","—","Debt/EBITDA —",true), card("UFCF Y1","—","yield —",true),
-        card("Base MOIC","—","payback —",true), card("Rev CAGR 3Y","—",null,true),
-        card("EBITDA CAGR 3Y","—",null,true), card("Exit Multiple","—",null,true),
-        card("Top-1 Customer %","—",null,true), card("Gross Margin","—",null,true)
+        card("Entry Multiple", dx(em), "EV ÷ "+(d.valuation_basis||"EBITDA"), em==null, ["calc","Calc"], em!=null?("CALCULATED — Enterprise value ("+dm(d.ev_m)+") ÷ "+(d.valuation_basis||"EBITDA")+" ("+dm(d.ebitda_m)+") = "+dx(em)):"Refuses to render — needs EV and EBITDA."),
+        card("LTM Revenue", dm(d.revenue_m), null, dnum(d.revenue_m)==null, ["man","Manual"], "MANUAL / EXTRACTED — headline revenue from approved values."),
+        card("LTM EBITDA", dm(d.ebitda_m), marg!=null?("Margin "+dpct(marg)):null, dnum(d.ebitda_m)==null, ["man","Manual"], marg!=null?("Margin = EBITDA ÷ Revenue = "+dpct(marg)):"" ),
+        card("TEV", dm(d.ev_m), null, dnum(d.ev_m)==null, ["man","Manual"], "Total enterprise value / purchase price."),
+        card("LTV %","—","Debt/EBITDA —",true,null,"MISSING — needs the deal's debt draw (Transaction / LBO)."),
+        card("UFCF Y1","—","yield —",true,null,"MISSING — computed by the LBO engine once assumptions are set."),
+        card("Base MOIC","—","payback —",true,null,"MISSING — from LBO Base scenario."),
+        card("Rev CAGR 3Y","—",null,true,null,"MISSING — needs 3+ years of revenue (Financials)."),
+        card("EBITDA CAGR 3Y","—",null,true,null,"MISSING — needs 3+ years of EBITDA (Financials)."),
+        card("Exit Multiple","—",null,true,null,"MISSING — set on the Exit Path / LBO page."),
+        card("Top-1 Customer %","—",null,true,null,"MISSING — from the customer file (Cohort Analysis)."),
+        card("Gross Margin","—",null,true,null,"MISSING — gross profit ÷ revenue.")
       ].join("");
       var fl=pg.data.flags||{red:0,yellow:0,green:0};
+      var qA=(DH_PAGES.filter(function(p){return p.k==="quant";})[0]||{}).axes||[];
+      var uA=(DH_PAGES.filter(function(p){return p.k==="qual";})[0]||{}).axes||[];
       host.innerHTML=head+
         '<div class="dw-sec-h">Deal Synthesis</div>'+
         '<textarea class="dw-ta" id="dwBody" placeholder="2-paragraph synthesis — what the business is, why attractive, why cautious, expected returns. (Every factual claim should cite a document once the pipeline is wired.)">'+esc(pg.body)+'</textarea>'+
         '<div class="dw-save" id="dwNote"></div>'+
-        '<div class="dw-sec-h">Economics at a Glance <span class="dw-prov calc">Calc</span></div><div class="dw-cards">'+cards+'</div>'+
+        '<div class="dw-sec-h">Economics at a Glance <span class="dw-prov calc">Calc</span> <span style="font-weight:400;color:#999;font-size:11px">— hover any card for its provenance</span></div><div class="dw-cards">'+cards+'</div>'+
         '<div class="dw-sec-h">Flag Tally &amp; Gate</div><div class="dw-flags">'+
-          ["red","yellow","green"].map(function(c){return '<div class="dw-flag '+c+'"><b>'+(fl[c]||0)+'</b>'+c.charAt(0).toUpperCase()+c.slice(1)+'</div>';}).join("")+'</div>';
+          ["red","yellow","green"].map(function(c){return '<div class="dw-flag '+c+'"><b>'+(fl[c]||0)+'</b>'+c.charAt(0).toUpperCase()+c.slice(1)+'</div>';}).join("")+'</div>'+
+        '<div class="dw-sec-h">Score Spider Nets</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div><div style="text-align:center;font-size:11px;color:var(--soft);margin-bottom:4px">QUANTITATIVE</div><div style="position:relative;height:260px"><canvas id="dwSpiderQ"></canvas></div></div><div><div style="text-align:center;font-size:11px;color:var(--soft);margin-bottom:4px">QUALITATIVE</div><div style="position:relative;height:260px"><canvas id="dwSpiderU"></canvas></div></div></div>';
       wireBody();
+      function radar(id,axes,scores,color){ if(!document.getElementById(id)||!axes.length)return;
+        var data=axes.map(function(a){return dnum(scores&&scores[a])||0;});
+        new Chart(document.getElementById(id),{type:"radar",data:{labels:axes,datasets:[{data:data,backgroundColor:color+"22",borderColor:color,borderWidth:2,pointBackgroundColor:color}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:5,ticks:{stepSize:1,font:{size:9},backdropColor:"transparent"},pointLabels:{font:{size:9}}}},plugins:{legend:{display:false}}}}); }
+      radar("dwSpiderQ",qA,(dhPage("quant").data||{}).scores,"#2b5ea7");
+      radar("dwSpiderU",uA,(dhPage("qual").data||{}).scores,"#1a7a5a");
     } else if(meta.type==="fin"){
       var yrs=pg.data.years||[{y:"FY-2",rev:"",ebitda:"",margin:"",capex:""},{y:"FY-1",rev:"",ebitda:"",margin:"",capex:""},{y:"LTM",rev:"",ebitda:"",margin:"",capex:""},{y:"FY+1 (F)",rev:"",ebitda:"",margin:"",capex:""}];
       var rowsH=["Revenue","EBITDA / SDE","Margin %","CapEx"];
@@ -1125,6 +1178,61 @@ window.STARWELL_CONFIG = {
       var note=document.getElementById("dwNote");
       host.querySelectorAll(".dh-tab[data-lscn]").forEach(function(b){b.onclick=function(){pg.data.lcur=b.dataset.lscn;savePage(DH.page);renderPage();};});
       host.querySelectorAll("input[data-lbo]").forEach(function(inp){inp.addEventListener("change",function(){A[inp.dataset.lbo]=inp.value===""?"":Number(inp.value);L[cur]=A;pg.data.lbo=L;savePage(DH.page,note);renderPage();});});
+    } else if(meta.type==="revmix"){
+      var sl=pg.data.sl||{}, LINES=["Managed services","Projects & consulting","Hardware & procurement","Break-fix","Other"];
+      var mt=pg.data.metrics||{};
+      function slRow(l){return '<tr><td style="text-align:left">'+esc(l)+'</td><td><input data-sl="'+esc(l)+'" value="'+esc(sl[l]||"")+'"> %</td></tr>';}
+      var tot=LINES.reduce(function(s,l){return s+(dnum(sl[l])||0);},0);
+      function mfield(k,l,suf){return '<div class="dw-scoreax"><div class="nm">'+l+'</div><input data-m="'+k+'" value="'+esc(mt[k]||"")+'" style="width:110px;text-align:right;border:1px solid var(--line);border-radius:6px;padding:4px 8px">'+(suf?' <span style="color:#999">'+suf+'</span>':'')+'</div>';}
+      host.innerHTML=head+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start">'+
+        '<div><div class="dw-sec-h">Service-line split (% of revenue)</div><table class="dw-ftable"><tbody>'+LINES.map(slRow).join("")+'<tr><td style="text-align:left"><b>Total</b></td><td style="text-align:right"><b>'+(tot?tot.toFixed(0)+"%":"—")+'</b></td></tr></tbody></table><div style="position:relative;height:220px;max-width:360px;margin-top:12px"><canvas id="dwRMChart"></canvas></div></div>'+
+        '<div><div class="dw-sec-h">Recurring & concentration</div>'+
+          mfield("mrr","MRR ($M)")+mfield("arr","ARR ($M)")+mfield("recStated","Recurring % (stated)","%")+mfield("recComputed","Recurring % (computed)","%")+mfield("contracts","Managed clients on contract")+mfield("avgLen","Avg contract length (mo)")+mfield("top1","Top-1 customer %","%")+mfield("top5","Top-5 customers %","%")+
+          ((dnum(mt.recStated)!=null&&dnum(mt.recComputed)!=null&&Math.abs(mt.recStated-mt.recComputed)>2)?'<div style="color:#b5342a;font-size:12px;margin-top:8px">⚠ Stated vs computed recurring % differ by &gt;2 pts.</div>':'')+
+        '</div></div>'+
+        '<div class="dw-sec-h">Narrative</div><textarea class="dw-ta" id="dwBody">'+esc(pg.body)+'</textarea><div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote"), rmChart=null;
+      function drawRM(){var labels=[],data=[];LINES.forEach(function(l){var v=dnum(sl[l]);if(v){labels.push(l);data.push(v);}});if(rmChart)rmChart.destroy();if(!labels.length)return;
+        var pal=['#2b5ea7','#1a7a5a','#9a6b17','#5b3ea7','#b5342a'];
+        rmChart=new Chart(document.getElementById("dwRMChart"),{type:"doughnut",data:{labels:labels,datasets:[{data:data,backgroundColor:labels.map(function(_,i){return pal[i%pal.length];}),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"right",labels:{boxWidth:9,font:{size:10}}}},cutout:"55%"}});}
+      host.querySelectorAll("input[data-sl]").forEach(function(inp){inp.addEventListener("input",function(){sl[inp.dataset.sl]=inp.value;pg.data.sl=sl;savePage(DH.page,note);drawRM();});});
+      host.querySelectorAll("input[data-m]").forEach(function(inp){inp.addEventListener("input",function(){mt[inp.dataset.m]=inp.value;pg.data.metrics=mt;savePage(DH.page,note);});});
+      wireBody(); drawRM();
+    } else if(meta.type==="growth"){
+      var bd=pg.data.blocks||{}, GB=["Growth Levers (pricing, cross-sell security/cloud, new contracts, tuck-ins)","100-Day Plan","Org Plan","Roll-up Fit (if Deal Type = Roll-up)"];
+      host.innerHTML=head+GB.map(function(b){return '<div class="dw-sec-h">'+esc(b)+'</div><textarea class="dw-ta" data-blk="'+esc(b)+'" style="min-height:70px">'+esc(bd[b]||"")+'</textarea>';}).join("")+'<div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("textarea[data-blk]").forEach(function(ta){ta.addEventListener("input",function(){bd[ta.dataset.blk]=ta.value;pg.data.blocks=bd;savePage(DH.page,note);});});
+    } else if(meta.type==="governance"){
+      var gt=pg.data.terms||{}, GT=["Board / control","Seller employment & transition period","Non-compete","Reps & warranties highlights","Conditions to close","Exclusivity dates","Escrow / holdback","Working-capital peg"];
+      host.innerHTML=head+GT.map(function(l){return '<div class="dw-sec-h">'+esc(l)+'</div><textarea class="dw-ta" data-gt="'+esc(l)+'" style="min-height:52px">'+esc(gt[l]||"")+'</textarea>';}).join("")+'<div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("textarea[data-gt]").forEach(function(ta){ta.addEventListener("input",function(){gt[ta.dataset.gt]=ta.value;pg.data.terms=gt;savePage(DH.page,note);});});
+    } else if(meta.type==="exit"){
+      var ex=pg.data.exit||{};
+      // MOIC-by-exit-year from the LBO Base scenario (deterministic)
+      var lb=(dhPage("lbo").data.lbo||{}).Base;
+      var moicRows="";
+      if(lb){ moicRows=[1,2,3,4,5,6,7].map(function(y){var o=lboCalc(Object.assign({},lb,{yrs:y}));return '<tr><td>Year '+y+'</td><td class="r">'+(o?o.moic.toFixed(2)+"×":"—")+'</td><td class="r">'+(o&&o.irr!=null?(o.irr*100).toFixed(1)+"%":"—")+'</td></tr>';}).join(""); }
+      var moicTbl= moicRows? '<div class="dw-sec-h">MOIC / IRR by exit year <span class="dw-prov calc">Calc</span> <span style="font-weight:400;color:#999;font-size:11px">— from LBO Base scenario</span></div><table class="dw-ftable" style="max-width:360px"><thead><tr><th>Exit</th><th class="r">MOIC</th><th class="r">IRR</th></tr></thead><tbody>'+moicRows+'</tbody></table>' : '<div class="dw-sec-h">MOIC / IRR by exit year</div><div class="sub">Set assumptions on the LBO Analysis page to populate this.</div>';
+      function exf(k,l,suf){return '<div class="dw-scoreax"><div class="nm">'+l+'</div><input data-ex="'+k+'" value="'+esc(ex[k]||"")+'" style="width:100px;text-align:right;border:1px solid var(--line);border-radius:6px;padding:4px 8px">'+(suf?' <span style="color:#999">'+suf+'</span>':'')+'</div>';}
+      host.innerHTML=head+'<div class="dw-sec-h">Exit-multiple range &amp; hold</div>'+exf("low","Exit multiple — low","×")+exf("base","Exit multiple — base","×")+exf("high","Exit multiple — high","×")+exf("hold","Hold period","yrs")+
+        moicTbl+
+        '<div class="dw-sec-h">Exit options &amp; rationale</div><textarea class="dw-ta" id="dwBody" placeholder="Strategic sale · PE roll-up · recap — with rationale for the assumed exit-multiple range.">'+esc(pg.body)+'</textarea><div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("input[data-ex]").forEach(function(inp){inp.addEventListener("input",function(){ex[inp.dataset.ex]=inp.value;pg.data.exit=ex;savePage(DH.page,note);});});
+      wireBody();
+    } else if(meta.type==="industry"){
+      var bm=pg.data.bench||{}, ROWS=[["ebitdaMargin","EBITDA margin %"],["grossMargin","Gross margin %"],["recurring","Recurring %"],["revEmp","Revenue / employee ($K)"],["revEnd","Revenue / endpoint ($)"],["entryX","Entry multiple (×)"]];
+      var thisVals={ ebitdaMargin:(dnum(d.ebitda_m)!=null&&dnum(d.revenue_m))?(d.ebitda_m/d.revenue_m*100).toFixed(1):"—", entryX:(dnum(d.ev_m)&&dnum(d.ebitda_m))?(d.ev_m/d.ebitda_m).toFixed(2):"—" };
+      var tbody=ROWS.map(function(r){var tv=thisVals[r[0]]!=null?thisVals[r[0]]:(bm["this_"+r[0]]||"—");
+        return '<tr><td style="text-align:left">'+r[1]+'</td><td class="r">'+esc(tv)+'</td><td><input data-bm="'+r[0]+'" value="'+esc(bm[r[0]]||"")+'" style="text-align:right"></td></tr>';}).join("");
+      host.innerHTML=head+'<table class="dw-ftable"><thead><tr><th style="text-align:left">Metric</th><th class="r">This deal</th><th class="r">MSP benchmark</th></tr></thead><tbody>'+tbody+'</tbody></table>'+
+        '<div class="sub" style="margin-top:8px">This-deal EBITDA margin &amp; entry multiple are computed from approved values; benchmarks are the editable MSP set (Settings, later).</div>'+
+        '<div class="dw-sec-h">Commentary</div><textarea class="dw-ta" id="dwBody">'+esc(pg.body)+'</textarea><div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("input[data-bm]").forEach(function(inp){inp.addEventListener("input",function(){bm[inp.dataset.bm]=inp.value;pg.data.bench=bm;savePage(DH.page,note);});});
+      wireBody();
     } else {
       // generic structured-text page
       host.innerHTML=head+'<textarea class="dw-ta" id="dwBody" style="min-height:340px" placeholder="Write this section here. (Structured fields & AI drafting arrive with the backend track.)">'+esc(pg.body)+'</textarea><div class="dw-save" id="dwNote"></div>';
