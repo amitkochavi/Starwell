@@ -96,7 +96,108 @@ iframe.portal{width:100%;height:640px;border:0;display:block;background:#fff;ove
 .stk-logo img{position:relative;width:100%;height:100%;object-fit:contain;background:#fff}
 .stk-alloc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px}
 .stk-alloc-h{font-size:13px;font-weight:600;margin-bottom:10px}
+.stk-caret{flex:none;width:18px;height:18px;border:none;background:none;cursor:pointer;color:var(--soft);font-size:11px;display:inline-flex;align-items:center;justify-content:center;transition:transform .15s;padding:0}
+.stk-caret.open{transform:rotate(90deg)}
+.stk-caret.hide{visibility:hidden}
+.stk-table tr.stk-master.open{background:#f6f4ef}
+.stk-table tr.stk-master{cursor:pointer}
+.stk-table tr.stk-child td{background:#faf9f6;border-bottom:1px solid #f0eee9;font-size:12px;color:var(--soft)}
+.stk-table tr.stk-child td.stk-acct{padding-left:54px;color:#3a3a3a}
+.stk-acct-badge{display:inline-block;font-size:11px;font-weight:500}
+.stk-toggle{display:inline-flex;background:#f0eee9;border:1px solid var(--line);border-radius:9px;padding:3px;margin-bottom:16px;gap:2px}
+.stk-toggle button{border:none;background:none;cursor:pointer;font:inherit;font-size:13px;padding:6px 16px;border-radius:7px;color:var(--soft)}
+.stk-toggle button.active{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.stk-accts{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.stk-acard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.stk-acard-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.stk-acard-nm{font-weight:600;font-size:14px;line-height:1.3}
+.stk-acard-v{font-size:21px;font-weight:600;white-space:nowrap}
+.stk-acard-sub{font-size:12px;color:var(--soft);margin-top:3px}
+.stk-acard-stats{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:11px;font-size:12.5px}
+.stk-acard-exp{margin-top:12px;border:none;background:none;cursor:pointer;font:inherit;font-size:12px;color:#2b5ea7;padding:0}
+.stk-ahold{margin-top:10px;border-top:1px solid #eee;padding-top:8px}
+.stk-mini{width:100%;border-collapse:collapse;font-size:12.5px}
+.stk-mini td{padding:5px 4px;border-bottom:1px solid #f3f1ec}
+.stk-mini tr:last-child td{border-bottom:none}
+.stk-mname{display:flex;align-items:center;gap:8px}
+.stk-mname .stk-logo{width:24px;height:24px;border-radius:5px}
+.stk-mini .r{text-align:right}.stk-mini .bold{font-weight:600}
+.stk-up{background:#fff;border:1px solid var(--line);border-left:3px solid #2b5ea7;border-radius:8px;padding:11px 14px;margin-bottom:14px;font-size:13px}
+.stk-up.err{border-left-color:#b5342a}
+.stk-up.ok{border-left-color:#1a7a5a}
 @media(max-width:980px){.stk-grid{grid-template-columns:1fr}}
+
+/* ---- Deal Hub ---- */
+.dh-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.dh-head h2{font-size:22px;font-weight:600}
+.dh-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dh-search{border:1px solid var(--line);border-radius:8px;padding:7px 11px;font:inherit;font-size:13px;min-width:180px}
+.dh-tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:14px;padding-bottom:0}
+.dh-tab{border:none;background:none;cursor:pointer;font:inherit;font-size:13px;padding:7px 12px;color:var(--soft);border-bottom:2px solid transparent;margin-bottom:-1px}
+.dh-tab.active{color:var(--ink);font-weight:600;border-bottom-color:#2b5ea7}
+.dh-tab .n{display:inline-block;background:#f0eee9;border-radius:20px;padding:0 7px;font-size:11px;margin-left:5px;color:var(--soft)}
+.dh-tablewrap{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:auto}
+.dh-table{width:100%;border-collapse:collapse;font-size:13px;min-width:900px}
+.dh-table th{text-align:left;padding:10px 12px;color:var(--soft);font-size:11px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--line);white-space:nowrap;background:#fafafa;position:sticky;top:0}
+.dh-table td{padding:10px 12px;border-bottom:1px solid #eee;white-space:nowrap;vertical-align:middle}
+.dh-table tbody tr{cursor:pointer}
+.dh-table tbody tr:hover{background:#fafafa}
+.dh-table .r{text-align:right}
+.dh-chip{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;white-space:nowrap}
+.dh-chip.s-Underwriting{background:#e8eefb;color:#2b5ea7}.dh-chip.s-Call{background:#eae6fb;color:#5b3ea7}
+.dh-chip.s-IC{background:#fbeee0;color:#9a6b17}.dh-chip.s-Approved{background:#e3f3ea;color:#1a7a5a}
+.dh-chip.s-Pass{background:#f3e3e2;color:#b5342a}.dh-chip.s-Hold{background:#f0eee9;color:#6b6b6b}
+.dh-chip.s-Lost{background:#eceae7;color:#8a8a8a}.dh-chip.s-Closed{background:#e3f3ea;color:#1a7a5a}
+.dh-pri{font-size:11px;font-weight:600}.dh-pri.High{color:#b5342a}.dh-pri.Medium{color:#9a6b17}.dh-pri.Low{color:#3d8888}
+.dh-dtype{font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;background:#f0eee9;color:#555}
+.dh-docs{display:flex;gap:4px;flex-wrap:wrap}
+.dh-doc{font-size:10px;background:#eef1f5;color:#4a5568;border-radius:4px;padding:1px 5px}
+.dh-empty{background:#faf9f6;border:1px dashed var(--line);border-radius:10px;padding:40px;text-align:center;color:var(--soft)}
+/* Workspace */
+.dw-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#0f0f14;color:#fff;border-radius:12px;padding:16px 20px;margin-bottom:16px}
+.dw-back{background:none;border:1px solid #3a3a45;color:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;font:inherit;font-size:13px}
+.dw-name{font-size:19px;font-weight:600}
+.dw-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.14)}
+.dw-strip{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
+.dw-metric{text-align:right}
+.dw-metric .l{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#9a9aa5}
+.dw-metric .v{font-size:16px;font-weight:600}
+.dw-body{display:grid;grid-template-columns:210px 1fr;gap:18px;align-items:start}
+.dw-nav{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;position:sticky;top:12px;max-height:calc(100vh - 40px);overflow:auto}
+.dw-nav-grp{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#a0a0a8;padding:10px 10px 4px}
+.dw-nav button{display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;font:inherit;font-size:13px;padding:7px 10px;border-radius:7px;color:#444}
+.dw-nav button:hover{background:#f5f4f1}
+.dw-nav button.active{background:#eef1f5;color:#2b5ea7;font-weight:600}
+.dw-page{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px 26px;min-height:400px}
+.dw-page h3{font-size:18px;font-weight:600;margin-bottom:4px}
+.dw-page .sub{font-size:12px;color:var(--soft);margin-bottom:18px}
+.dw-sec-h{font-size:13px;font-weight:600;margin:22px 0 10px;padding-bottom:6px;border-bottom:1px solid #eee}
+.dw-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.dw-mcard{border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+.dw-mcard .l{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--soft)}
+.dw-mcard .v{font-size:20px;font-weight:600;margin-top:3px}
+.dw-mcard .s{font-size:11px;color:var(--soft);margin-top:2px}
+.dw-mcard.miss .v{color:#b0aca4}
+.dw-prov{font-size:9px;text-transform:uppercase;letter-spacing:.03em;padding:1px 5px;border-radius:4px;margin-left:6px;vertical-align:middle}
+.dw-prov.calc{background:#e8eefb;color:#2b5ea7}.dw-prov.man{background:#f0eee9;color:#6b6b6b}.dw-prov.ext{background:#e3f3ea;color:#1a7a5a}
+.dw-ta{width:100%;border:1px solid var(--line);border-radius:8px;padding:11px;font:inherit;font-size:14px;line-height:1.6;min-height:120px;resize:vertical}
+.dw-save{font-size:12px;color:var(--soft);margin-top:8px}
+.dw-ftable{width:100%;border-collapse:collapse;font-size:13px}
+.dw-ftable th,.dw-ftable td{border:1px solid #eee;padding:6px 9px;text-align:right}
+.dw-ftable th:first-child,.dw-ftable td:first-child{text-align:left}
+.dw-ftable input{width:100%;border:none;background:none;font:inherit;font-size:13px;text-align:right}
+.dw-ftable input:focus{outline:1px solid #2b5ea7;border-radius:3px}
+.dw-flags{display:flex;gap:14px}
+.dw-flag{font-size:13px}.dw-flag b{font-size:20px;display:block}
+.dw-flag.red b{color:#b5342a}.dw-flag.yellow b{color:#9a6b17}.dw-flag.green b{color:#1a7a5a}
+.dw-scoreax{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f2f0ec}
+.dw-scoreax .nm{flex:1;font-size:13px}
+.dw-scoreax input[type=range]{width:130px}
+.dw-scoreax .sv{width:34px;text-align:right;font-weight:600}
+.dw-chk{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f2f0ec;font-size:13px}
+.dw-chk select{border:1px solid var(--line);border-radius:6px;padding:3px 6px;font:inherit;font-size:12px}
+.dw-chk .nm{flex:1}
+@media(max-width:820px){.dw-body{grid-template-columns:1fr}.dw-nav{position:static;max-height:none}}
 
 /* ---- modal form ---- */
 .overlay{position:fixed;inset:0;background:rgba(10,10,14,.55);display:flex;align-items:flex-start;justify-content:center;padding:30px 16px;overflow:auto;z-index:40}
@@ -164,6 +265,7 @@ window.STARWELL_CONFIG = {
       <nav class="side-nav">
         <button class="tab active" data-view="investments">Investments</button>
         <button class="tab" data-view="stocks">Stocks</button>
+        <button class="tab" data-view="deals">Deal Hub</button>
         <button class="tab" data-view="news">News</button>
         <button class="tab" data-view="careers">Careers</button>
         <button class="tab" data-view="portfolio">Portfolio</button>
@@ -179,9 +281,17 @@ window.STARWELL_CONFIG = {
       <section class="view" id="view-stocks">
         <div class="view-head" style="align-items:flex-end">
           <div><h2>Stocks</h2><div class="muted" id="stkSub" style="font-size:13px"></div></div>
-          <button class="btn ghost sm" id="stkRefresh">↻ Refresh</button>
+          <div style="display:flex;gap:8px">
+            <label class="btn ghost sm" style="cursor:pointer">⬆ Upload statement<input type="file" id="stkFile" accept=".csv,.txt,.xls,.xlsx" multiple hidden></label>
+            <button class="btn ghost sm" id="stkRefresh">↻ Refresh</button>
+          </div>
         </div>
+        <div id="stkUp" class="stk-up" hidden></div>
         <div id="stocksBox"></div>
+      </section>
+
+      <section class="view" id="view-deals">
+        <div id="dealHub"></div>
       </section>
 
       <section class="view" id="view-news">
@@ -206,6 +316,8 @@ window.STARWELL_CONFIG = {
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 (function(){
   "use strict";
@@ -281,6 +393,7 @@ window.STARWELL_CONFIG = {
       $("#view-"+t.dataset.view).classList.add("active");
       if(t.dataset.view==="investments") setTimeout(fitPortal,60);
       if(t.dataset.view==="stocks") renderStocks();
+      if(t.dataset.view==="deals") renderDeals();
     });
   });
   var stkRefBtn=document.getElementById("stkRefresh");
@@ -303,7 +416,10 @@ window.STARWELL_CONFIG = {
   })();
 
   // ---------- Stocks: portfolio tracker (Supabase holdings + live FMP prices/logos) ----------
-  var stkChart=null, stkSort={key:"mv",dir:-1};
+  var stkChart=null, stkSort={key:"mv",dir:-1}, stkOpen={}, stkView="consol", stkAcctOpen={};
+  function stkAcctShort(a){ if(!a) return "Account"; a=String(a);
+    var m=a.match(/\.\.\.?\s*(\d{3,})/); if(m) return "····"+m[1];
+    return a.length>26?a.slice(0,24)+"…":a; }
   function stkFull(v){ if(v==null||isNaN(v)) return "—"; return (v<0?"-":"")+"$"+Math.abs(v).toLocaleString(undefined,{maximumFractionDigits:0}); }
   function stkMoney(v,sign){ if(v==null||isNaN(v)) return "—"; var s=v<0?"-":(sign&&v>0?"+":""),a=Math.abs(v);
     return s+"$"+(a>=1e6?(a/1e6).toFixed(2)+"M":a>=1e3?(a/1e3).toFixed(1)+"K":a.toFixed(0)); }
@@ -322,40 +438,121 @@ window.STARWELL_CONFIG = {
     var positions=h.data.filter(function(r){return !r.is_cash;}), cash=h.data.filter(function(r){return r.is_cash;});
     var key=(window.STARWELL_CONFIG||{}).FMP_API_KEY||"", quotes={}, live=false;
     if(key){ try{
-      var syms=positions.map(function(p){return p.ticker.replace(/\./g,"-");});
-      var resp=await fetch("https://financialmodelingprep.com/stable/batch-quote?symbols="+syms.join(",")+"&apikey="+encodeURIComponent(key));
-      var arr=await resp.json(); if(Array.isArray(arr)){ arr.forEach(function(q){quotes[q.symbol]=q;}); live=Object.keys(quotes).length>0; }
+      var uniq={}; positions.forEach(function(p){uniq[p.ticker.replace(/\./g,"-")]=1;});
+      var syms=Object.keys(uniq);
+      // Free FMP plan: one symbol per /stable/quote call (batch endpoints are premium).
+      // Fetch each unique ticker; anything restricted/unknown just falls back to statement price.
+      async function chunk(list,n,fn){ for(var i=0;i<list.length;i+=n){ await Promise.all(list.slice(i,i+n).map(fn)); } }
+      await chunk(syms,8,function(s){
+        return fetch("https://financialmodelingprep.com/stable/quote?symbol="+encodeURIComponent(s)+"&apikey="+encodeURIComponent(key))
+          .then(function(r){return r.json();})
+          .then(function(a){ if(Array.isArray(a)&&a[0]&&a[0].price!=null) quotes[a[0].symbol]=a[0]; })
+          .catch(function(){});
+      });
+      live=Object.keys(quotes).length>0;
     }catch(e){} }
     var cashTot=cash.reduce(function(s,c){return s+(+c.market_value_stmt||0);},0);
-    var items=positions.map(function(p){
-      var q=quotes[p.ticker.replace(/\./g,"-")];
-      var price=(q&&q.price!=null)?q.price:(p.quantity?(+p.market_value_stmt/(+p.quantity)):0);
-      var qty=+p.quantity, mv=qty*price, cost=+p.cost_basis||0, gl=mv-cost;
-      return {t:p.ticker,name:p.name,qty:qty,avg:qty?cost/qty:0,price:price,mv:mv,cost:cost,gl:gl,glp:cost?gl/cost*100:0,
-              dchp:(q&&q.changePercentage!=null)?+q.changePercentage:null,dayVal:(q&&q.change!=null)?qty*(+q.change):0};
+    // --- consolidate positions by ticker across all accounts ---
+    var groups={};
+    positions.forEach(function(p){
+      var t=p.ticker, g=groups[t];
+      if(!g){ g=groups[t]={t:t,name:p.name,qty:0,cost:0,stmtMv:0,accts:[]}; }
+      var q=+p.quantity||0, c=+p.cost_basis||0, mvs=+p.market_value_stmt||0;
+      g.qty+=q; g.cost+=c; g.stmtMv+=mvs;
+      g.accts.push({account:p.account||"—",qty:q,cost:c,mvStmt:mvs});
+    });
+    var nAcct={}; positions.forEach(function(p){nAcct[p.account||"—"]=1;});
+    var items=Object.keys(groups).map(function(t){
+      var g=groups[t], q=quotes[t.replace(/\./g,"-")];
+      var price=(q&&q.price!=null)?q.price:(g.qty?g.stmtMv/g.qty:0);
+      var mv=g.qty*price, gl=mv-g.cost;
+      g.accts.forEach(function(a){ a.mv=a.qty*price; a.gl=a.mv-a.cost; });
+      g.accts.sort(function(a,b){return b.mv-a.mv;});
+      return {t:g.t,name:g.name,qty:g.qty,avg:g.qty?g.cost/g.qty:0,price:price,mv:mv,cost:g.cost,gl:gl,glp:g.cost?gl/g.cost*100:0,
+              dchp:(q&&q.changePercentage!=null)?+q.changePercentage:null,dayVal:(q&&q.change!=null)?g.qty*(+q.change):0,
+              accts:g.accts,n:g.accts.length};
     });
     var totMv=items.reduce(function(s,i){return s+i.mv;},0), totVal=totMv+cashTot,
         totCost=items.reduce(function(s,i){return s+i.cost;},0), totGl=totMv-totCost,
         totDay=items.reduce(function(s,i){return s+i.dayVal;},0);
     items.forEach(function(i){i.w=totMv?i.mv/totMv*100:0;});
-    document.getElementById("stkSub").textContent=positions.length+" positions · "+(live?"live prices":"prices from latest statement")+(cashTot?" · incl. cash":"");
+    var nAcctC=Object.keys(nAcct).length;
+    document.getElementById("stkSub").textContent=items.length+" tickers · "+positions.length+" holdings across "+nAcctC+" account"+(nAcctC===1?"":"s")+" · "+(live?"live prices":"statement prices")+(cashTot?" · incl. cash":"");
     var dayPct=(totMv-totDay)?totDay/(totMv-totDay)*100:0, glPct=totCost?totGl/totCost*100:0;
     var sum='<div class="stk-sum">'+stkCard("Total value",stkFull(totVal),null,"")+
       (live?stkCard("Today",stkMoney(totDay,1),dayPct,totDay>=0?"up":"down"):"")+
       stkCard("Total gain/loss",stkMoney(totGl,1),glPct,totGl>=0?"up":"down")+
       stkCard("Equities",stkFull(totMv),null,"")+stkCard("Cash",stkFull(cashTot),null,"")+'</div>';
+    function qfmt(n){ return (Math.round(n*1e4)/1e4).toLocaleString(undefined,{maximumFractionDigits:4}); }
+
+    // --- per-account aggregation (for the "By account" view) ---
+    var acctMap={}, acctOrder=[];
+    function acc(n){ n=n||"—"; if(!acctMap[n]){acctMap[n]={name:n,mv:0,cost:0,dayVal:0,cash:0,holds:[]};acctOrder.push(n);} return acctMap[n]; }
+    items.forEach(function(i){ var cps=i.qty?i.dayVal/i.qty:0;
+      i.accts.forEach(function(a){ var A=acc(a.account); A.mv+=a.mv; A.cost+=a.cost; A.dayVal+=a.qty*cps;
+        A.holds.push({t:i.t,name:i.name,qty:a.qty,price:i.price,mv:a.mv,gl:a.gl,glp:a.cost?a.gl/a.cost*100:0,dchp:i.dchp}); }); });
+    cash.forEach(function(c){ acc(c.account).cash+=(+c.market_value_stmt||0); });
+    var accts=acctOrder.map(function(n){var A=acctMap[n]; A.val=A.mv+A.cash; A.gl=A.mv-A.cost; A.glp=A.cost?A.gl/A.cost*100:0;
+      A.dayPct=(A.mv-A.dayVal)?A.dayVal/(A.mv-A.dayVal)*100:0; A.w=totVal?A.val/totVal*100:0;
+      A.holds.sort(function(a,b){return b.mv-a.mv;}); return A;});
+    accts.sort(function(a,b){return b.val-a.val;});
+
+    function toggleHtml(){ return '<div class="stk-toggle">'+
+      '<button data-v="consol" class="'+(stkView==="consol"?"active":"")+'">Consolidated</button>'+
+      '<button data-v="accounts" class="'+(stkView==="accounts"?"active":"")+'">By account</button></div>'; }
+    function dispatch(){ if(stkView==="accounts") paintAccounts(); else paint(); }
+    function wireToggle(){ box.querySelectorAll(".stk-toggle button").forEach(function(b){
+      b.addEventListener("click",function(){ stkView=b.dataset.v; dispatch(); }); }); }
+
+    function paintAccounts(){
+      var cards=accts.map(function(A){
+        var open=stkAcctOpen[A.name], glc=A.gl>=0?"up":"down", dc=A.dayVal>=0?"up":"down";
+        var holds=open?'<div class="stk-ahold"><table class="stk-mini"><tbody>'+A.holds.map(function(p){
+            var pglc=p.gl>=0?"up":"down";
+            return '<tr><td class="stk-mname">'+stkLogo(p.t)+'<span class="stk-tk">'+esc(p.t)+'</span></td>'+
+              '<td class="r">'+qfmt(p.qty)+'</td><td class="r bold">'+stkFull(p.mv)+'</td>'+
+              '<td class="r '+pglc+'">'+stkMoney(p.gl,1)+'</td></tr>';}).join("")+'</tbody></table></div>':'';
+        return '<div class="stk-acard'+(open?" open":"")+'">'+
+          '<div class="stk-acard-h"><div class="stk-acard-nm">'+esc(A.name)+'</div><div class="stk-acard-v">'+stkFull(A.val)+'</div></div>'+
+          '<div class="stk-acard-sub">'+A.w.toFixed(1)+'% of portfolio · '+A.holds.length+' position'+(A.holds.length===1?"":"s")+'</div>'+
+          '<div class="stk-acard-stats">'+
+            (live?'<span class="'+dc+'">Today '+stkMoney(A.dayVal,1)+' ('+(A.dayPct>=0?"+":"")+A.dayPct.toFixed(2)+'%)</span>':'')+
+            '<span class="'+glc+'">Gain/Loss '+stkMoney(A.gl,1)+' ('+(A.glp>=0?"+":"")+A.glp.toFixed(1)+'%)</span>'+
+            (A.cash?'<span>Cash '+stkFull(A.cash)+'</span>':'')+'</div>'+
+          (A.holds.length?'<button class="stk-acard-exp" data-acct="'+esc(A.name)+'">'+(open?"Hide holdings ▴":"View holdings ▾")+'</button>':'')+
+          holds+'</div>';
+      }).join("");
+      box.innerHTML=sum+toggleHtml()+'<div class="stk-accts">'+cards+'</div>';
+      wireToggle();
+      box.querySelectorAll(".stk-acard-exp").forEach(function(b){b.addEventListener("click",function(){
+        var n=b.dataset.acct; stkAcctOpen[n]=!stkAcctOpen[n]; paintAccounts();});});
+    }
+
     function paint(){
       var arr=items.slice().sort(stkCmp);
       var thead='<tr>'+stkTh("Symbol","t",1)+stkTh("Qty","qty")+stkTh("Avg cost","avg")+stkTh("Price","price")+stkTh("Day","dchp")+stkTh("Mkt value","mv")+stkTh("Gain/Loss","gl")+stkTh("Weight","w")+'</tr>';
       var body=arr.map(function(i){var glc=i.gl>=0?"up":"down",dc=i.dchp==null?"":(i.dchp>=0?"up":"down");
-        return '<tr><td class="stk-name">'+stkLogo(i.t)+'<div><div class="stk-tk">'+esc(i.t)+'</div><div class="stk-nm">'+esc(i.name)+'</div></div></td>'+
-          '<td class="r">'+i.qty.toLocaleString()+'</td><td class="r">$'+i.avg.toFixed(2)+'</td><td class="r">$'+i.price.toFixed(2)+'</td>'+
+        var multi=i.n>1, isOpen=multi&&stkOpen[i.t];
+        var caret='<button class="stk-caret'+(isOpen?" open":"")+(multi?"":" hide")+'" data-tk="'+esc(i.t)+'" aria-label="Toggle accounts">▶</button>';
+        var master='<tr class="stk-master'+(isOpen?" open":"")+'" data-tk="'+esc(i.t)+'"><td class="stk-name">'+caret+stkLogo(i.t)+'<div><div class="stk-tk">'+esc(i.t)+(multi?' <span class="stk-sub2">'+i.n+' accts</span>':'')+'</div><div class="stk-nm">'+esc(i.name)+'</div></div></td>'+
+          '<td class="r">'+qfmt(i.qty)+'</td><td class="r">$'+i.avg.toFixed(2)+'</td><td class="r">$'+i.price.toFixed(2)+'</td>'+
           '<td class="r '+dc+'">'+(i.dchp==null?"—":(i.dchp>=0?"+":"")+i.dchp.toFixed(2)+"%")+'</td>'+
           '<td class="r bold">'+stkFull(i.mv)+'</td><td class="r '+glc+'">'+stkMoney(i.gl,1)+' <span class="stk-sub2">'+(i.glp>=0?"+":"")+i.glp.toFixed(1)+'%</span></td>'+
-          '<td class="r">'+i.w.toFixed(1)+'%</td></tr>';}).join("");
-      box.innerHTML=sum+'<div class="stk-tablewrap" style="margin-bottom:18px"><table class="stk-table"><thead>'+thead+'</thead><tbody>'+body+'</tbody></table></div>'+
+          '<td class="r">'+i.w.toFixed(1)+'%</td></tr>';
+        if(isOpen){
+          master+=i.accts.map(function(a){var agl=a.gl>=0?"up":"down";
+            return '<tr class="stk-child"><td class="stk-acct"><span class="stk-acct-badge">'+esc(stkAcctShort(a.account))+'</span></td>'+
+              '<td class="r">'+qfmt(a.qty)+'</td><td class="r"></td><td class="r"></td><td class="r"></td>'+
+              '<td class="r">'+stkFull(a.mv)+'</td><td class="r '+agl+'">'+stkMoney(a.gl,1)+'</td><td class="r">'+(i.mv?(a.mv/i.mv*100).toFixed(0):"0")+'%</td></tr>';}).join("");
+        }
+        return master;}).join("");
+      box.innerHTML=sum+toggleHtml()+'<div class="stk-tablewrap" style="margin-bottom:18px"><table class="stk-table"><thead>'+thead+'</thead><tbody>'+body+'</tbody></table></div>'+
         '<div class="stk-alloc"><div class="stk-alloc-h">Allocation</div><div style="position:relative;height:320px;max-width:580px;margin:0 auto"><canvas id="stkChart"></canvas></div></div>';
+      wireToggle();
       box.querySelectorAll("th[data-k]").forEach(function(th){th.addEventListener("click",function(){var k=th.dataset.k;if(stkSort.key===k)stkSort.dir*=-1;else{stkSort.key=k;stkSort.dir=(k==="t")?1:-1;}paint();});});
+      box.querySelectorAll("tr.stk-master").forEach(function(tr){tr.addEventListener("click",function(e){
+        if(e.target.closest("a"))return; var tk=tr.dataset.tk; var it=items.filter(function(x){return x.t===tk;})[0];
+        if(!it||it.n<2)return; stkOpen[tk]=!stkOpen[tk]; paint();});});
       drawAlloc();
     }
     function drawAlloc(){
@@ -367,7 +564,682 @@ window.STARWELL_CONFIG = {
       stkChart=new Chart(document.getElementById("stkChart"),{type:"doughnut",data:{labels:labels,datasets:[{data:data,backgroundColor:labels.map(function(_,i){return pal[i%pal.length];}),borderWidth:0}]},
         options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"right",labels:{boxWidth:10,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.label+": "+stkFull(c.parsed);}}}},cutout:"58%"}});
     }
-    paint();
+    dispatch();
+  }
+
+  // ---------- Stocks: upload brokerage statement (Schwab / Fidelity CSV) ----------
+  function stkNum(s){ if(s==null) return 0; s=String(s).replace(/^="?|"?$/g,"").replace(/[$,%\s]/g,"").trim();
+    if(s===""||s==="--"||/^N\/A$/i.test(s)||/incomplete/i.test(s)) return 0; var n=parseFloat(s); return isNaN(n)?0:n; }
+  function stkClean(s){ return s==null?"":String(s).replace(/^="?|"?$/g,"").trim(); }
+  function parseCSV(text){ if(window.Papa){ var r=Papa.parse(text,{skipEmptyLines:true}); return r.data; }
+    return text.split(/\r?\n/).filter(function(l){return l.trim();}).map(function(l){
+      var out=[],cur="",q=false; for(var i=0;i<l.length;i++){var c=l[i];
+        if(c==='"'){ if(q&&l[i+1]==='"'){cur+='"';i++;} else q=!q; }
+        else if(c===","&&!q){out.push(cur);cur="";} else cur+=c; } out.push(cur); return out; }); }
+
+  // Charles Schwab "Positions" export
+  function parseSchwab(rows){
+    var acct="Account", hdr=-1, sym=0,desc=1,qty=2,mkt=5,cost=8;
+    for(var r=0;r<rows.length;r++){
+      var first=stkClean((rows[r][0]||""));
+      var m=first.match(/Positions for account (.+?) as of/i); if(m){ acct=m[1].trim(); }
+      if(/^symbol$/i.test(first) && rows[r].length>5){ hdr=r;
+        rows[r].forEach(function(c,ix){ c=stkClean(c).toLowerCase();
+          if(c==="symbol")sym=ix; else if(/description/.test(c))desc=ix;
+          else if(/^qty/.test(c))qty=ix; else if(/mkt val|market value/.test(c))mkt=ix;
+          else if(/cost basis/.test(c))cost=ix; }); break; }
+    }
+    if(hdr<0) return null;
+    var out=[];
+    for(var i=hdr+1;i<rows.length;i++){ var row=rows[i]; var s=stkClean(row[sym]||"");
+      if(!s) continue;
+      if(/^positions total/i.test(s)) break;
+      if(/cash & cash|cash and cash|money market/i.test(s)){
+        out.push({ticker:"CASH",name:"Cash & Cash Investments",quantity:0,cost_basis:0,market_value_stmt:stkNum(row[mkt]),is_cash:true}); continue; }
+      out.push({ticker:s.toUpperCase(),name:stkClean(row[desc]||s),quantity:stkNum(row[qty]),cost_basis:stkNum(row[cost]),market_value_stmt:stkNum(row[mkt]),is_cash:false});
+    }
+    return {account:acct,rows:out};
+  }
+
+  // Fidelity tax-lot export (aggregates lots per ticker)
+  function parseFidelity(rows){
+    var hdr=-1, col={};
+    for(var r=0;r<rows.length;r++){ var lc=rows[r].map(function(c){return stkClean(c).toLowerCase();});
+      if(lc.indexOf("ticker")>=0 && lc.some(function(c){return /federal cost|cost basis/.test(c);})){ hdr=r;
+        lc.forEach(function(c,ix){
+          if(c==="ticker")col.tk=ix; else if(/account name/.test(c))col.an=ix;
+          else if(/asset name|description/.test(c))col.nm=ix; else if(/^quantity/.test(c))col.qty=ix;
+          else if(/federal cost|cost basis/.test(c))col.cost=ix; else if(/market value/.test(c))col.mv=ix; }); break; }
+    }
+    if(hdr<0||col.tk==null) return null;
+    var acct="Account", agg={};
+    for(var i=hdr+1;i<rows.length;i++){ var row=rows[i]; var tk=stkClean(row[col.tk]||"").toUpperCase();
+      if(!tk) continue; if(col.an!=null && stkClean(row[col.an])) acct=stkClean(row[col.an]);
+      var g=agg[tk]; if(!g){ g=agg[tk]={ticker:tk,name:stkClean(col.nm!=null?row[col.nm]:tk)||tk,quantity:0,cost_basis:0,market_value_stmt:0,is_cash:false}; }
+      g.quantity+=stkNum(row[col.qty]); g.cost_basis+=stkNum(row[col.cost]); g.market_value_stmt+=stkNum(row[col.mv]);
+    }
+    var out=Object.keys(agg).map(function(k){return agg[k];});
+    return {account:acct,rows:out};
+  }
+
+  // Fidelity "Holdings Detail" export (As of Date / Asset Type / % of Holdings columns).
+  // Money-market/deposit-sweep rows are treated as cash; firm-total rows (blank Account
+  // Number) are merged in only to supply cost basis, never to double-count quantity.
+  function parseFidelityHoldings(rows){
+    var hdr=-1, col={};
+    for(var r=0;r<rows.length;r++){ var lc=rows[r].map(function(c){return stkClean(c).toLowerCase();});
+      if(lc.indexOf("ticker")>=0 && lc.indexOf("market value")>=0 && lc.some(function(c){return /% of holdings/.test(c);})){ hdr=r;
+        lc.forEach(function(c,ix){
+          if(c==="ticker")col.tk=ix; else if(/asset name/.test(c))col.nm=ix;
+          else if(/asset type/.test(c))col.at=ix; else if(/account number/.test(c))col.acn=ix;
+          else if(/account name/.test(c))col.an=ix; else if(/^quantity/.test(c))col.qty=ix;
+          else if(/market value/.test(c))col.mv=ix; else if(/federal cost|cost basis/.test(c))col.cost=ix; }); break; }
+    }
+    if(hdr<0||col.tk==null) return null;
+    var account="Account", reals={}, totals={};
+    for(var i=hdr+1;i<rows.length;i++){ var row=rows[i]; if(!row) continue;
+      var tk=stkClean(row[col.tk]).toUpperCase(), atype=col.at!=null?stkClean(row[col.at]):"";
+      var acctno=col.acn!=null?stkClean(row[col.acn]):"", acctname=col.an!=null?stkClean(row[col.an]):"";
+      var name=col.nm!=null?stkClean(row[col.nm]):tk, qty=stkNum(row[col.qty]), mv=stkNum(row[col.mv]), cost=col.cost!=null?stkNum(row[col.cost]):0;
+      if(acctname) account=acctname;
+      var iscash=/cash/i.test(atype);
+      if(!tk) continue;
+      if(!acctno){ totals[tk]={qty:qty,mv:mv,cost:cost,name:name,iscash:iscash}; }
+      else { var d=reals[tk]||(reals[tk]={qty:0,mv:0,cost:0,name:name,iscash:iscash});
+        d.qty+=qty; d.mv+=mv; d.cost+=cost; d.name=name; d.iscash=iscash; }
+    }
+    var keys={}; Object.keys(reals).forEach(function(k){keys[k]=1;}); Object.keys(totals).forEach(function(k){keys[k]=1;});
+    var out=[];
+    Object.keys(keys).forEach(function(tk){ var d=reals[tk]||totals[tk];
+      if(d.cost===0 && totals[tk] && totals[tk].cost) d.cost=totals[tk].cost;
+      out.push({ticker:d.iscash?"CASH":tk,name:d.name,quantity:Math.round(d.qty*1e4)/1e4,
+        cost_basis:d.iscash?null:Math.round(d.cost*100)/100,market_value_stmt:Math.round(d.mv*100)/100,is_cash:d.iscash}); });
+    if(!out.length) return null;
+    return {account:account,rows:out};
+  }
+
+  function parseStatement(text){
+    var rows=parseCSV(text); if(!rows||!rows.length) return null;
+    var head=text.slice(0,400);
+    if(/Positions for account/i.test(head)) return parseSchwab(rows);
+    if(/% of Holdings/i.test(head)) return parseFidelityHoldings(rows);
+    if(/\bticker\b/i.test(head) && /federal cost|cost basis/i.test(head)) return parseFidelity(rows);
+    // fallback: try all
+    return parseSchwab(rows) || parseFidelityHoldings(rows) || parseFidelity(rows);
+  }
+
+  // First International Bank of Israel (FIBI) — Hebrew portfolio export (.xlsx).
+  // Converts agorot-quoted Israeli securities to USD using the FX implied by the sheet's own USD rows.
+  var FIBI_NAMES={'524017':['GILON','Gilon Gov’t Floating Bond'],'1159029':['TASE','Tel Aviv Stock Exchange Ltd'],
+    '1157403':['ISCD','Isracard Ltd'],'604611':['LUMI','Bank Leumi'],'662577':['POLI','Bank Hapoalim'],
+    '5127725':['MOR-IH','More Investment House Fund'],'5124326':['MOR-YT','More Yeter Fund'],
+    '5119466':['MOR-IL','More Israel Equities Fund'],'1148949':['HRL-BNK','Harel Israel Banks Index'],
+    '1146570':['KTA35','KSM TA-35 Index ETF']};
+  var FIBI_US={'AMZN':'Amazon.com Inc','TSM':'Taiwan Semiconductor ADR','RSP':'Invesco S&P 500 Equal Weight ETF'};
+  function fNum(s){ if(s==null) return null; s=String(s).replace(/,/g,"").replace(/[%\s]/g,"").trim();
+    if(s===""||s==="--") return null; var n=parseFloat(s); return isNaN(n)?null:n; }
+  function isFIBI(rows){ for(var i=0;i<Math.min(rows.length,15);i++){ for(var j=0;j<rows[i].length;j++){
+    var c=String(rows[i][j]==null?"":rows[i][j]); if(c.indexOf("נייר")===0||c.indexOf("תיק ני")>=0||c.indexOf("שווי אחזקה")>=0) return true; } } return false; }
+  function parseFIBI(rows){
+    var H={name:"נייר",sec:"מספר נייר",sym:"סימבול",
+      qty:"כמות",ccy:"מטבע",adj:"שער עלות מותאם",
+      hvils:"שווי אחזקה בשח",hvccy:"שווי אחזקה במטבע"};
+    var hdr=-1,col={};
+    for(var i=0;i<rows.length;i++){ var r=rows[i].map(function(c){return String(c==null?"":c).trim();});
+      if(r.indexOf(H.name)>=0 && r.indexOf(H.qty)>=0){ hdr=i;
+        Object.keys(H).forEach(function(k){ var ix=r.indexOf(H[k]); if(ix>=0) col[k]=ix; }); break; } }
+    if(hdr<0||col.name==null) return null;
+    var acct="FIBI", cash=0;
+    for(var i=0;i<rows.length;i++){ for(var j=0;j<rows[i].length;j++){ var c=String(rows[i][j]==null?"":rows[i][j]);
+      var m=c.match(/חשבון[:\s]*([0-9]+)/); if(m) acct="FIBI ..."+m[1].slice(-3);
+      if(c.indexOf("יתרה למסחר")>=0){ var nx=fNum(rows[i][j+1]); if(nx!=null) cash=nx; } } }
+    var raw=[],fxs=[];
+    for(var i=hdr+1;i<rows.length;i++){ var r=rows[i]; var name=String(r[col.name]==null?"":r[col.name]).trim();
+      if(!name||name.indexOf("סה\"כ")===0) continue;
+      var q=fNum(r[col.qty]), ccy=String(r[col.ccy]==null?"":r[col.ccy]).trim();
+      if(q==null||(ccy!=="₪"&&ccy!=="$")) continue;
+      var hvils=fNum(r[col.hvils]), hvccy=fNum(r[col.hvccy]);
+      if(ccy==="$"&&hvils&&hvccy) fxs.push(hvils/hvccy);
+      raw.push({name:name,sec:String(r[col.sec]||"").trim(),sym:String(r[col.sym]||"").trim().toUpperCase(),
+        qty:q,adj:fNum(r[col.adj])||0,ccy:ccy,hvils:hvils||0,hvccy:hvccy||0}); }
+    var FX=fxs.length?fxs.reduce(function(a,b){return a+b;},0)/fxs.length:0;
+    var out=[];
+    raw.forEach(function(x){ var tk,nm,cost,mv;
+      if(x.ccy==="$"){ tk=x.sym; nm=FIBI_US[tk]||x.name; cost=Math.round(x.qty*x.adj*100)/100; mv=Math.round(x.hvccy*100)/100; }
+      else { var mp=FIBI_NAMES[x.sec]; tk=mp?mp[0]:x.sec; nm=(mp?mp[1]:x.name)+" ("+x.sec+")";
+        cost=FX?Math.round((x.qty*x.adj/100)/FX*100)/100:0; mv=FX?Math.round(x.hvils/FX*100)/100:0; }
+      out.push({ticker:tk,name:nm,quantity:x.qty,cost_basis:cost,market_value_stmt:mv,is_cash:false}); });
+    if(cash) out.push({ticker:"CASH",name:"Cash balance for trading",quantity:0,cost_basis:0,market_value_stmt:FX?Math.round(cash/FX*100)/100:cash,is_cash:true});
+    if(!out.length) return null;
+    return {account:acct,rows:out};
+  }
+
+  function stkBanner(cls,msg){ var b=document.getElementById("stkUp"); if(!b)return; b.hidden=false; b.className="stk-up"+(cls?" "+cls:""); b.innerHTML=msg; }
+
+  async function uploadStatements(files){
+    var done=[], failed=[];
+    for(var fi=0;fi<files.length;fi++){ var f=files[fi];
+      stkBanner("", "Reading <strong>"+esc(f.name)+"</strong>… ("+(fi+1)+"/"+files.length+")");
+      var parsed=null;
+      try{
+        if(/\.xlsx?$/i.test(f.name)){
+          if(!window.XLSX){ failed.push(f.name+" (spreadsheet reader not loaded)"); continue; }
+          var buf=await f.arrayBuffer();
+          var wb=XLSX.read(buf,{type:"array"});
+          var grid=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,raw:false,defval:""});
+          if(isFIBI(grid)) parsed=parseFIBI(grid);
+        } else {
+          parsed=parseStatement(await f.text());
+        }
+      }catch(e){ failed.push(f.name+" ("+(e.message||"unreadable")+")"); continue; }
+      if(!parsed||!parsed.account||!parsed.rows.length){ failed.push(f.name+" (unrecognized format)"); continue; }
+      parsed.rows.forEach(function(r,ix){ r.account=parsed.account; r.sort_order=ix; });
+      var del=await sb.from("stock_holdings").delete().eq("account",parsed.account);
+      if(del.error){ failed.push(f.name+" — "+del.error.message); continue; }
+      var ins=await sb.from("stock_holdings").insert(parsed.rows);
+      if(ins.error){ failed.push(f.name+" — "+ins.error.message); continue; }
+      done.push(parsed.account+" ("+parsed.rows.filter(function(r){return !r.is_cash;}).length+" positions)");
+    }
+    var msg="";
+    if(done.length) msg+='✓ Updated: '+done.map(esc).join(", ");
+    if(failed.length) msg+=(msg?"<br>":"")+'✕ Skipped: '+failed.map(esc).join("; ");
+    stkBanner(failed.length?(done.length?"":"err"):"ok", msg||"Nothing to import.");
+    if(done.length) await renderStocks();
+  }
+
+  (function(){ var fi=document.getElementById("stkFile"); if(!fi) return;
+    fi.addEventListener("change", function(){ if(fi.files&&fi.files.length){ uploadStatements(Array.prototype.slice.call(fi.files)); fi.value=""; } });
+  })();
+
+  // ================= DEAL HUB (Module A + Module B shell) =================
+  var DH = { status:"All", q:"", deals:[], deal:null, pages:{}, page:"exec-summary", sel:{}, compare:false };
+  var DH_STATUSES = ["Underwriting","Call scheduled","IC","Approved","Pass","Hold","Lost","Closed"];
+  var DH_DOCS = ["CIM","Executed NDA","Model","QoE","Customer file","Tax Returns (3Y)"];
+  // 23-page workspace catalog (Kodiak parity). type: special renderer or "text".
+  var DH_PAGES = [
+    {g:"MEMO", k:"exec-summary", t:"Executive Summary", type:"exec"},
+    {g:"MEMO", k:"financials",   t:"Financials", type:"fin"},
+    {g:"MEMO", k:"revenue-mix",  t:"Revenue Mix & Customers", type:"revmix"},
+    {g:"MEMO", k:"market",        t:"Market", hint:"Geography, competitive density, verticals, demand drivers, pricing environment."},
+    {g:"MEMO", k:"thesis",        t:"Investment Thesis", type:"thesis"},
+    {g:"MEMO", k:"growth",        t:"Growth Plan & Strategy", type:"growth"},
+    {g:"MEMO", k:"risks",         t:"Risks & Mitigants", type:"risks"},
+    {g:"MEMO", k:"projections",   t:"Projections", type:"projections"},
+    {g:"MEMO", k:"transaction",   t:"Transaction", type:"transaction"},
+    {g:"MEMO", k:"governance",    t:"Governance & Terms", type:"governance"},
+    {g:"MEMO", k:"exit",          t:"Exit Path", type:"exit"},
+    {g:"SCORING", k:"quant", t:"Quantitative Scoring", type:"score", axes:["Valuation & Leverage","Growth & Trajectory","Margins & Cash Conversion","Revenue Quality & Retention","Coverage & Structure"]},
+    {g:"SCORING", k:"qual",  t:"Qualitative Scoring", type:"score", axes:["Business Model","Team & Owner Dependence","Market & Competition","Transition & Execution Risk","Data Quality & Diligence Confidence"]},
+    {g:"SCORING", k:"diligence", t:"Diligence Qs", type:"diligence"},
+    {g:"AGENTIC OUTPUTS", k:"tax",     t:"Tax Returns", hint:"Entity/form, years, per-year validation vs CIM, net-income bridge, driver drill-down. (AI pipeline: later backend track.)"},
+    {g:"AGENTIC OUTPUTS", k:"calls",   t:"Call Summaries", hint:"Upload transcript/recording → summary, participants, key facts (proposed values), follow-ups, new flags."},
+    {g:"AGENTIC OUTPUTS", k:"lbo",     t:"LBO Analysis", type:"lbo"},
+    {g:"AGENTIC OUTPUTS", k:"similar", t:"Similar Deals & Patterns", hint:"Decision gate, historical gate rules, pattern match (GOOD/BAD), decision flow, red-flag gate."},
+    {g:"AGENTIC OUTPUTS", k:"cohort",  t:"Cohort Analysis", hint:"Customer file → NRR/GRR/HHI, retention bridges, concentration, top-25 matrix. (Deterministic engine: later track.)"},
+    {g:"AGENTIC OUTPUTS", k:"industry",t:"Industry Comparison", type:"industry"},
+    {g:"AGENTIC OUTPUTS", k:"dataroom",t:"Dataroom & Checklist", type:"dataroom"},
+    {g:"AGENTIC OUTPUTS", k:"extras",  t:"Memo Extras", hint:"Free-form appendix — pinned analyses, extra tables, pasted exhibits."},
+    {g:"TECHNICAL", k:"crosscheck", t:"Cross-Check Register", type:"crosscheck"}
+  ];
+
+  function dnum(v){ return (v==null||v===""||isNaN(v))?null:+v; }
+  function dm(v){ var n=dnum(v); return n==null?"—":"$"+n.toLocaleString(undefined,{maximumFractionDigits:2})+"M"; }
+  function dx(v){ var n=dnum(v); return n==null?"—":n.toFixed(2)+"×"; }
+  function dpct(v){ var n=dnum(v); return n==null?"—":n.toFixed(1)+"%"; }
+  function dhWho(){ try{ var e=$("#whoEmail"); return e?e.textContent:""; }catch(e){return "";} }
+  // Deterministic LBO (no LLM). Cash-sweep model.
+  function lboCalc(a){
+    var e=+a.ebitda||0, entryX=+a.entryX||0, exitX=+a.exitX||0, lev=+a.lev||0,
+        g=(+a.growth||0)/100, yrs=Math.max(1,Math.min(10,+a.yrs||5)),
+        rate=(+a.rate||0)/100, tax=(+a.tax||0)/100, capexPct=(+a.capex||0)/100;
+    if(e<=0||entryX<=0) return null;
+    var EV=entryX*e, debt=lev*e, equity=EV-debt;
+    if(equity<=0) return null;
+    var cash=0, D=debt, series=[];
+    for(var y=1;y<=yrs;y++){
+      e=e*(1+g);
+      var interest=rate*D, ebt=e-interest, taxes=Math.max(0,ebt*tax), capex=capexPct*e;
+      var fcf=e-interest-taxes-capex, pay=Math.min(Math.max(fcf,0),D);
+      D=D-pay; cash+=Math.max(fcf-pay,0);
+      series.push({y:y,ebitda:e,fcf:fcf,debt:D,cash:cash});
+    }
+    var exitEV=exitX*e, exitEq=exitEV-D+cash, moic=exitEq/equity, irr=moic>0?Math.pow(moic,1/yrs)-1:null;
+    return {EV:EV,debt:debt,equity:equity,exitEV:exitEV,exitEq:exitEq,moic:moic,irr:irr,series:series};
+  }
+
+  async function renderDeals(){
+    var box=document.getElementById("dealHub"); if(!box) return;
+    if(DH.deal){ renderWorkspace(); return; }
+    box.innerHTML='<div class="muted">Loading deals…</div>';
+    var r=await sb.from("deals").select("*").order("date_of_entry",{ascending:false});
+    if(r.error){ box.innerHTML='<div class="dh-empty">Deal Hub isn’t set up yet. Run <code>supabase/deals.sql</code> in your Supabase project.<br><br><span style="font-size:12px;opacity:.7">'+esc(r.error.message)+'</span></div>'; return; }
+    DH.deals=r.data||[];
+    paintDeals();
+  }
+  function paintDeals(){
+    var box=document.getElementById("dealHub");
+    if(DH.compare){ renderCompare(); return; }
+    var all=DH.deals, q=DH.q.toLowerCase();
+    function match(d){ return !q || (d.project_name||"").toLowerCase().indexOf(q)>=0 || (d.business_profile||"").toLowerCase().indexOf(q)>=0 || (d.deal_lead||"").toLowerCase().indexOf(q)>=0; }
+    var counts={All:0}; DH_STATUSES.forEach(function(s){counts[s]=0;});
+    all.forEach(function(d){ counts.All++; if(counts[d.status]!=null) counts[d.status]++; });
+    var tabs=["All"].concat(DH_STATUSES).map(function(s){
+      return '<button class="dh-tab'+(DH.status===s?" active":"")+'" data-s="'+esc(s)+'">'+esc(s)+'<span class="n">'+(counts[s]||0)+'</span></button>';}).join("");
+    var rows=all.filter(function(d){return (DH.status==="All"||d.status===DH.status)&&match(d);});
+    var nsel=Object.keys(DH.sel).length;
+    var head='<div class="dh-head"><h2>Deal Hub</h2><div class="dh-tools">'+
+      (nsel>=2?'<button class="btn" id="dhCompare">Compare ('+nsel+')</button>':'')+
+      (nsel>=1?'<button class="btn ghost" id="dhClearSel">Clear</button>':'')+
+      '<input class="dh-search" id="dhSearch" placeholder="Search deals…" value="'+esc(DH.q)+'">'+
+      '<button class="btn" id="dhNew">+ New deal</button></div></div>';
+    var body;
+    if(!rows.length){ body='<div class="dh-empty">No deals'+(DH.status==="All"?"":" in “"+esc(DH.status)+"”")+' yet. Use <b>+ New deal</b> to add one.</div>'; }
+    else {
+      var thead='<tr><th style="width:30px"></th><th>Status</th><th>Project</th><th>Lead</th><th>Priority</th><th class="r">Revenue</th><th class="r">EBITDA</th><th class="r">Entry ×</th><th>Type</th><th>Industry</th><th>Key docs</th><th>Next steps</th></tr>';
+      var trs=rows.map(function(d){
+        var em=(dnum(d.ev_m)!=null&&dnum(d.ebitda_m))? d.ev_m/d.ebitda_m : null;
+        var sc=d.status==="Call scheduled"?"Call":d.status;
+        var docs=(d.key_documents||[]).map(function(x){return '<span class="dh-doc">'+esc(x)+'</span>';}).join("");
+        return '<tr data-id="'+d.id+'"><td><input type="checkbox" class="dh-cb" data-cb="'+d.id+'"'+(DH.sel[d.id]?" checked":"")+' style="width:auto"></td><td><span class="dh-chip s-'+esc(sc)+'">'+esc(d.status)+'</span></td>'+
+          '<td><b>'+esc(d.project_name)+'</b></td><td>'+esc(d.deal_lead||"—")+'</td>'+
+          '<td><span class="dh-pri '+esc(d.priority||"")+'">'+esc(d.priority||"—")+'</span></td>'+
+          '<td class="r">'+dm(d.revenue_m)+'</td><td class="r">'+dm(d.ebitda_m)+'</td>'+
+          '<td class="r">'+dx(em)+'</td>'+
+          '<td>'+(d.deal_type?'<span class="dh-dtype">'+esc(d.deal_type)+'</span>':"—")+'</td>'+
+          '<td>'+esc(d.sub_industry||d.industry||"—")+'</td>'+
+          '<td><div class="dh-docs">'+(docs||"—")+'</div></td>'+
+          '<td>'+esc(d.next_steps||"—")+'</td></tr>';}).join("");
+      body='<div class="dh-tablewrap"><table class="dh-table"><thead>'+thead+'</thead><tbody>'+trs+'</tbody></table></div>';
+    }
+    box.innerHTML=head+'<div class="dh-tabs">'+tabs+'</div>'+body;
+    box.querySelectorAll(".dh-tab").forEach(function(b){b.addEventListener("click",function(){DH.status=b.dataset.s;paintDeals();});});
+    var s=document.getElementById("dhSearch"); if(s) s.addEventListener("input",function(){DH.q=s.value; paintDeals(); document.getElementById("dhSearch").focus();});
+    document.getElementById("dhNew").addEventListener("click",function(){dealForm(null);});
+    var cmp=document.getElementById("dhCompare"); if(cmp) cmp.onclick=function(){DH.compare=true;paintDeals();};
+    var clr=document.getElementById("dhClearSel"); if(clr) clr.onclick=function(){DH.sel={};paintDeals();};
+    box.querySelectorAll(".dh-cb").forEach(function(cb){cb.addEventListener("click",function(e){e.stopPropagation();if(cb.checked)DH.sel[cb.dataset.cb]=1;else delete DH.sel[cb.dataset.cb];paintDeals();});});
+    box.querySelectorAll(".dh-table tbody tr").forEach(function(tr){tr.addEventListener("click",function(e){if(e.target.closest(".dh-cb"))return;openDeal(tr.dataset.id);});});
+  }
+
+  // Module E — side-by-side comparison of 2–6 selected deals
+  function renderCompare(){
+    var box=document.getElementById("dealHub");
+    var ds=DH.deals.filter(function(d){return DH.sel[d.id];}).slice(0,6);
+    function em(d){return (dnum(d.ev_m)!=null&&dnum(d.ebitda_m))? d.ev_m/d.ebitda_m : null;}
+    function marg(d){return (dnum(d.ebitda_m)!=null&&dnum(d.revenue_m))? d.ebitda_m/d.revenue_m*100 : null;}
+    // rows: [group, label, valueFn, betterDir] dir: -1 lower better, +1 higher better, 0 none
+    var ROWS=[
+      ["Identity","Status",function(d){return d.status;},0],
+      ["Identity","Deal type",function(d){return d.deal_type||"—";},0],
+      ["Identity","Industry",function(d){return d.sub_industry||d.industry||"—";},0],
+      ["Price & Deal","TEV",function(d){return dnum(d.ev_m);},0,dm],
+      ["Price & Deal","Entry multiple",function(d){return em(d);},-1,dx],
+      ["Financials","LTM Revenue",function(d){return dnum(d.revenue_m);},1,dm],
+      ["Financials","LTM EBITDA",function(d){return dnum(d.ebitda_m);},1,dm],
+      ["Financials","EBITDA margin",function(d){return marg(d);},1,function(v){return dpct(v);}],
+      ["Scores","Overall score",function(d){return dnum(d.score);},1,function(v){return v==null?"—":v+" /5";}]
+    ];
+    var grpSeen={};
+    var trs=ROWS.map(function(r){
+      var vals=ds.map(r[2]); var nums=vals.filter(function(v){return typeof v==="number"&&!isNaN(v);});
+      var best=null; if(r[3]&&nums.length){ best=r[3]>0?Math.max.apply(null,nums):Math.min.apply(null,nums); }
+      var fmt=r[4]||function(v){return v==null?"—":v;};
+      var grpH=""; if(!grpSeen[r[0]]){grpSeen[r[0]]=1; grpH='<tr><td colspan="'+(ds.length+1)+'" style="background:#f5f4f1;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#777">'+esc(r[0])+'</td></tr>';}
+      return grpH+'<tr><td style="text-align:left;color:#555">'+esc(r[1])+'</td>'+ds.map(function(d,i){var v=vals[i];var isBest=(best!=null&&typeof v==="number"&&v===best&&nums.length>1);
+        return '<td class="r"'+(isBest?' style="background:#e3f3ea;font-weight:600"':'')+'>'+esc(fmt(v))+'</td>';}).join("")+'</tr>';
+    }).join("");
+    box.innerHTML='<div class="dh-head"><h2>Compare deals</h2><div class="dh-tools"><button class="btn ghost" id="cmpBack">← Back to Deal Hub</button></div></div>'+
+      '<div class="dh-tablewrap"><table class="dh-table" style="min-width:'+(200+ds.length*160)+'px"><thead><tr><th style="text-align:left">Metric</th>'+
+      ds.map(function(d){return '<th class="r">'+esc(d.project_name)+'</th>';}).join("")+'</tr></thead><tbody>'+trs+'</tbody></table></div>'+
+      '<div class="sub" style="margin-top:10px;color:#999;font-size:12px">Green = best in row (lower entry multiple / higher revenue, EBITDA, margin, score). Missing values excluded.</div>';
+    document.getElementById("cmpBack").onclick=function(){DH.compare=false;paintDeals();};
+  }
+
+  var DH_FIELDS=[
+    {k:"project_name",label:"Project name",req:true,full:true},
+    {k:"status",label:"Status",sel:DH_STATUSES},
+    {k:"deal_lead",label:"Deal lead"},
+    {k:"priority",label:"Priority",sel:["High","Medium","Low"]},
+    {k:"deal_type",label:"Deal type",sel:["Value","Roll-up","Growth"]},
+    {k:"industry",label:"Industry"},
+    {k:"sub_industry",label:"Sub-industry (MSP, MSSP…)"},
+    {k:"revenue_m",label:"LTM Revenue ($M)",num:true},
+    {k:"ebitda_m",label:"LTM EBITDA ($M)",num:true},
+    {k:"ev_m",label:"Enterprise Value / TEV ($M)",num:true},
+    {k:"valuation_basis",label:"Valuation basis"},
+    {k:"next_steps",label:"Next steps",full:true},
+    {k:"drive_folder_url",label:"Drive folder URL",full:true},
+    {k:"business_profile",label:"Business profile (one line)",full:true,ta:true},
+    {k:"pass_reason",label:"Pass reason (required if status = Pass)",full:true}
+  ];
+  function dealForm(row){
+    var editing=!!row; row=row||{status:"Underwriting",industry:"IT Services"};
+    var html='<div class="overlay"><div class="modal"><h3>'+(editing?"Edit deal":"New deal")+'</h3><div class="grid2">';
+    DH_FIELDS.forEach(function(f){ var v=row[f.k], id="df_"+f.k, ctl;
+      if(f.sel) ctl='<select id="'+id+'">'+(f.k==="status"?"":'<option value=""></option>')+f.sel.map(function(o){return '<option'+(v===o?" selected":"")+'>'+o+'</option>';}).join("")+'</select>';
+      else if(f.ta) ctl='<textarea id="'+id+'">'+esc(v||"")+'</textarea>';
+      else ctl='<input id="'+id+'" type="'+(f.num?"number":"text")+'" value="'+esc(v==null?"":v)+'">';
+      html+='<div class="field" style="grid-column:'+(f.full?"1/-1":"auto")+'"><label for="'+id+'">'+f.label+(f.req?" *":"")+'</label>'+ctl+'</div>';});
+    var docs='<div class="field" style="grid-column:1/-1"><label>Key documents received</label><div style="display:flex;gap:8px;flex-wrap:wrap">'+
+      DH_DOCS.map(function(dc){var on=(row.key_documents||[]).indexOf(dc)>=0;return '<label style="font-size:13px;display:inline-flex;gap:5px;align-items:center;font-weight:400"><input type="checkbox" class="df_doc" value="'+esc(dc)+'" style="width:auto"'+(on?" checked":"")+'>'+esc(dc)+'</label>';}).join("")+'</div></div>';
+    html+=docs+'</div><div class="actions">'+(editing?'<button class="btn danger" id="dfDel" style="margin-right:auto">Delete</button>':'')+'<button class="btn ghost" id="dfCancel">Cancel</button><button class="btn" id="dfSave">Save</button></div><div class="note" id="dfNote"></div></div></div>';
+    $("#modalRoot").innerHTML=html;
+    $("#dfCancel").onclick=function(){$("#modalRoot").innerHTML="";};
+    if(editing&&$("#dfDel")) $("#dfDel").onclick=async function(){ if(!confirm("Delete this deal and all its workspace pages?"))return;
+      var res=await sb.from("deals").delete().eq("id",row.id); if(res.error){alert(res.error.message);return;} $("#modalRoot").innerHTML=""; DH.deal=null; renderDeals(); };
+    $("#dfSave").onclick=async function(){
+      var rec={};
+      DH_FIELDS.forEach(function(f){ var el=$("#df_"+f.k); if(!el)return; var val=el.value;
+        rec[f.k]= f.num?(val===""?null:Number(val)):(val.trim()===""?null:val.trim()); });
+      rec.key_documents=Array.prototype.slice.call(document.querySelectorAll(".df_doc:checked")).map(function(c){return c.value;});
+      if(!rec.project_name){ $("#dfNote").className="note err"; $("#dfNote").textContent="Project name is required."; return; }
+      if(rec.status==="Pass" && !rec.pass_reason){ $("#dfNote").className="note err"; $("#dfNote").textContent="A pass reason is required to set status = Pass."; return; }
+      this.disabled=true;
+      var res= editing ? await sb.from("deals").update(rec).eq("id",row.id) : await sb.from("deals").insert(rec).select().single();
+      this.disabled=false;
+      if(res.error){ $("#dfNote").className="note err"; $("#dfNote").textContent=res.error.message; return; }
+      $("#modalRoot").innerHTML="";
+      if(editing && DH.deal){ Object.assign(DH.deal,rec); renderWorkspace(); }
+      else { DH.deal=null; renderDeals(); }
+    };
+  }
+
+  async function openDeal(id){
+    var box=document.getElementById("dealHub"); box.innerHTML='<div class="muted">Loading workspace…</div>';
+    var d=await sb.from("deals").select("*").eq("id",id).single();
+    if(d.error){ box.innerHTML='<div class="dh-empty">'+esc(d.error.message)+'</div>'; return; }
+    DH.deal=d.data; DH.page="exec-summary";
+    var p=await sb.from("deal_pages").select("*").eq("deal_id",id);
+    DH.pages={}; (p.data||[]).forEach(function(row){ DH.pages[row.page_key]={body:row.body||"",data:row.data||{}}; });
+    renderWorkspace();
+  }
+  function dhPage(k){ if(!DH.pages[k]) DH.pages[k]={body:"",data:{}}; return DH.pages[k]; }
+  var dhSaveTimer=null;
+  function savePage(k, note){
+    var pg=dhPage(k);
+    if(note) note.textContent="Saving…";
+    clearTimeout(dhSaveTimer);
+    dhSaveTimer=setTimeout(async function(){
+      var res=await sb.from("deal_pages").upsert({deal_id:DH.deal.id,page_key:k,body:pg.body,data:pg.data,updated_by:dhWho()},{onConflict:"deal_id,page_key"});
+      if(note) note.textContent=res.error?("Error: "+res.error.message):"Saved ✓";
+    },500);
+  }
+
+  function renderWorkspace(){
+    var box=document.getElementById("dealHub"); var d=DH.deal;
+    var em=(dnum(d.ev_m)!=null&&dnum(d.ebitda_m))? d.ev_m/d.ebitda_m : null;
+    var sc=d.status==="Call scheduled"?"Call":d.status;
+    var top='<div class="dw-top"><button class="dw-back" id="dwBack">← All deals</button>'+
+      '<span class="dw-name">'+esc(d.project_name)+'</span>'+
+      (d.deal_type?'<span class="dw-badge">'+esc(d.deal_type)+'</span>':'')+
+      '<span class="dw-badge">'+esc(d.status)+'</span>'+
+      (dnum(d.score)!=null?'<span class="dw-badge">Score '+d.score+'/5</span>':'')+
+      '<div class="dw-strip">'+
+        dwM("LTM Rev",dm(d.revenue_m))+dwM("LTM EBITDA",dm(d.ebitda_m))+dwM("EV/EBITDA",dx(em))+dwM("LTV","—")+dwM("Base MOIC","—")+
+      '</div><button class="dw-back" id="dwEdit">Edit deal</button></div>';
+    var groups={}; DH_PAGES.forEach(function(p){(groups[p.g]=groups[p.g]||[]).push(p);});
+    var nav='<div class="dw-nav">'+Object.keys(groups).map(function(g){
+      return '<div class="dw-nav-grp">'+esc(g)+'</div>'+groups[g].map(function(p){
+        return '<button data-k="'+p.k+'" class="'+(DH.page===p.k?"active":"")+'">'+esc(p.t)+'</button>';}).join("");}).join("")+'</div>';
+    box.innerHTML=top+'<div class="dw-body">'+nav+'<div class="dw-page" id="dwPage"></div></div>';
+    document.getElementById("dwBack").onclick=function(){DH.deal=null;renderDeals();};
+    document.getElementById("dwEdit").onclick=function(){dealForm(DH.deal);};
+    box.querySelectorAll(".dw-nav button").forEach(function(b){b.onclick=function(){DH.page=b.dataset.k;renderWorkspace();};});
+    renderPage();
+  }
+  function dwM(l,v){ return '<div class="dw-metric"><div class="l">'+esc(l)+'</div><div class="v">'+v+'</div></div>'; }
+
+  function renderPage(){
+    var host=document.getElementById("dwPage"); var d=DH.deal;
+    var meta=DH_PAGES.filter(function(p){return p.k===DH.page;})[0]; var pg=dhPage(DH.page);
+    var head='<h3>'+esc(meta.t)+'</h3><div class="sub">'+esc(meta.hint||"")+'</div>';
+    if(meta.type==="exec"){
+      var em=(dnum(d.ev_m)!=null&&dnum(d.ebitda_m))? d.ev_m/d.ebitda_m : null;
+      var marg=(dnum(d.ebitda_m)!=null&&dnum(d.revenue_m))? d.ebitda_m/d.revenue_m*100 : null;
+      function card(l,v,s,miss,prov,tip){ return '<div class="dw-mcard'+(miss?" miss":"")+'"'+(tip?' title="'+esc(tip)+'"':'')+'><div class="l">'+l+'</div><div class="v">'+v+(prov?'<span class="dw-prov '+prov[0]+'">'+prov[1]+'</span>':'')+'</div>'+(s?'<div class="s">'+s+'</div>':'')+'</div>'; }
+      var cards=[
+        card("Entry Multiple", dx(em), "EV ÷ "+(d.valuation_basis||"EBITDA"), em==null, ["calc","Calc"], em!=null?("CALCULATED — Enterprise value ("+dm(d.ev_m)+") ÷ "+(d.valuation_basis||"EBITDA")+" ("+dm(d.ebitda_m)+") = "+dx(em)):"Refuses to render — needs EV and EBITDA."),
+        card("LTM Revenue", dm(d.revenue_m), null, dnum(d.revenue_m)==null, ["man","Manual"], "MANUAL / EXTRACTED — headline revenue from approved values."),
+        card("LTM EBITDA", dm(d.ebitda_m), marg!=null?("Margin "+dpct(marg)):null, dnum(d.ebitda_m)==null, ["man","Manual"], marg!=null?("Margin = EBITDA ÷ Revenue = "+dpct(marg)):"" ),
+        card("TEV", dm(d.ev_m), null, dnum(d.ev_m)==null, ["man","Manual"], "Total enterprise value / purchase price."),
+        card("LTV %","—","Debt/EBITDA —",true,null,"MISSING — needs the deal's debt draw (Transaction / LBO)."),
+        card("UFCF Y1","—","yield —",true,null,"MISSING — computed by the LBO engine once assumptions are set."),
+        card("Base MOIC","—","payback —",true,null,"MISSING — from LBO Base scenario."),
+        card("Rev CAGR 3Y","—",null,true,null,"MISSING — needs 3+ years of revenue (Financials)."),
+        card("EBITDA CAGR 3Y","—",null,true,null,"MISSING — needs 3+ years of EBITDA (Financials)."),
+        card("Exit Multiple","—",null,true,null,"MISSING — set on the Exit Path / LBO page."),
+        card("Top-1 Customer %","—",null,true,null,"MISSING — from the customer file (Cohort Analysis)."),
+        card("Gross Margin","—",null,true,null,"MISSING — gross profit ÷ revenue.")
+      ].join("");
+      var fl=pg.data.flags||{red:0,yellow:0,green:0};
+      var qA=(DH_PAGES.filter(function(p){return p.k==="quant";})[0]||{}).axes||[];
+      var uA=(DH_PAGES.filter(function(p){return p.k==="qual";})[0]||{}).axes||[];
+      host.innerHTML=head+
+        '<div class="dw-sec-h">Deal Synthesis</div>'+
+        '<textarea class="dw-ta" id="dwBody" placeholder="2-paragraph synthesis — what the business is, why attractive, why cautious, expected returns. (Every factual claim should cite a document once the pipeline is wired.)">'+esc(pg.body)+'</textarea>'+
+        '<div class="dw-save" id="dwNote"></div>'+
+        '<div class="dw-sec-h">Economics at a Glance <span class="dw-prov calc">Calc</span> <span style="font-weight:400;color:#999;font-size:11px">— hover any card for its provenance</span></div><div class="dw-cards">'+cards+'</div>'+
+        '<div class="dw-sec-h">Flag Tally &amp; Gate</div><div class="dw-flags">'+
+          ["red","yellow","green"].map(function(c){return '<div class="dw-flag '+c+'"><b>'+(fl[c]||0)+'</b>'+c.charAt(0).toUpperCase()+c.slice(1)+'</div>';}).join("")+'</div>'+
+        '<div class="dw-sec-h">Score Spider Nets</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div><div style="text-align:center;font-size:11px;color:var(--soft);margin-bottom:4px">QUANTITATIVE</div><div style="position:relative;height:260px"><canvas id="dwSpiderQ"></canvas></div></div><div><div style="text-align:center;font-size:11px;color:var(--soft);margin-bottom:4px">QUALITATIVE</div><div style="position:relative;height:260px"><canvas id="dwSpiderU"></canvas></div></div></div>';
+      wireBody();
+      function radar(id,axes,scores,color){ if(!document.getElementById(id)||!axes.length)return;
+        var data=axes.map(function(a){return dnum(scores&&scores[a])||0;});
+        new Chart(document.getElementById(id),{type:"radar",data:{labels:axes,datasets:[{data:data,backgroundColor:color+"22",borderColor:color,borderWidth:2,pointBackgroundColor:color}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:5,ticks:{stepSize:1,font:{size:9},backdropColor:"transparent"},pointLabels:{font:{size:9}}}},plugins:{legend:{display:false}}}}); }
+      radar("dwSpiderQ",qA,(dhPage("quant").data||{}).scores,"#2b5ea7");
+      radar("dwSpiderU",uA,(dhPage("qual").data||{}).scores,"#1a7a5a");
+    } else if(meta.type==="fin"){
+      var yrs=pg.data.years||[{y:"FY-2",rev:"",ebitda:"",margin:"",capex:""},{y:"FY-1",rev:"",ebitda:"",margin:"",capex:""},{y:"LTM",rev:"",ebitda:"",margin:"",capex:""},{y:"FY+1 (F)",rev:"",ebitda:"",margin:"",capex:""}];
+      var rowsH=["Revenue","EBITDA / SDE","Margin %","CapEx"];
+      var thead='<tr><th>Line ($M)</th>'+yrs.map(function(y,i){return '<th><input data-yh="'+i+'" value="'+esc(y.y)+'" style="text-align:right;width:80px"></th>';}).join("")+'</tr>';
+      var keys=["rev","ebitda","margin","capex"];
+      var tbody=keys.map(function(kk,ri){ return '<tr><td>'+rowsH[ri]+'</td>'+yrs.map(function(y,ci){return '<td><input data-c="'+ci+'" data-k="'+kk+'" value="'+esc(y[kk]||"")+'"></td>';}).join("")+'</tr>';}).join("");
+      host.innerHTML=head+'<div class="dw-sec-h">Narrative</div>'+
+        '<textarea class="dw-ta" id="dwBody" placeholder="Earnings quality, volatility, margin story, cash conversion, leverage implications.">'+esc(pg.body)+'</textarea><div class="dw-save" id="dwNote"></div>'+
+        '<div class="dw-sec-h">Year-by-year</div><table class="dw-ftable"><thead>'+thead+'</thead><tbody>'+tbody+'</tbody></table><div class="dw-save" id="dwNote2"></div>';
+      wireBody();
+      var n2=document.getElementById("dwNote2");
+      host.querySelectorAll("input[data-yh]").forEach(function(inp){inp.addEventListener("input",function(){yrs[+inp.dataset.yh].y=inp.value;pg.data.years=yrs;savePage(DH.page,n2);});});
+      host.querySelectorAll("input[data-c]").forEach(function(inp){inp.addEventListener("input",function(){yrs[+inp.dataset.c][inp.dataset.k]=inp.value;pg.data.years=yrs;savePage(DH.page,n2);});});
+    } else if(meta.type==="score"){
+      var sc2=pg.data.scores||{}; var vals=meta.axes.map(function(a){return dnum(sc2[a]);});
+      var known=vals.filter(function(v){return v!=null;});
+      var integ=known.length?(known.reduce(function(s,v){return s+v;},0)/known.length):null;
+      host.innerHTML=head+'<div class="dw-sec-h">Axes (score each 1–5)</div>'+
+        meta.axes.map(function(a){var v=sc2[a]!=null?sc2[a]:3;
+          return '<div class="dw-scoreax"><div class="nm">'+esc(a)+'</div><input type="range" min="1" max="5" step="0.5" value="'+v+'" data-ax="'+esc(a)+'"><div class="sv" data-sv="'+esc(a)+'">'+(sc2[a]!=null?sc2[a]:"—")+'</div></div>';}).join("")+
+        '<div class="dw-sec-h">'+(DH.page==="quant"?"Quant":"Qual")+' Integral <span class="dw-prov calc">Calc</span></div>'+
+        '<div style="font-size:26px;font-weight:600" id="dwInteg">'+(integ!=null?integ.toFixed(2)+" / 5":"—")+'</div>'+
+        '<div class="sub">Unknown axes are excluded from the mean (never defaulted to a number).</div>'+
+        '<div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("input[data-ax]").forEach(function(inp){inp.addEventListener("input",function(){
+        var a=inp.dataset.ax; sc2[a]=+inp.value; pg.data.scores=sc2; document.querySelector('[data-sv="'+a.replace(/"/g,'')+'"]');
+        host.querySelectorAll("[data-sv]").forEach(function(s){ if(s.dataset.sv===a) s.textContent=sc2[a]; });
+        var vv=meta.axes.map(function(x){return dnum(sc2[x]);}).filter(function(x){return x!=null;});
+        var ig=vv.length?(vv.reduce(function(s,x){return s+x;},0)/vv.length):null;
+        document.getElementById("dwInteg").textContent=ig!=null?ig.toFixed(2)+" / 5":"—";
+        savePage(DH.page,note);});});
+    } else if(meta.type==="dataroom"){
+      var CK=["NDA","CIM","3y P&L + balance sheets","3y tax returns","Customer revenue file","Top contracts / MSAs","AR aging","Org chart & payroll","Lease","QoE","Insurance","Other"];
+      var st=pg.data.checklist||{};
+      var done=CK.filter(function(i){return (st[i]||"Missing")==="Received"||(st[i]||"")==="Processed";}).length;
+      host.innerHTML=head+'<div class="dw-sec-h">Checklist — '+Math.round(done/CK.length*100)+'% complete</div>'+
+        CK.map(function(i){var cur=st[i]||"Missing";
+          return '<div class="dw-chk"><span class="nm">'+esc(i)+'</span><select data-ck="'+esc(i)+'">'+
+            ["Missing","Requested","Received","Processed"].map(function(o){return '<option'+(cur===o?" selected":"")+'>'+o+'</option>';}).join("")+'</select></div>';}).join("")+
+        '<div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("select[data-ck]").forEach(function(sel){sel.addEventListener("change",function(){st[sel.dataset.ck]=sel.value;pg.data.checklist=st;savePage(DH.page,note);renderPage();});});
+    } else if(meta.type==="crosscheck"){
+      var rows=pg.data.rows||[];
+      var tbody=rows.map(function(r,i){return '<tr><td>'+esc(r.figure||"")+'</td><td>'+esc(r.where||"")+'</td><td>'+esc(r.method||"")+'</td><td>'+esc(r.source||"")+'</td><td>'+esc(r.status||"")+'</td><td>'+esc(r.note||"")+'</td><td><button class="btn ghost sm" data-del="'+i+'">✕</button></td></tr>';}).join("");
+      host.innerHTML=head+'<table class="dw-ftable"><thead><tr><th>Figure</th><th>Where</th><th>Method</th><th>Source</th><th>Status</th><th>Resolution</th><th></th></tr></thead><tbody>'+(tbody||'<tr><td colspan="7" style="text-align:center;color:#999">No entries yet</td></tr>')+'</tbody></table>'+
+        '<button class="btn ghost sm" id="dwAddCC" style="margin-top:12px">+ Add row</button><div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      document.getElementById("dwAddCC").onclick=function(){
+        var fig=prompt("Figure (e.g. LTM EBITDA)"); if(!fig)return;
+        rows.push({figure:fig,where:prompt("Where it appears (page/card)")||"",method:prompt("Method: Extracted / Calculated / Manual")||"Manual",source:prompt("Source (doc+page or formula)")||"",status:prompt("Status: Consistent / Discrepancy / Unverified")||"Unverified",note:prompt("Resolution note")||""});
+        pg.data.rows=rows; savePage(DH.page,note); renderPage();};
+      host.querySelectorAll("[data-del]").forEach(function(b){b.onclick=function(){rows.splice(+b.dataset.del,1);pg.data.rows=rows;savePage(DH.page,note);renderPage();};});
+    } else if(meta.type==="risks"){
+      var rows=pg.data.rows||[];
+      var tally={Red:0,Yellow:0,Green:0}; rows.forEach(function(r){if(tally[r.sev]!=null)tally[r.sev]++;});
+      var tbody=rows.map(function(r,i){return '<tr><td>'+esc(r.sev||"")+'</td><td style="text-align:left">'+esc(r.risk||"")+'</td><td style="text-align:left">'+esc(r.mitigant||"")+'</td><td>'+esc(r.status||"")+'</td><td><button class="btn ghost sm" data-del="'+i+'">✕</button></td></tr>';}).join("");
+      host.innerHTML=head+'<div class="dw-flags" style="margin-bottom:14px"><div class="dw-flag red"><b>'+tally.Red+'</b>Red</div><div class="dw-flag yellow"><b>'+tally.Yellow+'</b>Yellow</div><div class="dw-flag green"><b>'+tally.Green+'</b>Green</div></div>'+
+        '<table class="dw-ftable"><thead><tr><th>Severity</th><th style="text-align:left">Risk</th><th style="text-align:left">Mitigant</th><th>Status</th><th></th></tr></thead><tbody>'+(tbody||'<tr><td colspan="5" style="text-align:center;color:#999">No risks logged</td></tr>')+'</tbody></table>'+
+        '<button class="btn ghost sm" id="dwAddR" style="margin-top:12px">+ Add risk</button><div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      document.getElementById("dwAddR").onclick=function(){var sev=prompt("Severity: Red / Yellow / Green");if(!sev)return;
+        rows.push({sev:sev,risk:prompt("Risk description")||"",mitigant:prompt("Mitigant")||"",status:prompt("Status: Open / Watching / Cleared")||"Open"});
+        pg.data.rows=rows;savePage(DH.page,note);
+        // sync tally to exec-summary flags
+        var f={red:0,yellow:0,green:0};rows.forEach(function(r){var s=(r.sev||"").toLowerCase();if(f[s]!=null)f[s]++;});
+        dhPage("exec-summary").data.flags=f; savePage("exec-summary");
+        renderPage();};
+      host.querySelectorAll("[data-del]").forEach(function(b){b.onclick=function(){rows.splice(+b.dataset.del,1);pg.data.rows=rows;
+        var f={red:0,yellow:0,green:0};rows.forEach(function(r){var s=(r.sev||"").toLowerCase();if(f[s]!=null)f[s]++;});
+        dhPage("exec-summary").data.flags=f;savePage("exec-summary");savePage(DH.page,note);renderPage();};});
+    } else if(meta.type==="thesis"){
+      var blocks=["Core Thesis","Key Pros","Key Cons","Red Flags","Convexity (asymmetry read)","Main Return Driver","Main Downside Risk","Data Quality"];
+      var bd=pg.data.blocks||{};
+      host.innerHTML=head+blocks.map(function(b){
+        return '<div class="dw-sec-h">'+esc(b)+'</div><textarea class="dw-ta" data-blk="'+esc(b)+'" style="min-height:64px">'+esc(bd[b]||"")+'</textarea>';}).join("")+'<div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("textarea[data-blk]").forEach(function(ta){ta.addEventListener("input",function(){bd[ta.dataset.blk]=ta.value;pg.data.blocks=bd;savePage(DH.page,note);});});
+    } else if(meta.type==="projections"){
+      var scn=pg.data.scn||{}, cur=pg.data.cur||"Base", d0=scn[cur]||{};
+      var rowsP=["Revenue","EBITDA","Margin %","FCF"], yrs=["Y1","Y2","Y3","Y4","Y5"];
+      var tabs=["Base","Bull","Bear"].map(function(s){return '<button class="dh-tab'+(cur===s?" active":"")+'" data-scn="'+s+'">'+s+'</button>';}).join("");
+      var thead='<tr><th>Line ($M)</th>'+yrs.map(function(y){return '<th>'+y+'</th>';}).join("")+'</tr>';
+      var tbody=rowsP.map(function(r){return '<tr><td>'+r+'</td>'+yrs.map(function(y){var k=r+"|"+y;return '<td><input data-cell="'+esc(k)+'" value="'+esc(d0[k]||"")+'"></td>';}).join("")+'</tr>';}).join("");
+      host.innerHTML=head+'<div class="dh-tabs" style="margin-bottom:12px">'+tabs+'</div><table class="dw-ftable"><thead>'+thead+'</thead><tbody>'+tbody+'</tbody></table>'+
+        '<div class="dw-sec-h">Assumptions — '+cur+'</div><textarea class="dw-ta" id="dwBody">'+esc((pg.data.notes||{})[cur]||"")+'</textarea><div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll(".dh-tab[data-scn]").forEach(function(b){b.onclick=function(){pg.data.cur=b.dataset.scn;savePage(DH.page);renderPage();};});
+      host.querySelectorAll("input[data-cell]").forEach(function(inp){inp.addEventListener("input",function(){d0[inp.dataset.cell]=inp.value;scn[cur]=d0;pg.data.scn=scn;savePage(DH.page,note);});});
+      var taP=document.getElementById("dwBody"); taP.addEventListener("input",function(){var n=pg.data.notes||{};n[cur]=taP.value;pg.data.notes=n;savePage(DH.page,note);});
+    } else if(meta.type==="transaction"){
+      var su=pg.data.su||{};
+      var SRC=["Term loan / SBA 7(a)","Seller note","Deferred / earnout","Rollover equity","Common equity","Cash at close"];
+      var USE=["Enterprise value","Fees & expenses","Cash to balance sheet"];
+      function suRow(l){return '<tr><td style="text-align:left">'+esc(l)+'</td><td><input data-su="'+esc(l)+'" value="'+esc(su[l]||"")+'"></td></tr>';}
+      var srcTot=SRC.reduce(function(s,l){return s+(dnum(su[l])||0);},0), useTot=USE.reduce(function(s,l){return s+(dnum(su[l])||0);},0);
+      host.innerHTML=head+
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">'+
+        '<div><div class="dw-sec-h">Sources ($M)</div><table class="dw-ftable"><tbody>'+SRC.map(suRow).join("")+'<tr><td style="text-align:left"><b>Total sources</b></td><td style="text-align:right"><b>'+(srcTot?srcTot.toFixed(2):"—")+'</b></td></tr></tbody></table></div>'+
+        '<div><div class="dw-sec-h">Uses ($M)</div><table class="dw-ftable"><tbody>'+USE.map(suRow).join("")+'<tr><td style="text-align:left"><b>Total uses</b></td><td style="text-align:right"><b>'+(useTot?useTot.toFixed(2):"—")+'</b></td></tr></tbody></table></div></div>'+
+        '<div class="dw-sec-h">Sources mix</div><div style="position:relative;height:250px;max-width:420px"><canvas id="dwSUChart"></canvas></div>'+
+        '<div class="dw-sec-h">Structure summary</div><textarea class="dw-ta" id="dwBody" placeholder="Price, implied multiples, working-capital peg, escrow / holdback, key structural terms.">'+esc(pg.body)+'</textarea><div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote"), suChart=null;
+      function drawSU(){ var labels=[],data=[]; SRC.forEach(function(l){var v=dnum(su[l]);if(v){labels.push(l);data.push(v);}});
+        if(suChart)suChart.destroy(); if(!labels.length)return;
+        var pal=['#2b5ea7','#1a7a5a','#9a6b17','#5b3ea7','#b5342a','#3d8888'];
+        suChart=new Chart(document.getElementById("dwSUChart"),{type:"doughnut",data:{labels:labels,datasets:[{data:data,backgroundColor:labels.map(function(_,i){return pal[i%pal.length];}),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"right",labels:{boxWidth:10,font:{size:11}}}},cutout:"58%"}});
+      }
+      host.querySelectorAll("input[data-su]").forEach(function(inp){inp.addEventListener("input",function(){su[inp.dataset.su]=inp.value;pg.data.su=su;savePage(DH.page,note);drawSU();});});
+      var taT=document.getElementById("dwBody"); taT.addEventListener("input",function(){pg.body=taT.value;savePage(DH.page,note);});
+      drawSU();
+    } else if(meta.type==="diligence"){
+      var qs=pg.data.qs||[], open=qs.filter(function(q){return (q.status||"Open")==="Open";});
+      var list=qs.map(function(q,i){return '<div class="dw-chk"><span class="nm">'+esc(q.q)+(q.answer?'<br><span style="color:#1a7a5a;font-size:12px">↳ '+esc(q.answer)+'</span>':'')+'</span><select data-qs="'+i+'">'+["Open","Sent","Answered"].map(function(o){return '<option'+((q.status||"Open")===o?" selected":"")+'>'+o+'</option>';}).join("")+'</select><button class="btn ghost sm" data-qa="'+i+'">Answer</button><button class="btn ghost sm" data-qd="'+i+'">✕</button></div>';}).join("");
+      host.innerHTML=head+'<div style="display:flex;gap:8px;margin-bottom:12px"><button class="btn ghost sm" id="dwQAdd">+ Add question</button><button class="btn ghost sm" id="dwQCopy">Copy all open ('+open.length+')</button></div>'+(list||'<div class="sub">No questions yet.</div>')+'<div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      document.getElementById("dwQAdd").onclick=function(){var q=prompt("Question");if(!q)return;qs.push({q:q,status:"Open",answer:""});pg.data.qs=qs;savePage(DH.page,note);renderPage();};
+      document.getElementById("dwQCopy").onclick=function(){var txt=open.map(function(q,i){return (i+1)+". "+q.q;}).join("\n");if(navigator.clipboard)navigator.clipboard.writeText(txt);note.textContent="Copied "+open.length+" open questions ✓";};
+      host.querySelectorAll("select[data-qs]").forEach(function(s){s.onchange=function(){qs[+s.dataset.qs].status=s.value;pg.data.qs=qs;savePage(DH.page,note);renderPage();};});
+      host.querySelectorAll("[data-qa]").forEach(function(b){b.onclick=function(){var i=+b.dataset.qa,a=prompt("Answer (cite call/doc)",qs[i].answer||"");if(a==null)return;qs[i].answer=a;qs[i].status="Answered";pg.data.qs=qs;savePage(DH.page,note);renderPage();};});
+      host.querySelectorAll("[data-qd]").forEach(function(b){b.onclick=function(){qs.splice(+b.dataset.qd,1);pg.data.qs=qs;savePage(DH.page,note);renderPage();};});
+    } else if(meta.type==="lbo"){
+      var L=pg.data.lbo||{}, cur=pg.data.lcur||"Base";
+      var A=L[cur]||{ebitda:(dnum(d.ebitda_m)!=null?d.ebitda_m:""),entryX:(dnum(d.ev_m)&&dnum(d.ebitda_m)?+(d.ev_m/d.ebitda_m).toFixed(2):5),exitX:"",lev:3,growth:8,yrs:5,rate:10,tax:25,capex:5};
+      if(A.exitX===""||A.exitX==null) A.exitX=A.entryX;
+      L[cur]=A; pg.data.lbo=L; pg.data.lcur=cur;
+      var out=lboCalc(A);
+      var flds=[["ebitda","Entry EBITDA ($M)"],["entryX","Entry multiple (×)"],["exitX","Exit multiple (×)"],["lev","Leverage (Debt/EBITDA)"],["growth","EBITDA growth (%/yr)"],["yrs","Hold (years)"],["rate","Interest rate (%)"],["tax","Tax rate (%)"],["capex","Capex (% EBITDA)"]];
+      var inputs=flds.map(function(f){return '<div class="dw-scoreax"><div class="nm">'+f[1]+'</div><input type="number" step="0.25" data-lbo="'+f[0]+'" value="'+esc(A[f[0]]==null?"":A[f[0]])+'" style="width:100px;text-align:right;border:1px solid var(--line);border-radius:6px;padding:4px 8px"></div>';}).join("");
+      function oc(l,v){return '<div class="dw-mcard"><div class="l">'+l+'</div><div class="v">'+v+'</div></div>';}
+      var cards= out ? '<div class="dw-cards">'+oc("Year-"+A.yrs+" IRR",out.irr!=null?(out.irr*100).toFixed(1)+"%":"—")+oc("Year-"+A.yrs+" MOIC",out.moic.toFixed(2)+"×")+oc("Exit EV","$"+out.exitEV.toFixed(1)+"M")+oc("Equity to Common","$"+out.exitEq.toFixed(1)+"M")+oc("Entry Equity","$"+out.equity.toFixed(1)+"M")+oc("Entry Debt","$"+out.debt.toFixed(1)+"M")+'</div>' : '<div class="dw-mcard miss"><div class="v">—</div><div class="s">Needs entry EBITDA &gt; 0, entry multiple &gt; 0, and positive equity (leverage below entry multiple).</div></div>';
+      var grid="";
+      if(out){
+        var eX=+A.entryX, xX=+A.exitX, steps=[-1,-0.75,-0.5,-0.25,0,0.25,0.5,0.75,1];
+        var cols=steps.map(function(s){return +(eX+s).toFixed(2);}).filter(function(v){return v>0;});
+        var rws=steps.map(function(s){return +(xX+s).toFixed(2);}).filter(function(v){return v>0;});
+        var vals=[]; rws.forEach(function(rx){cols.forEach(function(cx){var o=lboCalc(Object.assign({},A,{entryX:cx,exitX:rx}));if(o&&o.irr!=null)vals.push(o.irr);});});
+        var mn=vals.length?Math.min.apply(null,vals):0, mx=vals.length?Math.max.apply(null,vals):1;
+        function heat(v){var t=mx>mn?(v-mn)/(mx-mn):0.5,h=Math.round(t*120);return 'background:hsl('+h+',62%,'+(91-t*20)+'%)';}
+        var th='<tr><th>Exit ↓ / Entry →</th>'+cols.map(function(c){return '<th>'+c.toFixed(2)+'×</th>';}).join("")+'</tr>';
+        var tb=rws.map(function(rx){return '<tr><th>'+rx.toFixed(2)+'×</th>'+cols.map(function(cx){var o=lboCalc(Object.assign({},A,{entryX:cx,exitX:rx})),isb=(cx===eX&&rx===xX);return '<td style="'+(o&&o.irr!=null?heat(o.irr):"")+(isb?';outline:2px solid #0f0f14;outline-offset:-2px;font-weight:700':"")+'">'+(o&&o.irr!=null?(o.irr*100).toFixed(0)+"%":"—")+'</td>';}).join("")+'</tr>';}).join("");
+        grid='<div class="dw-sec-h">Sensitivity — IRR by Entry × Exit multiple <span class="dw-prov calc">Calc</span></div><div style="overflow:auto"><table class="dw-ftable" style="min-width:540px"><thead>'+th+'</thead><tbody>'+tb+'</tbody></table></div>';
+      }
+      var tabs=["Base","Bull","Bear"].map(function(s){return '<button class="dh-tab'+(cur===s?" active":"")+'" data-lscn="'+s+'">'+s+'</button>';}).join("");
+      host.innerHTML=head+'<div class="sub">Deterministic cash-sweep model — no AI in the loop. FCF sweeps to debt each year.</div><div class="dh-tabs" style="margin-bottom:12px">'+tabs+'</div>'+
+        '<div style="display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start"><div><div class="dw-sec-h">Assumptions</div>'+inputs+'</div><div><div class="dw-sec-h">Outputs <span class="dw-prov calc">Calc</span></div>'+cards+'</div></div>'+grid+'<div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll(".dh-tab[data-lscn]").forEach(function(b){b.onclick=function(){pg.data.lcur=b.dataset.lscn;savePage(DH.page);renderPage();};});
+      host.querySelectorAll("input[data-lbo]").forEach(function(inp){inp.addEventListener("change",function(){A[inp.dataset.lbo]=inp.value===""?"":Number(inp.value);L[cur]=A;pg.data.lbo=L;savePage(DH.page,note);renderPage();});});
+    } else if(meta.type==="revmix"){
+      var sl=pg.data.sl||{}, LINES=["Managed services","Projects & consulting","Hardware & procurement","Break-fix","Other"];
+      var mt=pg.data.metrics||{};
+      function slRow(l){return '<tr><td style="text-align:left">'+esc(l)+'</td><td><input data-sl="'+esc(l)+'" value="'+esc(sl[l]||"")+'"> %</td></tr>';}
+      var tot=LINES.reduce(function(s,l){return s+(dnum(sl[l])||0);},0);
+      function mfield(k,l,suf){return '<div class="dw-scoreax"><div class="nm">'+l+'</div><input data-m="'+k+'" value="'+esc(mt[k]||"")+'" style="width:110px;text-align:right;border:1px solid var(--line);border-radius:6px;padding:4px 8px">'+(suf?' <span style="color:#999">'+suf+'</span>':'')+'</div>';}
+      host.innerHTML=head+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start">'+
+        '<div><div class="dw-sec-h">Service-line split (% of revenue)</div><table class="dw-ftable"><tbody>'+LINES.map(slRow).join("")+'<tr><td style="text-align:left"><b>Total</b></td><td style="text-align:right"><b>'+(tot?tot.toFixed(0)+"%":"—")+'</b></td></tr></tbody></table><div style="position:relative;height:220px;max-width:360px;margin-top:12px"><canvas id="dwRMChart"></canvas></div></div>'+
+        '<div><div class="dw-sec-h">Recurring & concentration</div>'+
+          mfield("mrr","MRR ($M)")+mfield("arr","ARR ($M)")+mfield("recStated","Recurring % (stated)","%")+mfield("recComputed","Recurring % (computed)","%")+mfield("contracts","Managed clients on contract")+mfield("avgLen","Avg contract length (mo)")+mfield("top1","Top-1 customer %","%")+mfield("top5","Top-5 customers %","%")+
+          ((dnum(mt.recStated)!=null&&dnum(mt.recComputed)!=null&&Math.abs(mt.recStated-mt.recComputed)>2)?'<div style="color:#b5342a;font-size:12px;margin-top:8px">⚠ Stated vs computed recurring % differ by &gt;2 pts.</div>':'')+
+        '</div></div>'+
+        '<div class="dw-sec-h">Narrative</div><textarea class="dw-ta" id="dwBody">'+esc(pg.body)+'</textarea><div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote"), rmChart=null;
+      function drawRM(){var labels=[],data=[];LINES.forEach(function(l){var v=dnum(sl[l]);if(v){labels.push(l);data.push(v);}});if(rmChart)rmChart.destroy();if(!labels.length)return;
+        var pal=['#2b5ea7','#1a7a5a','#9a6b17','#5b3ea7','#b5342a'];
+        rmChart=new Chart(document.getElementById("dwRMChart"),{type:"doughnut",data:{labels:labels,datasets:[{data:data,backgroundColor:labels.map(function(_,i){return pal[i%pal.length];}),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"right",labels:{boxWidth:9,font:{size:10}}}},cutout:"55%"}});}
+      host.querySelectorAll("input[data-sl]").forEach(function(inp){inp.addEventListener("input",function(){sl[inp.dataset.sl]=inp.value;pg.data.sl=sl;savePage(DH.page,note);drawRM();});});
+      host.querySelectorAll("input[data-m]").forEach(function(inp){inp.addEventListener("input",function(){mt[inp.dataset.m]=inp.value;pg.data.metrics=mt;savePage(DH.page,note);});});
+      wireBody(); drawRM();
+    } else if(meta.type==="growth"){
+      var bd=pg.data.blocks||{}, GB=["Growth Levers (pricing, cross-sell security/cloud, new contracts, tuck-ins)","100-Day Plan","Org Plan","Roll-up Fit (if Deal Type = Roll-up)"];
+      host.innerHTML=head+GB.map(function(b){return '<div class="dw-sec-h">'+esc(b)+'</div><textarea class="dw-ta" data-blk="'+esc(b)+'" style="min-height:70px">'+esc(bd[b]||"")+'</textarea>';}).join("")+'<div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("textarea[data-blk]").forEach(function(ta){ta.addEventListener("input",function(){bd[ta.dataset.blk]=ta.value;pg.data.blocks=bd;savePage(DH.page,note);});});
+    } else if(meta.type==="governance"){
+      var gt=pg.data.terms||{}, GT=["Board / control","Seller employment & transition period","Non-compete","Reps & warranties highlights","Conditions to close","Exclusivity dates","Escrow / holdback","Working-capital peg"];
+      host.innerHTML=head+GT.map(function(l){return '<div class="dw-sec-h">'+esc(l)+'</div><textarea class="dw-ta" data-gt="'+esc(l)+'" style="min-height:52px">'+esc(gt[l]||"")+'</textarea>';}).join("")+'<div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("textarea[data-gt]").forEach(function(ta){ta.addEventListener("input",function(){gt[ta.dataset.gt]=ta.value;pg.data.terms=gt;savePage(DH.page,note);});});
+    } else if(meta.type==="exit"){
+      var ex=pg.data.exit||{};
+      // MOIC-by-exit-year from the LBO Base scenario (deterministic)
+      var lb=(dhPage("lbo").data.lbo||{}).Base;
+      var moicRows="";
+      if(lb){ moicRows=[1,2,3,4,5,6,7].map(function(y){var o=lboCalc(Object.assign({},lb,{yrs:y}));return '<tr><td>Year '+y+'</td><td class="r">'+(o?o.moic.toFixed(2)+"×":"—")+'</td><td class="r">'+(o&&o.irr!=null?(o.irr*100).toFixed(1)+"%":"—")+'</td></tr>';}).join(""); }
+      var moicTbl= moicRows? '<div class="dw-sec-h">MOIC / IRR by exit year <span class="dw-prov calc">Calc</span> <span style="font-weight:400;color:#999;font-size:11px">— from LBO Base scenario</span></div><table class="dw-ftable" style="max-width:360px"><thead><tr><th>Exit</th><th class="r">MOIC</th><th class="r">IRR</th></tr></thead><tbody>'+moicRows+'</tbody></table>' : '<div class="dw-sec-h">MOIC / IRR by exit year</div><div class="sub">Set assumptions on the LBO Analysis page to populate this.</div>';
+      function exf(k,l,suf){return '<div class="dw-scoreax"><div class="nm">'+l+'</div><input data-ex="'+k+'" value="'+esc(ex[k]||"")+'" style="width:100px;text-align:right;border:1px solid var(--line);border-radius:6px;padding:4px 8px">'+(suf?' <span style="color:#999">'+suf+'</span>':'')+'</div>';}
+      host.innerHTML=head+'<div class="dw-sec-h">Exit-multiple range &amp; hold</div>'+exf("low","Exit multiple — low","×")+exf("base","Exit multiple — base","×")+exf("high","Exit multiple — high","×")+exf("hold","Hold period","yrs")+
+        moicTbl+
+        '<div class="dw-sec-h">Exit options &amp; rationale</div><textarea class="dw-ta" id="dwBody" placeholder="Strategic sale · PE roll-up · recap — with rationale for the assumed exit-multiple range.">'+esc(pg.body)+'</textarea><div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("input[data-ex]").forEach(function(inp){inp.addEventListener("input",function(){ex[inp.dataset.ex]=inp.value;pg.data.exit=ex;savePage(DH.page,note);});});
+      wireBody();
+    } else if(meta.type==="industry"){
+      var bm=pg.data.bench||{}, ROWS=[["ebitdaMargin","EBITDA margin %"],["grossMargin","Gross margin %"],["recurring","Recurring %"],["revEmp","Revenue / employee ($K)"],["revEnd","Revenue / endpoint ($)"],["entryX","Entry multiple (×)"]];
+      var thisVals={ ebitdaMargin:(dnum(d.ebitda_m)!=null&&dnum(d.revenue_m))?(d.ebitda_m/d.revenue_m*100).toFixed(1):"—", entryX:(dnum(d.ev_m)&&dnum(d.ebitda_m))?(d.ev_m/d.ebitda_m).toFixed(2):"—" };
+      var tbody=ROWS.map(function(r){var tv=thisVals[r[0]]!=null?thisVals[r[0]]:(bm["this_"+r[0]]||"—");
+        return '<tr><td style="text-align:left">'+r[1]+'</td><td class="r">'+esc(tv)+'</td><td><input data-bm="'+r[0]+'" value="'+esc(bm[r[0]]||"")+'" style="text-align:right"></td></tr>';}).join("");
+      host.innerHTML=head+'<table class="dw-ftable"><thead><tr><th style="text-align:left">Metric</th><th class="r">This deal</th><th class="r">MSP benchmark</th></tr></thead><tbody>'+tbody+'</tbody></table>'+
+        '<div class="sub" style="margin-top:8px">This-deal EBITDA margin &amp; entry multiple are computed from approved values; benchmarks are the editable MSP set (Settings, later).</div>'+
+        '<div class="dw-sec-h">Commentary</div><textarea class="dw-ta" id="dwBody">'+esc(pg.body)+'</textarea><div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("input[data-bm]").forEach(function(inp){inp.addEventListener("input",function(){bm[inp.dataset.bm]=inp.value;pg.data.bench=bm;savePage(DH.page,note);});});
+      wireBody();
+    } else {
+      // generic structured-text page
+      host.innerHTML=head+'<textarea class="dw-ta" id="dwBody" style="min-height:340px" placeholder="Write this section here. (Structured fields & AI drafting arrive with the backend track.)">'+esc(pg.body)+'</textarea><div class="dw-save" id="dwNote"></div>';
+      wireBody();
+    }
+    function wireBody(){ var ta=document.getElementById("dwBody"); if(!ta)return; var note=document.getElementById("dwNote");
+      ta.addEventListener("input",function(){ pg.body=ta.value; savePage(DH.page,note); }); }
   }
 
   // ---------- CONTENT MODELS ----------
@@ -377,10 +1249,13 @@ window.STARWELL_CONFIG = {
       title:function(r){return r.title;},
       sub:function(r){return [r.category, r.publish_date, r.featured?"★ featured":""].filter(Boolean).join("  ·  ");},
       fields:[
-        {k:"title",label:"Title",t:"text",full:true,req:true},
+        {k:"title",label:"Title (English)",t:"text",full:true,req:true},
+        {k:"title_he",label:"כותרת (Hebrew title)",t:"text",full:true,rtl:true},
         {k:"category",label:"Category",t:"text"},
+        {k:"category_he",label:"קטגוריה (Hebrew category)",t:"text",rtl:true},
         {k:"publish_date",label:"Publish date",t:"date"},
-        {k:"excerpt",label:"Excerpt",t:"textarea",full:true},
+        {k:"excerpt",label:"Excerpt (English)",t:"textarea",full:true},
+        {k:"excerpt_he",label:"תקציר (Hebrew excerpt)",t:"textarea",full:true,rtl:true},
         {k:"source_url",label:"Source / article link",t:"text",full:true},
         {k:"featured_image_url",label:"Image URL",t:"text",full:true},
         {k:"author",label:"Author",t:"text"},
@@ -393,11 +1268,16 @@ window.STARWELL_CONFIG = {
       title:function(r){return r.title;},
       sub:function(r){return [r.category, r.location, r.employment_type, r.active?"open":"closed"].filter(Boolean).join("  ·  ");},
       fields:[
-        {k:"title",label:"Role title",t:"text",full:true,req:true},
+        {k:"title",label:"Role title (English)",t:"text",full:true,req:true},
+        {k:"title_he",label:"שם המשרה (Hebrew title)",t:"text",full:true,rtl:true},
         {k:"category",label:"Category",t:"text"},
+        {k:"category_he",label:"קטגוריה (Hebrew)",t:"text",rtl:true},
         {k:"location",label:"Location",t:"text"},
+        {k:"location_he",label:"מיקום (Hebrew)",t:"text",rtl:true},
         {k:"employment_type",label:"Type (Full-time…)",t:"text"},
-        {k:"description",label:"Description",t:"textarea",full:true},
+        {k:"employment_type_he",label:"היקף משרה (Hebrew)",t:"text",rtl:true},
+        {k:"description",label:"Description (English)",t:"textarea",full:true},
+        {k:"description_he",label:"תיאור (Hebrew description)",t:"textarea",full:true,rtl:true},
         {k:"apply_url",label:"Apply link (or mailto:)",t:"text",full:true},
         {k:"active",label:"Open / accepting applications",t:"check"},
         {k:"sort_order",label:"Sort order",t:"number"}
@@ -456,10 +1336,11 @@ window.STARWELL_CONFIG = {
     m.fields.forEach(function(f){
       var v = row[f.k]; var id="f_"+f.k;
       var ctl;
-      if(f.t==="textarea") ctl='<textarea id="'+id+'">'+esc(v||"")+'</textarea>';
+      var rtl=f.rtl?' dir="rtl" style="text-align:right"':'';
+      if(f.t==="textarea") ctl='<textarea id="'+id+'"'+rtl+'>'+esc(v||"")+'</textarea>';
       else if(f.t==="check") ctl='<input type="checkbox" id="'+id+'" style="width:auto" '+(v?"checked":"")+'>';
       else if(f.t==="select") ctl='<select id="'+id+'">'+f.opts.map(function(o){return '<option '+(v===o?"selected":"")+'>'+o+'</option>';}).join("")+'</select>';
-      else ctl='<input id="'+id+'" type="'+(f.t==="number"?"number":f.t==="date"?"date":"text")+'" value="'+esc(v==null?"":v)+'">';
+      else ctl='<input id="'+id+'" type="'+(f.t==="number"?"number":f.t==="date"?"date":"text")+'" value="'+esc(v==null?"":v)+'"'+rtl+'>';
       html+='<div class="field" style="grid-column:'+(f.full?"1/-1":"auto")+'"><label for="'+id+'">'+f.label+(f.req?" *":"")+'</label>'+ctl+'</div>';
     });
     html+='</div><div class="actions"><button class="btn ghost" id="cancelF">Cancel</button><button class="btn" id="saveF">Save</button></div>'+
