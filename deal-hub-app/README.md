@@ -6,11 +6,30 @@ PRD targets: **Next.js 14 (App Router) + TypeScript + Prisma + a background work
 the Anthropic API**. It's separate from the in-HQ Deal Hub (which lives in `hq.html`
 on the static site and can't run the server-side AI pipeline).
 
-> **Status: M0 + M1 scaffold.** Deal Database (Module A), the deal-workspace shell,
-> the full Prisma data model (§G), the deterministic EV-bridge / entry-multiple and
-> LBO engine (`src/lib/finance.ts`), and the AI-pipeline plumbing (job queue worker +
-> Agent 0/1 stubs + versioned prompts). The document pipeline, memo pages, scoring,
-> LBO UI, HoldCo, cohort, and comparison come in M2–M9 (see the build order in the PRD §0.4).
+> **Status: M0 + M1 + M2.** M0/M1: Deal Database (Module A), workspace shell, full
+> Prisma data model (§G), deterministic EV-bridge/LBO (`src/lib/finance.ts`).
+> **M2 (the first end-to-end AI loop):** document upload (SHA-256 dedupe, 50 MB cap,
+> all file types) → **Agent 0** classify + checklist → **Agent 1** extract-with-
+> citations on a CIM → **Review screen** (Accept/Edit/Reject) → canonical value +
+> Cross-Check row. Dataroom page (checklist + Files browser), authenticated file
+> serving, "Process all documents". Memo pages/scoring/LBO UI/HoldCo/cohort come in
+> M3–M9 (build order: PRD §0.4).
+
+### The AI loop, end to end
+1. Deal → **Dataroom** → *Upload documents* (a CIM PDF).
+2. *Process all documents* → Agent 0 classifies it as `CIM` and marks the checklist
+   `Received`; a CIM auto-chains to Agent 1, which extracts revenue/EBITDA/EV/… each
+   with a `{page, snippet}` citation and writes **proposed** values (never canonical).
+3. **Review** → each proposal shows its snippet + a deep-link to the cited PDF page;
+   Accept writes it to the deal and adds a Cross-Check row. Reject logs it.
+4. With **no `ANTHROPIC_API_KEY`**, uploads still store and the checklist still works;
+   the job fails **visibly** — no fabricated output (criterion 23).
+
+> **Storage on Vercel:** M2 stores files on local disk (`DATA_DIR`, default `./data`)
+> per PRD §H — fine for local dev and a single always-on host. Vercel's serverless FS
+> is ephemeral, so for a Vercel deploy swap `src/lib/storage.ts` for **Vercel Blob**
+> or **S3** (same interface). The worker likewise wants an always-on host; the
+> `/process` route drains the queue in-process so the loop also works without it.
 
 ## Run locally
 

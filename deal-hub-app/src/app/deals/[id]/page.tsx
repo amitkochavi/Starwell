@@ -21,6 +21,7 @@ const PAGES: Record<string, string[]> = {
 export default async function Workspace({ params }: { params: { id: string } }) {
   const d = await prisma.deal.findUnique({ where: { id: params.id } }).catch(() => null);
   if (!d) notFound();
+  const pending = await prisma.proposedValue.count({ where: { dealId: params.id, status: 'pending' } }).catch(() => 0);
   const em = entryMultiple(d.evM, d.ebitdaM);
 
   return (
@@ -30,6 +31,8 @@ export default async function Workspace({ params }: { params: { id: string } }) 
         <span className="text-lg font-semibold">{d.projectName}</span>
         {d.dealType && <span className="text-[11px] bg-white/15 rounded-full px-2.5 py-1">{d.dealType}</span>}
         <span className="text-[11px] bg-white/15 rounded-full px-2.5 py-1">{d.status}</span>
+        <Link href={`/deals/${d.id}/dataroom`} className="border border-white/20 rounded-md px-3 py-1.5 text-sm">Dataroom</Link>
+        {pending > 0 && <Link href={`/deals/${d.id}/review`} className="rounded-md bg-amber-400 text-ink px-3 py-1.5 text-sm font-medium">{pending} to review</Link>}
         <div className="ml-auto flex gap-6 text-right">
           <Metric label="LTM Rev" v={dash(d.revenueM, money)} />
           <Metric label="LTM EBITDA" v={dash(d.ebitdaM, money)} />
@@ -44,7 +47,9 @@ export default async function Workspace({ params }: { params: { id: string } }) 
             <div key={grp}>
               <div className="text-[10px] uppercase tracking-wide text-neutral-400 px-2 pt-3 pb-1">{grp}</div>
               {items.map((it) => (
-                <div key={it} className="px-2 py-1.5 rounded-md text-neutral-600 hover:bg-neutral-100 cursor-default">{it}</div>
+                it === 'Dataroom & Checklist'
+                  ? <Link key={it} href={`/deals/${d.id}/dataroom`} className="block px-2 py-1.5 rounded-md text-accent hover:bg-neutral-100">{it}</Link>
+                  : <div key={it} className="px-2 py-1.5 rounded-md text-neutral-600 hover:bg-neutral-100 cursor-default">{it}</div>
               ))}
             </div>
           ))}
