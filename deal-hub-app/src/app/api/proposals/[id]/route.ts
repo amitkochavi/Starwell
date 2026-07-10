@@ -4,6 +4,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { CIM_FIELDS } from '@/lib/extract-schema';
+import { recompute } from '@/lib/agent2';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,5 +27,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   await prisma.crossCheckEntry.create({
     data: { dealId: pv.dealId, figure: field.label, appearsAt: 'Executive Summary / top bar', method: 'Extracted', source: pv.citationLocator, status: 'Consistent', detail: pv.snippet || undefined },
   });
+  // Agent 2 (deterministic) recomputes derived metrics + refreshes Cross-Check.
+  await recompute(pv.dealId);
   return NextResponse.json({ ok: true });
 }

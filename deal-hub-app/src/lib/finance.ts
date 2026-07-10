@@ -9,6 +9,19 @@ export const money = (n: number) => '$' + n.toLocaleString(undefined, { maximumF
 export const mult = (n: number) => n.toFixed(2) + '×';
 export const pct = (n: number) => n.toFixed(1) + '%';
 
+/** EBITDA margin (%). Missing/zero-revenue -> null (renders "—", invariant #1). */
+export function marginPct(ebitdaM: number | null | undefined, revenueM: number | null | undefined): number | null {
+  if (ebitdaM == null || revenueM == null || revenueM === 0) return null;
+  return (ebitdaM / revenueM) * 100;
+}
+
+/** CAGR (%) across a series; needs >=2 positive-start points, else null. */
+export function cagrPct(series: (number | null)[]): number | null {
+  const v = series.filter((x): x is number => x != null && !Number.isNaN(x));
+  if (v.length < 2 || v[0] <= 0) return null;
+  return (Math.pow(v[v.length - 1] / v[0], 1 / (v.length - 1)) - 1) * 100;
+}
+
 /**
  * EV bridge / Entry Multiple (PRD §R.2, Global invariant #3).
  * Entry Multiple is ALWAYS EV ÷ basis EBITDA. Consideration ÷ EBITDA is a

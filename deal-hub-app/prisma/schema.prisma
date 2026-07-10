@@ -1,6 +1,6 @@
 // Starwell Deal Hub — data model (PRD FINAL v3, §G + Part I-A).
-// SQLite for local dev; schema is Postgres-compatible (swap provider + DATABASE_URL
-// for the move — the job queue and document volume are the likely triggers, §H).
+// Postgres (Vercel/Neon/Supabase). For a quick local run you can flip the provider
+// to sqlite, but production is Postgres (job queue + document volume, §H).
 // Enum-like fields are String with the allowed values in a comment, so the same
 // schema runs on SQLite (no native enums) and Postgres unchanged.
 
