@@ -127,6 +127,78 @@ iframe.portal{width:100%;height:640px;border:0;display:block;background:#fff;ove
 .stk-up.ok{border-left-color:#1a7a5a}
 @media(max-width:980px){.stk-grid{grid-template-columns:1fr}}
 
+/* ---- Deal Hub ---- */
+.dh-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.dh-head h2{font-size:22px;font-weight:600}
+.dh-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dh-search{border:1px solid var(--line);border-radius:8px;padding:7px 11px;font:inherit;font-size:13px;min-width:180px}
+.dh-tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:14px;padding-bottom:0}
+.dh-tab{border:none;background:none;cursor:pointer;font:inherit;font-size:13px;padding:7px 12px;color:var(--soft);border-bottom:2px solid transparent;margin-bottom:-1px}
+.dh-tab.active{color:var(--ink);font-weight:600;border-bottom-color:#2b5ea7}
+.dh-tab .n{display:inline-block;background:#f0eee9;border-radius:20px;padding:0 7px;font-size:11px;margin-left:5px;color:var(--soft)}
+.dh-tablewrap{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:auto}
+.dh-table{width:100%;border-collapse:collapse;font-size:13px;min-width:900px}
+.dh-table th{text-align:left;padding:10px 12px;color:var(--soft);font-size:11px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--line);white-space:nowrap;background:#fafafa;position:sticky;top:0}
+.dh-table td{padding:10px 12px;border-bottom:1px solid #eee;white-space:nowrap;vertical-align:middle}
+.dh-table tbody tr{cursor:pointer}
+.dh-table tbody tr:hover{background:#fafafa}
+.dh-table .r{text-align:right}
+.dh-chip{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;white-space:nowrap}
+.dh-chip.s-Underwriting{background:#e8eefb;color:#2b5ea7}.dh-chip.s-Call{background:#eae6fb;color:#5b3ea7}
+.dh-chip.s-IC{background:#fbeee0;color:#9a6b17}.dh-chip.s-Approved{background:#e3f3ea;color:#1a7a5a}
+.dh-chip.s-Pass{background:#f3e3e2;color:#b5342a}.dh-chip.s-Hold{background:#f0eee9;color:#6b6b6b}
+.dh-chip.s-Lost{background:#eceae7;color:#8a8a8a}.dh-chip.s-Closed{background:#e3f3ea;color:#1a7a5a}
+.dh-pri{font-size:11px;font-weight:600}.dh-pri.High{color:#b5342a}.dh-pri.Medium{color:#9a6b17}.dh-pri.Low{color:#3d8888}
+.dh-dtype{font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;background:#f0eee9;color:#555}
+.dh-docs{display:flex;gap:4px;flex-wrap:wrap}
+.dh-doc{font-size:10px;background:#eef1f5;color:#4a5568;border-radius:4px;padding:1px 5px}
+.dh-empty{background:#faf9f6;border:1px dashed var(--line);border-radius:10px;padding:40px;text-align:center;color:var(--soft)}
+/* Workspace */
+.dw-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#0f0f14;color:#fff;border-radius:12px;padding:16px 20px;margin-bottom:16px}
+.dw-back{background:none;border:1px solid #3a3a45;color:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;font:inherit;font-size:13px}
+.dw-name{font-size:19px;font-weight:600}
+.dw-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.14)}
+.dw-strip{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
+.dw-metric{text-align:right}
+.dw-metric .l{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#9a9aa5}
+.dw-metric .v{font-size:16px;font-weight:600}
+.dw-body{display:grid;grid-template-columns:210px 1fr;gap:18px;align-items:start}
+.dw-nav{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;position:sticky;top:12px;max-height:calc(100vh - 40px);overflow:auto}
+.dw-nav-grp{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#a0a0a8;padding:10px 10px 4px}
+.dw-nav button{display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;font:inherit;font-size:13px;padding:7px 10px;border-radius:7px;color:#444}
+.dw-nav button:hover{background:#f5f4f1}
+.dw-nav button.active{background:#eef1f5;color:#2b5ea7;font-weight:600}
+.dw-page{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px 26px;min-height:400px}
+.dw-page h3{font-size:18px;font-weight:600;margin-bottom:4px}
+.dw-page .sub{font-size:12px;color:var(--soft);margin-bottom:18px}
+.dw-sec-h{font-size:13px;font-weight:600;margin:22px 0 10px;padding-bottom:6px;border-bottom:1px solid #eee}
+.dw-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.dw-mcard{border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+.dw-mcard .l{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--soft)}
+.dw-mcard .v{font-size:20px;font-weight:600;margin-top:3px}
+.dw-mcard .s{font-size:11px;color:var(--soft);margin-top:2px}
+.dw-mcard.miss .v{color:#b0aca4}
+.dw-prov{font-size:9px;text-transform:uppercase;letter-spacing:.03em;padding:1px 5px;border-radius:4px;margin-left:6px;vertical-align:middle}
+.dw-prov.calc{background:#e8eefb;color:#2b5ea7}.dw-prov.man{background:#f0eee9;color:#6b6b6b}.dw-prov.ext{background:#e3f3ea;color:#1a7a5a}
+.dw-ta{width:100%;border:1px solid var(--line);border-radius:8px;padding:11px;font:inherit;font-size:14px;line-height:1.6;min-height:120px;resize:vertical}
+.dw-save{font-size:12px;color:var(--soft);margin-top:8px}
+.dw-ftable{width:100%;border-collapse:collapse;font-size:13px}
+.dw-ftable th,.dw-ftable td{border:1px solid #eee;padding:6px 9px;text-align:right}
+.dw-ftable th:first-child,.dw-ftable td:first-child{text-align:left}
+.dw-ftable input{width:100%;border:none;background:none;font:inherit;font-size:13px;text-align:right}
+.dw-ftable input:focus{outline:1px solid #2b5ea7;border-radius:3px}
+.dw-flags{display:flex;gap:14px}
+.dw-flag{font-size:13px}.dw-flag b{font-size:20px;display:block}
+.dw-flag.red b{color:#b5342a}.dw-flag.yellow b{color:#9a6b17}.dw-flag.green b{color:#1a7a5a}
+.dw-scoreax{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f2f0ec}
+.dw-scoreax .nm{flex:1;font-size:13px}
+.dw-scoreax input[type=range]{width:130px}
+.dw-scoreax .sv{width:34px;text-align:right;font-weight:600}
+.dw-chk{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f2f0ec;font-size:13px}
+.dw-chk select{border:1px solid var(--line);border-radius:6px;padding:3px 6px;font:inherit;font-size:12px}
+.dw-chk .nm{flex:1}
+@media(max-width:820px){.dw-body{grid-template-columns:1fr}.dw-nav{position:static;max-height:none}}
+
 /* ---- modal form ---- */
 .overlay{position:fixed;inset:0;background:rgba(10,10,14,.55);display:flex;align-items:flex-start;justify-content:center;padding:30px 16px;overflow:auto;z-index:40}
 .modal{background:#fff;border-radius:12px;width:100%;max-width:640px;padding:28px}
@@ -193,6 +265,7 @@ window.STARWELL_CONFIG = {
       <nav class="side-nav">
         <button class="tab active" data-view="investments">Investments</button>
         <button class="tab" data-view="stocks">Stocks</button>
+        <button class="tab" data-view="deals">Deal Hub</button>
         <button class="tab" data-view="news">News</button>
         <button class="tab" data-view="careers">Careers</button>
         <button class="tab" data-view="portfolio">Portfolio</button>
@@ -215,6 +288,10 @@ window.STARWELL_CONFIG = {
         </div>
         <div id="stkUp" class="stk-up" hidden></div>
         <div id="stocksBox"></div>
+      </section>
+
+      <section class="view" id="view-deals">
+        <div id="dealHub"></div>
       </section>
 
       <section class="view" id="view-news">
@@ -316,6 +393,7 @@ window.STARWELL_CONFIG = {
       $("#view-"+t.dataset.view).classList.add("active");
       if(t.dataset.view==="investments") setTimeout(fitPortal,60);
       if(t.dataset.view==="stocks") renderStocks();
+      if(t.dataset.view==="deals") renderDeals();
     });
   });
   var stkRefBtn=document.getElementById("stkRefresh");
@@ -672,6 +750,292 @@ window.STARWELL_CONFIG = {
   (function(){ var fi=document.getElementById("stkFile"); if(!fi) return;
     fi.addEventListener("change", function(){ if(fi.files&&fi.files.length){ uploadStatements(Array.prototype.slice.call(fi.files)); fi.value=""; } });
   })();
+
+  // ================= DEAL HUB (Module A + Module B shell) =================
+  var DH = { status:"All", q:"", deals:[], deal:null, pages:{}, page:"exec-summary" };
+  var DH_STATUSES = ["Underwriting","Call scheduled","IC","Approved","Pass","Hold","Lost","Closed"];
+  var DH_DOCS = ["CIM","Executed NDA","Model","QoE","Customer file","Tax Returns (3Y)"];
+  // 23-page workspace catalog (Kodiak parity). type: special renderer or "text".
+  var DH_PAGES = [
+    {g:"MEMO", k:"exec-summary", t:"Executive Summary", type:"exec"},
+    {g:"MEMO", k:"financials",   t:"Financials", type:"fin"},
+    {g:"MEMO", k:"revenue-mix",  t:"Revenue Mix & Customers", hint:"Service-line split, recurring % (MRR/ARR), contract base, top-1/top-5 concentration."},
+    {g:"MEMO", k:"market",        t:"Market", hint:"Geography, competitive density, verticals, demand drivers, pricing environment."},
+    {g:"MEMO", k:"thesis",        t:"Investment Thesis", hint:"Core Thesis · Key Pros · Key Cons · Red Flags · Convexity · Main Return Driver · Main Downside Risk · Data Quality."},
+    {g:"MEMO", k:"growth",        t:"Growth Plan & Strategy", hint:"Growth levers (pricing, cross-sell, contracts, tuck-ins), 100-day plan, org plan, roll-up fit."},
+    {g:"MEMO", k:"risks",         t:"Risks & Mitigants", type:"risks"},
+    {g:"MEMO", k:"projections",   t:"Projections", hint:"Base / Bull / Bear — Revenue, EBITDA, margin, FCF + assumptions behind each."},
+    {g:"MEMO", k:"transaction",   t:"Transaction", hint:"Sources & Uses (term loan/SBA · seller note · earnout · rollover · equity · cash · fees); price, multiples, WC peg, escrow."},
+    {g:"MEMO", k:"governance",    t:"Governance & Terms", hint:"Board/control, seller employment & transition, non-compete, R&W, conditions to close, exclusivity dates."},
+    {g:"MEMO", k:"exit",          t:"Exit Path", hint:"Exit options, exit-multiple range + rationale, hold period, MOIC-by-exit-year."},
+    {g:"SCORING", k:"quant", t:"Quantitative Scoring", type:"score", axes:["Valuation & Leverage","Growth & Trajectory","Margins & Cash Conversion","Revenue Quality & Retention","Coverage & Structure"]},
+    {g:"SCORING", k:"qual",  t:"Qualitative Scoring", type:"score", axes:["Business Model","Team & Owner Dependence","Market & Competition","Transition & Execution Risk","Data Quality & Diligence Confidence"]},
+    {g:"SCORING", k:"diligence", t:"Diligence Qs", hint:"Living question list — Open / Sent / Answered; copy-all-open for broker emails."},
+    {g:"AGENTIC OUTPUTS", k:"tax",     t:"Tax Returns", hint:"Entity/form, years, per-year validation vs CIM, net-income bridge, driver drill-down. (AI pipeline: later backend track.)"},
+    {g:"AGENTIC OUTPUTS", k:"calls",   t:"Call Summaries", hint:"Upload transcript/recording → summary, participants, key facts (proposed values), follow-ups, new flags."},
+    {g:"AGENTIC OUTPUTS", k:"lbo",     t:"LBO Analysis", hint:"Base/Bull/Bear, adjustable assumptions, sensitivity grids (Entry×Exit), financing source, HoldCo test. (Deterministic engine: later track.)"},
+    {g:"AGENTIC OUTPUTS", k:"similar", t:"Similar Deals & Patterns", hint:"Decision gate, historical gate rules, pattern match (GOOD/BAD), decision flow, red-flag gate."},
+    {g:"AGENTIC OUTPUTS", k:"cohort",  t:"Cohort Analysis", hint:"Customer file → NRR/GRR/HHI, retention bridges, concentration, top-25 matrix. (Deterministic engine: later track.)"},
+    {g:"AGENTIC OUTPUTS", k:"industry",t:"Industry Comparison", hint:"This deal vs pipeline & MSP benchmarks (margins, recurring %, rev/employee, entry multiples)."},
+    {g:"AGENTIC OUTPUTS", k:"dataroom",t:"Dataroom & Checklist", type:"dataroom"},
+    {g:"AGENTIC OUTPUTS", k:"extras",  t:"Memo Extras", hint:"Free-form appendix — pinned analyses, extra tables, pasted exhibits."},
+    {g:"TECHNICAL", k:"crosscheck", t:"Cross-Check Register", type:"crosscheck"}
+  ];
+
+  function dnum(v){ return (v==null||v===""||isNaN(v))?null:+v; }
+  function dm(v){ var n=dnum(v); return n==null?"—":"$"+n.toLocaleString(undefined,{maximumFractionDigits:2})+"M"; }
+  function dx(v){ var n=dnum(v); return n==null?"—":n.toFixed(2)+"×"; }
+  function dpct(v){ var n=dnum(v); return n==null?"—":n.toFixed(1)+"%"; }
+  function dhWho(){ try{ var e=$("#whoEmail"); return e?e.textContent:""; }catch(e){return "";} }
+
+  async function renderDeals(){
+    var box=document.getElementById("dealHub"); if(!box) return;
+    if(DH.deal){ renderWorkspace(); return; }
+    box.innerHTML='<div class="muted">Loading deals…</div>';
+    var r=await sb.from("deals").select("*").order("date_of_entry",{ascending:false});
+    if(r.error){ box.innerHTML='<div class="dh-empty">Deal Hub isn’t set up yet. Run <code>supabase/deals.sql</code> in your Supabase project.<br><br><span style="font-size:12px;opacity:.7">'+esc(r.error.message)+'</span></div>'; return; }
+    DH.deals=r.data||[];
+    paintDeals();
+  }
+  function paintDeals(){
+    var box=document.getElementById("dealHub");
+    var all=DH.deals, q=DH.q.toLowerCase();
+    function match(d){ return !q || (d.project_name||"").toLowerCase().indexOf(q)>=0 || (d.business_profile||"").toLowerCase().indexOf(q)>=0 || (d.deal_lead||"").toLowerCase().indexOf(q)>=0; }
+    var counts={All:0}; DH_STATUSES.forEach(function(s){counts[s]=0;});
+    all.forEach(function(d){ counts.All++; if(counts[d.status]!=null) counts[d.status]++; });
+    var tabs=["All"].concat(DH_STATUSES).map(function(s){
+      return '<button class="dh-tab'+(DH.status===s?" active":"")+'" data-s="'+esc(s)+'">'+esc(s)+'<span class="n">'+(counts[s]||0)+'</span></button>';}).join("");
+    var rows=all.filter(function(d){return (DH.status==="All"||d.status===DH.status)&&match(d);});
+    var head='<div class="dh-head"><h2>Deal Hub</h2><div class="dh-tools">'+
+      '<input class="dh-search" id="dhSearch" placeholder="Search deals…" value="'+esc(DH.q)+'">'+
+      '<button class="btn" id="dhNew">+ New deal</button></div></div>';
+    var body;
+    if(!rows.length){ body='<div class="dh-empty">No deals'+(DH.status==="All"?"":" in “"+esc(DH.status)+"”")+' yet. Use <b>+ New deal</b> to add one.</div>'; }
+    else {
+      var thead='<tr><th>Status</th><th>Project</th><th>Lead</th><th>Priority</th><th class="r">Revenue</th><th class="r">EBITDA</th><th class="r">Entry ×</th><th>Type</th><th>Industry</th><th>Key docs</th><th>Next steps</th></tr>';
+      var trs=rows.map(function(d){
+        var em=(dnum(d.ev_m)!=null&&dnum(d.ebitda_m))? d.ev_m/d.ebitda_m : null;
+        var sc=d.status==="Call scheduled"?"Call":d.status;
+        var docs=(d.key_documents||[]).map(function(x){return '<span class="dh-doc">'+esc(x)+'</span>';}).join("");
+        return '<tr data-id="'+d.id+'"><td><span class="dh-chip s-'+esc(sc)+'">'+esc(d.status)+'</span></td>'+
+          '<td><b>'+esc(d.project_name)+'</b></td><td>'+esc(d.deal_lead||"—")+'</td>'+
+          '<td><span class="dh-pri '+esc(d.priority||"")+'">'+esc(d.priority||"—")+'</span></td>'+
+          '<td class="r">'+dm(d.revenue_m)+'</td><td class="r">'+dm(d.ebitda_m)+'</td>'+
+          '<td class="r">'+dx(em)+'</td>'+
+          '<td>'+(d.deal_type?'<span class="dh-dtype">'+esc(d.deal_type)+'</span>':"—")+'</td>'+
+          '<td>'+esc(d.sub_industry||d.industry||"—")+'</td>'+
+          '<td><div class="dh-docs">'+(docs||"—")+'</div></td>'+
+          '<td>'+esc(d.next_steps||"—")+'</td></tr>';}).join("");
+      body='<div class="dh-tablewrap"><table class="dh-table"><thead>'+thead+'</thead><tbody>'+trs+'</tbody></table></div>';
+    }
+    box.innerHTML=head+'<div class="dh-tabs">'+tabs+'</div>'+body;
+    box.querySelectorAll(".dh-tab").forEach(function(b){b.addEventListener("click",function(){DH.status=b.dataset.s;paintDeals();});});
+    var s=document.getElementById("dhSearch"); if(s) s.addEventListener("input",function(){DH.q=s.value; var box2=document.getElementById("dealHub"); var scroll=box2.scrollTop; paintDeals(); document.getElementById("dhSearch").focus();});
+    document.getElementById("dhNew").addEventListener("click",function(){dealForm(null);});
+    box.querySelectorAll(".dh-table tbody tr").forEach(function(tr){tr.addEventListener("click",function(){openDeal(tr.dataset.id);});});
+  }
+
+  var DH_FIELDS=[
+    {k:"project_name",label:"Project name",req:true,full:true},
+    {k:"status",label:"Status",sel:DH_STATUSES},
+    {k:"deal_lead",label:"Deal lead"},
+    {k:"priority",label:"Priority",sel:["High","Medium","Low"]},
+    {k:"deal_type",label:"Deal type",sel:["Value","Roll-up","Growth"]},
+    {k:"industry",label:"Industry"},
+    {k:"sub_industry",label:"Sub-industry (MSP, MSSP…)"},
+    {k:"revenue_m",label:"LTM Revenue ($M)",num:true},
+    {k:"ebitda_m",label:"LTM EBITDA ($M)",num:true},
+    {k:"ev_m",label:"Enterprise Value / TEV ($M)",num:true},
+    {k:"valuation_basis",label:"Valuation basis"},
+    {k:"next_steps",label:"Next steps",full:true},
+    {k:"drive_folder_url",label:"Drive folder URL",full:true},
+    {k:"business_profile",label:"Business profile (one line)",full:true,ta:true},
+    {k:"pass_reason",label:"Pass reason (required if status = Pass)",full:true}
+  ];
+  function dealForm(row){
+    var editing=!!row; row=row||{status:"Underwriting",industry:"IT Services"};
+    var html='<div class="overlay"><div class="modal"><h3>'+(editing?"Edit deal":"New deal")+'</h3><div class="grid2">';
+    DH_FIELDS.forEach(function(f){ var v=row[f.k], id="df_"+f.k, ctl;
+      if(f.sel) ctl='<select id="'+id+'">'+(f.k==="status"?"":'<option value=""></option>')+f.sel.map(function(o){return '<option'+(v===o?" selected":"")+'>'+o+'</option>';}).join("")+'</select>';
+      else if(f.ta) ctl='<textarea id="'+id+'">'+esc(v||"")+'</textarea>';
+      else ctl='<input id="'+id+'" type="'+(f.num?"number":"text")+'" value="'+esc(v==null?"":v)+'">';
+      html+='<div class="field" style="grid-column:'+(f.full?"1/-1":"auto")+'"><label for="'+id+'">'+f.label+(f.req?" *":"")+'</label>'+ctl+'</div>';});
+    var docs='<div class="field" style="grid-column:1/-1"><label>Key documents received</label><div style="display:flex;gap:8px;flex-wrap:wrap">'+
+      DH_DOCS.map(function(dc){var on=(row.key_documents||[]).indexOf(dc)>=0;return '<label style="font-size:13px;display:inline-flex;gap:5px;align-items:center;font-weight:400"><input type="checkbox" class="df_doc" value="'+esc(dc)+'" style="width:auto"'+(on?" checked":"")+'>'+esc(dc)+'</label>';}).join("")+'</div></div>';
+    html+=docs+'</div><div class="actions">'+(editing?'<button class="btn danger" id="dfDel" style="margin-right:auto">Delete</button>':'')+'<button class="btn ghost" id="dfCancel">Cancel</button><button class="btn" id="dfSave">Save</button></div><div class="note" id="dfNote"></div></div></div>';
+    $("#modalRoot").innerHTML=html;
+    $("#dfCancel").onclick=function(){$("#modalRoot").innerHTML="";};
+    if(editing&&$("#dfDel")) $("#dfDel").onclick=async function(){ if(!confirm("Delete this deal and all its workspace pages?"))return;
+      var res=await sb.from("deals").delete().eq("id",row.id); if(res.error){alert(res.error.message);return;} $("#modalRoot").innerHTML=""; DH.deal=null; renderDeals(); };
+    $("#dfSave").onclick=async function(){
+      var rec={};
+      DH_FIELDS.forEach(function(f){ var el=$("#df_"+f.k); if(!el)return; var val=el.value;
+        rec[f.k]= f.num?(val===""?null:Number(val)):(val.trim()===""?null:val.trim()); });
+      rec.key_documents=Array.prototype.slice.call(document.querySelectorAll(".df_doc:checked")).map(function(c){return c.value;});
+      if(!rec.project_name){ $("#dfNote").className="note err"; $("#dfNote").textContent="Project name is required."; return; }
+      if(rec.status==="Pass" && !rec.pass_reason){ $("#dfNote").className="note err"; $("#dfNote").textContent="A pass reason is required to set status = Pass."; return; }
+      this.disabled=true;
+      var res= editing ? await sb.from("deals").update(rec).eq("id",row.id) : await sb.from("deals").insert(rec).select().single();
+      this.disabled=false;
+      if(res.error){ $("#dfNote").className="note err"; $("#dfNote").textContent=res.error.message; return; }
+      $("#modalRoot").innerHTML="";
+      if(editing && DH.deal){ Object.assign(DH.deal,rec); renderWorkspace(); }
+      else { DH.deal=null; renderDeals(); }
+    };
+  }
+
+  async function openDeal(id){
+    var box=document.getElementById("dealHub"); box.innerHTML='<div class="muted">Loading workspace…</div>';
+    var d=await sb.from("deals").select("*").eq("id",id).single();
+    if(d.error){ box.innerHTML='<div class="dh-empty">'+esc(d.error.message)+'</div>'; return; }
+    DH.deal=d.data; DH.page="exec-summary";
+    var p=await sb.from("deal_pages").select("*").eq("deal_id",id);
+    DH.pages={}; (p.data||[]).forEach(function(row){ DH.pages[row.page_key]={body:row.body||"",data:row.data||{}}; });
+    renderWorkspace();
+  }
+  function dhPage(k){ if(!DH.pages[k]) DH.pages[k]={body:"",data:{}}; return DH.pages[k]; }
+  var dhSaveTimer=null;
+  function savePage(k, note){
+    var pg=dhPage(k);
+    if(note) note.textContent="Saving…";
+    clearTimeout(dhSaveTimer);
+    dhSaveTimer=setTimeout(async function(){
+      var res=await sb.from("deal_pages").upsert({deal_id:DH.deal.id,page_key:k,body:pg.body,data:pg.data,updated_by:dhWho()},{onConflict:"deal_id,page_key"});
+      if(note) note.textContent=res.error?("Error: "+res.error.message):"Saved ✓";
+    },500);
+  }
+
+  function renderWorkspace(){
+    var box=document.getElementById("dealHub"); var d=DH.deal;
+    var em=(dnum(d.ev_m)!=null&&dnum(d.ebitda_m))? d.ev_m/d.ebitda_m : null;
+    var sc=d.status==="Call scheduled"?"Call":d.status;
+    var top='<div class="dw-top"><button class="dw-back" id="dwBack">← All deals</button>'+
+      '<span class="dw-name">'+esc(d.project_name)+'</span>'+
+      (d.deal_type?'<span class="dw-badge">'+esc(d.deal_type)+'</span>':'')+
+      '<span class="dw-badge">'+esc(d.status)+'</span>'+
+      (dnum(d.score)!=null?'<span class="dw-badge">Score '+d.score+'/5</span>':'')+
+      '<div class="dw-strip">'+
+        dwM("LTM Rev",dm(d.revenue_m))+dwM("LTM EBITDA",dm(d.ebitda_m))+dwM("EV/EBITDA",dx(em))+dwM("LTV","—")+dwM("Base MOIC","—")+
+      '</div><button class="dw-back" id="dwEdit">Edit deal</button></div>';
+    var groups={}; DH_PAGES.forEach(function(p){(groups[p.g]=groups[p.g]||[]).push(p);});
+    var nav='<div class="dw-nav">'+Object.keys(groups).map(function(g){
+      return '<div class="dw-nav-grp">'+esc(g)+'</div>'+groups[g].map(function(p){
+        return '<button data-k="'+p.k+'" class="'+(DH.page===p.k?"active":"")+'">'+esc(p.t)+'</button>';}).join("");}).join("")+'</div>';
+    box.innerHTML=top+'<div class="dw-body">'+nav+'<div class="dw-page" id="dwPage"></div></div>';
+    document.getElementById("dwBack").onclick=function(){DH.deal=null;renderDeals();};
+    document.getElementById("dwEdit").onclick=function(){dealForm(DH.deal);};
+    box.querySelectorAll(".dw-nav button").forEach(function(b){b.onclick=function(){DH.page=b.dataset.k;renderWorkspace();};});
+    renderPage();
+  }
+  function dwM(l,v){ return '<div class="dw-metric"><div class="l">'+esc(l)+'</div><div class="v">'+v+'</div></div>'; }
+
+  function renderPage(){
+    var host=document.getElementById("dwPage"); var d=DH.deal;
+    var meta=DH_PAGES.filter(function(p){return p.k===DH.page;})[0]; var pg=dhPage(DH.page);
+    var head='<h3>'+esc(meta.t)+'</h3><div class="sub">'+esc(meta.hint||"")+'</div>';
+    if(meta.type==="exec"){
+      var em=(dnum(d.ev_m)!=null&&dnum(d.ebitda_m))? d.ev_m/d.ebitda_m : null;
+      var marg=(dnum(d.ebitda_m)!=null&&dnum(d.revenue_m))? d.ebitda_m/d.revenue_m*100 : null;
+      function card(l,v,s,miss,prov){ return '<div class="dw-mcard'+(miss?" miss":"")+'"><div class="l">'+l+'</div><div class="v">'+v+(prov?'<span class="dw-prov '+prov[0]+'">'+prov[1]+'</span>':'')+'</div>'+(s?'<div class="s">'+s+'</div>':'')+'</div>'; }
+      var cards=[
+        card("Entry Multiple", dx(em), "EV ÷ "+(d.valuation_basis||"EBITDA"), em==null, ["calc","Calc"]),
+        card("LTM Revenue", dm(d.revenue_m), null, dnum(d.revenue_m)==null, ["man","Manual"]),
+        card("LTM EBITDA", dm(d.ebitda_m), marg!=null?("Margin "+dpct(marg)):null, dnum(d.ebitda_m)==null, ["man","Manual"]),
+        card("TEV", dm(d.ev_m), null, dnum(d.ev_m)==null, ["man","Manual"]),
+        card("LTV %","—","Debt/EBITDA —",true), card("UFCF Y1","—","yield —",true),
+        card("Base MOIC","—","payback —",true), card("Rev CAGR 3Y","—",null,true),
+        card("EBITDA CAGR 3Y","—",null,true), card("Exit Multiple","—",null,true),
+        card("Top-1 Customer %","—",null,true), card("Gross Margin","—",null,true)
+      ].join("");
+      var fl=pg.data.flags||{red:0,yellow:0,green:0};
+      host.innerHTML=head+
+        '<div class="dw-sec-h">Deal Synthesis</div>'+
+        '<textarea class="dw-ta" id="dwBody" placeholder="2-paragraph synthesis — what the business is, why attractive, why cautious, expected returns. (Every factual claim should cite a document once the pipeline is wired.)">'+esc(pg.body)+'</textarea>'+
+        '<div class="dw-save" id="dwNote"></div>'+
+        '<div class="dw-sec-h">Economics at a Glance <span class="dw-prov calc">Calc</span></div><div class="dw-cards">'+cards+'</div>'+
+        '<div class="dw-sec-h">Flag Tally &amp; Gate</div><div class="dw-flags">'+
+          ["red","yellow","green"].map(function(c){return '<div class="dw-flag '+c+'"><b>'+(fl[c]||0)+'</b>'+c.charAt(0).toUpperCase()+c.slice(1)+'</div>';}).join("")+'</div>';
+      wireBody();
+    } else if(meta.type==="fin"){
+      var yrs=pg.data.years||[{y:"FY-2",rev:"",ebitda:"",margin:"",capex:""},{y:"FY-1",rev:"",ebitda:"",margin:"",capex:""},{y:"LTM",rev:"",ebitda:"",margin:"",capex:""},{y:"FY+1 (F)",rev:"",ebitda:"",margin:"",capex:""}];
+      var rowsH=["Revenue","EBITDA / SDE","Margin %","CapEx"];
+      var thead='<tr><th>Line ($M)</th>'+yrs.map(function(y,i){return '<th><input data-yh="'+i+'" value="'+esc(y.y)+'" style="text-align:right;width:80px"></th>';}).join("")+'</tr>';
+      var keys=["rev","ebitda","margin","capex"];
+      var tbody=keys.map(function(kk,ri){ return '<tr><td>'+rowsH[ri]+'</td>'+yrs.map(function(y,ci){return '<td><input data-c="'+ci+'" data-k="'+kk+'" value="'+esc(y[kk]||"")+'"></td>';}).join("")+'</tr>';}).join("");
+      host.innerHTML=head+'<div class="dw-sec-h">Narrative</div>'+
+        '<textarea class="dw-ta" id="dwBody" placeholder="Earnings quality, volatility, margin story, cash conversion, leverage implications.">'+esc(pg.body)+'</textarea><div class="dw-save" id="dwNote"></div>'+
+        '<div class="dw-sec-h">Year-by-year</div><table class="dw-ftable"><thead>'+thead+'</thead><tbody>'+tbody+'</tbody></table><div class="dw-save" id="dwNote2"></div>';
+      wireBody();
+      var n2=document.getElementById("dwNote2");
+      host.querySelectorAll("input[data-yh]").forEach(function(inp){inp.addEventListener("input",function(){yrs[+inp.dataset.yh].y=inp.value;pg.data.years=yrs;savePage(DH.page,n2);});});
+      host.querySelectorAll("input[data-c]").forEach(function(inp){inp.addEventListener("input",function(){yrs[+inp.dataset.c][inp.dataset.k]=inp.value;pg.data.years=yrs;savePage(DH.page,n2);});});
+    } else if(meta.type==="score"){
+      var sc2=pg.data.scores||{}; var vals=meta.axes.map(function(a){return dnum(sc2[a]);});
+      var known=vals.filter(function(v){return v!=null;});
+      var integ=known.length?(known.reduce(function(s,v){return s+v;},0)/known.length):null;
+      host.innerHTML=head+'<div class="dw-sec-h">Axes (score each 1–5)</div>'+
+        meta.axes.map(function(a){var v=sc2[a]!=null?sc2[a]:3;
+          return '<div class="dw-scoreax"><div class="nm">'+esc(a)+'</div><input type="range" min="1" max="5" step="0.5" value="'+v+'" data-ax="'+esc(a)+'"><div class="sv" data-sv="'+esc(a)+'">'+(sc2[a]!=null?sc2[a]:"—")+'</div></div>';}).join("")+
+        '<div class="dw-sec-h">'+(DH.page==="quant"?"Quant":"Qual")+' Integral <span class="dw-prov calc">Calc</span></div>'+
+        '<div style="font-size:26px;font-weight:600" id="dwInteg">'+(integ!=null?integ.toFixed(2)+" / 5":"—")+'</div>'+
+        '<div class="sub">Unknown axes are excluded from the mean (never defaulted to a number).</div>'+
+        '<div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("input[data-ax]").forEach(function(inp){inp.addEventListener("input",function(){
+        var a=inp.dataset.ax; sc2[a]=+inp.value; pg.data.scores=sc2; document.querySelector('[data-sv="'+a.replace(/"/g,'')+'"]');
+        host.querySelectorAll("[data-sv]").forEach(function(s){ if(s.dataset.sv===a) s.textContent=sc2[a]; });
+        var vv=meta.axes.map(function(x){return dnum(sc2[x]);}).filter(function(x){return x!=null;});
+        var ig=vv.length?(vv.reduce(function(s,x){return s+x;},0)/vv.length):null;
+        document.getElementById("dwInteg").textContent=ig!=null?ig.toFixed(2)+" / 5":"—";
+        savePage(DH.page,note);});});
+    } else if(meta.type==="dataroom"){
+      var CK=["NDA","CIM","3y P&L + balance sheets","3y tax returns","Customer revenue file","Top contracts / MSAs","AR aging","Org chart & payroll","Lease","QoE","Insurance","Other"];
+      var st=pg.data.checklist||{};
+      var done=CK.filter(function(i){return (st[i]||"Missing")==="Received"||(st[i]||"")==="Processed";}).length;
+      host.innerHTML=head+'<div class="dw-sec-h">Checklist — '+Math.round(done/CK.length*100)+'% complete</div>'+
+        CK.map(function(i){var cur=st[i]||"Missing";
+          return '<div class="dw-chk"><span class="nm">'+esc(i)+'</span><select data-ck="'+esc(i)+'">'+
+            ["Missing","Requested","Received","Processed"].map(function(o){return '<option'+(cur===o?" selected":"")+'>'+o+'</option>';}).join("")+'</select></div>';}).join("")+
+        '<div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      host.querySelectorAll("select[data-ck]").forEach(function(sel){sel.addEventListener("change",function(){st[sel.dataset.ck]=sel.value;pg.data.checklist=st;savePage(DH.page,note);renderPage();});});
+    } else if(meta.type==="crosscheck"){
+      var rows=pg.data.rows||[];
+      var tbody=rows.map(function(r,i){return '<tr><td>'+esc(r.figure||"")+'</td><td>'+esc(r.where||"")+'</td><td>'+esc(r.method||"")+'</td><td>'+esc(r.source||"")+'</td><td>'+esc(r.status||"")+'</td><td>'+esc(r.note||"")+'</td><td><button class="btn ghost sm" data-del="'+i+'">✕</button></td></tr>';}).join("");
+      host.innerHTML=head+'<table class="dw-ftable"><thead><tr><th>Figure</th><th>Where</th><th>Method</th><th>Source</th><th>Status</th><th>Resolution</th><th></th></tr></thead><tbody>'+(tbody||'<tr><td colspan="7" style="text-align:center;color:#999">No entries yet</td></tr>')+'</tbody></table>'+
+        '<button class="btn ghost sm" id="dwAddCC" style="margin-top:12px">+ Add row</button><div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      document.getElementById("dwAddCC").onclick=function(){
+        var fig=prompt("Figure (e.g. LTM EBITDA)"); if(!fig)return;
+        rows.push({figure:fig,where:prompt("Where it appears (page/card)")||"",method:prompt("Method: Extracted / Calculated / Manual")||"Manual",source:prompt("Source (doc+page or formula)")||"",status:prompt("Status: Consistent / Discrepancy / Unverified")||"Unverified",note:prompt("Resolution note")||""});
+        pg.data.rows=rows; savePage(DH.page,note); renderPage();};
+      host.querySelectorAll("[data-del]").forEach(function(b){b.onclick=function(){rows.splice(+b.dataset.del,1);pg.data.rows=rows;savePage(DH.page,note);renderPage();};});
+    } else if(meta.type==="risks"){
+      var rows=pg.data.rows||[];
+      var tally={Red:0,Yellow:0,Green:0}; rows.forEach(function(r){if(tally[r.sev]!=null)tally[r.sev]++;});
+      var tbody=rows.map(function(r,i){return '<tr><td>'+esc(r.sev||"")+'</td><td style="text-align:left">'+esc(r.risk||"")+'</td><td style="text-align:left">'+esc(r.mitigant||"")+'</td><td>'+esc(r.status||"")+'</td><td><button class="btn ghost sm" data-del="'+i+'">✕</button></td></tr>';}).join("");
+      host.innerHTML=head+'<div class="dw-flags" style="margin-bottom:14px"><div class="dw-flag red"><b>'+tally.Red+'</b>Red</div><div class="dw-flag yellow"><b>'+tally.Yellow+'</b>Yellow</div><div class="dw-flag green"><b>'+tally.Green+'</b>Green</div></div>'+
+        '<table class="dw-ftable"><thead><tr><th>Severity</th><th style="text-align:left">Risk</th><th style="text-align:left">Mitigant</th><th>Status</th><th></th></tr></thead><tbody>'+(tbody||'<tr><td colspan="5" style="text-align:center;color:#999">No risks logged</td></tr>')+'</tbody></table>'+
+        '<button class="btn ghost sm" id="dwAddR" style="margin-top:12px">+ Add risk</button><div class="dw-save" id="dwNote"></div>';
+      var note=document.getElementById("dwNote");
+      document.getElementById("dwAddR").onclick=function(){var sev=prompt("Severity: Red / Yellow / Green");if(!sev)return;
+        rows.push({sev:sev,risk:prompt("Risk description")||"",mitigant:prompt("Mitigant")||"",status:prompt("Status: Open / Watching / Cleared")||"Open"});
+        pg.data.rows=rows;savePage(DH.page,note);
+        // sync tally to exec-summary flags
+        var f={red:0,yellow:0,green:0};rows.forEach(function(r){var s=(r.sev||"").toLowerCase();if(f[s]!=null)f[s]++;});
+        dhPage("exec-summary").data.flags=f; savePage("exec-summary");
+        renderPage();};
+      host.querySelectorAll("[data-del]").forEach(function(b){b.onclick=function(){rows.splice(+b.dataset.del,1);pg.data.rows=rows;
+        var f={red:0,yellow:0,green:0};rows.forEach(function(r){var s=(r.sev||"").toLowerCase();if(f[s]!=null)f[s]++;});
+        dhPage("exec-summary").data.flags=f;savePage("exec-summary");savePage(DH.page,note);renderPage();};});
+    } else {
+      // generic structured-text page
+      host.innerHTML=head+'<textarea class="dw-ta" id="dwBody" style="min-height:340px" placeholder="Write this section here. (Structured fields & AI drafting arrive with the backend track.)">'+esc(pg.body)+'</textarea><div class="dw-save" id="dwNote"></div>';
+      wireBody();
+    }
+    function wireBody(){ var ta=document.getElementById("dwBody"); if(!ta)return; var note=document.getElementById("dwNote");
+      ta.addEventListener("input",function(){ pg.body=ta.value; savePage(DH.page,note); }); }
+  }
 
   // ---------- CONTENT MODELS ----------
   var MODELS = {
