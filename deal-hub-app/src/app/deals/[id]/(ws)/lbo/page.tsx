@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import { entryMultiple, type LboAssumptions } from '@/lib/finance';
 import LboWorkbench from '@/components/LboWorkbench';
+import HoldCoTestButton from '@/components/HoldCoTestButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,6 +32,7 @@ export default async function Lbo({ params }: { params: { id: string } }) {
       <h2 className="text-lg font-semibold mb-1">LBO Analysis</h2>
       <p className="text-sm text-neutral-500 mb-4">Deterministic cash-sweep model — no AI in the loop. FCF sweeps to debt each year. Defaults seed from the deal&rsquo;s EBITDA and entry multiple.</p>
       <LboWorkbench dealId={params.id} initial={defaults} />
+      <HoldCoTestButton dealId={params.id} />
     </div>
   );
 }
