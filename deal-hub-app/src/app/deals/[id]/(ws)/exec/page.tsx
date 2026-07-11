@@ -25,7 +25,7 @@ export default async function ExecSummary({ params }: { params: { id: string } }
     prisma.deal.findUnique({ where: { id: params.id } }),
     prisma.memoSection.findMany({ where: { dealId: params.id } }),
     prisma.proposedValue.findMany({ where: { dealId: params.id, status: 'accepted' }, select: { field: true } }),
-    prisma.flag.groupBy({ by: ['severity'], where: { dealId: params.id }, _count: true }).catch(() => [] as { severity: string; _count: number }[]),
+    prisma.riskItem.groupBy({ by: ['severity'], where: { dealId: params.id }, _count: true }).catch(() => [] as { severity: string; _count: number }[]),
     prisma.scoreEntry.findMany({ where: { dealId: params.id } }),
   ]);
   if (!deal) return <div>Deal not found.</div>;

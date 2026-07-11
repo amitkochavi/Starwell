@@ -10,10 +10,10 @@ export const dynamic = 'force-dynamic';
 
 const GROUPS: NavGroup[] = [
   { g: 'MEMO', items: [
-    ['Executive Summary', 'exec'], ['Financials', 'financials'], ['Revenue Mix & Customers', null],
-    ['Market', null], ['Investment Thesis', null], ['Growth Plan & Strategy', null], ['Risks & Mitigants', null],
-    ['Projections', null], ['Transaction', null], ['Governance & Terms', null], ['Exit Path', null] ] },
-  { g: 'SCORING', items: [['Quantitative Scoring', null], ['Qualitative Scoring', null], ['Diligence Qs', null]] },
+    ['Executive Summary', 'exec'], ['Financials', 'financials'], ['Revenue Mix & Customers', 'revenue-mix'],
+    ['Market', 'market'], ['Investment Thesis', 'thesis'], ['Growth Plan & Strategy', 'growth'], ['Risks & Mitigants', 'risks'],
+    ['Projections', 'projections'], ['Transaction', 'transaction'], ['Governance & Terms', 'governance'], ['Exit Path', 'exit'] ] },
+  { g: 'SCORING', items: [['Quantitative Scoring', null], ['Qualitative Scoring', null], ['Diligence Qs', 'diligence']] },
   { g: 'AGENTIC OUTPUTS', items: [
     ['Tax Returns', 'tax'], ['Call Summaries', null], ['LBO Analysis', null], ['Similar Deals & Patterns', null],
     ['Cohort Analysis', 'cohort'], ['Industry Comparison', null], ['Dataroom & Checklist', 'dataroom'], ['Memo Extras', null] ] },
