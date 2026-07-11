@@ -15,8 +15,8 @@ const GROUPS: NavGroup[] = [
     ['Projections', 'projections'], ['Transaction', 'transaction'], ['Governance & Terms', 'governance'], ['Exit Path', 'exit'] ] },
   { g: 'SCORING', items: [['Quantitative Scoring', 'quant'], ['Qualitative Scoring', 'qual'], ['Diligence Qs', 'diligence']] },
   { g: 'AGENTIC OUTPUTS', items: [
-    ['Tax Returns', 'tax'], ['Call Summaries', null], ['LBO Analysis', 'lbo'], ['Similar Deals & Patterns', 'similar'],
-    ['Cohort Analysis', 'cohort'], ['Industry Comparison', null], ['Dataroom & Checklist', 'dataroom'], ['Memo Extras', null] ] },
+    ['Tax Returns', 'tax'], ['Call Summaries', 'calls'], ['LBO Analysis', 'lbo'], ['Similar Deals & Patterns', 'similar'],
+    ['Cohort Analysis', 'cohort'], ['Industry Comparison', 'industry'], ['Dataroom & Checklist', 'dataroom'], ['Memo Extras', 'extras'] ] },
   { g: 'TECHNICAL', items: [['Cross-Check Register', 'cross-check']] },
 ];
 
@@ -34,6 +34,7 @@ export default async function WsLayout({ children, params }: { children: React.R
         {d.dealType && <span className="text-[11px] bg-white/15 rounded-full px-2.5 py-1">{d.dealType}</span>}
         <span className="text-[11px] bg-white/15 rounded-full px-2.5 py-1">{d.status}</span>
         <Link href={`/deals/${d.id}/dataroom`} className="border border-white/20 rounded-md px-3 py-1.5 text-sm">Dataroom</Link>
+        <Link href={`/deals/${d.id}/one-pager`} className="border border-white/20 rounded-md px-3 py-1.5 text-sm">One-pager</Link>
         {pending > 0 && <Link href={`/deals/${d.id}/review`} className="rounded-md bg-amber-400 text-ink px-3 py-1.5 text-sm font-medium">{pending} to review</Link>}
         <div className="ml-auto flex gap-6 text-right">
           <M label="LTM Rev" v={dash(d.revenueM, money)} />

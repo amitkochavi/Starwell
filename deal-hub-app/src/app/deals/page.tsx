@@ -37,7 +37,11 @@ export default async function DealsPage({ searchParams }: { searchParams: { stat
     <div>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-semibold">Deal Database</h1>
-        <NewDealButton />
+        <div className="flex items-center gap-2">
+          <a href="/api/backup" className="border rounded-md px-4 py-2 text-sm">Backup</a>
+          <Link href="/compare" className="border rounded-md px-4 py-2 text-sm">Compare</Link>
+          <NewDealButton />
+        </div>
       </div>
       <div className="flex gap-1 border-b mb-4 text-sm flex-wrap">
         {['All', ...STATUSES].map((s) => (

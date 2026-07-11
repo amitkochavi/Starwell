@@ -4,3 +4,5 @@
 :root { color-scheme: light; }
 body { font-feature-settings: "tnum" 1; }
 .num { font-variant-numeric: tabular-nums; text-align: right; }
+
+@media print { aside { display: none !important; } main { padding: 0 !important; } .no-print { display: none !important; } }
