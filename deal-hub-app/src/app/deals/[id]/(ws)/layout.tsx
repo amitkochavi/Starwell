@@ -13,9 +13,9 @@ const GROUPS: NavGroup[] = [
     ['Executive Summary', 'exec'], ['Financials', 'financials'], ['Revenue Mix & Customers', 'revenue-mix'],
     ['Market', 'market'], ['Investment Thesis', 'thesis'], ['Growth Plan & Strategy', 'growth'], ['Risks & Mitigants', 'risks'],
     ['Projections', 'projections'], ['Transaction', 'transaction'], ['Governance & Terms', 'governance'], ['Exit Path', 'exit'] ] },
-  { g: 'SCORING', items: [['Quantitative Scoring', null], ['Qualitative Scoring', null], ['Diligence Qs', 'diligence']] },
+  { g: 'SCORING', items: [['Quantitative Scoring', 'quant'], ['Qualitative Scoring', 'qual'], ['Diligence Qs', 'diligence']] },
   { g: 'AGENTIC OUTPUTS', items: [
-    ['Tax Returns', 'tax'], ['Call Summaries', null], ['LBO Analysis', null], ['Similar Deals & Patterns', null],
+    ['Tax Returns', 'tax'], ['Call Summaries', null], ['LBO Analysis', 'lbo'], ['Similar Deals & Patterns', 'similar'],
     ['Cohort Analysis', 'cohort'], ['Industry Comparison', null], ['Dataroom & Checklist', 'dataroom'], ['Memo Extras', null] ] },
   { g: 'TECHNICAL', items: [['Cross-Check Register', 'cross-check']] },
 ];

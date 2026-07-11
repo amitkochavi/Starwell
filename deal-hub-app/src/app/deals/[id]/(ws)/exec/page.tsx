@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { dash, money, mult, pct } from '@/lib/finance';
 import { economics, type YearRow } from '@/lib/economics';
 import MemoEditor from '@/components/MemoEditor';
+import SpiderNets from '@/components/SpiderNets';
 
 export const dynamic = 'force-dynamic';
 
@@ -81,6 +82,12 @@ export default async function ExecSummary({ params }: { params: { id: string } }
         <div><div className="text-[11px] text-neutral-500">Quant Integral (67.5%)</div><div className="text-2xl font-semibold">{quant != null ? quant.toFixed(2) + ' /5' : '—'}</div></div>
         <div><div className="text-[11px] text-neutral-500">Qual Integral (32.5%)</div><div className="text-2xl font-semibold">{qual != null ? qual.toFixed(2) + ' /5' : '—'}</div></div>
       </div>
+
+      <h3 className="text-sm font-semibold border-b pb-1.5 mt-6 mb-3">Score Spider Nets</h3>
+      <SpiderNets
+        quant={scores.filter((s) => s.kind === 'quant' && s.value != null).map((s) => ({ axis: s.axis, value: s.value as number }))}
+        qual={scores.filter((s) => s.kind === 'qual' && s.value != null).map((s) => ({ axis: s.axis, value: s.value as number }))}
+      />
     </div>
   );
 }
