@@ -4,6 +4,7 @@
 import { prisma } from './prisma';
 import { runAgent0 } from '@/agents/agent0';
 import { runAgent1 } from '@/agents/agent1';
+import { runAgentTax } from '@/agents/agentTax';
 
 export async function processOne(jobId: string): Promise<void> {
   const job = await prisma.job.findUnique({ where: { id: jobId } });
@@ -12,6 +13,7 @@ export async function processOne(jobId: string): Promise<void> {
   try {
     if (job.agent === 'agent0') await runAgent0(jobId);
     else if (job.agent === 'agent1') await runAgent1(jobId);
+    else if (job.agent === 'tax') await runAgentTax(jobId);
     else throw new Error(`Unknown agent: ${job.agent}`);
     await prisma.job.update({ where: { id: jobId }, data: { status: 'needs_review', error: null } });
   } catch (err: unknown) {

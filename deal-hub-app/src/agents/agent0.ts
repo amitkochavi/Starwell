@@ -46,8 +46,9 @@ export async function runAgent0(jobId: string): Promise<void> {
 
   await prisma.job.update({ where: { id: jobId }, data: { tokens: (msg.usage?.input_tokens || 0) + (msg.usage?.output_tokens || 0) } });
 
-  // Chain: a CIM feeds Agent 1 (extraction). Other types stop here in M2.
-  if (docType === 'CIM' && ext === 'pdf') {
-    await prisma.job.create({ data: { dealId: job.dealId, documentId: doc.id, agent: 'agent1', status: 'queued' } });
+  // Chain: a CIM feeds Agent 1 (extraction); a tax return feeds the Tax Analyst.
+  if (ext === 'pdf') {
+    if (docType === 'CIM') await prisma.job.create({ data: { dealId: job.dealId, documentId: doc.id, agent: 'agent1', status: 'queued' } });
+    else if (docType === 'tax_return') await prisma.job.create({ data: { dealId: job.dealId, documentId: doc.id, agent: 'tax', status: 'queued' } });
   }
 }

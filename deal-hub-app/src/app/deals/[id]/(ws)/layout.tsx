@@ -15,8 +15,8 @@ const GROUPS: NavGroup[] = [
     ['Projections', null], ['Transaction', null], ['Governance & Terms', null], ['Exit Path', null] ] },
   { g: 'SCORING', items: [['Quantitative Scoring', null], ['Qualitative Scoring', null], ['Diligence Qs', null]] },
   { g: 'AGENTIC OUTPUTS', items: [
-    ['Tax Returns', null], ['Call Summaries', null], ['LBO Analysis', null], ['Similar Deals & Patterns', null],
-    ['Cohort Analysis', null], ['Industry Comparison', null], ['Dataroom & Checklist', 'dataroom'], ['Memo Extras', null] ] },
+    ['Tax Returns', 'tax'], ['Call Summaries', null], ['LBO Analysis', null], ['Similar Deals & Patterns', null],
+    ['Cohort Analysis', 'cohort'], ['Industry Comparison', null], ['Dataroom & Checklist', 'dataroom'], ['Memo Extras', null] ] },
   { g: 'TECHNICAL', items: [['Cross-Check Register', 'cross-check']] },
 ];
 
