@@ -600,7 +600,7 @@ def build_site():
 <section class="dark" data-reveal>
   <div class="wrap sec">
     <div class="sec-label">{t("Portfolio","פורטפוליו")}</div>
-    <div class="pf-grid">
+    <div class="pf-grid" data-pillar="technology">
 {cards_for("technology")}
     </div>
   </div>
@@ -609,7 +609,7 @@ def build_site():
       t("IT Services | Starwell Holdings","שירותי IT | סטארוול הולדינגס"),
       t("Starwell acquires control or significant equity in established, profitable IT services companies in Israel's lower middle market.",
         "Starwell רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ותיקות ורווחיות בשוק הביניים הנמוך בישראל."),
-      tech)
+      tech,extra=live_script("portfolio"))
 
     # =================== REAL ESTATE ===================
     re=f'''<section class="hero">
@@ -640,7 +640,7 @@ def build_site():
 <section class="dark" data-reveal>
   <div class="wrap sec">
     <div class="sec-label">{t("Selected Experience","ניסיון נבחר")}</div>
-    <div class="xp-grid">
+    <div class="xp-grid" data-pillar="real-estate">
 {cards_for("real-estate")}
     </div>
   </div>
@@ -649,7 +649,7 @@ def build_site():
       t("Starwell Real Estate | Starwell Holdings","Starwell Real Estate | סטארוול הולדינגס"),
       t("Starwell Real Estate covers development and strategic real estate investment across Israel and the United States, with development, advisory, and limited-partner positions.",
         "Starwell Real Estate עוסקת בייזום ובהשקעות נדל\"ן אסטרטגיות בישראל ובארצות הברית, לרבות ייזום, ייעוץ ופוזיציות כשותף מוגבל."),
-      re)
+      re,extra=live_script("portfolio"))
 
     # =================== CAPITAL ===================
     cap=f'''<section class="hero">
@@ -683,7 +683,7 @@ def build_site():
 <section class="dark" data-reveal>
   <div class="wrap sec">
     <div class="sec-label">{t("Portfolio","פורטפוליו")}</div>
-    <div class="pf-grid">
+    <div class="pf-grid" data-pillar="capital">
 {cards_for("capital")}
     </div>
   </div>
@@ -692,7 +692,7 @@ def build_site():
       t("Starwell Capital | Starwell Holdings","Starwell Capital | סטארוול הולדינגס"),
       t("Starwell Capital is the allocation arm of Starwell Holdings, deploying capital across private equity, public markets, hedge funds, and real estate.",
         "Starwell Capital היא זרוע הקצאת ההון של סטארוול הולדינגס, המקצה הון בתחומי הון פרטי, שווקים ציבוריים, קרנות גידור ונדל\"ן."),
-      cap)
+      cap,extra=live_script("portfolio"))
 
     # =================== NEWS ===================
     cats_en=["All"]+list(dict.fromkeys(n[0] for n in NEWS))
