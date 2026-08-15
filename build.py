@@ -573,16 +573,17 @@ def build_site():
     tech=f'''<section class="hero">
   <div class="wrap">
     <h1>IT<br>Services</h1>
-    <p class="lead">{t("Acquiring control or significant equity in IT services companies in the Israeli lower middle market.","רכישת שליטה או אחזקה משמעותית בחברות שירותי IT בשוק הביניים הנמוך בישראל.")}</p>
+    <p class="lead">{t("Acquiring controlling or significant stakes in IT services companies, in Israel and beyond.","רכישת שליטה או אחזקה משמעותית בחברות שירותי IT בישראל.")}</p>
   </div>
 </section>
 
 <div class="wrap">
   <section class="sec" data-reveal>
-    <div class="sec-label">{t("Thesis","התזה")}</div>
-    <p class="lede">{t("Israel&rsquo;s IT services market is large, growing, and deeply fragmented. Most strong operators are independent - built on expertise and client trust, not institutional scale.","שוק שירותי ה-IT בישראל גדול, צומח ומפוצל מאוד. רוב המפעילים החזקים עצמאיים - נבנו על מומחיות ואמון לקוחות, לא על קנה מידה מוסדי.")}</p>
+    <div class="sec-label">{t("The Thesis","התזה")}</div>
+    <p class="lede">{t("The IT services market is large, growing, and highly fragmented. Most of it consists of independent companies built on expertise and long-standing client relationships, without the backing of a larger group.","שוק שירותי ה-IT גדול, צומח ומפוצל מאוד. רובו מורכב מחברות עצמאיות שצמחו על בסיס מקצועיות ויחסים ארוכי שנים עם לקוחות, בלי גב של קבוצה גדולה.")}</p>
     <div class="body-copy">
-      <p>{t("Starwell acquires control or significant equity in established, profitable IT services companies in the Israeli lower middle market. We partner with operators to preserve what works while building the infrastructure and discipline of a lasting platform.","Starwell רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ותיקות ורווחיות בשוק הביניים הנמוך בישראל. אנחנו חוברים למפעילים כדי לשמר את מה שעובד, תוך בניית התשתית והמשמעת של פלטפורמה מתמשכת.")}</p>
+      <p>{t("In a technology landscape that never stops changing - cloud migration, artificial intelligence, and successive waves of transformation - businesses need a trusted external technology partner more than ever.","בעולם טכנולוגי שמשתנה כל הזמן - מעבר לענן, בינה מלאכותית וגלי טרנספורמציה נוספים - עסקים זקוקים יותר מתמיד לשותף טכנולוגי חיצוני שילווה אותם לאורך הדרך.")}</p>
+      <p>{t("Starwell acquires controlling or significant stakes in established, profitable IT services companies. We partner with owners and operators to preserve what works, while building around them the infrastructure and discipline of a platform built to last.","Starwell רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ותיקות ורווחיות. אנחנו חוברים לבעלים ולמנהלים כדי לשמר את מה שעובד, ובונים סביבם את התשתית והמשמעת של פלטפורמה שנבנית לשנים.")}</p>
     </div>
   </section>
 </div>
@@ -590,9 +591,9 @@ def build_site():
 <div class="wrap">
   <section class="sec" style="padding-top:0" data-reveal>
     <div class="steps">
-      <div class="step"><div class="n">01</div><h3>{t("Acquire","רכישה")}</h3><p>{t("Control or significant equity in profitable, established IT services companies operating in the Israeli lower middle market.","שליטה או אחזקה משמעותית בחברות שירותי IT רווחיות וותיקות הפועלות בשוק הביניים הנמוך בישראל.")}</p></div>
-      <div class="step"><div class="n">02</div><h3>{t("Integrate","אינטגרציה")}</h3><p>{t("Centralized systems, shared infrastructure, and standardized service delivery across the portfolio.","מערכות מרכזיות, תשתית משותפת ואספקת שירות אחידה לאורך כל הפורטפוליו.")}</p></div>
-      <div class="step"><div class="n">03</div><h3>{t("Scale","הרחבה")}</h3><p>{t("Operational improvements, talent development, and expanded service capabilities to drive long-term value creation.","שיפורים תפעוליים, פיתוח כישרונות והרחבת יכולות השירות, לקידום יצירת ערך לטווח ארוך.")}</p></div>
+      <div class="step"><div class="n">01</div><h3>{t("Acquire","רכישה")}</h3><p>{t("Controlling or significant stakes in established, profitable IT services companies.","שליטה או אחזקה משמעותית בחברות שירותי IT ותיקות ורווחיות בישראל.")}</p></div>
+      <div class="step"><div class="n">02</div><h3>{t("Integrate","אינטגרציה")}</h3><p>{t("Central systems, shared infrastructure, and a consistent standard of service across the portfolio.","מערכות מרכזיות, תשתית משותפת ורמת שירות אחידה בכל חברות הפורטפוליו.")}</p></div>
+      <div class="step"><div class="n">03</div><h3>{t("Grow","צמיחה")}</h3><p>{t("Operational improvement, talent development, and expanded service capabilities, driving long-term value creation.","שיפור תפעולי, פיתוח ההון האנושי והרחבת יכולות השירות, ליצירת ערך לטווח ארוך.")}</p></div>
     </div>
   </section>
 </div>
@@ -607,8 +608,8 @@ def build_site():
 </section>'''
     render("technology.html",
       t("IT Services | Starwell Holdings","שירותי IT | סטארוול הולדינגס"),
-      t("Starwell acquires control or significant equity in established, profitable IT services companies in Israel's lower middle market.",
-        "Starwell רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ותיקות ורווחיות בשוק הביניים הנמוך בישראל."),
+      t("Starwell acquires controlling or significant stakes in established, profitable IT services companies, preserving what works while building a platform built to last.",
+        "Starwell רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ותיקות ורווחיות, משמרת את מה שעובד ובונה סביבן פלטפורמה שנבנית לשנים."),
       tech,extra=live_script("portfolio"))
 
     # =================== REAL ESTATE ===================
