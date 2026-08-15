@@ -35,8 +35,8 @@
       plogos(row)+web(row.website_url)+'</div>';
   }
   function xpCard(row){
-    return '<div class="xp">'+media(row)+'<div class="xp-body">'+
-      '<div class="logos"><span class="lchip">'+esc(row.name)+'</span></div>'+
+    var logo=row.logo_url?'<div class="logos"><span class="lchip"><img src="'+esc(row.logo_url)+'" alt="'+esc(row.name)+' logo" loading="lazy" decoding="async"></span></div>':"";
+    return '<div class="xp">'+media(row)+'<div class="xp-body">'+logo+
       '<div class="pn">'+esc(row.name)+'</div>'+
       (row.location?'<div class="meta"><span>&#9679;</span><span>'+esc(row.location)+'</span></div>':"")+
       (row.role?'<div class="meta"><span>&#9632;</span><span>'+esc(row.role)+'</span></div>':"")+
