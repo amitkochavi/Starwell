@@ -406,7 +406,7 @@ def build_site():
   </div>
 </section>'''
     render("index.html",
-      t("Starwell Holdings | Private Investment & Operating Company","סטארוול הולדינגס | חברת השקעות ותפעול פרטית"),
+      t("Starwell Holdings | Private Holding Company","סטארוול הולדינגס | חברת החזקות פרטית"),
       t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.",
         "סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל\"ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים."),
       home,extra_ld={"@context":"https://schema.org","@type":"WebSite","@id":BASE+"/#website",
