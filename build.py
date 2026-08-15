@@ -665,7 +665,7 @@ def build_site():
     <div class="sec-label">{t("Approach","הגישה")}</div>
     <p class="lede">{t("Patient, conviction-driven capital allocation across private equity, public markets, and alternative strategies.","הקצאת הון סבלנית וממוקדת, בשווקים פרטיים וציבוריים כאחד.")}</p>
     <div class="body-copy">
-      <p>{t("Starwell Capital oversees the firm&rsquo;s external capital deployment. The mandate spans private equity with a focus on AI-enabled roll-ups, long-term public market holdings, allocations to long-strategy hedge funds, and real estate. We invest with a long time horizon and concentrate where we have genuine conviction.","Starwell Capital מנהלת את תיק ההשקעות של הקבוצה מחוץ לחברות התפעוליות. המנדט כולל השקעות פרייבט אקוויטי ברכישת חברות והשבחתן, אחזקות ארוכות טווח בשווקים הציבוריים, הקצאות סלקטיביות לקרנות גידור ונדל&quot;ן. אנחנו משקיעים לטווח ארוך, ומרכזים את ההון היכן שיש לנו הבנה אמיתית של העסק.")}</p>
+      <p>{t("Starwell Capital oversees the firm&rsquo;s external capital deployment. The mandate spans private equity, long-term public market holdings, allocations to long-strategy hedge funds, and real estate. We invest with a long time horizon and concentrate where we have genuine conviction.","Starwell Capital מנהלת את תיק ההשקעות של הקבוצה מחוץ לחברות התפעוליות. המנדט כולל השקעות פרייבט אקוויטי ברכישת חברות והשבחתן, אחזקות ארוכות טווח בשווקים הציבוריים, הקצאות סלקטיביות לקרנות גידור ונדל&quot;ן. אנחנו משקיעים לטווח ארוך, ומרכזים את ההון היכן שיש לנו הבנה אמיתית של העסק.")}</p>
     </div>
   </section>
 </div>

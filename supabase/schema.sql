@@ -72,6 +72,7 @@ create table if not exists public.portfolio_companies (
   logo_url    text,
   partner     text,
   location    text,
+  images      jsonb not null default '[]'::jsonb,
   image_label text,
   highlight   boolean not null default false,
   sort_order  int not null default 0,

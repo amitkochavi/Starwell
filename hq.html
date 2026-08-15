@@ -135,6 +135,19 @@ iframe.portal{width:100%;height:640px;border:0;display:block;background:#fff;ove
 .modal .field{margin-bottom:14px}
 .modal .actions{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
 .cfgwarn{background:#fff4e5;border:1px solid #f0d9a8;color:#7a5a16;padding:12px 16px;border-radius:8px;margin-bottom:18px;font-size:13px}
+.upl{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.upl-list{display:flex;flex-wrap:wrap;gap:8px}
+.upl-thumb{position:relative;width:66px;height:50px;border-radius:5px;overflow:hidden;border:1px solid var(--line);background:#f4f3f0}
+.upl-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.upl-x{position:absolute;top:2px;right:2px;width:17px;height:17px;border:none;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:12px;line-height:1;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
+.upl-add{border:1px dashed var(--line);border-radius:7px;padding:9px 13px;font-size:12.5px;cursor:pointer;color:var(--soft);white-space:nowrap}
+.upl-add:hover{color:var(--ink);border-color:var(--soft)}
+.upl-url{flex:1;min-width:170px}
+.row-thumbs{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
+.rt{width:44px;height:32px;border-radius:4px;overflow:hidden;border:1px solid var(--line);background:#f4f3f0;display:block}
+.rt img{width:100%;height:100%;object-fit:cover;display:block}
+.rt-n{font-size:11px;color:var(--soft)}
+.rt-n.rt-none{font-style:italic;opacity:.7}
 @media(max-width:640px){.grid2{grid-template-columns:1fr}.card{padding:28px}}
 </style>
 </head>
@@ -718,13 +731,15 @@ window.STARWELL_CONFIG = {
       table:"portfolio_companies", order:[["pillar",true],["sort_order",true]],
       title:function(r){return r.name;},
       sub:function(r){return [r.pillar, r.role, r.highlight?"★ homepage":""].filter(Boolean).join("  ·  ");},
+      thumbs:function(r){ var a=Array.isArray(r.images)?r.images.filter(Boolean):[]; return (r.logo_url?[r.logo_url]:[]).concat(a); },
       fields:[
         {k:"name",label:"Name",t:"text",full:true,req:true},
         {k:"pillar",label:"Pillar",t:"select",opts:["technology","real-estate","capital"],req:true},
         {k:"role",label:"Role",t:"text"},
         {k:"description",label:"Description",t:"textarea",full:true},
         {k:"website_url",label:"Website URL",t:"text",full:true},
-        {k:"logo_url",label:"Logo URL",t:"text",full:true},
+        {k:"logo_url",label:"Logo (upload or paste a URL)",t:"upload",full:true},
+        {k:"images",label:"Photos (upload; 1 shows static, 2+ show as a slider)",t:"images",full:true},
         {k:"partner",label:"Partner",t:"text"},
         {k:"location",label:"Location",t:"text"},
         {k:"image_label",label:"Image label (real-estate cards)",t:"text"},
@@ -745,8 +760,12 @@ window.STARWELL_CONFIG = {
     if(r.error){ box.innerHTML = '<div class="empty">'+esc(r.error.message)+'</div>'; return; }
     if(!r.data.length){ box.innerHTML = '<div class="empty">Nothing yet. Use “Add” to create the first one.</div>'; return; }
     box.innerHTML = r.data.map(function(row){
+      var thumbs="";
+      if(m.thumbs){ var t=m.thumbs(row); var n=Array.isArray(row.images)?row.images.filter(Boolean).length:0;
+        thumbs='<div class="row-thumbs">'+t.slice(0,6).map(function(u){return '<span class="rt"><img src="'+esc(u)+'" alt="" loading="lazy"></span>';}).join("")+
+          (t.length?'<span class="rt-n">'+n+' photo'+(n===1?"":"s")+(row.logo_url?" + logo":"")+'</span>':'<span class="rt-n rt-none">no photos yet</span>')+'</div>'; }
       return '<div class="row"><div><div class="ttl">'+esc(m.title(row))+'</div>'+
-        '<div class="meta">'+esc(m.sub(row))+'</div></div>'+
+        '<div class="meta">'+esc(m.sub(row))+'</div>'+thumbs+'</div>'+
         '<div class="acts"><button class="btn ghost sm" data-edit="'+key+'" data-id="'+row.id+'">Edit</button>'+
         '<button class="btn danger sm" data-del="'+key+'" data-id="'+row.id+'">Delete</button></div></div>';
     }).join("");
@@ -761,8 +780,21 @@ window.STARWELL_CONFIG = {
     if(del) doDelete(del.dataset.del, del.dataset.id);
   });
 
+  async function uploadFile(file){
+    var ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";
+    var path="p/"+Date.now()+"-"+Math.random().toString(36).slice(2,8)+"."+ext;
+    var r=await sb.storage.from("portfolio").upload(path,file,{cacheControl:"31536000",upsert:false});
+    if(r.error) throw r.error;
+    return sb.storage.from("portfolio").getPublicUrl(path).data.publicUrl;
+  }
+
   function openForm(key, row){
     var m=MODELS[key]; var editing=!!row; row=row||{};
+    var up={};  // state for upload / images (gallery) fields
+    m.fields.forEach(function(f){
+      if(f.t==="images") up[f.k]=Array.isArray(row[f.k])?row[f.k].slice():(row[f.k]?[row[f.k]]:[]);
+      else if(f.t==="upload") up[f.k]=row[f.k]||null;
+    });
     var html='<div class="overlay"><div class="modal"><h3>'+(editing?"Edit":"Add")+" — "+key+'</h3><div class="grid2">';
     m.fields.forEach(function(f){
       var v = row[f.k]; var id="f_"+f.k;
@@ -771,19 +803,53 @@ window.STARWELL_CONFIG = {
       if(f.t==="textarea") ctl='<textarea id="'+id+'"'+rtl+'>'+esc(v||"")+'</textarea>';
       else if(f.t==="check") ctl='<input type="checkbox" id="'+id+'" style="width:auto" '+(v?"checked":"")+'>';
       else if(f.t==="select") ctl='<select id="'+id+'">'+f.opts.map(function(o){return '<option '+(v===o?"selected":"")+'>'+o+'</option>';}).join("")+'</select>';
+      else if(f.t==="upload") ctl='<div class="upl"><div class="upl-list" id="ul_'+f.k+'"></div><label class="upl-add">+ Upload<input type="file" accept="image/*" hidden data-uk="'+f.k+'" data-multi="0"></label><input type="text" class="upl-url" id="uu_'+f.k+'" placeholder="…or paste a URL" value="'+esc(up[f.k]||"")+'"></div>';
+      else if(f.t==="images") ctl='<div class="upl"><div class="upl-list" id="ul_'+f.k+'"></div><label class="upl-add">+ Upload photos<input type="file" accept="image/*" multiple hidden data-uk="'+f.k+'" data-multi="1"></label></div>';
       else ctl='<input id="'+id+'" type="'+(f.t==="number"?"number":f.t==="date"?"date":"text")+'" value="'+esc(v==null?"":v)+'"'+rtl+'>';
-      html+='<div class="field" style="grid-column:'+(f.full?"1/-1":"auto")+'"><label for="'+id+'">'+f.label+(f.req?" *":"")+'</label>'+ctl+'</div>';
+      html+='<div class="field" style="grid-column:'+(f.full||f.t==="images"||f.t==="upload"?"1/-1":"auto")+'"><label for="'+id+'">'+f.label+(f.req?" *":"")+'</label>'+ctl+'</div>';
     });
     html+='</div><div class="actions"><button class="btn ghost" id="cancelF">Cancel</button><button class="btn" id="saveF">Save</button></div>'+
       '<div class="note" id="formNote"></div></div></div>';
     $("#modalRoot").innerHTML=html;
     $("#cancelF").onclick=function(){$("#modalRoot").innerHTML="";};
+
+    function drawThumbs(k,multi){
+      var box=$("#ul_"+k); if(!box) return;
+      var urls= multi ? up[k] : (up[k]?[up[k]]:[]);
+      box.innerHTML=urls.map(function(u,i){return '<div class="upl-thumb"><img src="'+esc(u)+'" alt=""><button type="button" class="upl-x" data-uk="'+k+'" data-i="'+i+'" data-multi="'+(multi?1:0)+'">&times;</button></div>';}).join("");
+    }
+    m.fields.forEach(function(f){ if(f.t==="images") drawThumbs(f.k,true); else if(f.t==="upload") drawThumbs(f.k,false); });
+
+    $("#modalRoot").onclick=function(e){
+      var x=e.target.closest(".upl-x"); if(!x) return;
+      var k=x.getAttribute("data-uk"), multi=x.getAttribute("data-multi")==="1", i=+x.getAttribute("data-i");
+      if(multi){ up[k].splice(i,1); drawThumbs(k,true); } else { up[k]=null; var uu=$("#uu_"+k); if(uu)uu.value=""; drawThumbs(k,false); }
+    };
+    m.fields.forEach(function(f){ if(f.t==="upload"){ var uu=$("#uu_"+f.k); if(uu) uu.addEventListener("input",function(){ up[f.k]=uu.value.trim()||null; drawThumbs(f.k,false); }); }});
+    $("#modalRoot").querySelectorAll("input[type=file][data-uk]").forEach(function(inp){
+      inp.addEventListener("change", async function(){
+        var k=inp.getAttribute("data-uk"), multi=inp.getAttribute("data-multi")==="1";
+        var files=Array.prototype.slice.call(inp.files||[]); inp.value="";
+        if(!files.length) return;
+        var note=$("#formNote"); note.className="note"; note.textContent="Uploading "+files.length+" file(s)…";
+        try{
+          for(var j=0;j<files.length;j++){ var url=await uploadFile(files[j]); if(multi) up[k].push(url); else up[k]=url; }
+          note.textContent=""; drawThumbs(k,multi);
+          var uu=$("#uu_"+k); if(uu&&!multi) uu.value=up[k]||"";
+        }catch(err){ note.className="note err"; note.textContent="Upload failed: "+(err.message||err); }
+      });
+    });
+
     $("#saveF").onclick=async function(){
       var rec={};
-      for(var i=0;i<m.fields.length;i++){var f=m.fields[i],el=$("#f_"+f.k);
-        if(f.t==="check") rec[f.k]=el.checked;
-        else if(f.t==="number") rec[f.k]= el.value===""?0:Number(el.value);
-        else { var val=el.value.trim(); rec[f.k]= val===""?null:val; }
+      for(var i=0;i<m.fields.length;i++){var f=m.fields[i];
+        if(f.t==="images") rec[f.k]=up[f.k];
+        else if(f.t==="upload") rec[f.k]=up[f.k];
+        else { var el=$("#f_"+f.k);
+          if(f.t==="check") rec[f.k]=el.checked;
+          else if(f.t==="number") rec[f.k]= el.value===""?0:Number(el.value);
+          else { var val=el.value.trim(); rec[f.k]= val===""?null:val; }
+        }
         if(f.req && (rec[f.k]==null||rec[f.k]==="")){ $("#formNote").className="note err"; $("#formNote").textContent=f.label+" is required."; return; }
       }
       this.disabled=true;
