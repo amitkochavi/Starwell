@@ -30,29 +30,29 @@ def live_script(kind):
 
 # ---- shared chrome ----
 def lang_href(cur):
-    # link to the SAME page in the other language
-    slug="" if cur=="index.html" else cur
+    # link to the SAME page in the other language (clean URL, no .html)
+    slug="" if cur=="index.html" else cur[:-5]
     return ("he/"+slug) if LANG=="en" else ("../"+slug)
 def DESK_NAV(cur):
-    return f'''  <div class="nav-item"><a href="index.html">{t("Home","ראשי")}</a></div>
+    return f'''  <div class="nav-item"><a href="{t("/","/he/")}">{t("Home","ראשי")}</a></div>
   <div class="nav-item">
     <button class="nav-trigger" aria-haspopup="true">{t("About Us","אודות")} <span class="chev"></span></button>
     <div class="dropdown">
-      <a href="our-story.html">{t("About Us","אודות")}</a>
-      <a href="our-history.html">{t("Our History","ההיסטוריה שלנו")}</a>
-      <a href="our-team.html">{t("Our Team","הצוות שלנו")}</a>
-      <a href="news.html">{t("News","חדשות")}</a>
+      <a href="our-story">{t("About Us","אודות")}</a>
+      <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
+      <a href="our-team">{t("Our Team","הצוות שלנו")}</a>
+      <a href="news">{t("News","חדשות")}</a>
     </div>
   </div>
   <div class="nav-item">
     <button class="nav-trigger" aria-haspopup="true">{t("What We Do","מה אנחנו עושים")} <span class="chev"></span></button>
     <div class="dropdown">
-      <a href="technology.html">{t("IT Services","שירותי IT")}</a>
-      <a href="real-estate.html">{t("Real Estate","נדל&quot;ן")}</a>
-      <a href="capital.html">{t("Capital","קפיטל")}</a>
+      <a href="technology">{t("IT Services","שירותי IT")}</a>
+      <a href="real-estate">{t("Real Estate","נדל&quot;ן")}</a>
+      <a href="capital">{t("Capital","קפיטל")}</a>
     </div>
   </div>
-  <div class="nav-item"><a href="contact.html">{t("Contact","צור קשר")}</a></div>
+  <div class="nav-item"><a href="contact">{t("Contact","צור קשר")}</a></div>
   <div class="nav-item nav-lang"><a href="{lang_href(cur)}" hreflang="{t("he","en")}" aria-label="{t("עברית","English")}">{t("עברית","EN")}</a></div>
   <div class="nav-item"><button class="nav-searchbtn" id="searchToggle" aria-label="{t("Search","חיפוש")}" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button></div>'''
 
@@ -60,28 +60,28 @@ def MOBILE_NAV(cur):
     return f'''<div class="mmenu" id="mmenu" aria-hidden="true">
   <div class="mmenu-top"><button class="mclose" id="mclose" aria-label="{t("Close menu","סגור תפריט")}">&times;</button></div>
   <div class="mlist">
-    <form class="msearch" action="search.html" method="get" role="search">
+    <form class="msearch" action="search" method="get" role="search">
       <input type="search" name="q" placeholder="{t("Search Starwell","חיפוש בסטארוול")} …" aria-label="{t("Search","חיפוש")}" autocomplete="off">
     </form>
-    <a class="mlink" href="index.html">{t("Home","ראשי")}</a>
+    <a class="mlink" href="{t("/","/he/")}">{t("Home","ראשי")}</a>
     <div class="mgroup">
       <button class="mlink" aria-expanded="false">{t("About Us","אודות")} <span class="mchev"></span></button>
       <div class="msub">
-        <a href="our-story.html">{t("About Us","אודות")}</a>
-        <a href="our-history.html">{t("Our History","ההיסטוריה שלנו")}</a>
-        <a href="our-team.html">{t("Our Team","הצוות שלנו")}</a>
-        <a href="news.html">{t("News","חדשות")}</a>
+        <a href="our-story">{t("About Us","אודות")}</a>
+        <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
+        <a href="our-team">{t("Our Team","הצוות שלנו")}</a>
+        <a href="news">{t("News","חדשות")}</a>
       </div>
     </div>
     <div class="mgroup">
       <button class="mlink" aria-expanded="false">{t("What We Do","מה אנחנו עושים")} <span class="mchev"></span></button>
       <div class="msub">
-        <a href="technology.html">{t("IT Services","שירותי IT")}</a>
-        <a href="real-estate.html">{t("Real Estate","נדל&quot;ן")}</a>
-        <a href="capital.html">{t("Capital","קפיטל")}</a>
+        <a href="technology">{t("IT Services","שירותי IT")}</a>
+        <a href="real-estate">{t("Real Estate","נדל&quot;ן")}</a>
+        <a href="capital">{t("Capital","קפיטל")}</a>
       </div>
     </div>
-    <a class="mlink" href="contact.html">{t("Contact","צור קשר")}</a>
+    <a class="mlink" href="contact">{t("Contact","צור קשר")}</a>
     <a class="mlink" href="{lang_href(cur)}" hreflang="{t("he","en")}">{t("עברית","English")}</a>
   </div>
 </div>'''
@@ -90,7 +90,7 @@ def header(cur):
     return f'''<a href="#main" class="skip-link">{t("Skip to content","דלג לתוכן")}</a>
 <header class="nav">
   <div class="wrap nav-in">
-    <a href="index.html" class="brand" aria-label="{t("Starwell Holdings home","סטארוול הולדינגס - דף הבית")}">
+    <a href="{t("/","/he/")}" class="brand" aria-label="{t("Starwell Holdings home","סטארוול הולדינגס - דף הבית")}">
       <span class="brand-word">Starwell Holdings</span>
     </a>
     <nav class="nav-links" aria-label="{t("Primary","ראשי")}">
@@ -99,7 +99,7 @@ def header(cur):
     <button class="burger" id="burger" aria-label="{t("Open menu","פתח תפריט")}" aria-expanded="false" aria-controls="mmenu"><span></span><span></span><span></span></button>
   </div>
   <div class="site-search" id="siteSearch" hidden>
-    <form class="wrap" action="search.html" method="get" role="search">
+    <form class="wrap" action="search" method="get" role="search">
       <input type="search" name="q" id="siteSearchInput" placeholder="{t("Search Starwell","חיפוש בסטארוול")} …" aria-label="{t("Search","חיפוש")}" autocomplete="off">
       <button type="submit" class="ss-go" aria-label="{t("Search","חיפוש")}"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
       <button type="button" class="ss-close" id="searchClose" aria-label="{t("Close search","סגור חיפוש")}">&times;</button>
@@ -118,21 +118,21 @@ def FOOTER():
       </div>
       <div class="foot-col">
         <h4>{t("Company","החברה")}</h4>
-        <a href="our-story.html">{t("About Us","אודות")}</a>
-        <a href="our-history.html">{t("Our History","ההיסטוריה שלנו")}</a>
-        <a href="our-team.html">{t("Our Team","הצוות שלנו")}</a>
-        <a href="news.html">{t("News","חדשות")}</a>
-        <a href="careers.html">{t("Careers","קריירה")}</a>
+        <a href="our-story">{t("About Us","אודות")}</a>
+        <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
+        <a href="our-team">{t("Our Team","הצוות שלנו")}</a>
+        <a href="news">{t("News","חדשות")}</a>
+        <a href="careers">{t("Careers","קריירה")}</a>
       </div>
       <div class="foot-col">
         <h4>{t("What We Do","מה אנחנו עושים")}</h4>
-        <a href="technology.html">{t("IT Services","שירותי IT")}</a>
-        <a href="real-estate.html">{t("Real Estate","נדל&quot;ן")}</a>
-        <a href="capital.html">{t("Capital","קפיטל")}</a>
+        <a href="technology">{t("IT Services","שירותי IT")}</a>
+        <a href="real-estate">{t("Real Estate","נדל&quot;ן")}</a>
+        <a href="capital">{t("Capital","קפיטל")}</a>
       </div>
       <div class="foot-col">
         <h4>{t("Get in Touch","יצירת קשר")}</h4>
-        <a href="contact.html">{t("Contact","צור קשר")}</a>
+        <a href="contact">{t("Contact","צור קשר")}</a>
         <a href="https://www.linkedin.com/company/starwell-holdings/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="{t("/sitemap","/he/sitemap")}">{t("Sitemap","מפת אתר")}</a>
         <a href="{t("he/","../")}" hreflang="{t("he","en")}">{t("עברית","English")}</a>
@@ -161,10 +161,10 @@ def NAV_LD():
     # Primary navigation as structured data (language-aware) so search engines
     # read the same site structure on the Hebrew pages as on the English ones.
     pfx=BASE+t("","/he")
-    items=[(t("About Us","אודות"),"/our-story.html"),(t("Our Team","הצוות שלנו"),"/our-team.html"),
-           (t("IT Services","שירותי IT"),"/technology.html"),(t("Real Estate","נדל\"ן"),"/real-estate.html"),
-           (t("Capital","קפיטל"),"/capital.html"),(t("News","חדשות"),"/news.html"),
-           (t("Careers","קריירה"),"/careers.html"),(t("Contact","צור קשר"),"/contact.html")]
+    items=[(t("About Us","אודות"),"/our-story"),(t("Our Team","הצוות שלנו"),"/our-team"),
+           (t("IT Services","שירותי IT"),"/technology"),(t("Real Estate","נדל\"ן"),"/real-estate"),
+           (t("Capital","קפיטל"),"/capital"),(t("News","חדשות"),"/news"),
+           (t("Careers","קריירה"),"/careers"),(t("Contact","צור קשר"),"/contact")]
     return {"@context":"https://schema.org","@type":"ItemList","@id":pfx+"/#nav",
       "name":t("Primary navigation","ניווט ראשי"),
       "itemListElement":[{"@type":"SiteNavigationElement","position":i+1,"name":n,"url":pfx+u} for i,(n,u) in enumerate(items)]}
@@ -179,7 +179,7 @@ def strip_html(s):
 
 def render(filename,title,desc,body,extra_ld=None,index=True,extra="",search=True):
     title=title.replace(" - "," | ")
-    slug="" if filename=="index.html" else filename
+    slug="" if filename=="index.html" else filename[:-5]
     en_url=BASE+"/"+slug
     he_url=BASE+"/he/"+slug
     canonical=he_url if LANG=="he" else en_url
@@ -248,7 +248,7 @@ def render(filename,title,desc,body,extra_ld=None,index=True,extra="",search=Tru
 </html>'''
     if search:
         txt=strip_html(body)
-        SEARCH_INDEX[LANG].append({"url":filename,"title":title.split(" | ")[0],"text":txt[:2400]})
+        SEARCH_INDEX[LANG].append({"url":("." if filename=="index.html" else filename[:-5]),"title":title.split(" | ")[0],"text":txt[:2400]})
     open(out_path(filename),"w").write(html)
 
 # ---- portfolio data (shared with the dashboard) ----
@@ -381,17 +381,17 @@ def build_site():
       <div class="card">
         <h3>{t("IT Services","שירותי IT")}</h3>
         <p>{t("Acquiring and operating IT Services businesses.","רכישה ותפעול של עסקי שירותי IT.")}</p>
-        <a href="technology.html" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
+        <a href="technology" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
       <div class="card">
         <h3>{t("Real Estate","נדל&quot;ן")}</h3>
         <p>{t("Development and GP investments in Israel, select co-investments.","ייזום והשקעות שותף כללי (GP) בישראל, לצד השקעות משותפות נבחרות.")}</p>
-        <a href="real-estate.html" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
+        <a href="real-estate" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
       <div class="card">
         <h3>{t("Capital","קפיטל")}</h3>
         <p>{t("Long-term investment portfolio across public markets and direct private positions.","תיק השקעות לטווח ארוך בשווקים הציבוריים ובפוזיציות פרטיות ישירות.")}</p>
-        <a href="capital.html" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
+        <a href="capital" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
     </div>
   </section>
@@ -402,7 +402,7 @@ def build_site():
     <span class="eyebrow" style="color:var(--on-panel-soft)">{t("About Starwell","אודות סטארוול")}</span>
     <h2 class="serif" style="margin:14px 0 16px">{t("Learn more about Starwell","הכירו את סטארוול")}</h2>
     <p class="body-copy" style="max-width:680px;margin:0 auto 32px;color:var(--on-panel-soft)">{t("A privately held global investment firm building and owning platforms across IT Services and Real Estate, with passive capital allocation to alternative assets - a long-term, operator-led approach.","חברת השקעות גלובלית פרטית הבונה ומחזיקה פלטפורמות בתחומי שירותי ה-IT והנדל&quot;ן, עם הקצאת הון פסיבית לנכסים אלטרנטיביים - בגישה ארוכת-טווח ומובלת-מפעיל.")}</p>
-    <a href="our-story.html" class="btn btn-light">{t("Learn more about Starwell","הכירו את סטארוול")} &rarr;</a>
+    <a href="our-story" class="btn btn-light">{t("Learn more about Starwell","הכירו את סטארוול")} &rarr;</a>
   </div>
 </section>'''
     render("index.html",
@@ -433,7 +433,7 @@ def build_site():
       <p>{t("Starwell Holdings is a global private investment and operating company. We invest and build across real estate, operating businesses, alternative investments, and public markets.","סטארוול הולדינגס היא חברת השקעות ותפעול גלובלית פרטית. אנחנו משקיעים ובונים בתחומי הנדל&quot;ן, עסקים תפעוליים, השקעות אלטרנטיביות והשווקים הציבוריים.")}</p>
       <p>{t("Beyond capital allocation, Starwell acts as a long-term owner and active partner - founding companies, scaling platforms, and working alongside management teams to develop durable businesses and real assets. Our approach combines entrepreneurial execution with disciplined investment principles.","מעבר להקצאת הון, סטארוול פועלת כבעלים לטווח ארוך וכשותפה פעילה - מקימה חברות, מרחיבה פלטפורמות ועובדת לצד צוותי ההנהלה כדי לפתח עסקים ונכסים בני-קיימא. הגישה שלנו משלבת ביצוע יזמי עם עקרונות השקעה ממושמעים.")}</p>
       <p>{t("We focus on opportunities where long-term thinking, operational involvement, and strategic alignment can create enduring value across cycles and generations.","אנחנו מתמקדים בהזדמנויות שבהן חשיבה לטווח ארוך, מעורבות תפעולית והלימה אסטרטגית יכולות לייצר ערך מתמשך לאורך מחזורי שוק ודורות.")}</p>
-      <p>{t("Starwell Holdings was founded by Amit Kochavi, who serves as Chairman and CEO.","סטארוול הולדינגס נוסדה על ידי עמית כוכבי, המכהן כיו&quot;ר וכמנכ&quot;ל.")} <a href="our-team.html">{t("Meet the team","הכירו את הצוות")} &rarr;</a></p>
+      <p>{t("Starwell Holdings was founded by Amit Kochavi, who serves as Chairman and CEO.","סטארוול הולדינגס נוסדה על ידי עמית כוכבי, המכהן כיו&quot;ר וכמנכ&quot;ל.")} <a href="our-team">{t("Meet the team","הכירו את הצוות")} &rarr;</a></p>
     </div>
   </section>
 </div>
@@ -476,8 +476,8 @@ def build_site():
     <h2 class="serif" style="margin:8px 0 12px">{t("Learn about our history and our team","הכירו את ההיסטוריה והצוות שלנו")}</h2>
     <p class="body-copy" style="margin:0 auto 34px;text-align:center;max-width:640px">{t("The roots we build on, and the people building enduring value across our platforms.","השורשים שעליהם אנחנו נשענים, והאנשים הבונים ערך מתמשך על פני הפלטפורמות שלנו.")}</p>
     <div class="steps two" style="text-align:left">
-      <a class="step" href="our-history.html" style="text-decoration:none;color:inherit;display:block"><h3>{t("Our History","ההיסטוריה שלנו")}</h3><p>{t("Four generations of entrepreneurship, capital stewardship, and public leadership - from Max Factor to the Buchman family.","ארבעה דורות של יזמות, נאמנות הונית ומנהיגות ציבורית - ממקס פקטור ועד משפחת בוכמן.")}</p><span class="link-arrow" style="margin-top:14px">{t("Read our history","קראו את ההיסטוריה")} &rarr;</span></a>
-      <a class="step" href="our-team.html" style="text-decoration:none;color:inherit;display:block"><h3>{t("Our Team","הצוות שלנו")}</h3><p>{t("Meet the people leading Starwell across IT Services, Real Estate, and alternative assets.","הכירו את האנשים המובילים את סטארוול בתחומי שירותי ה-IT, הנדל&quot;ן והנכסים האלטרנטיביים.")}</p><span class="link-arrow" style="margin-top:14px">{t("Meet the team","הכירו את הצוות")} &rarr;</span></a>
+      <a class="step" href="our-history" style="text-decoration:none;color:inherit;display:block"><h3>{t("Our History","ההיסטוריה שלנו")}</h3><p>{t("Four generations of entrepreneurship, capital stewardship, and public leadership - from Max Factor to the Buchman family.","ארבעה דורות של יזמות, נאמנות הונית ומנהיגות ציבורית - ממקס פקטור ועד משפחת בוכמן.")}</p><span class="link-arrow" style="margin-top:14px">{t("Read our history","קראו את ההיסטוריה")} &rarr;</span></a>
+      <a class="step" href="our-team" style="text-decoration:none;color:inherit;display:block"><h3>{t("Our Team","הצוות שלנו")}</h3><p>{t("Meet the people leading Starwell across IT Services, Real Estate, and alternative assets.","הכירו את האנשים המובילים את סטארוול בתחומי שירותי ה-IT, הנדל&quot;ן והנכסים האלטרנטיביים.")}</p><span class="link-arrow" style="margin-top:14px">{t("Meet the team","הכירו את הצוות")} &rarr;</span></a>
     </div>
   </section>
 </div>'''
@@ -600,7 +600,7 @@ def build_site():
 <section class="dark" data-reveal>
   <div class="wrap sec">
     <div class="sec-label">{t("Portfolio","פורטפוליו")}</div>
-    <div class="pf-grid">
+    <div class="pf-grid" data-pillar="technology">
 {cards_for("technology")}
     </div>
   </div>
@@ -609,7 +609,7 @@ def build_site():
       t("IT Services | Starwell Holdings","שירותי IT | סטארוול הולדינגס"),
       t("Starwell acquires control or significant equity in established, profitable IT services companies in Israel's lower middle market.",
         "Starwell רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ותיקות ורווחיות בשוק הביניים הנמוך בישראל."),
-      tech)
+      tech,extra=live_script("portfolio"))
 
     # =================== REAL ESTATE ===================
     re=f'''<section class="hero">
@@ -640,7 +640,7 @@ def build_site():
 <section class="dark" data-reveal>
   <div class="wrap sec">
     <div class="sec-label">{t("Selected Experience","ניסיון נבחר")}</div>
-    <div class="xp-grid">
+    <div class="xp-grid" data-pillar="real-estate">
 {cards_for("real-estate")}
     </div>
   </div>
@@ -649,7 +649,7 @@ def build_site():
       t("Starwell Real Estate | Starwell Holdings","Starwell Real Estate | סטארוול הולדינגס"),
       t("Starwell Real Estate covers development and strategic real estate investment across Israel and the United States, with development, advisory, and limited-partner positions.",
         "Starwell Real Estate עוסקת בייזום ובהשקעות נדל\"ן אסטרטגיות בישראל ובארצות הברית, לרבות ייזום, ייעוץ ופוזיציות כשותף מוגבל."),
-      re)
+      re,extra=live_script("portfolio"))
 
     # =================== CAPITAL ===================
     cap=f'''<section class="hero">
@@ -683,7 +683,7 @@ def build_site():
 <section class="dark" data-reveal>
   <div class="wrap sec">
     <div class="sec-label">{t("Portfolio","פורטפוליו")}</div>
-    <div class="pf-grid">
+    <div class="pf-grid" data-pillar="capital">
 {cards_for("capital")}
     </div>
   </div>
@@ -692,7 +692,7 @@ def build_site():
       t("Starwell Capital | Starwell Holdings","Starwell Capital | סטארוול הולדינגס"),
       t("Starwell Capital is the allocation arm of Starwell Holdings, deploying capital across private equity, public markets, hedge funds, and real estate.",
         "Starwell Capital היא זרוע הקצאת ההון של סטארוול הולדינגס, המקצה הון בתחומי הון פרטי, שווקים ציבוריים, קרנות גידור ונדל\"ן."),
-      cap)
+      cap,extra=live_script("portfolio"))
 
     # =================== NEWS ===================
     cats_en=["All"]+list(dict.fromkeys(n[0] for n in NEWS))
@@ -831,19 +831,19 @@ def build_site():
   <section class="sec" data-reveal>
     <div class="sitemap-cols">
       <div><h4>{t("Company","החברה")}</h4>
-        <a href="index.html">{t("Home","ראשי")}</a>
-        <a href="our-story.html">{t("About Us","אודות")}</a>
-        <a href="our-history.html">{t("Our History","ההיסטוריה שלנו")}</a>
-        <a href="our-team.html">{t("Our Team","הצוות שלנו")}</a>
-        <a href="news.html">{t("News","חדשות")}</a>
-        <a href="careers.html">{t("Careers","קריירה")}</a></div>
+        <a href="{t("/","/he/")}">{t("Home","ראשי")}</a>
+        <a href="our-story">{t("About Us","אודות")}</a>
+        <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
+        <a href="our-team">{t("Our Team","הצוות שלנו")}</a>
+        <a href="news">{t("News","חדשות")}</a>
+        <a href="careers">{t("Careers","קריירה")}</a></div>
       <div><h4>{t("What We Do","מה אנחנו עושים")}</h4>
-        <a href="technology.html">{t("IT Services","שירותי IT")}</a>
-        <a href="real-estate.html">{t("Real Estate","נדל&quot;ן")}</a>
-        <a href="capital.html">{t("Capital","קפיטל")}</a></div>
+        <a href="technology">{t("IT Services","שירותי IT")}</a>
+        <a href="real-estate">{t("Real Estate","נדל&quot;ן")}</a>
+        <a href="capital">{t("Capital","קפיטל")}</a></div>
       <div><h4>{t("Resources","משאבים")}</h4>
-        <a href="contact.html">{t("Contact","צור קשר")}</a>
-        <a href="search.html">{t("Search","חיפוש")}</a>
+        <a href="contact">{t("Contact","צור קשר")}</a>
+        <a href="search">{t("Search","חיפוש")}</a>
         <a href="{t("/sitemap","/he/sitemap")}">{t("Sitemap","מפת אתר")}</a>
         <a href="{t("he/","../")}" hreflang="{t("he","en")}">{t("עברית","English")}</a></div>
     </div>
@@ -861,7 +861,7 @@ def build_site():
     <span class="eyebrow">{t("Error 404","שגיאה 404")}</span>
     <h1>{t("Page not found.","העמוד לא נמצא.")}</h1>
     <p class="lead">{t("The page you are looking for does not exist or has moved.","העמוד שחיפשתם אינו קיים או הועבר.")}</p>
-    <div class="hero-cta"><a href="index.html" class="btn btn-light">{t("Return home","חזרה לדף הבית")}</a></div>
+    <div class="hero-cta"><a href="{t("/","/he/")}" class="btn btn-light">{t("Return home","חזרה לדף הבית")}</a></div>
   </div>
 </section>'''
     render("404.html",
@@ -878,7 +878,7 @@ def build_site():
 
 <div class="wrap">
   <section class="sec" data-reveal>
-    <form action="search.html" method="get" role="search" class="search-page-form">
+    <form action="search" method="get" role="search" class="search-page-form">
       <input type="search" name="q" id="searchPageInput" placeholder="{t("Search Starwell Holdings","חיפוש בסטארוול הולדינגס")} …" aria-label="{t("Search","חיפוש")}" autocomplete="off">
       <button type="submit" class="btn">{t("Search","חיפוש")}</button>
     </form>
@@ -942,7 +942,7 @@ def alt_links(slug):
             f'    <xhtml:link rel="alternate" hreflang="x-default" href="{en_url}"/>\n')
 urls=""
 for fn,pr in pages:
-    slug="" if fn=="index.html" else fn
+    slug="" if fn=="index.html" else fn[:-5]
     for base_loc in (BASE+"/"+slug, BASE+"/he/"+slug):
         urls+=(f"  <url>\n    <loc>{base_loc}</loc>\n"+alt_links(slug)+
                f"    <changefreq>monthly</changefreq>\n    <priority>{pr}</priority>\n  </url>\n")
@@ -958,22 +958,32 @@ open(os.path.join(OUT,"sitemap.xml"),"w").write(
 # Both case variants are listed because Netlify path matching is case-sensitive.
 LEGACY=[
   ("/Home","/"),("/home","/"),("/Index","/"),
-  ("/OurStory","/our-story.html"),("/ourstory","/our-story.html"),("/Our-Story","/our-story.html"),("/About","/our-story.html"),
-  ("/Technology","/technology.html"),("/technology","/technology.html"),
-  ("/RealEstate","/real-estate.html"),("/realestate","/real-estate.html"),("/Real-Estate","/real-estate.html"),
-  ("/Capital","/capital.html"),("/capital","/capital.html"),
-  ("/News","/news.html"),("/news","/news.html"),
-  ("/Contact","/contact.html"),("/contact","/contact.html"),
-  ("/Careers","/careers.html"),("/careers","/careers.html"),
-  ("/Sitemap","/sitemap.html"),
+  ("/OurStory","/our-story"),("/ourstory","/our-story"),("/Our-Story","/our-story"),("/About","/our-story"),
+  ("/Technology","/technology"),
+  ("/RealEstate","/real-estate"),("/realestate","/real-estate"),("/Real-Estate","/real-estate"),
+  ("/Capital","/capital"),
+  ("/News","/news"),
+  ("/Contact","/contact"),
+  ("/Careers","/careers"),
+  ("/Sitemap","/sitemap"),
 ]
-# Clean URLs served in place (200 rewrite keeps /sitemap in the address bar).
-REWRITES=[("/sitemap","/sitemap.html"),("/he/sitemap","/he/sitemap.html")]
+# Clean URLs (no .html). For every page, in both languages: serve the .html
+# file at its clean path (200, URL stays clean) and 301 the old .html URL to
+# the clean one so previously-indexed .html pages consolidate cleanly.
+SLUGS=["our-story","our-history","our-team","technology","real-estate","capital","news","contact","careers","sitemap","search"]
+serve=[]; htmlredir=[]
+for base in ("","/he"):
+    htmlredir.append((base+"/index.html", base+"/"))
+    for s in SLUGS:
+        serve.append((base+"/"+s, base+"/"+s+".html"))
+        htmlredir.append((base+"/"+s+".html", base+"/"+s))
 open(os.path.join(OUT,"_redirects"),"w").write(
   "# Legacy base44 routes -> current pages (301, de-indexes the old URLs)\n"+
   "\n".join(f"{src}  {dst}  301!" for src,dst in LEGACY)+"\n\n"+
-  "# Clean URLs served in place (no redirect)\n"+
-  "\n".join(f"{src}  {dst}  200" for src,dst in REWRITES)+"\n")
+  "# Old .html URLs -> clean URLs (301)\n"+
+  "\n".join(f"{src}  {dst}  301!" for src,dst in htmlredir)+"\n\n"+
+  "# Serve clean URLs from the .html files (200, no redirect)\n"+
+  "\n".join(f"{src}  {dst}  200" for src,dst in serve)+"\n")
 # Private pages (hq, wealth-portal, dashboard) are intentionally NOT listed
 # here. Listing them in robots.txt would advertise their URLs, and a
 # Disallow would actually PREVENT Google from reading their "noindex"
