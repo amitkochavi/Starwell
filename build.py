@@ -433,6 +433,7 @@ def build_site():
       <p>{t("Starwell Holdings is a global private investment and operating company. We invest and build across real estate, operating businesses, alternative investments, and public markets.","סטארוול הולדינגס היא חברת השקעות ותפעול גלובלית פרטית. אנחנו משקיעים ובונים בתחומי הנדל&quot;ן, עסקים תפעוליים, השקעות אלטרנטיביות והשווקים הציבוריים.")}</p>
       <p>{t("Beyond capital allocation, Starwell acts as a long-term owner and active partner - founding companies, scaling platforms, and working alongside management teams to develop durable businesses and real assets. Our approach combines entrepreneurial execution with disciplined investment principles.","מעבר להקצאת הון, סטארוול פועלת כבעלים לטווח ארוך וכשותפה פעילה - מקימה חברות, מרחיבה פלטפורמות ועובדת לצד צוותי ההנהלה כדי לפתח עסקים ונכסים בני-קיימא. הגישה שלנו משלבת ביצוע יזמי עם עקרונות השקעה ממושמעים.")}</p>
       <p>{t("We focus on opportunities where long-term thinking, operational involvement, and strategic alignment can create enduring value across cycles and generations.","אנחנו מתמקדים בהזדמנויות שבהן חשיבה לטווח ארוך, מעורבות תפעולית והלימה אסטרטגית יכולות לייצר ערך מתמשך לאורך מחזורי שוק ודורות.")}</p>
+      <p>{t("Starwell Holdings was founded by Amit Kochavi, who serves as Chairman and CEO.","סטארוול הולדינגס נוסדה על ידי עמית כוכבי, המכהן כיו&quot;ר וכמנכ&quot;ל.")} <a href="our-team.html">{t("Meet the team","הכירו את הצוות")} &rarr;</a></p>
     </div>
   </section>
 </div>
@@ -557,11 +558,13 @@ def build_site():
 </section>'''
     render("our-team.html",
       t("Our Team | Starwell Holdings","הצוות שלנו | סטארוול הולדינגס"),
-      t("Meet the Starwell Holdings team led by founder Amit Kochavi - building enduring value across IT Services, Real Estate, and alternative assets.",
-        "הכירו את צוות סטארוול הולדינגס בהובלת המייסד עמית כוכבי - הבונה ערך מתמשך בתחומי שירותי ה-IT, הנדל\"ן והנכסים האלטרנטיביים."),
+      t("Meet the Starwell Holdings team, led by founder, chairman and CEO Amit Kochavi, building businesses across IT Services and Real Estate.",
+        "הכירו את צוות סטארוול הולדינגס, בהובלת המייסד, היו\"ר והמנכ\"ל עמית כוכבי, הבונה עסקים בתחומי שירותי ה-IT והנדל\"ן."),
       team,extra_ld={"@context":"https://schema.org","@type":"Person","@id":BASE+"/our-team.html#amit-kochavi",
-        "name":"Amit Kochavi","alternateName":"עמית כוכבי",
+        "name":"Amit Kochavi","alternateName":["עמית כוכבי","Amit Kochavi"],
         "jobTitle":t("Chairman, CEO & Founder","יו\"ר, מנכ\"ל ומייסד"),
+        "description":t("Founder, chairman and CEO of Starwell Holdings, a private investment and operating company building businesses across IT Services and Real Estate with passive capital allocation to alternative assets.",
+                        "מייסד, יו\"ר ומנכ\"ל של סטארוול הולדינגס, חברת השקעות ותפעול פרטית הבונה עסקים בתחומי שירותי ה-IT והנדל\"ן עם הקצאת הון פסיבית לנכסים אלטרנטיביים."),
         "worksFor":{"@id":BASE+"/#organization"},"url":BASE+"/our-team.html",
         "image":"https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/3f93d596d_AmitKochaviPic.jpg",
         "sameAs":["https://www.linkedin.com/company/starwell-holdings/"]})
@@ -669,7 +672,7 @@ def build_site():
 <div class="wrap">
   <section class="sec" style="padding-top:0" data-reveal>
     <div class="steps four">
-      <div class="step"><div class="n">01</div><h3>{t("Private Equity","הון פרטי")}</h3><p>{t("Private equity investments in buy out and roll-up strategies acquiring and modernizing traditional service businesses at scale.","השקעות הון פרטי באסטרטגיות buy-out ו-roll-up, הרוכשות ומחדשות עסקי שירות מסורתיים בקנה מידה רחב.")}</p></div>
+      <div class="step"><div class="n">01</div><h3>{t("Private Equity","פרייבט אקוויטי")}</h3><p>{t("Private equity investments in buy-out and roll-up strategies, acquiring and improving traditional businesses through operational, financial, and technological efficiency.","השקעות פרייבט אקוויטי באסטרטגיות buy-out ו-roll-up, הרוכשות ומשביחות עסקים מסורתיים באמצעות התייעלות תפעולית, פיננסית וטכנולוגית.")}</p></div>
       <div class="step"><div class="n">02</div><h3>{t("Public Markets","שווקים ציבוריים")}</h3><p>{t("Long-term concentrated holdings in public companies where the firm has deep conviction in the business and management team.","אחזקות מרוכזות לטווח ארוך בחברות ציבוריות שבהן יש לחברה שכנוע עמוק בעסק ובצוות ההנהלה.")}</p></div>
       <div class="step"><div class="n">03</div><h3>{t("Hedge Funds","קרנות גידור")}</h3><p>{t("Selective allocations to long-strategy hedge funds with differentiated process and consistent risk-adjusted performance.","הקצאות סלקטיביות לקרנות גידור באסטרטגיית long בעלות תהליך ייחודי וביצועים עקביים מותאמי-סיכון.")}</p></div>
       <div class="step"><div class="n">04</div><h3>{t("Real Estate","נדל&quot;ן")}</h3><p>{t("Capital allocations to real estate funds and structures as part of a diversified long-term portfolio.","הקצאות הון לקרנות ולמבני נדל&quot;ן כחלק מתיק מגוון לטווח ארוך.")}</p></div>
