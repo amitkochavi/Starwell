@@ -6,6 +6,8 @@
 -- 1) images gallery column (array of public URLs)
 alter table public.portfolio_companies
   add column if not exists images jsonb not null default '[]'::jsonb;
+alter table public.portfolio_companies
+  add column if not exists partner_logos jsonb not null default '[]'::jsonb;
 
 -- 2) public storage bucket for portfolio media
 insert into storage.buckets (id, name, public)

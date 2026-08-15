@@ -250,6 +250,9 @@ img{max-width:100%;display:block}
 .xp-dots{position:absolute;bottom:8px;left:0;right:0;display:flex;gap:5px;justify-content:center;z-index:2}
 .xp-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5)}
 .xp-dots span.on{background:#fff}
+.xp-partners{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.xp-partners .pchip{background:var(--on-panel);border-radius:4px;padding:5px 8px;height:28px;display:flex;align-items:center}
+.xp-partners .pchip img{max-height:18px;max-width:74px;object-fit:contain;display:block}
 .ph-img{aspect-ratio:16/8;background:linear-gradient(135deg,#1d1d26,#101015);display:flex;align-items:center;justify-content:center;
   color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase;overflow:hidden}
 .ph-img img{width:100%;height:100%;object-fit:cover}
@@ -763,6 +766,8 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
   var ROLE=HE?"תפקיד":"Role", WEB=HE?"אתר":"Website";
   function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
   function imgs(row){ var a=row.images; return Array.isArray(a)?a.filter(Boolean):(a?[a]:[]); }
+  function plogos(row){ var a=row.partner_logos; a=Array.isArray(a)?a.filter(Boolean):(a?[a]:[]);
+    return a.length?'<div class="xp-partners">'+a.map(function(u){return '<span class="pchip"><img src="'+esc(u)+'" alt="" loading="lazy" decoding="async"></span>';}).join("")+'</div>':""; }
   function web(u){return u?'<div class="pf-actions"><a href="'+esc(u)+'" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">'+WEB+' &rarr;</a></div>':"";}
   function chipImg(row){ var a=imgs(row); var logo=row.logo_url||a[0];
     return logo?'<img src="'+esc(logo)+'" alt="'+esc(row.name)+' logo" loading="lazy" decoding="async" style="max-height:34px;max-width:120px;object-fit:contain">':'<span>'+esc(row.name)+'</span>'; }
@@ -781,7 +786,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
       '<div class="pn">'+esc(row.name)+'</div>'+
       (row.role?'<div class="meta"><span>'+ROLE+': '+esc(row.role)+'</span></div>':"")+
       (row.description?'<p class="pf-desc">'+esc(row.description)+'</p>':"")+
-      web(row.website_url)+'</div>';
+      plogos(row)+web(row.website_url)+'</div>';
   }
   function xpCard(row){
     return '<div class="xp">'+media(row)+'<div class="xp-body">'+
@@ -791,7 +796,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
       (row.role?'<div class="meta"><span>&#9632;</span><span>'+esc(row.role)+'</span></div>':"")+
       (row.partner?'<div class="meta"><span>&#9651;</span><span>'+esc(row.partner)+'</span></div>':"")+
       (row.description?'<p class="xp-desc">'+esc(row.description)+'</p>':"")+
-      web(row.website_url)+'</div></div>';
+      plogos(row)+web(row.website_url)+'</div></div>';
   }
   // slider controls (delegated)
   document.addEventListener("click",function(e){
