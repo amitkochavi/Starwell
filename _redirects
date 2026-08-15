@@ -20,4 +20,7 @@
 /Careers  /careers.html  301!
 /careers  /careers.html  301!
 /Sitemap  /sitemap.html  301!
-/sitemap  /sitemap.html  301!
+
+# Clean URLs served in place (no redirect)
+/sitemap  /sitemap.html  200
+/he/sitemap  /he/sitemap.html  200

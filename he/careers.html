@@ -34,7 +34,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600;6..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://starwellholdings.com/#organization", "name": "Starwell Holdings", "alternateName": ["Starwell", "סטארוול הולדינגס", "סטארוול"], "legalName": "Starwell Holdings", "url": "https://starwellholdings.com/", "logo": {"@type": "ImageObject", "url": "https://starwellholdings.com/assets/icon-512.png", "width": 512, "height": 512}, "image": "https://starwellholdings.com/assets/og-image.png", "description": "חברת השקעות ותפעול גלובלית פרטית הבונה פלטפורמות בתחומי הטכנולוגיה, הנדל\"ן וההון.", "foundingDate": "2025", "address": {"@type": "PostalAddress", "addressLocality": "Tel Aviv", "addressCountry": "IL"}, "contactPoint": {"@type": "ContactPoint", "email": "contact@starwellholdings.com", "contactType": "investor relations"}, "sameAs": ["https://www.linkedin.com/company/starwell-holdings/"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://starwellholdings.com/#organization", "name": "Starwell Holdings", "alternateName": ["Starwell", "סטארוול הולדינגס", "סטארוול"], "legalName": "Starwell Holdings", "url": "https://starwellholdings.com/", "logo": {"@type": "ImageObject", "url": "https://starwellholdings.com/assets/icon-512.png", "width": 512, "height": 512}, "image": "https://starwellholdings.com/assets/og-image.png", "description": "חברת השקעות ותפעול גלובלית פרטית הבונה פלטפורמות בתחומי הטכנולוגיה, הנדל\"ן וההון.", "foundingDate": "2025", "address": {"@type": "PostalAddress", "addressLocality": "Tel Aviv", "addressCountry": "IL"}, "founder": {"@type": "Person", "@id": "https://starwellholdings.com/our-team.html#amit-kochavi", "name": "Amit Kochavi", "alternateName": "עמית כוכבי"}, "contactPoint": {"@type": "ContactPoint", "url": "https://starwellholdings.com/contact.html", "contactType": "investor relations"}, "sameAs": ["https://www.linkedin.com/company/starwell-holdings/"]}</script>
 <style>
 /* ===========================================================
    Starwell Holdings - styles.css
@@ -358,7 +358,7 @@ img{max-width:100%;display:block}
 /* ---------- FOOTER ---------- */
 footer.site{background:var(--panel);color:var(--on-panel-soft)}
 footer.site .wrap{padding:72px 44px 40px}
-.foot-top{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid var(--on-panel-line)}
+.foot-top{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid var(--on-panel-line)}
 .foot-brand .fw{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:26px;color:var(--on-panel)}
 .foot-brand p{font-size:13px;line-height:1.7;margin-top:18px;max-width:300px}
 .foot-col h4{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--on-panel);margin-bottom:16px;font-weight:600}
@@ -391,7 +391,7 @@ footer.site .wrap{padding:72px 44px 40px}
   .contact-card{padding:34px 24px;margin-top:-40px}
   .frow{grid-template-columns:1fr}
   .sitemap-cols{grid-template-columns:1fr 1fr}
-  .foot-top{grid-template-columns:1fr 1fr;gap:32px}
+  .foot-top{grid-template-columns:repeat(3,1fr);gap:32px}
   .foot-brand{grid-column:1/-1}
 }
 /* Phone (≤600px): single column everywhere */
@@ -438,6 +438,27 @@ html[dir="rtl"] .marquee-track{direction:ltr}
 html[dir="rtl"] .nav-lang a{color:var(--gold);font-weight:600}
 @media (max-width:880px){html[dir="rtl"] .leader{text-align:right}}
 
+/* ---- site search ---- */
+.nav-searchbtn{background:none;border:none;cursor:pointer;color:var(--on-panel-soft);padding:6px 4px;display:inline-flex;align-items:center;transition:.15s}
+.nav-searchbtn:hover{color:var(--on-panel)}
+.site-search{border-top:1px solid var(--on-panel-line)}
+.site-search form{display:flex;align-items:center;gap:12px;padding:14px 0}
+.site-search input{flex:1;background:transparent;border:none;color:var(--on-panel);font:inherit;font-size:18px;padding:8px 2px;outline:none}
+.site-search input::placeholder{color:var(--on-panel-soft)}
+.site-search .ss-go,.site-search .ss-close{background:none;border:none;color:var(--on-panel-soft);cursor:pointer;display:inline-flex;align-items:center;padding:6px}
+.site-search .ss-close{font-size:26px;line-height:1}
+.site-search .ss-go:hover,.site-search .ss-close:hover{color:var(--on-panel)}
+.msearch{padding:2px 0 10px;border-bottom:1px solid var(--on-panel-line);margin-bottom:6px}
+.msearch input{width:100%;background:transparent;border:1px solid var(--on-panel-line);border-radius:4px;color:var(--on-panel);font:inherit;font-size:16px;padding:12px 14px;outline:none}
+.msearch input::placeholder{color:var(--on-panel-soft)}
+.search-page-form{display:flex;gap:12px;max-width:640px;margin:0 auto;align-items:center}
+.search-page-form input{flex:1;border:1px solid var(--line);border-radius:4px;font:inherit;font-size:17px;padding:14px 16px;outline:none;background:var(--paper);color:var(--ink)}
+.search-page-form input:focus{border-color:var(--ink)}
+.search-snippet{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin-bottom:0}
+.search-snippet mark{background:#f0e2c0;color:inherit;padding:0 2px;border-radius:2px}
+#searchHeading em{font-style:italic;color:var(--gold-soft)}
+html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rtl}
+
 </style>
 </head>
 <body id="top">
@@ -450,55 +471,60 @@ html[dir="rtl"] .nav-lang a{color:var(--gold);font-weight:600}
     <nav class="nav-links" aria-label="ראשי">
   <div class="nav-item"><a href="index.html">ראשי</a></div>
   <div class="nav-item">
-    <button class="nav-trigger" aria-haspopup="true">הסיפור שלנו <span class="chev"></span></button>
+    <button class="nav-trigger" aria-haspopup="true">אודות <span class="chev"></span></button>
     <div class="dropdown">
-      <a href="our-story.html#about">אודות סטארוול</a>
-      <a href="our-story.html#partnership">שותפויות</a>
-      <a href="our-story.html#business-focus">תחומי פעילות</a>
-      <a href="our-story.html#strategy">אסטרטגיה</a>
-      <a href="our-story.html#leadership">הנהלה</a>
-      <a href="our-story.html#legacy">מורשת</a>
+      <a href="our-story.html">אודות</a>
+      <a href="our-history.html">ההיסטוריה שלנו</a>
+      <a href="our-team.html">הצוות שלנו</a>
+      <a href="news.html">חדשות</a>
     </div>
   </div>
   <div class="nav-item">
     <button class="nav-trigger" aria-haspopup="true">מה אנחנו עושים <span class="chev"></span></button>
     <div class="dropdown">
-      <a href="technology.html">טכנולוגיה</a>
+      <a href="technology.html">שירותי IT</a>
       <a href="real-estate.html">נדל&quot;ן</a>
       <a href="capital.html">קפיטל</a>
     </div>
   </div>
-  <div class="nav-item"><a href="news.html">חדשות</a></div>
   <div class="nav-item"><a href="contact.html">צור קשר</a></div>
   <div class="nav-item nav-lang"><a href="../careers.html" hreflang="en" aria-label="English">EN</a></div>
+  <div class="nav-item"><button class="nav-searchbtn" id="searchToggle" aria-label="חיפוש" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button></div>
     </nav>
     <button class="burger" id="burger" aria-label="פתח תפריט" aria-expanded="false" aria-controls="mmenu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="site-search" id="siteSearch" hidden>
+    <form class="wrap" action="search.html" method="get" role="search">
+      <input type="search" name="q" id="siteSearchInput" placeholder="חיפוש בסטארוול …" aria-label="חיפוש" autocomplete="off">
+      <button type="submit" class="ss-go" aria-label="חיפוש"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+      <button type="button" class="ss-close" id="searchClose" aria-label="סגור חיפוש">&times;</button>
+    </form>
   </div>
 </header>
 <div class="mmenu" id="mmenu" aria-hidden="true">
   <div class="mmenu-top"><button class="mclose" id="mclose" aria-label="סגור תפריט">&times;</button></div>
   <div class="mlist">
+    <form class="msearch" action="search.html" method="get" role="search">
+      <input type="search" name="q" placeholder="חיפוש בסטארוול …" aria-label="חיפוש" autocomplete="off">
+    </form>
     <a class="mlink" href="index.html">ראשי</a>
     <div class="mgroup">
-      <button class="mlink" aria-expanded="false">הסיפור שלנו <span class="mchev"></span></button>
+      <button class="mlink" aria-expanded="false">אודות <span class="mchev"></span></button>
       <div class="msub">
-        <a href="our-story.html#about">אודות סטארוול</a>
-        <a href="our-story.html#partnership">שותפויות</a>
-        <a href="our-story.html#business-focus">תחומי פעילות</a>
-        <a href="our-story.html#strategy">אסטרטגיה</a>
-        <a href="our-story.html#leadership">הנהלה</a>
-        <a href="our-story.html#legacy">מורשת</a>
+        <a href="our-story.html">אודות</a>
+        <a href="our-history.html">ההיסטוריה שלנו</a>
+        <a href="our-team.html">הצוות שלנו</a>
+        <a href="news.html">חדשות</a>
       </div>
     </div>
     <div class="mgroup">
       <button class="mlink" aria-expanded="false">מה אנחנו עושים <span class="mchev"></span></button>
       <div class="msub">
-        <a href="technology.html">טכנולוגיה</a>
+        <a href="technology.html">שירותי IT</a>
         <a href="real-estate.html">נדל&quot;ן</a>
         <a href="capital.html">קפיטל</a>
       </div>
     </div>
-    <a class="mlink" href="news.html">חדשות</a>
     <a class="mlink" href="contact.html">צור קשר</a>
     <a class="mlink" href="../careers.html" hreflang="en">English</a>
   </div>
@@ -518,7 +544,7 @@ html[dir="rtl"] .nav-lang a{color:var(--gold);font-weight:600}
     <div class="steps four" style="text-align:right">
       <div class="step"><h3>חשיבה לטווח ארוך</h3><p>אנחנו בונים לעשורים, לא לרבעונים. כל החלטה מתקבלת מתוך מחשבה על יציבות וקיימוּת.</p></div>
       <div class="step"><h3>מצוינות תפעולית</h3><p>אנחנו יורדים לפרטים. תוצאות מצוינות נובעות מביצוע קפדני ומידע מעמיק בתחום.</p></div>
-      <div class="step"><h3>יושרה</h3><p>אנחנו אומרים את מה שאנו מתכוונים ועושים את מה שאמרנו — מול שותפים, חברות פורטפוליו וזה מול זה.</p></div>
+      <div class="step"><h3>יושרה</h3><p>אנחנו אומרים את מה שאנו מתכוונים ועושים את מה שאמרנו - מול שותפים, חברות פורטפוליו וזה מול זה.</p></div>
       <div class="step"><h3>רוח יזמית</h3><p>אנחנו בונים. אנחנו תומכים באנשים שיוצרים דברים שלא היו קיימים קודם.</p></div>
     </div>
   </section>
@@ -550,21 +576,24 @@ html[dir="rtl"] .nav-lang a{color:var(--gold);font-weight:600}
         <p>חברת השקעות גלובלית פרטית הבונה ומחזיקה פלטפורמות בתחומי הטכנולוגיה, הנדל&quot;ן וההון.</p>
       </div>
       <div class="foot-col">
-        <h4>ניווט</h4>
-        <a href="index.html">ראשי</a>
-        <a href="our-story.html">הסיפור שלנו</a>
-        <a href="technology.html">Starwell Technologies</a>
-        <a href="real-estate.html">Starwell Real Estate</a>
-        <a href="capital.html">Starwell Capital</a>
+        <h4>החברה</h4>
+        <a href="our-story.html">אודות</a>
+        <a href="our-history.html">ההיסטוריה שלנו</a>
+        <a href="our-team.html">הצוות שלנו</a>
         <a href="news.html">חדשות</a>
-        <a href="contact.html">צור קשר</a>
         <a href="careers.html">קריירה</a>
-        <a href="sitemap.html">מפת אתר</a>
       </div>
       <div class="foot-col">
-        <h4>התחברו</h4>
+        <h4>מה אנחנו עושים</h4>
+        <a href="technology.html">שירותי IT</a>
+        <a href="real-estate.html">נדל&quot;ן</a>
+        <a href="capital.html">קפיטל</a>
+      </div>
+      <div class="foot-col">
+        <h4>יצירת קשר</h4>
+        <a href="contact.html">צור קשר</a>
         <a href="https://www.linkedin.com/company/starwell-holdings/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="mailto:contact@starwellholdings.com">contact@starwellholdings.com</a>
+        <a href="/he/sitemap">מפת אתר</a>
         <a href="../" hreflang="en">English</a>
       </div>
     </div>
@@ -655,11 +684,41 @@ html[dir="rtl"] .nav-lang a{color:var(--gold);font-weight:600}
       if(cap && cap.value.trim()!=='20'){note.style.color='#C0444A';note.textContent='Please answer the question correctly (10 + 10).';return;}
       note.style.color='';
       var data=new FormData(f);
+      // Fallback for any host without server-side form handling: open the
+      // visitor's mail client pre-filled so the message still reaches us.
+      function mailFallback(){
+        var subj=encodeURIComponent(data.get('subject')||'Website enquiry - Starwell Holdings');
+        var body=encodeURIComponent(
+          'Name: '+((data.get('first_name')||'')+' '+(data.get('last_name')||'')).trim()+'\n'+
+          'Organization: '+(data.get('organization')||'')+'\n'+
+          'Email: '+(data.get('email')||'')+'\n\n'+
+          (data.get('message')||''));
+        note.style.color='';
+        note.textContent='Opening your email app so you can send us your message…';
+        window.location.href='mailto:amit@starwellholdings.com?subject='+subj+'&body='+body;
+      }
       fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
         body:new URLSearchParams(data).toString()})
-        .then(function(r){note.textContent=r.ok?'Thank you. Your message has been sent and we will respond shortly.':'Thanks. This form goes live once the site is deployed.';f.reset();})
-        .catch(function(){note.textContent='Thanks. This form goes live once the site is deployed.';f.reset();});
+        .then(function(r){
+          if(r.ok){note.style.color='';note.textContent='Thank you. Your message has been sent and we will respond shortly.';f.reset();}
+          else{mailFallback();}
+        })
+        .catch(function(){mailFallback();});
     });
+  }catch(err){}
+
+  try{
+    var st=document.getElementById('searchToggle'),ss=document.getElementById('siteSearch'),
+        sc=document.getElementById('searchClose'),si=document.getElementById('siteSearchInput');
+    if(st&&ss){
+      function closeS(){ss.setAttribute('hidden','');st.setAttribute('aria-expanded','false');}
+      st.addEventListener('click',function(){
+        if(ss.hasAttribute('hidden')){ss.removeAttribute('hidden');st.setAttribute('aria-expanded','true');if(si)si.focus();}
+        else{closeS();}
+      });
+      if(sc)sc.addEventListener('click',closeS);
+      document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!ss.hasAttribute('hidden'))closeS();});
+    }
   }catch(err){}
 })();
 

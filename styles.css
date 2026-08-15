@@ -320,7 +320,7 @@ img{max-width:100%;display:block}
 /* ---------- FOOTER ---------- */
 footer.site{background:var(--panel);color:var(--on-panel-soft)}
 footer.site .wrap{padding:72px 44px 40px}
-.foot-top{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid var(--on-panel-line)}
+.foot-top{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid var(--on-panel-line)}
 .foot-brand .fw{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:26px;color:var(--on-panel)}
 .foot-brand p{font-size:13px;line-height:1.7;margin-top:18px;max-width:300px}
 .foot-col h4{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--on-panel);margin-bottom:16px;font-weight:600}
@@ -353,7 +353,7 @@ footer.site .wrap{padding:72px 44px 40px}
   .contact-card{padding:34px 24px;margin-top:-40px}
   .frow{grid-template-columns:1fr}
   .sitemap-cols{grid-template-columns:1fr 1fr}
-  .foot-top{grid-template-columns:1fr 1fr;gap:32px}
+  .foot-top{grid-template-columns:repeat(3,1fr);gap:32px}
   .foot-brand{grid-column:1/-1}
 }
 /* Phone (≤600px): single column everywhere */
@@ -399,3 +399,24 @@ html[dir="rtl"] .mmenu.open{transform:translateX(0)}
 html[dir="rtl"] .marquee-track{direction:ltr}
 html[dir="rtl"] .nav-lang a{color:var(--gold);font-weight:600}
 @media (max-width:880px){html[dir="rtl"] .leader{text-align:right}}
+
+/* ---- site search ---- */
+.nav-searchbtn{background:none;border:none;cursor:pointer;color:var(--on-panel-soft);padding:6px 4px;display:inline-flex;align-items:center;transition:.15s}
+.nav-searchbtn:hover{color:var(--on-panel)}
+.site-search{border-top:1px solid var(--on-panel-line)}
+.site-search form{display:flex;align-items:center;gap:12px;padding:14px 0}
+.site-search input{flex:1;background:transparent;border:none;color:var(--on-panel);font:inherit;font-size:18px;padding:8px 2px;outline:none}
+.site-search input::placeholder{color:var(--on-panel-soft)}
+.site-search .ss-go,.site-search .ss-close{background:none;border:none;color:var(--on-panel-soft);cursor:pointer;display:inline-flex;align-items:center;padding:6px}
+.site-search .ss-close{font-size:26px;line-height:1}
+.site-search .ss-go:hover,.site-search .ss-close:hover{color:var(--on-panel)}
+.msearch{padding:2px 0 10px;border-bottom:1px solid var(--on-panel-line);margin-bottom:6px}
+.msearch input{width:100%;background:transparent;border:1px solid var(--on-panel-line);border-radius:4px;color:var(--on-panel);font:inherit;font-size:16px;padding:12px 14px;outline:none}
+.msearch input::placeholder{color:var(--on-panel-soft)}
+.search-page-form{display:flex;gap:12px;max-width:640px;margin:0 auto;align-items:center}
+.search-page-form input{flex:1;border:1px solid var(--line);border-radius:4px;font:inherit;font-size:17px;padding:14px 16px;outline:none;background:var(--paper);color:var(--ink)}
+.search-page-form input:focus{border-color:var(--ink)}
+.search-snippet{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin-bottom:0}
+.search-snippet mark{background:#f0e2c0;color:inherit;padding:0 2px;border-radius:2px}
+#searchHeading em{font-style:italic;color:var(--gold-soft)}
+html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rtl}
