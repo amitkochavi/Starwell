@@ -152,6 +152,7 @@ img{max-width:100%;display:block}
 /* numbered approach */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
 .steps.four{grid-template-columns:repeat(4,1fr)}
+.steps.two{grid-template-columns:repeat(2,1fr)}
 .step{background:var(--paper);padding:40px 30px}
 .step .n{font-family:"Bodoni Moda",Georgia,serif;font-size:14px;color:var(--ink-soft);letter-spacing:.1em;margin-bottom:20px}
 .step h3{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:21px;margin-bottom:13px}
@@ -166,15 +167,16 @@ img{max-width:100%;display:block}
 /* ---------- DARK PORTFOLIO ---------- */
 .dark{background:var(--panel);color:var(--on-panel)}
 .dark .sec-label{color:var(--on-panel-soft)}
-.pf-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:6px}
-.pf{background:var(--panel-card);border:1px solid var(--on-panel-line);border-radius:6px;padding:26px;display:flex;flex-direction:column}
-.pf .logo-chip{background:var(--on-panel);border-radius:4px;height:84px;display:flex;align-items:center;justify-content:center;
-  margin-bottom:22px;padding:0 18px}
-.pf .logo-chip span{font-family:"Bodoni Moda",Georgia,serif;font-weight:700;color:var(--panel);font-size:22px;letter-spacing:.01em}
-.pf .pn{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:20px;margin-bottom:12px;line-height:1.25}
-.pf .meta{display:flex;align-items:center;gap:8px;color:var(--on-panel-soft);font-size:13.5px;margin-bottom:6px}
+.pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+.pf{background:var(--panel-card);border:1px solid var(--on-panel-line);border-radius:4px;padding:16px;display:flex;flex-direction:column}
+.pf .logo-chip{background:var(--on-panel);border-radius:3px;height:52px;display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;padding:0 12px}
+.pf .logo-chip span{font-family:"Bodoni Moda",Georgia,serif;font-weight:700;color:var(--panel);font-size:16px;letter-spacing:.01em}
+.pf .pn{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:16.5px;margin-bottom:7px;line-height:1.25}
+.pf .meta{display:flex;align-items:center;gap:8px;color:var(--on-panel-soft);font-size:12px;margin-bottom:5px}
 .pf .meta .ic{width:14px;height:14px;opacity:.7;flex:none}
-.pf .pf-actions{margin-top:18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.pf .pf-actions{margin-top:12px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.pf .pf-desc{font-size:13px;line-height:1.55;margin-top:0}
 .pf .more{border:1px solid var(--on-panel-line);border-radius:3px;padding:8px 14px;font-size:12.5px;color:var(--on-panel-soft);
   display:inline-flex;align-items:center;gap:7px;transition:.2s;cursor:pointer;background:none}
 .pf .more:hover{border-color:var(--on-panel-soft);color:var(--on-panel)}
@@ -360,7 +362,7 @@ footer.site .wrap{padding:72px 44px 40px}
 @media (max-width:600px){
   .wrap{padding:0 20px}
   .sec{padding:54px 0}
-  .cards,.steps,.steps.four,.pf-grid,.xp-grid,.news-grid,.figs,.sitemap-cols{grid-template-columns:1fr}
+  .cards,.steps,.steps.two,.steps.four,.pf-grid,.xp-grid,.news-grid,.figs,.sitemap-cols{grid-template-columns:1fr}
   .foot-top{grid-template-columns:1fr;gap:26px}
   .foot-brand{grid-column:auto}
 }
