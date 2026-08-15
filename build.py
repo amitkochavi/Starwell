@@ -286,7 +286,7 @@ def xp_from(e):
     return f'''      <div class="xp">
         <div class="ph-img">{media}</div>
         <div class="xp-body">
-          <div class="logos"><span class="lchip">{_chip(e) if not e.get("logo") else _esc(e.get("logoText") or e["name"])}</span></div>
+          {f'<div class="logos"><span class="lchip"><img src="{_esc(e.get("logo"))}" alt="{_esc(e["name"])} logo" loading="lazy" decoding="async"></span></div>' if e.get("logo") else ''}
           <div class="pn">{_esc(e["name"])}</div>
           {rows}
           {desc}
