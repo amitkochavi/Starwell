@@ -114,7 +114,7 @@ def FOOTER():
     <div class="foot-top">
       <div class="foot-brand">
         <div class="brand foot-lockup"><span class="brand-word" style="font-size:27px">Starwell Holdings</span></div>
-        <p>{t("A private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets.","חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל&quot;ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים.")}</p>
+        <p>{t("A private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.","חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל&quot;ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים.")}</p>
       </div>
       <div class="foot-col">
         <h4>{t("Company","החברה")}</h4>
@@ -150,8 +150,8 @@ def ORG_LD():
       "name":"Starwell Holdings","alternateName":["Starwell","סטארוול הולדינגס","סטארוול"],"legalName":"Starwell Holdings",
       "url":BASE+"/","logo":{"@type":"ImageObject","url":BASE+"/assets/icon-512.png","width":512,"height":512},
       "image":BASE+"/assets/og-image.png",
-      "description":t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets.",
-                      "סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל\"ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים."),
+      "description":t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.",
+                      "סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל\"ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים."),
       "foundingDate":"2025","address":{"@type":"PostalAddress","addressLocality":"Tel Aviv","addressCountry":"IL"},
       "founder":{"@type":"Person","@id":BASE+"/our-team.html#amit-kochavi","name":"Amit Kochavi","alternateName":"עמית כוכבי"},
       "contactPoint":{"@type":"ContactPoint","url":BASE+"/contact.html","contactType":"investor relations"},
@@ -365,7 +365,7 @@ def build_site():
     home=f'''<section class="hero hero-home">
   <div class="wrap">
     <h1>{t("Dream with Starwell.","חולמים עם סטארוול.")}</h1>
-    <p class="lead">{t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets.","סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל&quot;ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים.")}</p>
+    <p class="lead">{t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.","סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל&quot;ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים.")}</p>
     <a href="#what-we-do" class="scrolldown" aria-label="{t("Scroll down","גלול למטה")}">&darr;</a>
   </div>
 </section>
@@ -401,14 +401,14 @@ def build_site():
   <div class="wrap sec sec-center">
     <span class="eyebrow" style="color:var(--on-panel-soft)">{t("About Starwell","אודות סטארוול")}</span>
     <h2 class="serif" style="margin:14px 0 16px">{t("Learn more about Starwell","הכירו את סטארוול")}</h2>
-    <p class="body-copy" style="max-width:680px;margin:0 auto 32px;color:var(--on-panel-soft)">{t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, operator-led approach.","סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל&quot;ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת-טווח ומובלת-מפעיל.")}</p>
+    <p class="body-copy" style="max-width:680px;margin:0 auto 32px;color:var(--on-panel-soft)">{t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.","סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל&quot;ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים.")}</p>
     <a href="our-story" class="btn btn-light">{t("Learn more about Starwell","הכירו את סטארוול")} &rarr;</a>
   </div>
 </section>'''
     render("index.html",
       t("Starwell Holdings | Private Investment & Operating Company","סטארוול הולדינגס | חברת השקעות ותפעול פרטית"),
-      t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets.",
-        "סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל\"ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים."),
+      t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.",
+        "סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל\"ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים."),
       home,extra_ld={"@context":"https://schema.org","@type":"WebSite","@id":BASE+"/#website",
         "name":"Starwell Holdings","alternateName":"Starwell","url":BASE+"/",
         "inLanguage":t("en","he"),"publisher":{"@id":BASE+"/#organization"},
