@@ -78,10 +78,40 @@
       if(cap && cap.value.trim()!=='20'){note.style.color='#C0444A';note.textContent='Please answer the question correctly (10 + 10).';return;}
       note.style.color='';
       var data=new FormData(f);
+      // Fallback for any host without server-side form handling: open the
+      // visitor's mail client pre-filled so the message still reaches us.
+      function mailFallback(){
+        var subj=encodeURIComponent(data.get('subject')||'Website enquiry - Starwell Holdings');
+        var body=encodeURIComponent(
+          'Name: '+((data.get('first_name')||'')+' '+(data.get('last_name')||'')).trim()+'\n'+
+          'Organization: '+(data.get('organization')||'')+'\n'+
+          'Email: '+(data.get('email')||'')+'\n\n'+
+          (data.get('message')||''));
+        note.style.color='';
+        note.textContent='Opening your email app so you can send us your message…';
+        window.location.href='mailto:amit@starwellholdings.com?subject='+subj+'&body='+body;
+      }
       fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
         body:new URLSearchParams(data).toString()})
-        .then(function(r){note.textContent=r.ok?'Thank you. Your message has been sent and we will respond shortly.':'Thanks. This form goes live once the site is deployed.';f.reset();})
-        .catch(function(){note.textContent='Thanks. This form goes live once the site is deployed.';f.reset();});
+        .then(function(r){
+          if(r.ok){note.style.color='';note.textContent='Thank you. Your message has been sent and we will respond shortly.';f.reset();}
+          else{mailFallback();}
+        })
+        .catch(function(){mailFallback();});
     });
+  }catch(err){}
+
+  try{
+    var st=document.getElementById('searchToggle'),ss=document.getElementById('siteSearch'),
+        sc=document.getElementById('searchClose'),si=document.getElementById('siteSearchInput');
+    if(st&&ss){
+      function closeS(){ss.setAttribute('hidden','');st.setAttribute('aria-expanded','false');}
+      st.addEventListener('click',function(){
+        if(ss.hasAttribute('hidden')){ss.removeAttribute('hidden');st.setAttribute('aria-expanded','true');if(si)si.focus();}
+        else{closeS();}
+      });
+      if(sc)sc.addEventListener('click',closeS);
+      document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!ss.hasAttribute('hidden'))closeS();});
+    }
   }catch(err){}
 })();

@@ -33,6 +33,38 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://starwellholdings.com/our-history.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://starwellholdings.com/our-history.html"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://starwellholdings.com/he/our-history.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://starwellholdings.com/our-history.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://starwellholdings.com/he/our-history.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://starwellholdings.com/our-history.html"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://starwellholdings.com/he/our-history.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://starwellholdings.com/our-history.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://starwellholdings.com/our-team.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://starwellholdings.com/our-team.html"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://starwellholdings.com/he/our-team.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://starwellholdings.com/our-team.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://starwellholdings.com/he/our-team.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://starwellholdings.com/our-team.html"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://starwellholdings.com/he/our-team.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://starwellholdings.com/our-team.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://starwellholdings.com/technology.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://starwellholdings.com/technology.html"/>
     <xhtml:link rel="alternate" hreflang="he" href="https://starwellholdings.com/he/technology.html"/>
