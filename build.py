@@ -157,6 +157,18 @@ def ORG_LD():
       "contactPoint":{"@type":"ContactPoint","url":BASE+"/contact.html","contactType":"investor relations"},
       "sameAs":["https://www.linkedin.com/company/starwell-holdings/"]}
 
+def NAV_LD():
+    # Primary navigation as structured data (language-aware) so search engines
+    # read the same site structure on the Hebrew pages as on the English ones.
+    pfx=BASE+t("","/he")
+    items=[(t("About Us","אודות"),"/our-story.html"),(t("Our Team","הצוות שלנו"),"/our-team.html"),
+           (t("IT Services","שירותי IT"),"/technology.html"),(t("Real Estate","נדל\"ן"),"/real-estate.html"),
+           (t("Capital","קפיטל"),"/capital.html"),(t("News","חדשות"),"/news.html"),
+           (t("Careers","קריירה"),"/careers.html"),(t("Contact","צור קשר"),"/contact.html")]
+    return {"@context":"https://schema.org","@type":"ItemList","@id":pfx+"/#nav",
+      "name":t("Primary navigation","ניווט ראשי"),
+      "itemListElement":[{"@type":"SiteNavigationElement","position":i+1,"name":n,"url":pfx+u} for i,(n,u) in enumerate(items)]}
+
 # ---- client-side search index (built while pages render) -------------------
 SEARCH_INDEX={"en":[],"he":[]}
 def strip_html(s):
@@ -172,7 +184,7 @@ def render(filename,title,desc,body,extra_ld=None,index=True,extra="",search=Tru
     he_url=BASE+"/he/"+slug
     canonical=he_url if LANG=="he" else en_url
     robots="index, follow, max-image-preview:large, max-snippet:-1" if index else "noindex, follow"
-    lds=[ORG_LD()]+([extra_ld] if extra_ld else [])
+    lds=[ORG_LD(),NAV_LD()]+([extra_ld] if extra_ld else [])
     ld="\n".join('<script type="application/ld+json">'+json.dumps(l,ensure_ascii=False)+'</script>' for l in lds)
     htmltag=t('<html lang="en">','<html lang="he" dir="rtl">')
     oglocale=t("en_US","he_IL")
