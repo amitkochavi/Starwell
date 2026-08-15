@@ -304,13 +304,13 @@ img{max-width:100%;display:block}
 .field{margin-bottom:26px}
 .field label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px}
 .field input,.field textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);
-  padding:11px 0;font-family:inherit;font-size:15px;color:var(--ink);transition:border-color .2s}
+  padding:11px 0;font-family:inherit;font-size:16px;color:var(--ink);transition:border-color .2s}
 .field input:focus,.field textarea:focus{outline:0;border-color:var(--ink)}
 .field textarea{resize:vertical;min-height:110px}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .captcha{display:flex;align-items:center;gap:16px;margin-bottom:26px}
 .captcha label{margin:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink)}
-.captcha input{max-width:120px;border:0;border-bottom:1px solid var(--line);padding:8px 0}
+.captcha input{max-width:120px;border:0;border-bottom:1px solid var(--line);padding:8px 0;font-size:16px;font-family:inherit}
 .formnote{font-size:13px;color:var(--gold);margin-top:14px;min-height:20px}
 .offices{margin-top:50px;padding-top:40px;border-top:1px solid var(--line)}
 .offices .ol{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:24px}
@@ -377,6 +377,9 @@ footer.site .wrap{padding:72px 44px 40px}
 @media (max-width:600px){
   .wrap{padding:0 20px}
   .sec{padding:54px 0}
+  .xp-nav{width:40px;height:40px;font-size:20px}
+  .search-page-form{flex-direction:column;align-items:stretch}
+  .search-page-form .btn{width:100%}
   .cards,.steps,.steps.two,.steps.four,.pf-grid,.xp-grid,.news-grid,.figs,.sitemap-cols{grid-template-columns:1fr}
   .foot-top{grid-template-columns:1fr;gap:26px}
   .foot-brand{grid-column:auto}
