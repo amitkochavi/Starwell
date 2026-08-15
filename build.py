@@ -134,7 +134,7 @@ def FOOTER():
         <h4>{t("Get in Touch","יצירת קשר")}</h4>
         <a href="contact.html">{t("Contact","צור קשר")}</a>
         <a href="https://www.linkedin.com/company/starwell-holdings/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="sitemap.html">{t("Sitemap","מפת אתר")}</a>
+        <a href="{t("/sitemap","/he/sitemap")}">{t("Sitemap","מפת אתר")}</a>
         <a href="{t("he/","../")}" hreflang="{t("he","en")}">{t("עברית","English")}</a>
       </div>
     </div>
@@ -399,7 +399,10 @@ def build_site():
         "סטארוול הולדינגס היא חברת השקעות ותפעול פרטית מתל אביב, הבונה פלטפורמות בתחומי הטכנולוגיה, הנדל\"ן ושוקי ההון."),
       home,extra_ld={"@context":"https://schema.org","@type":"WebSite","@id":BASE+"/#website",
         "name":"Starwell Holdings","alternateName":"Starwell","url":BASE+"/",
-        "inLanguage":t("en","he"),"publisher":{"@id":BASE+"/#organization"}})
+        "inLanguage":t("en","he"),"publisher":{"@id":BASE+"/#organization"},
+        "potentialAction":{"@type":"SearchAction",
+          "target":{"@type":"EntryPoint","urlTemplate":BASE+t("","/he")+"/search.html?q={search_term_string}"},
+          "query-input":"required name=search_term_string"}})
 
     # =================== OUR STORY ===================
     partner_marquee=f'''<div class="marquee" aria-label="{t("Selected partners","שותפים נבחרים")}">
@@ -804,21 +807,30 @@ def build_site():
     # =================== SITEMAP (human) ===================
     sm=f'''<section class="hero hero-center">
   <div class="wrap">
+    <span class="eyebrow">{t("Sitemap","מפת אתר")}</span>
     <h1>{t("Sitemap","מפת אתר")}</h1>
+    <p class="lead" style="margin-left:auto;margin-right:auto">{t("Every page on the Starwell Holdings website, organized in one place.","כל העמודים באתר של סטארוול הולדינגס, מאורגנים במקום אחד.")}</p>
   </div>
 </section>
 <div class="wrap">
   <section class="sec" data-reveal>
     <div class="sitemap-cols">
       <div><h4>{t("Company","החברה")}</h4>
-        <a href="index.html">{t("Home","ראשי")}</a><a href="our-story.html">{t("About Us","אודות")}</a>
-        <a href="our-history.html">{t("Our History","ההיסטוריה שלנו")}</a><a href="our-team.html">{t("Our Team","הצוות שלנו")}</a>
-        <a href="news.html">{t("News","חדשות")}</a><a href="contact.html">{t("Contact","צור קשר")}</a><a href="careers.html">{t("Careers","קריירה")}</a></div>
-      <div><h4>{t("Core Activities","תחומי ליבה")}</h4>
-        <a href="technology.html">{t("IT Services","שירותי IT")}</a><a href="capital.html">{t("Capital","קפיטל")}</a>
-        <a href="real-estate.html">{t("Real Estate","נדל&quot;ן")}</a></div>
-      <div><h4>{t("Other","נוסף")}</h4>
-        <a href="search.html">{t("Search","חיפוש")}</a><a href="sitemap.html">{t("Sitemap","מפת אתר")}</a></div>
+        <a href="index.html">{t("Home","ראשי")}</a>
+        <a href="our-story.html">{t("About Us","אודות")}</a>
+        <a href="our-history.html">{t("Our History","ההיסטוריה שלנו")}</a>
+        <a href="our-team.html">{t("Our Team","הצוות שלנו")}</a>
+        <a href="news.html">{t("News","חדשות")}</a>
+        <a href="careers.html">{t("Careers","קריירה")}</a></div>
+      <div><h4>{t("What We Do","מה אנחנו עושים")}</h4>
+        <a href="technology.html">{t("IT Services","שירותי IT")}</a>
+        <a href="real-estate.html">{t("Real Estate","נדל&quot;ן")}</a>
+        <a href="capital.html">{t("Capital","קפיטל")}</a></div>
+      <div><h4>{t("Resources","משאבים")}</h4>
+        <a href="contact.html">{t("Contact","צור קשר")}</a>
+        <a href="search.html">{t("Search","חיפוש")}</a>
+        <a href="{t("/sitemap","/he/sitemap")}">{t("Sitemap","מפת אתר")}</a>
+        <a href="{t("he/","../")}" hreflang="{t("he","en")}">{t("עברית","English")}</a></div>
     </div>
   </section>
 </div>'''
@@ -938,11 +950,15 @@ LEGACY=[
   ("/News","/news.html"),("/news","/news.html"),
   ("/Contact","/contact.html"),("/contact","/contact.html"),
   ("/Careers","/careers.html"),("/careers","/careers.html"),
-  ("/Sitemap","/sitemap.html"),("/sitemap","/sitemap.html"),
+  ("/Sitemap","/sitemap.html"),
 ]
+# Clean URLs served in place (200 rewrite keeps /sitemap in the address bar).
+REWRITES=[("/sitemap","/sitemap.html"),("/he/sitemap","/he/sitemap.html")]
 open(os.path.join(OUT,"_redirects"),"w").write(
   "# Legacy base44 routes -> current pages (301, de-indexes the old URLs)\n"+
-  "\n".join(f"{src}  {dst}  301!" for src,dst in LEGACY)+"\n")
+  "\n".join(f"{src}  {dst}  301!" for src,dst in LEGACY)+"\n\n"+
+  "# Clean URLs served in place (no redirect)\n"+
+  "\n".join(f"{src}  {dst}  200" for src,dst in REWRITES)+"\n")
 # Private pages (hq, wealth-portal, dashboard) are intentionally NOT listed
 # here. Listing them in robots.txt would advertise their URLs, and a
 # Disallow would actually PREVENT Google from reading their "noindex"
