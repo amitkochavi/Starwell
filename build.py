@@ -655,16 +655,16 @@ def build_site():
     cap=f'''<section class="hero">
   <div class="wrap">
     <h1>Starwell<br>Capital</h1>
-    <p class="lead">{t("The capital allocation arm of Starwell Holdings - deploying capital across private equity, public markets, hedge funds, and real estate.","זרוע הקצאת ההון של סטארוול הולדינגס - מקצה הון בתחומי הון פרטי, שווקים ציבוריים, קרנות גידור ונדל&quot;ן.")}</p>
+    <p class="lead">{t("The capital allocation arm of Starwell Holdings - deploying capital across private equity, public markets, hedge funds, and real estate.","זרוע ההשקעות של סטארוול הולדינגס. מקצה הון בין פרייבט אקוויטי, שווקים ציבוריים, קרנות גידור ונדל&quot;ן.")}</p>
   </div>
 </section>
 
 <div class="wrap">
   <section class="sec" data-reveal>
     <div class="sec-label">{t("Approach","הגישה")}</div>
-    <p class="lede">{t("Patient, conviction-driven capital allocation across private equity, public markets, and alternative strategies.","הקצאת הון סבלנית ומובלת-שכנוע בתחומי הון פרטי, שווקים ציבוריים ואסטרטגיות אלטרנטיביות.")}</p>
+    <p class="lede">{t("Patient, conviction-driven capital allocation across private equity, public markets, and alternative strategies.","הקצאת הון סבלנית וממוקדת, בשווקים פרטיים וציבוריים כאחד.")}</p>
     <div class="body-copy">
-      <p>{t("Starwell Capital oversees the firm&rsquo;s external capital deployment. The mandate spans private equity with a focus on AI-enabled roll-ups, long-term public market holdings, allocations to long-strategy hedge funds, and real estate. We invest with a long time horizon and concentrate where we have genuine conviction.","Starwell Capital מנהלת את הקצאת ההון החיצוני של החברה. המנדט משתרע על הון פרטי בדגש על מיזוגים מבוססי בינה מלאכותית (roll-ups), אחזקות לטווח ארוך בשווקים הציבוריים, הקצאות לקרנות גידור באסטרטגיית long, ונדל&quot;ן. אנחנו משקיעים באופק זמן ארוך ומתרכזים היכן שיש לנו שכנוע אמיתי.")}</p>
+      <p>{t("Starwell Capital oversees the firm&rsquo;s external capital deployment. The mandate spans private equity with a focus on AI-enabled roll-ups, long-term public market holdings, allocations to long-strategy hedge funds, and real estate. We invest with a long time horizon and concentrate where we have genuine conviction.","Starwell Capital מנהלת את תיק ההשקעות של הקבוצה מחוץ לחברות התפעוליות. המנדט כולל השקעות פרייבט אקוויטי ברכישת חברות והשבחתן, אחזקות ארוכות טווח בשווקים הציבוריים, הקצאות סלקטיביות לקרנות גידור ונדל&quot;ן. אנחנו משקיעים לטווח ארוך, ומרכזים את ההון היכן שיש לנו הבנה אמיתית של העסק.")}</p>
     </div>
   </section>
 </div>
@@ -672,10 +672,10 @@ def build_site():
 <div class="wrap">
   <section class="sec" style="padding-top:0" data-reveal>
     <div class="steps four">
-      <div class="step"><div class="n">01</div><h3>{t("Private Equity","פרייבט אקוויטי")}</h3><p>{t("Private equity investments in buy-out and roll-up strategies, acquiring and improving traditional businesses through operational, financial, and technological efficiency.","השקעות פרייבט אקוויטי באסטרטגיות buy-out ו-roll-up, הרוכשות ומשביחות עסקים מסורתיים באמצעות התייעלות תפעולית, פיננסית וטכנולוגית.")}</p></div>
-      <div class="step"><div class="n">02</div><h3>{t("Public Markets","שווקים ציבוריים")}</h3><p>{t("Long-term concentrated holdings in public companies where the firm has deep conviction in the business and management team.","אחזקות מרוכזות לטווח ארוך בחברות ציבוריות שבהן יש לחברה שכנוע עמוק בעסק ובצוות ההנהלה.")}</p></div>
-      <div class="step"><div class="n">03</div><h3>{t("Hedge Funds","קרנות גידור")}</h3><p>{t("Selective allocations to long-strategy hedge funds with differentiated process and consistent risk-adjusted performance.","הקצאות סלקטיביות לקרנות גידור באסטרטגיית long בעלות תהליך ייחודי וביצועים עקביים מותאמי-סיכון.")}</p></div>
-      <div class="step"><div class="n">04</div><h3>{t("Real Estate","נדל&quot;ן")}</h3><p>{t("Capital allocations to real estate funds and structures as part of a diversified long-term portfolio.","הקצאות הון לקרנות ולמבני נדל&quot;ן כחלק מתיק מגוון לטווח ארוך.")}</p></div>
+      <div class="step"><div class="n">01</div><h3>{t("Private Equity","פרייבט אקוויטי")}</h3><p>{t("Private equity investments in buy-out and roll-up strategies, acquiring and improving traditional businesses through operational, financial, and technological efficiency.","רכישת עסקים והשבחתם באמצעות שיפור תפעולי, פיננסי וטכנולוגי.")}</p></div>
+      <div class="step"><div class="n">02</div><h3>{t("Public Markets","שווקים ציבוריים")}</h3><p>{t("Long-term concentrated holdings in public companies where the firm has deep conviction in the business and management team.","תיק מרוכז של אחזקות ארוכות טווח בחברות ציבוריות שבהן יש לנו אמון עמוק בעסק ובהנהלה.")}</p></div>
+      <div class="step"><div class="n">03</div><h3>{t("Hedge Funds","קרנות גידור")}</h3><p>{t("Selective allocations to long-strategy hedge funds with differentiated process and consistent risk-adjusted performance.","הקצאות סלקטיביות לקרנות עם תהליך השקעה מובחן וביצועים עקביים ביחס לסיכון.")}</p></div>
+      <div class="step"><div class="n">04</div><h3>{t("Real Estate","נדל&quot;ן")}</h3><p>{t("Capital allocations to real estate funds and structures as part of a diversified long-term portfolio.","השקעות בקרנות ובמבני נדל&quot;ן כרכיב ארוך טווח בתיק.")}</p></div>
     </div>
   </section>
 </div>
