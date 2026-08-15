@@ -114,7 +114,7 @@ def FOOTER():
     <div class="foot-top">
       <div class="foot-brand">
         <div class="brand foot-lockup"><span class="brand-word" style="font-size:27px">Starwell Holdings</span></div>
-        <p>{t("A privately held global investment firm building and owning platforms across technology, real estate, and capital.","חברת השקעות גלובלית פרטית הבונה ומחזיקה פלטפורמות בתחומי הטכנולוגיה, הנדל&quot;ן וההון.")}</p>
+        <p>{t("A privately held global investment firm building and owning platforms across IT Services and Real Estate, with passive capital allocation to alternative assets.","חברת השקעות גלובלית פרטית הבונה ומחזיקה פלטפורמות בתחומי שירותי ה-IT והנדל&quot;ן, עם הקצאת הון פסיבית לנכסים אלטרנטיביים.")}</p>
       </div>
       <div class="foot-col">
         <h4>{t("Company","החברה")}</h4>
@@ -150,8 +150,8 @@ def ORG_LD():
       "name":"Starwell Holdings","alternateName":["Starwell","סטארוול הולדינגס","סטארוול"],"legalName":"Starwell Holdings",
       "url":BASE+"/","logo":{"@type":"ImageObject","url":BASE+"/assets/icon-512.png","width":512,"height":512},
       "image":BASE+"/assets/og-image.png",
-      "description":t("A privately held global investment and operating company building platforms across technology, real estate, and capital.",
-                      "חברת השקעות ותפעול גלובלית פרטית הבונה פלטפורמות בתחומי הטכנולוגיה, הנדל\"ן וההון."),
+      "description":t("A privately held global investment and operating company building platforms across IT Services and Real Estate, with passive capital allocation to alternative assets.",
+                      "חברת השקעות ותפעול גלובלית פרטית הבונה פלטפורמות בתחומי שירותי ה-IT והנדל\"ן, עם הקצאת הון פסיבית לנכסים אלטרנטיביים."),
       "foundingDate":"2025","address":{"@type":"PostalAddress","addressLocality":"Tel Aviv","addressCountry":"IL"},
       "founder":{"@type":"Person","@id":BASE+"/our-team.html#amit-kochavi","name":"Amit Kochavi","alternateName":"עמית כוכבי"},
       "contactPoint":{"@type":"ContactPoint","url":BASE+"/contact.html","contactType":"investor relations"},
@@ -257,7 +257,7 @@ PORTFOLIO=json.load(open(os.path.join(OUT,"data","portfolio.json"),encoding="utf
 def _esc(s): return _html.escape(s or "",quote=True)
 def _chip(e):
     if e.get("logo"):
-        return f'<img src="{e["logo"]}" alt="{_esc(e["name"])} logo" loading="lazy" decoding="async" style="max-height:48px;max-width:150px;object-fit:contain">'
+        return f'<img src="{e["logo"]}" alt="{_esc(e["name"])} logo" loading="lazy" decoding="async" style="max-height:34px;max-width:120px;object-fit:contain">'
     return f'<span>{_esc(e.get("logoText") or e["name"])}</span>'
 def _web(e):
     u=e.get("website")
@@ -365,7 +365,7 @@ def build_site():
     home=f'''<section class="hero hero-home">
   <div class="wrap">
     <h1>{t("Dream with Starwell.","חולמים עם סטארוול.")}</h1>
-    <p class="lead">{t("Starwell Holdings is a private investment and operating company headquartered in Tel Aviv, building platforms across technology, real estate, and capital markets.","סטארוול הולדינגס היא חברת השקעות ותפעול פרטית שמשרדיה בתל אביב, הבונה פלטפורמות בתחומי הטכנולוגיה, הנדל&quot;ן ושוקי ההון.")}</p>
+    <p class="lead">{t("Starwell Holdings is a private investment and operating company headquartered in Tel Aviv, building platforms across IT Services and Real Estate, with passive capital allocation to alternative assets.","סטארוול הולדינגס היא חברת השקעות ותפעול פרטית שמשרדיה בתל אביב, הבונה פלטפורמות בתחומי שירותי ה-IT והנדל&quot;ן, עם הקצאת הון פסיבית לנכסים אלטרנטיביים.")}</p>
     <a href="#what-we-do" class="scrolldown" aria-label="{t("Scroll down","גלול למטה")}">&darr;</a>
   </div>
 </section>
@@ -380,7 +380,7 @@ def build_site():
     <div class="cards">
       <div class="card">
         <h3>{t("IT Services","שירותי IT")}</h3>
-        <p>{t("IT services platform: acquiring and operating MSPs, AI-driven service delivery.","פלטפורמת שירותי IT: רכישה ותפעול של ספקי שירות מנוהל (MSP) ואספקת שירות מבוססת בינה מלאכותית.")}</p>
+        <p>{t("Acquiring and operating IT Services businesses.","רכישה ותפעול של עסקי שירותי IT.")}</p>
         <a href="technology.html" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
       <div class="card">
@@ -401,14 +401,14 @@ def build_site():
   <div class="wrap sec sec-center">
     <span class="eyebrow" style="color:var(--on-panel-soft)">{t("About Starwell","אודות סטארוול")}</span>
     <h2 class="serif" style="margin:14px 0 16px">{t("Learn more about Starwell","הכירו את סטארוול")}</h2>
-    <p class="body-copy" style="max-width:680px;margin:0 auto 32px;color:var(--on-panel-soft)">{t("A privately held global investment firm building and owning platforms across technology, real estate, and capital - with a long-term, operator-led approach.","חברת השקעות גלובלית פרטית הבונה ומחזיקה פלטפורמות בתחומי הטכנולוגיה, הנדל&quot;ן וההון - בגישה ארוכת-טווח ומובלת-מפעיל.")}</p>
+    <p class="body-copy" style="max-width:680px;margin:0 auto 32px;color:var(--on-panel-soft)">{t("A privately held global investment firm building and owning platforms across IT Services and Real Estate, with passive capital allocation to alternative assets - a long-term, operator-led approach.","חברת השקעות גלובלית פרטית הבונה ומחזיקה פלטפורמות בתחומי שירותי ה-IT והנדל&quot;ן, עם הקצאת הון פסיבית לנכסים אלטרנטיביים - בגישה ארוכת-טווח ומובלת-מפעיל.")}</p>
     <a href="our-story.html" class="btn btn-light">{t("Learn more about Starwell","הכירו את סטארוול")} &rarr;</a>
   </div>
 </section>'''
     render("index.html",
       t("Starwell Holdings | Private Investment & Operating Company","סטארוול הולדינגס | חברת השקעות ותפעול פרטית"),
-      t("Starwell Holdings is a private investment and operating company based in Tel Aviv, building platforms across technology, real estate, and capital markets.",
-        "סטארוול הולדינגס היא חברת השקעות ותפעול פרטית מתל אביב, הבונה פלטפורמות בתחומי הטכנולוגיה, הנדל\"ן ושוקי ההון."),
+      t("Starwell Holdings is a private investment and operating company based in Tel Aviv, building platforms across IT Services and Real Estate, with passive capital allocation to alternative assets.",
+        "סטארוול הולדינגס היא חברת השקעות ותפעול פרטית מתל אביב, הבונה פלטפורמות בתחומי שירותי ה-IT והנדל\"ן, עם הקצאת הון פסיבית לנכסים אלטרנטיביים."),
       home,extra_ld={"@context":"https://schema.org","@type":"WebSite","@id":BASE+"/#website",
         "name":"Starwell Holdings","alternateName":"Starwell","url":BASE+"/",
         "inLanguage":t("en","he"),"publisher":{"@id":BASE+"/#organization"},
@@ -474,9 +474,9 @@ def build_site():
     <span class="eyebrow">{t("More about Starwell","עוד על סטארוול")}</span>
     <h2 class="serif" style="margin:8px 0 12px">{t("Learn about our history and our team","הכירו את ההיסטוריה והצוות שלנו")}</h2>
     <p class="body-copy" style="margin:0 auto 34px;text-align:center;max-width:640px">{t("The roots we build on, and the people building enduring value across our platforms.","השורשים שעליהם אנחנו נשענים, והאנשים הבונים ערך מתמשך על פני הפלטפורמות שלנו.")}</p>
-    <div class="steps" style="grid-template-columns:1fr 1fr;text-align:left">
+    <div class="steps two" style="text-align:left">
       <a class="step" href="our-history.html" style="text-decoration:none;color:inherit;display:block"><h3>{t("Our History","ההיסטוריה שלנו")}</h3><p>{t("Four generations of entrepreneurship, capital stewardship, and public leadership - from Max Factor to the Buchman family.","ארבעה דורות של יזמות, נאמנות הונית ומנהיגות ציבורית - ממקס פקטור ועד משפחת בוכמן.")}</p><span class="link-arrow" style="margin-top:14px">{t("Read our history","קראו את ההיסטוריה")} &rarr;</span></a>
-      <a class="step" href="our-team.html" style="text-decoration:none;color:inherit;display:block"><h3>{t("Our Team","הצוות שלנו")}</h3><p>{t("Meet the people leading Starwell across technology, real estate, and capital.","הכירו את האנשים המובילים את סטארוול בתחומי הטכנולוגיה, הנדל&quot;ן וההון.")}</p><span class="link-arrow" style="margin-top:14px">{t("Meet the team","הכירו את הצוות")} &rarr;</span></a>
+      <a class="step" href="our-team.html" style="text-decoration:none;color:inherit;display:block"><h3>{t("Our Team","הצוות שלנו")}</h3><p>{t("Meet the people leading Starwell across IT Services, Real Estate, and alternative assets.","הכירו את האנשים המובילים את סטארוול בתחומי שירותי ה-IT, הנדל&quot;ן והנכסים האלטרנטיביים.")}</p><span class="link-arrow" style="margin-top:14px">{t("Meet the team","הכירו את הצוות")} &rarr;</span></a>
     </div>
   </section>
 </div>'''
@@ -557,8 +557,8 @@ def build_site():
 </section>'''
     render("our-team.html",
       t("Our Team | Starwell Holdings","הצוות שלנו | סטארוול הולדינגס"),
-      t("Meet the Starwell Holdings team led by founder Amit Kochavi - building enduring value across technology, real estate, and capital.",
-        "הכירו את צוות סטארוול הולדינגס בהובלת המייסד עמית כוכבי - הבונה ערך מתמשך בתחומי הטכנולוגיה, הנדל\"ן וההון."),
+      t("Meet the Starwell Holdings team led by founder Amit Kochavi - building enduring value across IT Services, Real Estate, and alternative assets.",
+        "הכירו את צוות סטארוול הולדינגס בהובלת המייסד עמית כוכבי - הבונה ערך מתמשך בתחומי שירותי ה-IT, הנדל\"ן והנכסים האלטרנטיביים."),
       team,extra_ld={"@context":"https://schema.org","@type":"Person","@id":BASE+"/our-team.html#amit-kochavi",
         "name":"Amit Kochavi","alternateName":"עמית כוכבי",
         "jobTitle":t("Chairman, CEO & Founder","יו\"ר, מנכ\"ל ומייסד"),
@@ -669,7 +669,7 @@ def build_site():
 <div class="wrap">
   <section class="sec" style="padding-top:0" data-reveal>
     <div class="steps four">
-      <div class="step"><div class="n">01</div><h3>{t("AI Roll-Ups","מיזוגי AI")}</h3><p>{t("Private equity investments in AI-native roll-up strategies acquiring and modernizing traditional service businesses at scale.","השקעות הון פרטי באסטרטגיות roll-up מבוססות בינה מלאכותית, הרוכשות ומחדשות עסקי שירות מסורתיים בקנה מידה רחב.")}</p></div>
+      <div class="step"><div class="n">01</div><h3>{t("Private Equity","הון פרטי")}</h3><p>{t("Private equity investments in buy out and roll-up strategies acquiring and modernizing traditional service businesses at scale.","השקעות הון פרטי באסטרטגיות buy-out ו-roll-up, הרוכשות ומחדשות עסקי שירות מסורתיים בקנה מידה רחב.")}</p></div>
       <div class="step"><div class="n">02</div><h3>{t("Public Markets","שווקים ציבוריים")}</h3><p>{t("Long-term concentrated holdings in public companies where the firm has deep conviction in the business and management team.","אחזקות מרוכזות לטווח ארוך בחברות ציבוריות שבהן יש לחברה שכנוע עמוק בעסק ובצוות ההנהלה.")}</p></div>
       <div class="step"><div class="n">03</div><h3>{t("Hedge Funds","קרנות גידור")}</h3><p>{t("Selective allocations to long-strategy hedge funds with differentiated process and consistent risk-adjusted performance.","הקצאות סלקטיביות לקרנות גידור באסטרטגיית long בעלות תהליך ייחודי וביצועים עקביים מותאמי-סיכון.")}</p></div>
       <div class="step"><div class="n">04</div><h3>{t("Real Estate","נדל&quot;ן")}</h3><p>{t("Capital allocations to real estate funds and structures as part of a diversified long-term portfolio.","הקצאות הון לקרנות ולמבני נדל&quot;ן כחלק מתיק מגוון לטווח ארוך.")}</p></div>
@@ -781,7 +781,7 @@ def build_site():
   <div class="wrap">
     <span class="eyebrow">{t("Join Us","הצטרפו אלינו")}</span>
     <h1>{t("Careers at Starwell","קריירה בסטארוול")}</h1>
-    <p class="lead" style="margin-left:auto;margin-right:auto">{t("We&rsquo;re a small, high-conviction team building platforms across technology, real estate, and capital markets. We look for people who think long-term and operate with precision.","אנחנו צוות קטן ומובל-שכנוע הבונה פלטפורמות בתחומי הטכנולוגיה, הנדל&quot;ן ושוקי ההון. אנחנו מחפשים אנשים שחושבים לטווח ארוך ופועלים בדייקנות.")}</p>
+    <p class="lead" style="margin-left:auto;margin-right:auto">{t("We&rsquo;re a small, high-conviction team building platforms across IT Services and Real Estate, with passive capital allocation to alternative assets. We look for people who think long-term and operate with precision.","אנחנו צוות קטן ומובל-שכנוע הבונה פלטפורמות בתחומי שירותי ה-IT והנדל&quot;ן, עם הקצאת הון פסיבית לנכסים אלטרנטיביים. אנחנו מחפשים אנשים שחושבים לטווח ארוך ופועלים בדייקנות.")}</p>
   </div>
 </section>
 
@@ -812,8 +812,8 @@ def build_site():
 </div>'''
     render("careers.html",
       t("Careers | Starwell Holdings","קריירה | סטארוול הולדינגס"),
-      t("Careers at Starwell Holdings. We're a small, high-conviction team building platforms across technology, real estate, and capital markets.",
-        "קריירה בסטארוול הולדינגס. אנחנו צוות קטן ומובל-שכנוע הבונה פלטפורמות בתחומי הטכנולוגיה, הנדל\"ן ושוקי ההון."),
+      t("Careers at Starwell Holdings. We're a small, high-conviction team building platforms across IT Services and Real Estate, with passive capital allocation to alternative assets.",
+        "קריירה בסטארוול הולדינגס. אנחנו צוות קטן ומובל-שכנוע הבונה פלטפורמות בתחומי שירותי ה-IT והנדל\"ן, עם הקצאת הון פסיבית לנכסים אלטרנטיביים."),
       careers,extra=live_script("careers"))
 
     # =================== SITEMAP (human) ===================
