@@ -731,7 +731,7 @@ window.STARWELL_CONFIG = {
       table:"portfolio_companies", order:[["pillar",true],["sort_order",true]],
       title:function(r){return r.name;},
       sub:function(r){return [r.pillar, r.role, r.highlight?"★ homepage":""].filter(Boolean).join("  ·  ");},
-      thumbs:function(r){ var a=Array.isArray(r.images)?r.images.filter(Boolean):[]; return (r.logo_url?[r.logo_url]:[]).concat(a); },
+      thumbs:function(r){ var a=Array.isArray(r.images)?r.images.filter(Boolean):[]; var pl=Array.isArray(r.partner_logos)?r.partner_logos.filter(Boolean):[]; return (r.logo_url?[r.logo_url]:[]).concat(a).concat(pl); },
       fields:[
         {k:"name",label:"Name",t:"text",full:true,req:true},
         {k:"pillar",label:"Pillar",t:"select",opts:["technology","real-estate","capital"],req:true},
@@ -740,6 +740,7 @@ window.STARWELL_CONFIG = {
         {k:"website_url",label:"Website URL",t:"text",full:true},
         {k:"logo_url",label:"Logo (upload or paste a URL)",t:"upload",full:true},
         {k:"images",label:"Photos (upload; 1 shows static, 2+ show as a slider)",t:"images",full:true},
+        {k:"partner_logos",label:"Partner logos (upload as many as needed; shown as a small row on the card)",t:"images",full:true},
         {k:"partner",label:"Partner",t:"text"},
         {k:"location",label:"Location",t:"text"},
         {k:"image_label",label:"Image label (real-estate cards)",t:"text"},
