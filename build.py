@@ -557,9 +557,9 @@ def build_site():
   </div>
 </section>'''
     render("our-team.html",
-      t("Amit Kochavi, Founder & CEO of Starwell Holdings | Our Team","עמית כוכבי, מייסד ומנכ\"ל סטארוול הולדינגס | הצוות שלנו"),
-      t("Amit Kochavi is the founder, chairman and CEO of Starwell Holdings, building businesses across IT Services and Real Estate. Meet the Starwell Holdings team.",
-        "עמית כוכבי הוא המייסד, היו\"ר והמנכ\"ל של סטארוול הולדינגס, ובונה עסקים בתחומי שירותי ה-IT והנדל\"ן. הכירו את צוות סטארוול הולדינגס."),
+      t("Our Team | Starwell Holdings","הצוות שלנו | סטארוול הולדינגס"),
+      t("Meet the Starwell Holdings team, led by founder, chairman and CEO Amit Kochavi, building businesses across IT Services and Real Estate.",
+        "הכירו את צוות סטארוול הולדינגס, בהובלת המייסד, היו\"ר והמנכ\"ל עמית כוכבי, הבונה עסקים בתחומי שירותי ה-IT והנדל\"ן."),
       team,extra_ld={"@context":"https://schema.org","@type":"Person","@id":BASE+"/our-team.html#amit-kochavi",
         "name":"Amit Kochavi","alternateName":["עמית כוכבי","Amit Kochavi"],
         "jobTitle":t("Chairman, CEO & Founder","יו\"ר, מנכ\"ל ומייסד"),
