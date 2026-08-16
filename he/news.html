@@ -301,13 +301,14 @@ img{max-width:100%;display:block}
 .marquee{margin-top:48px;width:100%;overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
-.marquee-track{display:flex;align-items:center;gap:72px;width:max-content;animation:marquee 36s linear infinite}
+.marquee-track{display:flex;align-items:center;width:max-content;animation:marquee 36s linear infinite}
+.m-set{display:flex;align-items:center;gap:72px;padding-right:72px;flex:none}
 .marquee:hover .marquee-track{animation-play-state:paused}
 .m-logo{flex:none;display:flex;align-items:center;justify-content:center}
 .m-logo img{height:42px;width:auto;max-width:170px;object-fit:contain;filter:grayscale(1);opacity:.82;transition:filter .3s,opacity .3s}
 .m-logo img:hover{filter:grayscale(0);opacity:1}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.marquee-track{animation:none;flex-wrap:wrap;justify-content:center;width:auto;gap:48px}}
+@media (prefers-reduced-motion:reduce){.marquee-track{animation:none;width:auto}.m-set{flex-wrap:wrap;justify-content:center;gap:48px;padding-right:0}.m-set[aria-hidden]{display:none}}
 
 /* legacy figure rows (alternating image / text) */
 .legacy-row{display:grid;grid-template-columns:1fr 240px;gap:48px;align-items:center;max-width:920px;margin:0 auto 48px}
@@ -571,7 +572,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Real Estate</span><span class="date">Dec 21, 2025</span></div>
           <h3>Lipa Meir to Rent Offices in Beyond Tower for 11 Million NIS Per Year</h3>
           <p>Lipa Meir &amp; Co. is leaving Amot Investments House in Tel Aviv to lease 7,000 sqm of office space across 4 floors in the Beyond Tower project from Tidhar, Union, and Himnuta.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
       <a class="na" data-cat="Company News" href="#">
@@ -580,7 +581,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Company News</span><span class="date">Jun 3, 2025</span></div>
           <h3>Circles Merges Operations with U.S.-Based Doss</h3>
           <p>Circles is merging its operations with U.S.-based Doss and will become the Israeli sales and marketing center for the company.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
       <a class="na" data-cat="Company News" href="#">
@@ -589,7 +590,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Company News</span><span class="date">May 29, 2025</span></div>
           <h3>חברת Circles מתמזגת עם Doss האמריקאית</h3>
           <p>חברת Circles מתמזגת עם Doss האמריקאית ותהפוך למרכז הפיתוח הישראלי שלה. עמית כוכבי ימונה למנהל הפיתוח הגלובלי.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
       <a class="na" data-cat="Real Estate" href="#">
@@ -598,7 +599,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Real Estate</span><span class="date">May 6, 2025</span></div>
           <h3>Lee &amp; Associates – Atlanta Facilitates Sale of 28-Acre Industrial Site to Terminal Logistics</h3>
           <p>Center Capital&#x27;s IOS platform, Terminal Logistics, has acquired a 28-acre site in Gainesville, GA.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
       <a class="na" data-cat="Real Estate" href="#">
@@ -607,7 +608,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Real Estate</span><span class="date">Sep 4, 2024</span></div>
           <h3>גבעתיים על הגובה: המגדל שהפך לגבוה בישראל</h3>
           <p>פרויקט ביונד בגבעתיים חצה את גובה 240 המטרים והפך למגדל הגבוה בישראל. בסיום הבנייה יגיע לגובה 320 מטרים.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
       <a class="na" data-cat="Real Estate" href="#">
@@ -616,7 +617,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Real Estate</span><span class="date">Sep 4, 2024</span></div>
           <h3>New Tower Claims Title of Tallest in Israel</h3>
           <p>New tower in Givataim claims title of tallest in Israel, rising to 320 meters with office and residential space.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
       <a class="na" data-cat="Real Estate" href="#">
@@ -625,7 +626,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Real Estate</span><span class="date">Nov 15, 2022</span></div>
           <h3>Meitar Leases 17 Floors in Givatayim Tower</h3>
           <p>Meitar Law Offices leases 17 floors in Givatayim tower for NIS 54 million annually.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
     </div>
@@ -813,7 +814,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
         '<div class="ph-img">'+media+'</div><div class="na-body"><div class="row1">'+
         '<span class="cat">'+esc(cat||DNEWS)+'</span><span class="date">'+esc(fdate(a.publish_date))+'</span></div>'+
         '<h3>'+esc(title)+'</h3><p>'+esc(excerpt||"")+'</p>'+
-        '<span class="link-arrow">'+MORE+' &rarr;</span></div></a>';
+        '<span class="link-arrow">'+MORE+' &larr;</span></div></a>';
     }).join("");
     var filters=document.querySelector(".filters");
     if(filters){

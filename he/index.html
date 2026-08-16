@@ -302,13 +302,14 @@ img{max-width:100%;display:block}
 .marquee{margin-top:48px;width:100%;overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
-.marquee-track{display:flex;align-items:center;gap:72px;width:max-content;animation:marquee 36s linear infinite}
+.marquee-track{display:flex;align-items:center;width:max-content;animation:marquee 36s linear infinite}
+.m-set{display:flex;align-items:center;gap:72px;padding-right:72px;flex:none}
 .marquee:hover .marquee-track{animation-play-state:paused}
 .m-logo{flex:none;display:flex;align-items:center;justify-content:center}
 .m-logo img{height:42px;width:auto;max-width:170px;object-fit:contain;filter:grayscale(1);opacity:.82;transition:filter .3s,opacity .3s}
 .m-logo img:hover{filter:grayscale(0);opacity:1}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.marquee-track{animation:none;flex-wrap:wrap;justify-content:center;width:auto;gap:48px}}
+@media (prefers-reduced-motion:reduce){.marquee-track{animation:none;width:auto}.m-set{flex-wrap:wrap;justify-content:center;gap:48px;padding-right:0}.m-set[aria-hidden]{display:none}}
 
 /* legacy figure rows (alternating image / text) */
 .legacy-row{display:grid;grid-template-columns:1fr 240px;gap:48px;align-items:center;max-width:920px;margin:0 auto 48px}
@@ -573,17 +574,17 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
       <div class="card">
         <h3>שירותי IT</h3>
         <p>רכישה ותפעול של עסקי שירותי IT.</p>
-        <a href="technology" class="link-arrow">קראו עוד &rarr;</a>
+        <a href="technology" class="link-arrow">קראו עוד &larr;</a>
       </div>
       <div class="card">
         <h3>נדל&quot;ן</h3>
         <p>ייזום והשקעות שותף כללי (GP) בישראל, לצד השקעות משותפות נבחרות.</p>
-        <a href="real-estate" class="link-arrow">קראו עוד &rarr;</a>
+        <a href="real-estate" class="link-arrow">קראו עוד &larr;</a>
       </div>
       <div class="card">
         <h3>קפיטל</h3>
         <p>תיק השקעות לטווח ארוך בשווקים הציבוריים ובפוזיציות פרטיות ישירות.</p>
-        <a href="capital" class="link-arrow">קראו עוד &rarr;</a>
+        <a href="capital" class="link-arrow">קראו עוד &larr;</a>
       </div>
     </div>
   </section>
@@ -594,7 +595,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
     <span class="eyebrow" style="color:var(--on-panel-soft)">אודות סטארוול</span>
     <h2 class="serif" style="margin:14px 0 16px">הכירו את סטארוול</h2>
     <p class="body-copy" style="max-width:680px;margin:0 auto 32px;color:var(--on-panel-soft)">סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל&quot;ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים.</p>
-    <a href="our-story" class="btn btn-light">הכירו את סטארוול &rarr;</a>
+    <a href="our-story" class="btn btn-light">הכירו את סטארוול &larr;</a>
   </div>
 </section>
 </main>

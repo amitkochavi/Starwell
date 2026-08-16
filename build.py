@@ -249,6 +249,8 @@ def render(filename,title,desc,body,extra_ld=None,index=True,extra="",search=Tru
     if search:
         txt=strip_html(body)
         SEARCH_INDEX[LANG].append({"url":("." if filename=="index.html" else filename[:-5]),"title":title.split(" | ")[0],"text":txt[:2400]})
+    # RTL: forward arrows point left on the Hebrew site
+    if LANG=="he": html=html.replace("&rarr;","&larr;").replace("&rsaquo;","&lsaquo;")
     open(out_path(filename),"w").write(html)
 
 # ---- portfolio data (shared with the dashboard) ----
@@ -418,7 +420,7 @@ def build_site():
 
     # =================== OUR STORY ===================
     partner_marquee=f'''<div class="marquee" aria-label="{t("Selected partners","שותפים נבחרים")}">
-      <div class="marquee-track">{_pset(False)}{_pset(True)}</div>
+      <div class="marquee-track"><span class="m-set">{_pset(False)}{_pset(True)}</span><span class="m-set" aria-hidden="true">{_pset(True)}{_pset(True)}</span></div>
     </div>'''
     our=f'''<section class="hero hero-center">
   <div class="wrap">
@@ -478,7 +480,7 @@ def build_site():
     <span class="eyebrow">{t("More about Starwell","עוד על סטארוול")}</span>
     <h2 class="serif" style="margin:8px 0 12px">{t("Learn about our history and our team","הכירו את ההיסטוריה והצוות שלנו")}</h2>
     <p class="body-copy" style="margin:0 auto 34px;text-align:center;max-width:640px">{t("The roots we build on, and the people building enduring value across our platforms.","השורשים שעליהם אנחנו נשענים, והאנשים הבונים ערך מתמשך על פני הפלטפורמות שלנו.")}</p>
-    <div class="steps two" style="text-align:left">
+    <div class="steps two" style="text-align:start">
       <a class="step" href="our-history" style="text-decoration:none;color:inherit;display:block"><h3>{t("Our History","ההיסטוריה שלנו")}</h3><p>{t("Four generations of entrepreneurship, capital stewardship, and civic leadership - across Los Angeles, New York, and Tel Aviv.","ארבעה דורות של יזמות, ניהול הון ומנהיגות ציבורית - בלוס אנג&rsquo;לס, בניו יורק ובתל אביב.")}</p><span class="link-arrow" style="margin-top:14px">{t("Read our history","קראו את ההיסטוריה")} &rarr;</span></a>
       <a class="step" href="our-team" style="text-decoration:none;color:inherit;display:block"><h3>{t("Our Team","הצוות שלנו")}</h3><p>{t("Meet the people leading Starwell across IT Services, Real Estate, and alternative assets.","הכירו את האנשים המובילים את סטארוול בתחומי שירותי ה-IT, הנדל&quot;ן והנכסים האלטרנטיביים.")}</p><span class="link-arrow" style="margin-top:14px">{t("Meet the team","הכירו את הצוות")} &rarr;</span></a>
     </div>
