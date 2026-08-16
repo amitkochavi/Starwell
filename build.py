@@ -312,7 +312,9 @@ SB="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-pro
 PARTNERS=[
   ("Tidhar", SB+"ed0e4f174_5aae560d-4622-4639-9a90-a4dc20483398.jpg"),
   ("Union Group", SB+"d4e85ea44_images2.png"),
+  ("Kodiak Holdings", "https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg"),
   ("Center Capital", SB+"c020e8ecf_centercaplog.png"),
+  ("Legion Holdings", SB+"bb4d49516_LogoBluewithLegiononsidetransparentwithadditionalheightemailsig_1756064682174-C1uX8d2f.png"),
   ("Wilpon & Co.", SB+"74d15b488_wilpon.png"),
   ("Noked Capital", SB+"0b7882a5e_Screenshot2025-12-20at095550.png"),
   ("Hazavim", SB+"7198da834_logo-black-new.png"),
