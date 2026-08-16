@@ -391,8 +391,6 @@ footer.site .wrap{padding:72px 44px 40px}
 
 /* ---------- BRAND ACCENTS (gold, used sparingly) ---------- */
 .sec-label,.sec-center h2{position:relative}
-.eyebrow{color:var(--gold)!important}
-.hero .eyebrow{color:var(--gold-soft)}
 .dark .sec-label::before,.sec-label::before{content:"";display:inline-block;width:18px;height:1px;background:var(--gold);
   vertical-align:middle;margin-right:12px;margin-bottom:3px}
 .link-arrow:hover{color:var(--gold)}
