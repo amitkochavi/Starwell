@@ -9,12 +9,12 @@
   if(!grids.length)return;
   var sb=window.supabase.createClient(window.SB_URL,window.SB_ANON);
   var HE=document.documentElement.lang==="he";
-  var ROLE=HE?"תפקיד":"Role", WEB=HE?"אתר":"Website";
+  var ROLE=HE?"תפקיד":"Role", WEB=HE?"אתר":"Website", ARR=HE?"&larr;":"&rarr;";
   function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
   function imgs(row){ var a=row.images; return Array.isArray(a)?a.filter(Boolean):(a?[a]:[]); }
   function plogos(row){ var a=row.partner_logos; a=Array.isArray(a)?a.filter(Boolean):(a?[a]:[]);
     return a.length?'<div class="xp-partners">'+a.map(function(u){return '<span class="pchip"><img src="'+esc(u)+'" alt="" loading="lazy" decoding="async"></span>';}).join("")+'</div>':""; }
-  function web(u){return u?'<div class="pf-actions"><a href="'+esc(u)+'" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">'+WEB+' &rarr;</a></div>':"";}
+  function web(u){return u?'<div class="pf-actions"><a href="'+esc(u)+'" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">'+WEB+' '+ARR+'</a></div>':"";}
   function chipImg(row){ var a=imgs(row); var logo=row.logo_url||a[0];
     return logo?'<img src="'+esc(logo)+'" alt="'+esc(row.name)+' logo" loading="lazy" decoding="async" style="max-height:34px;max-width:120px;object-fit:contain">':'<span>'+esc(row.name)+'</span>'; }
   function media(row){

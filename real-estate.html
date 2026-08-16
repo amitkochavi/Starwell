@@ -171,7 +171,7 @@ img{max-width:100%;display:block}
 .scrolldown:hover{border-color:var(--on-panel);color:var(--on-panel)}
 
 /* ---------- SECTIONS ---------- */
-.sec{padding:96px 0}
+.sec{padding-block:96px}
 .sec.tight{padding:72px 0}
 .sec-label{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;margin-bottom:30px}
 .sec-center{text-align:center}
@@ -275,6 +275,9 @@ img{max-width:100%;display:block}
 .leader .ln{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:26px}
 .leader .lt{font-size:13px;color:var(--ink-soft);letter-spacing:.04em;margin:6px 0 18px}
 .leader .body-copy{margin-top:0}
+.t-links{display:flex;gap:18px;margin-top:16px}
+.t-links a{font-size:13px;letter-spacing:.06em;color:var(--on-panel-soft);border-bottom:1px solid var(--on-panel-line);padding-bottom:2px;transition:.2s}
+.t-links a:hover{color:var(--on-panel);border-color:var(--on-panel-soft)}
 
 /* legacy figures */
 .figs{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:34px}
@@ -301,13 +304,14 @@ img{max-width:100%;display:block}
 .marquee{margin-top:48px;width:100%;overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
-.marquee-track{display:flex;align-items:center;gap:72px;width:max-content;animation:marquee 36s linear infinite}
+.marquee-track{display:flex;align-items:center;width:max-content;animation:marquee 36s linear infinite}
+.m-set{display:flex;align-items:center;gap:72px;padding-right:72px;flex:none}
 .marquee:hover .marquee-track{animation-play-state:paused}
 .m-logo{flex:none;display:flex;align-items:center;justify-content:center}
 .m-logo img{height:42px;width:auto;max-width:170px;object-fit:contain;filter:grayscale(1);opacity:.82;transition:filter .3s,opacity .3s}
 .m-logo img:hover{filter:grayscale(0);opacity:1}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.marquee-track{animation:none;flex-wrap:wrap;justify-content:center;width:auto;gap:48px}}
+@media (prefers-reduced-motion:reduce){.marquee-track{animation:none;width:auto}.m-set{flex-wrap:wrap;justify-content:center;gap:48px;padding-right:0}.m-set[aria-hidden]{display:none}}
 
 /* legacy figure rows (alternating image / text) */
 .legacy-row{display:grid;grid-template-columns:1fr 240px;gap:48px;align-items:center;max-width:920px;margin:0 auto 48px}
@@ -405,7 +409,7 @@ footer.site .wrap{padding:72px 44px 40px}
   .nav-links{display:none}
   .burger{display:flex}
   .hero .wrap{padding-top:72px;padding-bottom:76px}
-  .sec{padding:64px 0}
+  .sec{padding-block:64px}
   .cards,.steps,.steps.four,.pf-grid,.xp-grid,.news-grid,.figs{grid-template-columns:repeat(2,1fr)}
   .markets{grid-template-columns:1fr;gap:32px}
   .leader{grid-template-columns:1fr;gap:28px;text-align:left}
@@ -419,7 +423,7 @@ footer.site .wrap{padding:72px 44px 40px}
 /* Phone (≤600px): single column everywhere */
 @media (max-width:600px){
   .wrap{padding:0 20px}
-  .sec{padding:54px 0}
+  .sec{padding-block:54px}
   .xp-nav{width:40px;height:40px;font-size:20px}
   .search-page-form{flex-direction:column;align-items:stretch}
   .search-page-form .btn{width:100%}
@@ -804,12 +808,12 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
   if(!grids.length)return;
   var sb=window.supabase.createClient(window.SB_URL,window.SB_ANON);
   var HE=document.documentElement.lang==="he";
-  var ROLE=HE?"תפקיד":"Role", WEB=HE?"אתר":"Website";
+  var ROLE=HE?"תפקיד":"Role", WEB=HE?"אתר":"Website", ARR=HE?"&larr;":"&rarr;";
   function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
   function imgs(row){ var a=row.images; return Array.isArray(a)?a.filter(Boolean):(a?[a]:[]); }
   function plogos(row){ var a=row.partner_logos; a=Array.isArray(a)?a.filter(Boolean):(a?[a]:[]);
     return a.length?'<div class="xp-partners">'+a.map(function(u){return '<span class="pchip"><img src="'+esc(u)+'" alt="" loading="lazy" decoding="async"></span>';}).join("")+'</div>':""; }
-  function web(u){return u?'<div class="pf-actions"><a href="'+esc(u)+'" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">'+WEB+' &rarr;</a></div>':"";}
+  function web(u){return u?'<div class="pf-actions"><a href="'+esc(u)+'" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">'+WEB+' '+ARR+'</a></div>':"";}
   function chipImg(row){ var a=imgs(row); var logo=row.logo_url||a[0];
     return logo?'<img src="'+esc(logo)+'" alt="'+esc(row.name)+' logo" loading="lazy" decoding="async" style="max-height:34px;max-width:120px;object-fit:contain">':'<span>'+esc(row.name)+'</span>'; }
   function media(row){

@@ -171,7 +171,7 @@ img{max-width:100%;display:block}
 .scrolldown:hover{border-color:var(--on-panel);color:var(--on-panel)}
 
 /* ---------- SECTIONS ---------- */
-.sec{padding:96px 0}
+.sec{padding-block:96px}
 .sec.tight{padding:72px 0}
 .sec-label{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;margin-bottom:30px}
 .sec-center{text-align:center}
@@ -275,6 +275,9 @@ img{max-width:100%;display:block}
 .leader .ln{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:26px}
 .leader .lt{font-size:13px;color:var(--ink-soft);letter-spacing:.04em;margin:6px 0 18px}
 .leader .body-copy{margin-top:0}
+.t-links{display:flex;gap:18px;margin-top:16px}
+.t-links a{font-size:13px;letter-spacing:.06em;color:var(--on-panel-soft);border-bottom:1px solid var(--on-panel-line);padding-bottom:2px;transition:.2s}
+.t-links a:hover{color:var(--on-panel);border-color:var(--on-panel-soft)}
 
 /* legacy figures */
 .figs{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:34px}
@@ -301,13 +304,14 @@ img{max-width:100%;display:block}
 .marquee{margin-top:48px;width:100%;overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
-.marquee-track{display:flex;align-items:center;gap:72px;width:max-content;animation:marquee 36s linear infinite}
+.marquee-track{display:flex;align-items:center;width:max-content;animation:marquee 36s linear infinite}
+.m-set{display:flex;align-items:center;gap:72px;padding-right:72px;flex:none}
 .marquee:hover .marquee-track{animation-play-state:paused}
 .m-logo{flex:none;display:flex;align-items:center;justify-content:center}
 .m-logo img{height:42px;width:auto;max-width:170px;object-fit:contain;filter:grayscale(1);opacity:.82;transition:filter .3s,opacity .3s}
 .m-logo img:hover{filter:grayscale(0);opacity:1}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.marquee-track{animation:none;flex-wrap:wrap;justify-content:center;width:auto;gap:48px}}
+@media (prefers-reduced-motion:reduce){.marquee-track{animation:none;width:auto}.m-set{flex-wrap:wrap;justify-content:center;gap:48px;padding-right:0}.m-set[aria-hidden]{display:none}}
 
 /* legacy figure rows (alternating image / text) */
 .legacy-row{display:grid;grid-template-columns:1fr 240px;gap:48px;align-items:center;max-width:920px;margin:0 auto 48px}
@@ -405,7 +409,7 @@ footer.site .wrap{padding:72px 44px 40px}
   .nav-links{display:none}
   .burger{display:flex}
   .hero .wrap{padding-top:72px;padding-bottom:76px}
-  .sec{padding:64px 0}
+  .sec{padding-block:64px}
   .cards,.steps,.steps.four,.pf-grid,.xp-grid,.news-grid,.figs{grid-template-columns:repeat(2,1fr)}
   .markets{grid-template-columns:1fr;gap:32px}
   .leader{grid-template-columns:1fr;gap:28px;text-align:left}
@@ -419,7 +423,7 @@ footer.site .wrap{padding:72px 44px 40px}
 /* Phone (≤600px): single column everywhere */
 @media (max-width:600px){
   .wrap{padding:0 20px}
-  .sec{padding:54px 0}
+  .sec{padding-block:54px}
   .xp-nav{width:40px;height:40px;font-size:20px}
   .search-page-form{flex-direction:column;align-items:stretch}
   .search-page-form .btn{width:100%}
@@ -571,7 +575,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Real Estate</span><span class="date">Dec 21, 2025</span></div>
           <h3>Lipa Meir to Rent Offices in Beyond Tower for 11 Million NIS Per Year</h3>
           <p>Lipa Meir &amp; Co. is leaving Amot Investments House in Tel Aviv to lease 7,000 sqm of office space across 4 floors in the Beyond Tower project from Tidhar, Union, and Himnuta.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
       <a class="na" data-cat="Company News" href="#">
@@ -580,7 +584,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Company News</span><span class="date">Jun 3, 2025</span></div>
           <h3>Circles Merges Operations with U.S.-Based Doss</h3>
           <p>Circles is merging its operations with U.S.-based Doss and will become the Israeli sales and marketing center for the company.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
       <a class="na" data-cat="Company News" href="#">
@@ -589,7 +593,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Company News</span><span class="date">May 29, 2025</span></div>
           <h3>חברת Circles מתמזגת עם Doss האמריקאית</h3>
           <p>חברת Circles מתמזגת עם Doss האמריקאית ותהפוך למרכז הפיתוח הישראלי שלה. עמית כוכבי ימונה למנהל הפיתוח הגלובלי.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
       <a class="na" data-cat="Real Estate" href="#">
@@ -598,7 +602,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Real Estate</span><span class="date">May 6, 2025</span></div>
           <h3>Lee &amp; Associates – Atlanta Facilitates Sale of 28-Acre Industrial Site to Terminal Logistics</h3>
           <p>Center Capital&#x27;s IOS platform, Terminal Logistics, has acquired a 28-acre site in Gainesville, GA.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
       <a class="na" data-cat="Real Estate" href="#">
@@ -607,7 +611,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Real Estate</span><span class="date">Sep 4, 2024</span></div>
           <h3>גבעתיים על הגובה: המגדל שהפך לגבוה בישראל</h3>
           <p>פרויקט ביונד בגבעתיים חצה את גובה 240 המטרים והפך למגדל הגבוה בישראל. בסיום הבנייה יגיע לגובה 320 מטרים.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
       <a class="na" data-cat="Real Estate" href="#">
@@ -616,7 +620,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Real Estate</span><span class="date">Sep 4, 2024</span></div>
           <h3>New Tower Claims Title of Tallest in Israel</h3>
           <p>New tower in Givataim claims title of tallest in Israel, rising to 320 meters with office and residential space.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
       <a class="na" data-cat="Real Estate" href="#">
@@ -625,7 +629,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
           <div class="row1"><span class="cat">Real Estate</span><span class="date">Nov 15, 2022</span></div>
           <h3>Meitar Leases 17 Floors in Givatayim Tower</h3>
           <p>Meitar Law Offices leases 17 floors in Givatayim tower for NIS 54 million annually.</p>
-          <span class="link-arrow">קראו עוד &rarr;</span>
+          <span class="link-arrow">קראו עוד &larr;</span>
         </div>
       </a>
     </div>
@@ -813,7 +817,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
         '<div class="ph-img">'+media+'</div><div class="na-body"><div class="row1">'+
         '<span class="cat">'+esc(cat||DNEWS)+'</span><span class="date">'+esc(fdate(a.publish_date))+'</span></div>'+
         '<h3>'+esc(title)+'</h3><p>'+esc(excerpt||"")+'</p>'+
-        '<span class="link-arrow">'+MORE+' &rarr;</span></div></a>';
+        '<span class="link-arrow">'+MORE+' &larr;</span></div></a>';
     }).join("");
     var filters=document.querySelector(".filters");
     if(filters){
