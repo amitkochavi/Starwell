@@ -428,11 +428,11 @@ def build_site():
 
 <div class="wrap">
   <section class="sec" id="about" data-reveal>
-    <div class="sec-center" style="margin-bottom:34px"><h2 class="serif">Starwell Holdings</h2></div>
+    <div class="sec-center" style="margin-bottom:34px"><h2 class="serif">{t("Starwell Holdings","סטארוול הולדינגס")}</h2></div>
     <div class="body-copy" style="max-width:880px;margin:0 auto;text-align:center;font-size:16px">
-      <p>{t("Starwell Holdings is a global private investment and operating company. We invest and build across real estate, operating businesses, alternative investments, and public markets.","סטארוול הולדינגס היא חברת השקעות ותפעול גלובלית פרטית. אנחנו משקיעים ובונים בתחומי הנדל&quot;ן, עסקים תפעוליים, השקעות אלטרנטיביות והשווקים הציבוריים.")}</p>
-      <p>{t("Beyond capital allocation, Starwell acts as a long-term owner and active partner - founding companies, scaling platforms, and working alongside management teams to develop durable businesses and real assets. Our approach combines entrepreneurial execution with disciplined investment principles.","מעבר להקצאת הון, סטארוול פועלת כבעלים לטווח ארוך וכשותפה פעילה - מקימה חברות, מרחיבה פלטפורמות ועובדת לצד צוותי ההנהלה כדי לפתח עסקים ונכסים בני-קיימא. הגישה שלנו משלבת ביצוע יזמי עם עקרונות השקעה ממושמעים.")}</p>
-      <p>{t("We focus on opportunities where long-term thinking, operational involvement, and strategic alignment can create enduring value across cycles and generations.","אנחנו מתמקדים בהזדמנויות שבהן חשיבה לטווח ארוך, מעורבות תפעולית והלימה אסטרטגית יכולות לייצר ערך מתמשך לאורך מחזורי שוק ודורות.")}</p>
+      <p>{t("Starwell Holdings is a private holding company. We build and acquire operating businesses in IT services, invest in and develop real estate, and allocate capital to public markets and alternative investments.","סטארוול הולדינגס היא חברת החזקות פרטית. אנחנו בונים ורוכשים עסקים תפעוליים בתחום שירותי ה-IT, משקיעים ומפתחים נדל&quot;ן, ומקצים הון לשווקים הציבוריים ולהשקעות אלטרנטיביות.")}</p>
+      <p>{t("Beyond capital allocation, Starwell acts as a long-term owner and active partner - acquiring companies, scaling platforms, and working alongside management teams to develop durable businesses and real assets. Our approach combines entrepreneurial execution with disciplined investment principles.","מעבר להקצאת הון, סטארוול פועלת כבעלים לטווח ארוך וכשותף פעיל - רוכשת חברות, מצמיחה פלטפורמות ועובדת לצד צוותי הנהלה לבניית עסקים ונכסים בני-קיימא. הגישה שלנו משלבת ביצוע יזמי עם עקרונות השקעה ממושמעים.")}</p>
+      <p>{t("We focus on opportunities where long-term ownership, operational involvement, and alignment with partners can create enduring value across cycles and generations.","אנחנו מתמקדים בהזדמנויות שבהן בעלות ארוכת טווח, מעורבות תפעולית ואינטרסים משותפים עם שותפים יוצרים ערך שנשמר לאורך מחזורים ודורות.")}</p>
       <p>{t("Starwell Holdings was founded by Amit Kochavi, who serves as Chairman and CEO.","סטארוול הולדינגס נוסדה על ידי עמית כוכבי, המכהן כיו&quot;ר וכמנכ&quot;ל.")} <a href="our-team">{t("Meet the team","הכירו את הצוות")} &rarr;</a></p>
     </div>
   </section>
@@ -440,25 +440,28 @@ def build_site():
 
 <section class="dark" id="business-focus" data-reveal>
   <div class="wrap sec">
-    <div class="sec-center" style="margin-bottom:18px"><h2 class="serif">{t("Business Focus","תחומי פעילות")}</h2></div>
+    <div class="sec-center" style="margin-bottom:18px"><h2 class="serif">{t("Business Focus","תחומי הפעילות")}</h2></div>
     <div class="body-copy" style="max-width:780px;margin:0 auto 50px;text-align:center">
-      <p>{t("Starwell focuses on building and investing in businesses and assets where long-term ownership, active involvement, and disciplined execution drive sustainable value.","סטארוול מתמקדת בבנייה ובהשקעה בעסקים ובנכסים שבהם בעלוּת לטווח ארוך, מעורבות פעילה וביצוע ממושמע מניבים ערך בר-קיימא.")}</p>
-      <p>{t("Our activities span four core areas:","הפעילות שלנו משתרעת על פני ארבעה תחומי ליבה:")}</p>
+      <p>{t("Our activities span three core areas:","הפעילות שלנו מתפרסת על שלושה תחומי ליבה:")}</p>
     </div>
-    <div class="steps four">
-      <div class="step"><h3>{t("Real Estate","נדל&quot;ן")}</h3><p>{t("We invest in, develop, and operate residential, commercial, and mixed-use assets, partnering with experienced operators and taking an owner-led approach to development, asset management, and value creation.","אנחנו משקיעים, מייזמים ומפעילים נכסי מגורים, מסחר ושימושים מעורבים, בשותפות עם מפעילים מנוסים ובגישה מובלת-בעלים לייזום, ניהול נכסים ויצירת ערך.")}</p></div>
-      <div class="step"><h3>{t("Operating Businesses","עסקים תפעוליים")}</h3><p>{t("Starwell builds and scales operating companies alongside strong management teams, with a focus on businesses that benefit from strategic guidance, operational improvement, and long-term capital support.","סטארוול בונה ומרחיבה חברות תפעוליות לצד צוותי ניהול חזקים, תוך התמקדות בעסקים שנהנים מהכוונה אסטרטגית, שיפור תפעולי ותמיכה הונית לטווח ארוך.")}</p></div>
-      <div class="step"><h3>{t("Technology &amp; Innovation","טכנולוגיה וחדשנות")}</h3><p>{t("We back and help build technology-enabled platforms, with particular emphasis on applied technology, AI-driven solutions, and businesses that enhance traditional industries through innovation.","אנחנו תומכים ומסייעים בבניית פלטפורמות מבוססות טכנולוגיה, בדגש על טכנולוגיה יישומית, פתרונות מבוססי בינה מלאכותית ועסקים המשדרגים תעשיות מסורתיות באמצעות חדשנות.")}</p></div>
-      <div class="step"><h3>{t("Public Markets &amp; Alternatives","שווקים ציבוריים ואלטרנטיבי")}</h3><p>{t("We allocate capital across public equities and alternative investments with a long-term, fundamentals-driven mindset, complementing our private market and operating activities.","אנחנו מקצים הון במניות ציבוריות ובהשקעות אלטרנטיביות בגישה ארוכת-טווח מבוססת פונדמנטלס, המשלימה את פעילותנו בשוק הפרטי ובתחום התפעולי.")}</p></div>
+    <div class="steps">
+      <div class="step"><h3>{t("IT Services","שירותי IT")}</h3><p>{t("We build platforms in IT services - acquiring controlling or significant stakes in established, profitable companies and rolling them up into a larger group. We partner with owners and operators to preserve what works while adding the infrastructure and discipline of a platform built to last.","אנחנו בונים פלטפורמות בתחום שירותי ה-IT - רוכשים שליטה או אחזקה משמעותית בחברות ותיקות ורווחיות ומאחדים אותן לקבוצה גדולה יותר. אנחנו חוברים לבעלים ולמנהלים כדי לשמר את מה שעובד, ומוסיפים את התשתית והמשמעת של פלטפורמה שנבנית לשנים.")}</p></div>
+      <div class="step"><h3>{t("Real Estate","נדל&quot;ן")}</h3><p>{t("We invest in, develop, and operate residential, commercial, and mixed-use assets, taking an owner-led approach to development, asset management, and value creation.","אנחנו משקיעים, מפתחים ומנהלים נכסי מגורים, מסחר ושימושים מעורבים, בגישת בעלים - בפיתוח, בניהול הנכסים וביצירת הערך.")}</p></div>
+      <div class="step"><h3>{t("Capital","הון")}</h3><p>{t("We allocate capital across public equities, hedge funds, and alternative investments with a long-term mindset, complementing our operating activities.","אנחנו מקצים הון למניות ציבוריות, קרנות גידור והשקעות אלטרנטיביות, בגישה ארוכת טווח, כהשלמה לפעילות התפעולית שלנו.")}</p></div>
     </div>
-    <p class="body-copy" style="max-width:780px;margin:50px auto 0;text-align:center">{t("Across all areas, Starwell prioritizes conviction-led investments, alignment with partners, and a hands-on approach that reflects our belief in building enduring value over time.","בכל התחומים, סטארוול מעדיפה השקעות מובלות-שכנוע, הלימה עם שותפים וגישה מעורבת המשקפת את אמונתנו בבניית ערך מתמשך לאורך זמן.")}</p>
   </div>
 </section>
 
 <div class="wrap">
-  <section class="sec sec-center" id="strategy" data-reveal>
-    <h2 class="serif" style="margin-bottom:20px">{t("Strategy","אסטרטגיה")}</h2>
-    <p class="body-copy" style="margin:0 auto;text-align:center;max-width:760px">{t("Our approach combines long-term, disciplined capital with an operator&rsquo;s mindset. We prioritize value creation through active engagement and strategic guidance.","הגישה שלנו משלבת הון ממושמע לטווח ארוך עם חשיבה של מפעיל. אנחנו מעדיפים יצירת ערך באמצעות מעורבות פעילה והכוונה אסטרטגית.")}</p>
+  <section class="sec" id="strategy" data-reveal>
+    <div class="sec-center" style="margin-bottom:18px"><h2 class="serif">{t("Strategy","אסטרטגיה")}</h2></div>
+    <p class="body-copy" style="margin:0 auto 44px;text-align:center;max-width:760px">{t("Our model is simple: operate where we have an edge, allocate where we don&rsquo;t.","המודל שלנו פשוט: לתפעל היכן שיש לנו יתרון, להקצות היכן שאין.")}</p>
+    <div class="steps two">
+      <div class="step"><h3>{t("Acquire and compound","לרכוש ולהצמיח")}</h3><p>{t("We prefer buying established, profitable businesses over starting from scratch - then compounding them, through operational improvement and further acquisitions. Proven cash flows, existing customer relationships, and experienced teams are the foundation; our job is to strengthen them, not replace them.","אנחנו מעדיפים לרכוש עסקים ותיקים ורווחיים מאשר להקים מאפס - ואז להצמיח אותם, דרך שיפור תפעולי ורכישות נוספות. תזרים מוכח, קשרי לקוחות קיימים וצוותים מנוסים הם הבסיס; התפקיד שלנו לחזק אותם, לא להחליף אותם.")}</p></div>
+      <div class="step"><h3>{t("Decentralized operations, centralized capital","תפעול מבוזר, הון מרוכז")}</h3><p>{t("Portfolio companies run independently under their own management. What&rsquo;s centralized is capital allocation: cash generated across the group is redeployed to its highest and best use, wherever that may be.","חברות הפורטפוליו פועלות באופן עצמאי תחת ההנהלה שלהן. מה שמרוכז הוא הקצאת ההון: המזומן שנוצר בקבוצה מופנה לשימוש הטוב ביותר שלו, בכל מקום שבו הוא נמצא.")}</p></div>
+      <div class="step"><h3>{t("Permanent ownership","בעלות קבועה")}</h3><p>{t("We have no fund cycles, no exit deadlines, and no pressure to sell. This lets us make decisions on a horizon measured in decades, hold through cycles, and be the buyer of choice for owners who care what happens to their business after the sale.","אין לנו מחזורי קרן, אין תאריכי יציאה ואין לחץ למכור. זה מאפשר לנו לקבל החלטות באופק של עשורים, להחזיק לאורך מחזורים, ולהיות הרוכש המועדף עבור בעלים שאכפת להם מה יקרה לעסק שלהם אחרי המכירה.")}</p></div>
+      <div class="step"><h3>{t("Alignment over leverage","שותפות לפני מינוף")}</h3><p>{t("We invest our own capital alongside partners and management, structure deals so that everyone wins together, and use debt conservatively - against proven cash flows, never against the balance sheet that anchors the group.","אנחנו משקיעים מההון שלנו לצד שותפים והנהלות, בונים עסקאות שבהן כולם מרוויחים יחד, ומשתמשים בחוב בזהירות - כנגד תזרים מוכח, לעולם לא כנגד הבסיס שמעגן את הקבוצה.")}</p></div>
+    </div>
   </section>
 </div>
 
