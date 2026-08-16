@@ -476,7 +476,7 @@ def build_site():
     <h2 class="serif" style="margin:8px 0 12px">{t("Learn about our history and our team","הכירו את ההיסטוריה והצוות שלנו")}</h2>
     <p class="body-copy" style="margin:0 auto 34px;text-align:center;max-width:640px">{t("The roots we build on, and the people building enduring value across our platforms.","השורשים שעליהם אנחנו נשענים, והאנשים הבונים ערך מתמשך על פני הפלטפורמות שלנו.")}</p>
     <div class="steps two" style="text-align:left">
-      <a class="step" href="our-history" style="text-decoration:none;color:inherit;display:block"><h3>{t("Our History","ההיסטוריה שלנו")}</h3><p>{t("Four generations of entrepreneurship, capital stewardship, and public leadership - from Max Factor to the Buchman family.","ארבעה דורות של יזמות, נאמנות הונית ומנהיגות ציבורית - ממקס פקטור ועד משפחת בוכמן.")}</p><span class="link-arrow" style="margin-top:14px">{t("Read our history","קראו את ההיסטוריה")} &rarr;</span></a>
+      <a class="step" href="our-history" style="text-decoration:none;color:inherit;display:block"><h3>{t("Our History","ההיסטוריה שלנו")}</h3><p>{t("Four generations of entrepreneurship, capital stewardship, and civic leadership - across Los Angeles, New York, and Tel Aviv.","ארבעה דורות של יזמות, ניהול הון ומנהיגות ציבורית - בלוס אנג&rsquo;לס, בניו יורק ובתל אביב.")}</p><span class="link-arrow" style="margin-top:14px">{t("Read our history","קראו את ההיסטוריה")} &rarr;</span></a>
       <a class="step" href="our-team" style="text-decoration:none;color:inherit;display:block"><h3>{t("Our Team","הצוות שלנו")}</h3><p>{t("Meet the people leading Starwell across IT Services, Real Estate, and alternative assets.","הכירו את האנשים המובילים את סטארוול בתחומי שירותי ה-IT, הנדל&quot;ן והנכסים האלטרנטיביים.")}</p><span class="link-arrow" style="margin-top:14px">{t("Meet the team","הכירו את הצוות")} &rarr;</span></a>
     </div>
   </section>
@@ -488,6 +488,7 @@ def build_site():
       our)
 
     # =================== OUR HISTORY (Legacy) ===================
+    doron_link=t("https://en.wikipedia.org/wiki/Doron_Kochavi","https://www.storyofmylife.co.il/tlv019/")
     history=f'''<section class="hero hero-center">
   <div class="wrap">
     <h1>{t("Our History","ההיסטוריה שלנו")}</h1>
@@ -497,29 +498,38 @@ def build_site():
 <section class="dark" id="legacy" data-reveal>
   <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:24px"><h2 class="serif">{t("Legacy","מורשת")}</h2></div>
-    <p class="body-copy" style="max-width:780px;margin:0 auto 54px;text-align:center">{t("Starwell builds on four generations of entrepreneurship, capital stewardship, and public leadership.","סטארוול נשענת על ארבעה דורות של יזמוּת, נאמנות הונית ומנהיגות ציבורית.")}</p>
+    <p class="body-copy" style="max-width:780px;margin:0 auto 54px;text-align:center">{t("Starwell builds on four generations of entrepreneurship, capital stewardship, and civic leadership - across Los Angeles, New York, and Tel Aviv.","סטארוול נשענת על ארבעה דורות של יזמות, ניהול הון ומנהיגות ציבורית - בלוס אנג&rsquo;לס, בניו יורק ובתל אביב.")}</p>
     <div class="legacy-row">
       <div class="lg-text">
-        <p>{t("The roots of this legacy trace back to Max Factor, the pioneering entrepreneur who transformed the global cosmetics industry and built one of the most enduring consumer brands of the 20th century through innovation, craftsmanship, and an uncompromising standard of excellence.","שורשי המורשת הזו נטועים במקס פקטור, היזם פורץ הדרך ששינה את תעשיית הקוסמטיקה העולמית ובנה את אחד ממותגי הצריכה המתמשכים ביותר של המאה ה-20 באמצעות חדשנות, אומנות וסטנדרט מצוינות בלתי מתפשר.")}</p>
+        <h3>{t("Max Factor","מקס פקטור")}</h3>
+        <p>{t('The entrepreneurial root of the family traces to <a href="https://en.wikipedia.org/wiki/Max_Factor_(businessman)" target="_blank" rel="noopener">Max Factor</a>, who built one of the defining consumer brands of the 20th century. From a single Los Angeles shop, he transformed the global cosmetics industry through invention, craftsmanship, and an uncompromising standard of quality - proof that enduring businesses are built product by product, customer by customer.','השורש היזמי של המשפחה מתחיל ב<a href="https://en.wikipedia.org/wiki/Max_Factor_(businessman)" target="_blank" rel="noopener">מקס פקטור</a>, שבנה את אחד המותגים הצרכניים המכוננים של המאה ה-20. מחנות אחת בלוס אנג&rsquo;לס הוא שינה את תעשיית הקוסמטיקה העולמית באמצעות המצאה, אומנות וסטנדרט בלתי מתפשר של איכות - הוכחה שעסקים גדולים נבנים מוצר אחר מוצר, לקוח אחר לקוח.')}</p>
       </div>
       <figure class="legacy-fig"><div class="ph-img portrait"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/0a8a8dcfb_max-factor-portrait.jpg" alt="{t("Max Factor","מקס פקטור")}" loading="lazy" decoding="async"></div><figcaption>{t("Max Factor","מקס פקטור")}</figcaption></figure>
     </div>
     <div class="legacy-row">
       <figure class="legacy-fig"><div class="ph-img portrait"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/9c712cf33_DavidHeyman.jpg" alt="{t("David M. Heyman","דיוויד מ. היימן")}" loading="lazy" decoding="async"></div><figcaption>{t("David M. Heyman","דיוויד מ. היימן")}</figcaption></figure>
       <div class="lg-text">
-        <p>{t("They also extend to David M. Heyman, a distinguished philanthropist and business leader whose work helped shape modern philanthropic institutions, with a lasting focus on education, community development, and long-term societal progress.","היא נמשכת גם אל דיוויד מ. היימן, פילנתרופ ואיש עסקים נודע שפועלו סייע לעצב מוסדות פילנתרופיים מודרניים, עם מיקוד מתמשך בחינוך, בפיתוח קהילתי ובקדמה חברתית ארוכת-טווח.")}</p>
+        <h3>{t("David M. Heyman","דיוויד מ. היימן")}</h3>
+        <p>{t('The tradition of disciplined capital stewardship runs through <a href="https://en.wikipedia.org/wiki/David_M._Heyman" target="_blank" rel="noopener">David M. Heyman</a>, a New York financier and philanthropist who led the New York Foundation for decades. He treated capital as an instrument of long-term responsibility - to institutions, to communities, and to the generations that follow.','מסורת ניהול ההון עוברת דרך <a href="https://en.wikipedia.org/wiki/David_M._Heyman" target="_blank" rel="noopener">דיוויד מ. היימן</a>, איש פיננסים ופילנתרופ מניו יורק, שעמד עשרות שנים בראש ה-New York Foundation. הוא ראה בהון כלי של אחריות ארוכת טווח - כלפי מוסדות, קהילות והדורות הבאים.')}</p>
       </div>
     </div>
+    <div class="legacy-row">
+      <div class="lg-text">
+        <h3>{t("Real assets, two cities","נדל&quot;ן, שתי ערים")}</h3>
+        <p>{t(f'The family&rsquo;s real estate roots run in parallel on both sides of the ocean. In Los Angeles, Herb Glaser - attorney turned developer - pioneered industrial real estate through Glaser Development Company, alongside decades of leadership in the city&rsquo;s civic and Jewish institutions. In Tel Aviv, the Buchman family built a textile enterprise and converted it into real estate holdings that grew with the city itself. That tradition continues today through <a href="{doron_link}" target="_blank" rel="noopener">Doron Kochavi</a>, attorney and real estate developer.',f'שורשי הנדל&quot;ן של המשפחה מתקיימים במקביל משני צדי האוקיינוס. בלוס אנג&rsquo;לס, הרברט גלזר - עורך דין שהפך ליזם - היה מחלוצי הנדל&quot;ן התעשייתי באמצעות Glaser Development Company, לצד עשרות שנים של מנהיגות במוסדות הציבור והקהילה היהודית בעיר. בתל אביב, משפחת בוכמן בנתה עסקי טקסטיל והסבה אותם לנכסי נדל&quot;ן שצמחו יחד עם העיר. המסורת הזו נמשכת היום דרך <a href="{doron_link}" target="_blank" rel="noopener">דורון כוכבי</a>, עורך דין ויזם נדל&quot;ן.')}</p>
+      </div>
+      <figure class="legacy-fig"><div class="ph-img portrait"><img src="{ap()}assets/doron-kochavi.jpg" alt="{t("Doron Kochavi","דורון כוכבי")}" loading="lazy" decoding="async"></div><figcaption>{t("Doron Kochavi","דורון כוכבי")}</figcaption></figure>
+    </div>
     <div class="body-copy" style="max-width:820px;margin:8px auto 0;text-align:center">
-      <p>{t("In Israel, the legacy continued through the Buchman family, whose multi-generational involvement in business, real estate, and philanthropy contributed meaningfully to the country&rsquo;s economic development and social fabric. Across decades, the family combined disciplined capital allocation with a deep sense of responsibility to the communities in which they operated.","בישראל המשיכה המורשת דרך משפחת בוכמן, שמעורבותה הרב-דורית בעסקים, בנדל&quot;ן ובפילנתרופיה תרמה רבות לפיתוח הכלכלי ולמרקם החברתי של המדינה. לאורך עשורים שילבה המשפחה הקצאת הון ממושמעת עם תחושת אחריות עמוקה לקהילות שבהן פעלה.")}</p>
-      <p>{t("Starwell is the modern expression of these roots - a capital platform and operational engine designed to create companies, develop real assets, and partner with exceptional operators. The underlying values remain constant: integrity, long-term ownership, and a responsibility to build things that endure.","סטארוול היא הביטוי המודרני של השורשים הללו - פלטפורמת הון ומנוע תפעולי שנועדו ליצור חברות, לפתח נכסים ריאליים ולחבור למפעילים יוצאי דופן. הערכים העומדים בבסיס נשארים קבועים: יושרה, בעלוּת לטווח ארוך ואחריות לבנות דברים שמחזיקים מעמד.")}</p>
+      <h3 style="font-family:'Bodoni Moda',Georgia,serif;font-weight:600;font-size:21px;margin-bottom:12px;color:var(--on-panel)">Starwell</h3>
+      <p>{t("Starwell is the modern expression of these roots: a private holding company that acquires and builds operating businesses, develops real assets, and allocates capital for the long term. The underlying values are inherited, not invented - integrity, patient ownership, and the responsibility to build things that endure.","סטארוול היא הביטוי המודרני של השורשים האלה: חברת החזקות פרטית שרוכשת ובונה עסקים תפעוליים, מפתחת נכסים ריאליים ומקצה הון לטווח ארוך. הערכים לא הומצאו - הם עברו בירושה: יושרה, בעלות סבלנית ואחריות לבנות דברים שנשארים.")}</p>
     </div>
   </div>
 </section>'''
     render("our-history.html",
       t("Our History | Starwell Holdings","ההיסטוריה שלנו | סטארוול הולדינגס"),
-      t("Starwell builds on four generations of entrepreneurship, capital stewardship, and public leadership - from Max Factor and David M. Heyman to the Buchman family.",
-        "סטארוול נשענת על ארבעה דורות של יזמות, נאמנות הונית ומנהיגות ציבורית - ממקס פקטור ודיוויד מ. היימן ועד משפחת בוכמן."),
+      t("Starwell builds on four generations of entrepreneurship, capital stewardship, and civic leadership - across Los Angeles, New York, and Tel Aviv.",
+        "סטארוול נשענת על ארבעה דורות של יזמות, ניהול הון ומנהיגות ציבורית - בלוס אנג'לס, בניו יורק ובתל אביב."),
       history)
 
     # =================== OUR TEAM (Leadership) ===================

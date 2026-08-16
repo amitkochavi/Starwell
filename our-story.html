@@ -310,14 +310,18 @@ img{max-width:100%;display:block}
 @media (prefers-reduced-motion:reduce){.marquee-track{animation:none;flex-wrap:wrap;justify-content:center;width:auto;gap:48px}}
 
 /* legacy figure rows (alternating image / text) */
-.legacy-row{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;max-width:1000px;margin:0 auto 48px}
+.legacy-row{display:grid;grid-template-columns:1fr 240px;gap:48px;align-items:center;max-width:920px;margin:0 auto 48px}
+.legacy-row > .legacy-fig:first-child{order:2}
 .legacy-row .lg-text{color:var(--on-panel-soft);font-size:15.5px;line-height:1.85}
-.legacy-fig{margin:0}
+.legacy-row .lg-text h3{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:21px;margin-bottom:12px;color:var(--on-panel)}
+.legacy-fig{margin:0;width:100%;max-width:240px;justify-self:center}
 .legacy-fig .ph-img.portrait{aspect-ratio:3/4;border-radius:4px}
+#legacy a{color:inherit;text-decoration:none;border-bottom:1px solid var(--gold-soft)}
+#legacy a:hover{color:var(--gold-soft)}
 .legacy-fig figcaption{font-size:12px;color:var(--on-panel-soft);margin-top:12px;text-align:center;font-style:italic}
 @media (max-width:900px){
   .legacy-row{grid-template-columns:1fr;gap:22px;max-width:460px}
-  .legacy-fig .ph-img.portrait{aspect-ratio:4/3}
+  .legacy-fig{max-width:210px}
 }
 
 /* ---------- NEWS ---------- */
@@ -609,7 +613,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
     <h2 class="serif" style="margin:8px 0 12px">Learn about our history and our team</h2>
     <p class="body-copy" style="margin:0 auto 34px;text-align:center;max-width:640px">The roots we build on, and the people building enduring value across our platforms.</p>
     <div class="steps two" style="text-align:left">
-      <a class="step" href="our-history" style="text-decoration:none;color:inherit;display:block"><h3>Our History</h3><p>Four generations of entrepreneurship, capital stewardship, and public leadership - from Max Factor to the Buchman family.</p><span class="link-arrow" style="margin-top:14px">Read our history &rarr;</span></a>
+      <a class="step" href="our-history" style="text-decoration:none;color:inherit;display:block"><h3>Our History</h3><p>Four generations of entrepreneurship, capital stewardship, and civic leadership - across Los Angeles, New York, and Tel Aviv.</p><span class="link-arrow" style="margin-top:14px">Read our history &rarr;</span></a>
       <a class="step" href="our-team" style="text-decoration:none;color:inherit;display:block"><h3>Our Team</h3><p>Meet the people leading Starwell across IT Services, Real Estate, and alternative assets.</p><span class="link-arrow" style="margin-top:14px">Meet the team &rarr;</span></a>
     </div>
   </section>
