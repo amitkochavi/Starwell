@@ -566,7 +566,7 @@ def build_site():
       </div>
     </div>
     <div class="leader" style="margin-top:60px">
-      <div class="photo" style="display:flex;align-items:center;justify-content:center"><span style="font-family:'Bodoni Moda',Georgia,serif;font-size:64px;font-weight:600;color:#fff">{t("SG","שג")}</span></div>
+      <div class="photo">{f'<img src="{ap()}assets/shirly-gur-arie.jpg" alt="{t("Shirly Gur Arie","שירלי גור אריה")}" loading="lazy" decoding="async">' if os.path.exists(os.path.join(OUT,"assets","shirly-gur-arie.jpg")) else '<span style="font-family:&#39;Bodoni Moda&#39;,Georgia,serif;font-size:64px;font-weight:600;color:#fff;display:flex;align-items:center;justify-content:center;height:100%">'+t("SG","שג")+'</span>'}</div>
       <div>
         <div class="ln">{t("Shirly Gur Arie","שירלי גור אריה")}</div>
         <div class="lt">{t("Executive Assistant","עוזרת בכירה")}</div>
