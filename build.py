@@ -557,6 +557,10 @@ def build_site():
           <p>{t("His career spans technology, real estate, and civic leadership. He is the founder of Doss Israel Ltd. and shareholder in Doss Inc., Senior Advisor to the Mayor of Sderot, and a member of President Herzog&rsquo;s &ldquo;Voice of the People&rdquo; initiative.","הקריירה שלו משתרעת על פני טכנולוגיה, נדל&quot;ן ומנהיגות ציבורית. הוא מייסד Doss Israel Ltd. ובעל מניות ב-Doss Inc., יועץ בכיר לראש עיריית שדרות, וחבר ביוזמת &rdquo;קול העם&ldquo; של הנשיא הרצוג.")}</p>
           <p>{t("Amit continues to grow Starwell&rsquo;s portfolio of platforms and partnerships, focused on building enduring value across cycles and geographies.","עמית ממשיך להרחיב את תיק הפלטפורמות והשותפויות של סטארוול, מתוך מיקוד בבניית ערך מתמשך לאורך מחזורי שוק וגאוגרפיות.")}</p>
         </div>
+        <div class="t-links">
+          <a href="https://www.linkedin.com/in/amitkochavi/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://x.com/AmitKochavi" target="_blank" rel="noopener">X</a>
+        </div>
       </div>
     </div>
     <div class="leader" style="margin-top:60px">
@@ -566,6 +570,9 @@ def build_site():
         <div class="lt">{t("Executive Assistant","עוזרת בכירה")}</div>
         <div class="body-copy">
           <p>{t("Shirly supports Starwell&rsquo;s leadership and day-to-day operations, coordinating across the firm&rsquo;s platforms and partners to keep the organization running smoothly.","שירלי תומכת בהנהלת סטארוול ובפעילות היומיומית, ומתאמת בין הפלטפורמות והשותפים של החברה כדי לשמור על התנהלות חלקה.")}</p>
+        </div>
+        <div class="t-links">
+          <a href="https://www.linkedin.com/in/shirly-gur-arie/" target="_blank" rel="noopener">LinkedIn</a>
         </div>
       </div>
     </div>
@@ -582,7 +589,8 @@ def build_site():
                         "מייסד, יו\"ר ומנכ\"ל של סטארוול הולדינגס, חברת השקעות ותפעול פרטית הבונה עסקים בתחומי שירותי ה-IT והנדל\"ן עם הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים."),
         "worksFor":{"@id":BASE+"/#organization"},"url":BASE+"/our-team.html",
         "image":"https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/3f93d596d_AmitKochaviPic.jpg",
-        "sameAs":["https://www.linkedin.com/company/starwell-holdings/"]})
+        "sameAs":["https://www.linkedin.com/in/amitkochavi/","https://x.com/AmitKochavi",
+                  "https://www.linkedin.com/company/starwell-holdings/"]})
 
     # =================== TECHNOLOGY ===================
     tech=f'''<section class="hero">
