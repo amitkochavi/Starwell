@@ -467,8 +467,8 @@ def build_site():
 
 <div class="wrap">
   <section class="sec sec-center" id="partnership" data-reveal>
-    <h2 class="serif" style="margin-bottom:20px">{t("Partnership","שותפויות")}</h2>
-    <p class="body-copy" style="margin:0 auto 12px;text-align:center;max-width:760px">{t("We focus on selective, high-conviction investments where we can be thoughtful partners and long-term stewards of capital.","אנחנו מתמקדים בהשקעות סלקטיביות ומובלות-שכנוע, שבהן נוכל להיות שותפים מעמיקים ונאמני הון לטווח ארוך.")}</p>
+    <h2 class="serif" style="margin-bottom:20px">{t("Partnership","שותפות")}</h2>
+    <p class="body-copy" style="margin:0 auto 12px;text-align:center;max-width:760px">{t("We focus on selective, high-conviction investments where we can be thoughtful partners and long-term stewards of capital.","אנחנו מתמקדים בהשקעות נבחרות, שבהן יש לנו הבנה עמוקה ויכולת להיות שותפים מחושבים ומנהלי הון לטווח ארוך.")}</p>
     {partner_marquee}
   </section>
 </div>
