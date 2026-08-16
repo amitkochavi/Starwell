@@ -39,8 +39,8 @@ def DESK_NAV(cur):
     <button class="nav-trigger" aria-haspopup="true">{t("About Us","אודות")} <span class="chev"></span></button>
     <div class="dropdown">
       <a href="our-story">{t("About Us","אודות")}</a>
-      <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
       <a href="our-team">{t("Our Team","הצוות שלנו")}</a>
+      <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
       <a href="news">{t("News","חדשות")}</a>
     </div>
   </div>
@@ -68,8 +68,8 @@ def MOBILE_NAV(cur):
       <button class="mlink" aria-expanded="false">{t("About Us","אודות")} <span class="mchev"></span></button>
       <div class="msub">
         <a href="our-story">{t("About Us","אודות")}</a>
-        <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
         <a href="our-team">{t("Our Team","הצוות שלנו")}</a>
+        <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
         <a href="news">{t("News","חדשות")}</a>
       </div>
     </div>
@@ -119,8 +119,8 @@ def FOOTER():
       <div class="foot-col">
         <h4>{t("Company","החברה")}</h4>
         <a href="our-story">{t("About Us","אודות")}</a>
-        <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
         <a href="our-team">{t("Our Team","הצוות שלנו")}</a>
+        <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
         <a href="news">{t("News","חדשות")}</a>
         <a href="careers">{t("Careers","קריירה")}</a>
       </div>
@@ -502,7 +502,7 @@ def build_site():
     <div class="legacy-row">
       <div class="lg-text">
         <h3>{t("Max Factor","מקס פקטור")}</h3>
-        <p>{t('The entrepreneurial root of the family traces to <a href="https://en.wikipedia.org/wiki/Max_Factor_(businessman)" target="_blank" rel="noopener">Max Factor</a>, who built one of the defining consumer brands of the 20th century. From a single Los Angeles shop, he transformed the global cosmetics industry through invention, craftsmanship, and an uncompromising standard of quality - proof that enduring businesses are built product by product, customer by customer.','השורש היזמי של המשפחה מתחיל ב<a href="https://en.wikipedia.org/wiki/Max_Factor_(businessman)" target="_blank" rel="noopener">מקס פקטור</a>, שבנה את אחד המותגים הצרכניים המכוננים של המאה ה-20. מחנות אחת בלוס אנג&rsquo;לס הוא שינה את תעשיית הקוסמטיקה העולמית באמצעות המצאה, אומנות וסטנדרט בלתי מתפשר של איכות - הוכחה שעסקים גדולים נבנים מוצר אחר מוצר, לקוח אחר לקוח.')}</p>
+        <p>{t('The entrepreneurial root of the family traces to <a href="https://en.wikipedia.org/wiki/Max_Factor" target="_blank" rel="noopener">Max Factor</a>, who built one of the defining consumer brands of the 20th century. From a single Los Angeles shop, he transformed the global cosmetics industry through invention, craftsmanship, and an uncompromising standard of quality - proof that enduring businesses are built product by product, customer by customer.','השורש היזמי של המשפחה מתחיל ב<a href="https://en.wikipedia.org/wiki/Max_Factor" target="_blank" rel="noopener">מקס פקטור</a>, שבנה את אחד המותגים הצרכניים המכוננים של המאה ה-20. מחנות אחת בלוס אנג&rsquo;לס הוא שינה את תעשיית הקוסמטיקה העולמית באמצעות המצאה, אומנות וסטנדרט בלתי מתפשר של איכות - הוכחה שעסקים גדולים נבנים מוצר אחר מוצר, לקוח אחר לקוח.')}</p>
       </div>
       <figure class="legacy-fig"><div class="ph-img portrait"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/0a8a8dcfb_max-factor-portrait.jpg" alt="{t("Max Factor","מקס פקטור")}" loading="lazy" decoding="async"></div><figcaption>{t("Max Factor","מקס פקטור")}</figcaption></figure>
     </div>
@@ -844,8 +844,8 @@ def build_site():
       <div><h4>{t("Company","החברה")}</h4>
         <a href="{t("/","/he/")}">{t("Home","ראשי")}</a>
         <a href="our-story">{t("About Us","אודות")}</a>
-        <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
         <a href="our-team">{t("Our Team","הצוות שלנו")}</a>
+        <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
         <a href="news">{t("News","חדשות")}</a>
         <a href="careers">{t("Careers","קריירה")}</a></div>
       <div><h4>{t("What We Do","מה אנחנו עושים")}</h4>
