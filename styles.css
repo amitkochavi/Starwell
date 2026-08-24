@@ -217,6 +217,12 @@ img{max-width:100%;display:block}
 .ph-img{aspect-ratio:16/8;background:linear-gradient(135deg,#1d1d26,#101015);display:flex;align-items:center;justify-content:center;
   color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase;overflow:hidden}
 .ph-img img{width:100%;height:100%;object-fit:cover}
+/* graceful fallback when an image cannot load (see script.js) */
+.img-fallback{display:flex;align-items:center;justify-content:center;text-align:center;padding:0 10px}
+.ph-img .img-fallback{width:100%;height:100%;color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+.leader .photo .img-fallback{width:100%;height:100%;font-family:"Bodoni Moda",Georgia,serif;font-size:34px;letter-spacing:.02em;text-transform:none;color:var(--on-panel-soft)}
+.logo-chip .img-fallback,.lchip .img-fallback,.pchip .img-fallback{font-family:"Bodoni Moda",Georgia,serif;font-weight:700;color:var(--panel);font-size:14px;letter-spacing:.01em;white-space:nowrap}
+.m-logo .img-fallback{font-family:"Bodoni Moda",Georgia,serif;font-size:19px;color:#8b8b95;letter-spacing:.02em;white-space:nowrap}
 .pf .pf-desc,.xp .xp-desc{color:var(--on-panel-soft);font-size:14.5px;line-height:1.62;margin:2px 0 0}
 .xp .xp-desc{margin-top:8px;font-size:13px;line-height:1.55}
 .xp-body{padding:16px 18px 18px}

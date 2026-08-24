@@ -36,7 +36,7 @@
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://starwellholdings.com/#organization", "name": "Starwell Holdings", "alternateName": ["Starwell", "סטארוול הולדינגס", "סטארוול"], "legalName": "Starwell Holdings", "url": "https://starwellholdings.com/", "logo": {"@type": "ImageObject", "url": "https://starwellholdings.com/assets/icon-512.png", "width": 512, "height": 512}, "image": "https://starwellholdings.com/assets/og-image.png", "description": "Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.", "foundingDate": "2025", "address": {"@type": "PostalAddress", "addressLocality": "Tel Aviv", "addressCountry": "IL"}, "founder": {"@type": "Person", "@id": "https://starwellholdings.com/our-team.html#amit-kochavi", "name": "Amit Kochavi", "alternateName": "עמית כוכבי"}, "contactPoint": {"@type": "ContactPoint", "url": "https://starwellholdings.com/contact.html", "contactType": "investor relations"}, "sameAs": ["https://www.linkedin.com/company/starwell-holdings/"]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "@id": "https://starwellholdings.com/#nav", "name": "Primary navigation", "itemListElement": [{"@type": "SiteNavigationElement", "position": 1, "name": "About Us", "url": "https://starwellholdings.com/our-story"}, {"@type": "SiteNavigationElement", "position": 2, "name": "Our Team", "url": "https://starwellholdings.com/our-team"}, {"@type": "SiteNavigationElement", "position": 3, "name": "IT Services", "url": "https://starwellholdings.com/technology"}, {"@type": "SiteNavigationElement", "position": 4, "name": "Real Estate", "url": "https://starwellholdings.com/real-estate"}, {"@type": "SiteNavigationElement", "position": 5, "name": "Capital", "url": "https://starwellholdings.com/capital"}, {"@type": "SiteNavigationElement", "position": 6, "name": "News", "url": "https://starwellholdings.com/news"}, {"@type": "SiteNavigationElement", "position": 7, "name": "Careers", "url": "https://starwellholdings.com/careers"}, {"@type": "SiteNavigationElement", "position": 8, "name": "Contact", "url": "https://starwellholdings.com/contact"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "@id": "https://starwellholdings.com/our-team.html#amit-kochavi", "name": "Amit Kochavi", "alternateName": ["עמית כוכבי", "Amit Kochavi"], "jobTitle": "Chairman, CEO & Founder", "description": "Founder, chairman and CEO of Starwell Holdings, a private investment and operating company building businesses across IT Services and Real Estate with passive capital allocation to public markets and alternative assets.", "worksFor": {"@id": "https://starwellholdings.com/#organization"}, "url": "https://starwellholdings.com/our-team.html", "image": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/3f93d596d_AmitKochaviPic.jpg", "sameAs": ["https://www.linkedin.com/in/amitkochavi/", "https://x.com/AmitKochavi", "https://www.linkedin.com/company/starwell-holdings/"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "@id": "https://starwellholdings.com/our-team.html#amit-kochavi", "name": "Amit Kochavi", "alternateName": ["עמית כוכבי", "Amit Kochavi"], "jobTitle": "Chairman, CEO & Founder", "description": "Founder, chairman and CEO of Starwell Holdings, a private investment and operating company building businesses across IT Services and Real Estate with passive capital allocation to public markets and alternative assets.", "worksFor": {"@id": "https://starwellholdings.com/#organization"}, "url": "https://starwellholdings.com/our-team.html", "sameAs": ["https://www.linkedin.com/in/amitkochavi/", "https://x.com/AmitKochavi", "https://www.linkedin.com/company/starwell-holdings/"]}</script>
 <style>
 /* ===========================================================
    Starwell Holdings - styles.css
@@ -257,6 +257,12 @@ img{max-width:100%;display:block}
 .ph-img{aspect-ratio:16/8;background:linear-gradient(135deg,#1d1d26,#101015);display:flex;align-items:center;justify-content:center;
   color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase;overflow:hidden}
 .ph-img img{width:100%;height:100%;object-fit:cover}
+/* graceful fallback when an image cannot load (see script.js) */
+.img-fallback{display:flex;align-items:center;justify-content:center;text-align:center;padding:0 10px}
+.ph-img .img-fallback{width:100%;height:100%;color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+.leader .photo .img-fallback{width:100%;height:100%;font-family:"Bodoni Moda",Georgia,serif;font-size:34px;letter-spacing:.02em;text-transform:none;color:var(--on-panel-soft)}
+.logo-chip .img-fallback,.lchip .img-fallback,.pchip .img-fallback{font-family:"Bodoni Moda",Georgia,serif;font-weight:700;color:var(--panel);font-size:14px;letter-spacing:.01em;white-space:nowrap}
+.m-logo .img-fallback{font-family:"Bodoni Moda",Georgia,serif;font-size:19px;color:#8b8b95;letter-spacing:.02em;white-space:nowrap}
 .pf .pf-desc,.xp .xp-desc{color:var(--on-panel-soft);font-size:14.5px;line-height:1.62;margin:2px 0 0}
 .xp .xp-desc{margin-top:8px;font-size:13px;line-height:1.55}
 .xp-body{padding:16px 18px 18px}
@@ -568,7 +574,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
   <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">Leadership</h2></div>
     <div class="leader">
-      <div class="photo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/3f93d596d_AmitKochaviPic.jpg" alt="Amit Kochavi" loading="lazy" decoding="async"></div>
+      <div class="photo" data-img="amit-kochavi"><span class="img-fallback">Amit Kochavi</span></div>
       <div>
         <div class="ln">Amit Kochavi</div>
         <div class="lt">Chairman, CEO &amp; Founder</div>
@@ -584,7 +590,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
       </div>
     </div>
     <div class="leader" style="margin-top:60px">
-      <div class="photo"><img src="assets/shirly-gur-arie.jpg" alt="Shirly Gur Arie" loading="lazy" decoding="async"></div>
+      <div class="photo" data-img="shirly-gur-arie"><img src="assets/shirly-gur-arie.jpg" alt="Shirly Gur Arie" loading="lazy" decoding="async"></div>
       <div>
         <div class="ln">Shirly Gur Arie</div>
         <div class="lt">Executive Assistant</div>
@@ -751,9 +757,63 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
       document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!ss.hasAttribute('hidden'))closeS();});
     }
   }catch(err){}
+
+  /* Image resilience: if a photo or logo fails to load (host down, file moved),
+     replace the broken-image icon with its alt text so the page still reads as
+     designed instead of showing a broken graphic. */
+  try{
+    function degrade(img){
+      if(img.getAttribute('data-degraded'))return;
+      img.setAttribute('data-degraded','1');
+      var alt=(img.getAttribute('alt')||'').replace(/\s+logo$/i,'');
+      var s=document.createElement('span');
+      s.className='img-fallback';
+      s.textContent=alt;
+      if(img.parentNode)img.parentNode.replaceChild(s,img);
+    }
+    document.addEventListener('error',function(e){
+      var t=e.target;
+      if(t&&t.tagName==='IMG')degrade(t);
+    },true);
+    function sweep(){
+      var imgs=document.querySelectorAll('img:not([data-degraded])');
+      for(var i=0;i<imgs.length;i++){
+        var im=imgs[i];
+        if(im.complete&&im.naturalWidth===0)degrade(im);
+      }
+    }
+    window.addEventListener('load',sweep);
+    setTimeout(sweep,2500);
+  }catch(err){}
 })();
 
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>window.SB_URL="https://leozizmosbwhwfkzoovt.supabase.co";window.SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxlb3ppem1vc2J3aHdma3pvb3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODQ3MjQsImV4cCI6MjA5Nzg2MDcyNH0.eFb8e5a4x09QYYFHZ1ER23v5bzie8WJz6ZLdsfrcd6s";
+/* Live site images — fill every [data-img="<key>"] slot with the image
+   uploaded for that key in the HQ dashboard (site_images table). Slots keep
+   whatever the build produced (a self-hosted file or a text placeholder) until
+   an upload exists, so the page never shows a broken graphic. */
+(function(){
+  if(!window.SB_URL||!window.SB_ANON||!window.supabase)return;
+  var slots=document.querySelectorAll('[data-img]');
+  if(!slots.length)return;
+  var sb=window.supabase.createClient(window.SB_URL,window.SB_ANON);
+  function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+  sb.from("site_images").select("key,url").then(function(r){
+    if(r.error||!r.data)return;
+    var map={};
+    r.data.forEach(function(row){ if(row.url)map[row.key]=row.url; });
+    for(var i=0;i<slots.length;i++){
+      var el=slots[i], url=map[el.getAttribute('data-img')];
+      if(!url)continue;
+      var cur=el.querySelector('img');
+      if(cur&&cur.getAttribute('src')===url)continue;
+      var alt=(cur&&cur.getAttribute('alt'))||el.textContent.trim()||"";
+      el.innerHTML='<img src="'+esc(url)+'" alt="'+esc(alt)+'" loading="lazy" decoding="async">';
+    }
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

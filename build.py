@@ -21,10 +21,20 @@ def t(en,he): return he if LANG=="he" else en
 def ap(): return "../" if LANG=="he" else ""          # asset path prefix for /he/ pages
 def out_path(filename): return os.path.join(OUT,"he",filename) if LANG=="he" else os.path.join(OUT,filename)
 
-def live_script(kind):
+def local_img(slug,alt):
+    """Self-hosted portrait: <img> when assets/<slug>.jpg exists, otherwise a
+    clean text placeholder (never a broken-image icon). Drop the file into
+    assets/ and it appears automatically on the next build."""
+    for ext in ("jpg","jpeg","png","webp"):
+        if os.path.exists(os.path.join(OUT,"assets",slug+"."+ext)):
+            return (f'<img src="{ap()}assets/{slug}.{ext}" alt="{_esc(alt)}" '
+                    f'loading="lazy" decoding="async">')
+    return f'<span class="img-fallback">{_esc(alt)}</span>'
+
+def live_script(*kinds):
     if not (SB_URL and SB_ANON): return ""
     sdk='<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>'
-    body=open(os.path.join(OUT,"assets","live-"+kind+".js")).read()
+    body="\n".join(open(os.path.join(OUT,"assets","live-"+k+".js")).read() for k in kinds)
     cfg=f'window.SB_URL={json.dumps(SB_URL)};window.SB_ANON={json.dumps(SB_ANON)};'
     return f'{sdk}\n<script>{cfg}\n{body}</script>'
 
@@ -308,28 +318,38 @@ def highlights():
     return "\n".join((xp_from(e) if e.get("pillar")=="real-estate" else pf_from(e)) for e in items)
 
 # Partner marquee (shared across languages - brand logos)
-SB="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/"
+# Baked belt: a live URL, else a self-hosted file in assets/partners/, else the
+# name as text. The carousel is refreshed at runtime from HQ (live-partners.js).
 PARTNERS=[
-  ("Tidhar", SB+"ed0e4f174_5aae560d-4622-4639-9a90-a4dc20483398.jpg"),
-  ("Union Group", SB+"d4e85ea44_images2.png"),
+  ("Tidhar", ""),
+  ("Union Group", ""),
   ("Kodiak Holdings", "https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg"),
-  ("Center Capital", SB+"c020e8ecf_centercaplog.png"),
-  ("Legion Holdings", SB+"bb4d49516_LogoBluewithLegiononsidetransparentwithadditionalheightemailsig_1756064682174-C1uX8d2f.png"),
-  ("Wilpon & Co.", SB+"74d15b488_wilpon.png"),
-  ("Noked Capital", SB+"0b7882a5e_Screenshot2025-12-20at095550.png"),
-  ("Hazavim", SB+"7198da834_logo-black-new.png"),
+  ("Center Capital", ""),
+  ("Legion Holdings", ""),
+  ("Wilpon & Co.", ""),
+  ("Noked Capital", ""),
+  ("Hazavim", ""),
 ]
+def _pslug(n):
+    return re.sub(r'[^a-z0-9]+','-',n.lower()).strip('-')
+def _plogo(n,u,hid):
+    if not u:
+        for ext in ("svg","png","jpg","jpeg","webp"):
+            p=os.path.join(OUT,"assets","partners",_pslug(n)+"."+ext)
+            if os.path.exists(p): u=f'{ap()}assets/partners/{_pslug(n)}.{ext}'; break
+    if u:
+        return f'<img src="{u}" alt="{_esc(n)}" loading="lazy" decoding="async"{hid}>'
+    return f'<span class="img-fallback">{_esc(n)}</span>'
 def _pset(hidden):
     hid=' aria-hidden="true"' if hidden else ''
     return "".join(
-        f'<span class="m-logo"><img src="{u}" alt="{_esc(n)}" loading="lazy" decoding="async"{hid}></span>'
-        for n,u in PARTNERS)
+        f'<span class="m-logo">{_plogo(n,u,hid)}</span>' for n,u in PARTNERS)
 
 # News list (baked fallback; live Supabase data overrides on the news page)
 NEWS=[
  ('Real Estate','Dec 21, 2025','Lipa Meir to Rent Offices in Beyond Tower for 11 Million NIS Per Year',
   'Lipa Meir & Co. is leaving Amot Investments House in Tel Aviv to lease 7,000 sqm of office space across 4 floors in the Beyond Tower project from Tidhar, Union, and Himnuta.',
-  'https://www.calcalist.co.il/real-estate/article/bjoi20k003','https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/c758ca080_--beyond---2.jpg'),
+  'https://www.calcalist.co.il/real-estate/article/bjoi20k003',''),
  ('Company News','Jun 3, 2025','Circles Merges Operations with U.S.-Based Doss',
   'Circles is merging its operations with U.S.-based Doss and will become the Israeli sales and marketing center for the company.',
   '','https://www.new-techeurope.com/wp-content/uploads/2025/06/Amit-Kochavi-e1748940333350.jpg'),
@@ -492,7 +512,7 @@ def build_site():
       t("About Us | Starwell Holdings","אודות | סטארוול הולדינגס"),
       t("Starwell Holdings is a privately held investment and operating company built to own and grow businesses over the long term, across real estate, operating companies, technology, and public markets.",
         "סטארוול הולדינגס היא חברת השקעות ותפעול פרטית שנבנתה כדי להחזיק ולהצמיח עסקים לטווח ארוך, בתחומי הנדל\"ן, חברות תפעוליות, טכנולוגיה ושווקים ציבוריים."),
-      our)
+      our,extra=live_script("partners"))
 
     # =================== OUR HISTORY (Legacy) ===================
     doron_link=t("https://en.wikipedia.org/wiki/Doron_Kochavi","https://www.storyofmylife.co.il/tlv019/")
@@ -511,10 +531,10 @@ def build_site():
         <h3>{t("Max Factor","מקס פקטור")}</h3>
         <p>{t('The entrepreneurial root of the family traces to <a href="https://en.wikipedia.org/wiki/Max_Factor" target="_blank" rel="noopener">Max Factor</a>, who built one of the defining consumer brands of the 20th century. From a single Los Angeles shop, he transformed the global cosmetics industry through invention, craftsmanship, and an uncompromising standard of quality - proof that enduring businesses are built product by product, customer by customer.','השורש היזמי של המשפחה מתחיל ב<a href="https://en.wikipedia.org/wiki/Max_Factor" target="_blank" rel="noopener">מקס פקטור</a>, שבנה את אחד המותגים הצרכניים המכוננים של המאה ה-20. מחנות אחת בלוס אנג&rsquo;לס הוא שינה את תעשיית הקוסמטיקה העולמית באמצעות המצאה, אומנות וסטנדרט בלתי מתפשר של איכות - הוכחה שעסקים גדולים נבנים מוצר אחר מוצר, לקוח אחר לקוח.')}</p>
       </div>
-      <figure class="legacy-fig"><div class="ph-img portrait"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/0a8a8dcfb_max-factor-portrait.jpg" alt="{t("Max Factor","מקס פקטור")}" loading="lazy" decoding="async"></div><figcaption>{t("Max Factor","מקס פקטור")}</figcaption></figure>
+      <figure class="legacy-fig"><div class="ph-img portrait" data-img="max-factor">{local_img("max-factor",t("Max Factor","מקס פקטור"))}</div><figcaption>{t("Max Factor","מקס פקטור")}</figcaption></figure>
     </div>
     <div class="legacy-row">
-      <figure class="legacy-fig"><div class="ph-img portrait"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/9c712cf33_DavidHeyman.jpg" alt="{t("David M. Heyman","דיוויד מ. היימן")}" loading="lazy" decoding="async"></div><figcaption>{t("David M. Heyman","דיוויד מ. היימן")}</figcaption></figure>
+      <figure class="legacy-fig"><div class="ph-img portrait" data-img="david-heyman">{local_img("david-heyman",t("David M. Heyman","דיוויד מ. היימן"))}</div><figcaption>{t("David M. Heyman","דיוויד מ. היימן")}</figcaption></figure>
       <div class="lg-text">
         <h3>{t("David M. Heyman","דיוויד מ. היימן")}</h3>
         <p>{t('The tradition of disciplined capital stewardship runs through <a href="https://en.wikipedia.org/wiki/David_M._Heyman" target="_blank" rel="noopener">David M. Heyman</a>, a New York financier and philanthropist who led the New York Foundation for decades. He treated capital as an instrument of long-term responsibility - to institutions, to communities, and to the generations that follow.','מסורת ניהול ההון עוברת דרך <a href="https://en.wikipedia.org/wiki/David_M._Heyman" target="_blank" rel="noopener">דיוויד מ. היימן</a>, איש פיננסים ופילנתרופ מניו יורק, שעמד עשרות שנים בראש ה-New York Foundation. הוא ראה בהון כלי של אחריות ארוכת טווח - כלפי מוסדות, קהילות והדורות הבאים.')}</p>
@@ -525,7 +545,7 @@ def build_site():
         <h3>{t("Real assets, two cities","נדל&quot;ן, שתי ערים")}</h3>
         <p>{t(f'The family&rsquo;s real estate roots run in parallel on both sides of the ocean. In Los Angeles, Herb Glaser - attorney turned developer - built Glaser Development Company into a commercial real estate developer across Southern California and the Western United States, spanning logistics centers, warehouses, and multifamily properties, alongside decades of leadership in the city&rsquo;s civic and Jewish institutions. In Tel Aviv, the Buchman family built a textile enterprise and converted it into real estate holdings that grew with the city itself. That tradition continues today through <a href="{doron_link}" target="_blank" rel="noopener">Doron Kochavi</a>, attorney and real estate developer.',f'שורשי הנדל&quot;ן של המשפחה מתקיימים במקביל משני צדי האוקיינוס. בלוס אנג&rsquo;לס, הרברט גלזר - עורך דין שהפך ליזם - בנה את Glaser Development Company לחברת פיתוח נדל&quot;ן מסחרי בדרום קליפורניה ובמערב ארה&quot;ב, ובכלל זה מרכזים לוגיסטיים, מחסנים ונכסי מגורים להשכרה (multifamily), לצד עשרות שנים של מנהיגות במוסדות הציבור והקהילה היהודית בעיר. בתל אביב, משפחת בוכמן בנתה עסקי טקסטיל והסבה אותם לנכסי נדל&quot;ן שצמחו יחד עם העיר. המסורת הזו נמשכת היום דרך <a href="{doron_link}" target="_blank" rel="noopener">דורון כוכבי</a>, עורך דין ויזם נדל&quot;ן.')}</p>
       </div>
-      <figure class="legacy-fig"><div class="ph-img portrait"><img src="{ap()}assets/doron-kochavi.jpg" alt="{t("Doron Kochavi","דורון כוכבי")}" loading="lazy" decoding="async"></div><figcaption>{t("Doron Kochavi","דורון כוכבי")}</figcaption></figure>
+      <figure class="legacy-fig"><div class="ph-img portrait" data-img="doron-kochavi">{local_img("doron-kochavi",t("Doron Kochavi","דורון כוכבי"))}</div><figcaption>{t("Doron Kochavi","דורון כוכבי")}</figcaption></figure>
     </div>
     <div class="body-copy" style="max-width:820px;margin:8px auto 0;text-align:center">
       <h3 style="font-family:'Bodoni Moda',Georgia,serif;font-weight:600;font-size:21px;margin-bottom:12px;color:var(--on-panel)">Starwell</h3>
@@ -537,7 +557,7 @@ def build_site():
       t("Our History | Starwell Holdings","ההיסטוריה שלנו | סטארוול הולדינגס"),
       t("Starwell builds on four generations of entrepreneurship, capital stewardship, and civic leadership - across Los Angeles, New York, and Tel Aviv.",
         "סטארוול נשענת על ארבעה דורות של יזמות, ניהול הון ומנהיגות ציבורית - בלוס אנג'לס, בניו יורק ובתל אביב."),
-      history)
+      history,extra=live_script("images"))
 
     # =================== OUR TEAM (Leadership) ===================
     team=f'''<section class="hero hero-center">
@@ -550,7 +570,7 @@ def build_site():
   <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">{t("Leadership","הנהלה")}</h2></div>
     <div class="leader">
-      <div class="photo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/3f93d596d_AmitKochaviPic.jpg" alt="{t("Amit Kochavi","עמית כוכבי")}" loading="lazy" decoding="async"></div>
+      <div class="photo" data-img="amit-kochavi">{local_img("amit-kochavi",t("Amit Kochavi","עמית כוכבי"))}</div>
       <div>
         <div class="ln">{t("Amit Kochavi","עמית כוכבי")}</div>
         <div class="lt">{t("Chairman, CEO &amp; Founder","יו&quot;ר, מנכ&quot;ל ומייסד")}</div>
@@ -566,7 +586,7 @@ def build_site():
       </div>
     </div>
     <div class="leader" style="margin-top:60px">
-      <div class="photo">{f'<img src="{ap()}assets/shirly-gur-arie.jpg" alt="{t("Shirly Gur Arie","שירלי גור אריה")}" loading="lazy" decoding="async">' if os.path.exists(os.path.join(OUT,"assets","shirly-gur-arie.jpg")) else '<span style="font-family:&#39;Bodoni Moda&#39;,Georgia,serif;font-size:64px;font-weight:600;color:#fff;display:flex;align-items:center;justify-content:center;height:100%">'+t("SG","שג")+'</span>'}</div>
+      <div class="photo" data-img="shirly-gur-arie">{local_img("shirly-gur-arie",t("Shirly Gur Arie","שירלי גור אריה"))}</div>
       <div>
         <div class="ln">{t("Shirly Gur Arie","שירלי גור אריה")}</div>
         <div class="lt">{t("Executive Assistant","עוזרת בכירה")}</div>
@@ -584,13 +604,12 @@ def build_site():
       t("Our Team | Starwell Holdings","הצוות שלנו | סטארוול הולדינגס"),
       t("Meet the Starwell Holdings team, led by founder, chairman and CEO Amit Kochavi, building businesses across IT Services and Real Estate.",
         "הכירו את צוות סטארוול הולדינגס, בהובלת המייסד, היו\"ר והמנכ\"ל עמית כוכבי, הבונה עסקים בתחומי שירותי ה-IT והנדל\"ן."),
-      team,extra_ld={"@context":"https://schema.org","@type":"Person","@id":BASE+"/our-team.html#amit-kochavi",
+      team,extra=live_script("images"),extra_ld={"@context":"https://schema.org","@type":"Person","@id":BASE+"/our-team.html#amit-kochavi",
         "name":"Amit Kochavi","alternateName":["עמית כוכבי","Amit Kochavi"],
         "jobTitle":t("Chairman, CEO & Founder","יו\"ר, מנכ\"ל ומייסד"),
         "description":t("Founder, chairman and CEO of Starwell Holdings, a private investment and operating company building businesses across IT Services and Real Estate with passive capital allocation to public markets and alternative assets.",
                         "מייסד, יו\"ר ומנכ\"ל של סטארוול הולדינגס, חברת השקעות ותפעול פרטית הבונה עסקים בתחומי שירותי ה-IT והנדל\"ן עם הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים."),
         "worksFor":{"@id":BASE+"/#organization"},"url":BASE+"/our-team.html",
-        "image":"https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/3f93d596d_AmitKochaviPic.jpg",
         "sameAs":["https://www.linkedin.com/in/amitkochavi/","https://x.com/AmitKochavi",
                   "https://www.linkedin.com/company/starwell-holdings/"]})
 

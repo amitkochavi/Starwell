@@ -114,4 +114,32 @@
       document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!ss.hasAttribute('hidden'))closeS();});
     }
   }catch(err){}
+
+  /* Image resilience: if a photo or logo fails to load (host down, file moved),
+     replace the broken-image icon with its alt text so the page still reads as
+     designed instead of showing a broken graphic. */
+  try{
+    function degrade(img){
+      if(img.getAttribute('data-degraded'))return;
+      img.setAttribute('data-degraded','1');
+      var alt=(img.getAttribute('alt')||'').replace(/\s+logo$/i,'');
+      var s=document.createElement('span');
+      s.className='img-fallback';
+      s.textContent=alt;
+      if(img.parentNode)img.parentNode.replaceChild(s,img);
+    }
+    document.addEventListener('error',function(e){
+      var t=e.target;
+      if(t&&t.tagName==='IMG')degrade(t);
+    },true);
+    function sweep(){
+      var imgs=document.querySelectorAll('img:not([data-degraded])');
+      for(var i=0;i<imgs.length;i++){
+        var im=imgs[i];
+        if(im.complete&&im.naturalWidth===0)degrade(im);
+      }
+    }
+    window.addEventListener('load',sweep);
+    setTimeout(sweep,2500);
+  }catch(err){}
 })();

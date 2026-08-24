@@ -256,6 +256,12 @@ img{max-width:100%;display:block}
 .ph-img{aspect-ratio:16/8;background:linear-gradient(135deg,#1d1d26,#101015);display:flex;align-items:center;justify-content:center;
   color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase;overflow:hidden}
 .ph-img img{width:100%;height:100%;object-fit:cover}
+/* graceful fallback when an image cannot load (see script.js) */
+.img-fallback{display:flex;align-items:center;justify-content:center;text-align:center;padding:0 10px}
+.ph-img .img-fallback{width:100%;height:100%;color:#3c3c47;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+.leader .photo .img-fallback{width:100%;height:100%;font-family:"Bodoni Moda",Georgia,serif;font-size:34px;letter-spacing:.02em;text-transform:none;color:var(--on-panel-soft)}
+.logo-chip .img-fallback,.lchip .img-fallback,.pchip .img-fallback{font-family:"Bodoni Moda",Georgia,serif;font-weight:700;color:var(--panel);font-size:14px;letter-spacing:.01em;white-space:nowrap}
+.m-logo .img-fallback{font-family:"Bodoni Moda",Georgia,serif;font-size:19px;color:#8b8b95;letter-spacing:.02em;white-space:nowrap}
 .pf .pf-desc,.xp .xp-desc{color:var(--on-panel-soft);font-size:14.5px;line-height:1.62;margin:2px 0 0}
 .xp .xp-desc{margin-top:8px;font-size:13px;line-height:1.55}
 .xp-body{padding:16px 18px 18px}
@@ -607,7 +613,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
     <h2 class="serif" style="margin-bottom:20px">שותפות</h2>
     <p class="body-copy" style="margin:0 auto 12px;text-align:center;max-width:760px">אנחנו מתמקדים בהשקעות נבחרות, שבהן יש לנו הבנה עמוקה ויכולת להיות שותפים מחושבים ומנהלי הון לטווח ארוך.</p>
     <div class="marquee" aria-label="שותפים נבחרים">
-      <div class="marquee-track"><span class="m-set"><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/ed0e4f174_5aae560d-4622-4639-9a90-a4dc20483398.jpg" alt="Tidhar" loading="lazy" decoding="async"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/d4e85ea44_images2.png" alt="Union Group" loading="lazy" decoding="async"></span><span class="m-logo"><img src="https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg" alt="Kodiak Holdings" loading="lazy" decoding="async"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/c020e8ecf_centercaplog.png" alt="Center Capital" loading="lazy" decoding="async"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/bb4d49516_LogoBluewithLegiononsidetransparentwithadditionalheightemailsig_1756064682174-C1uX8d2f.png" alt="Legion Holdings" loading="lazy" decoding="async"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/74d15b488_wilpon.png" alt="Wilpon &amp; Co." loading="lazy" decoding="async"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/0b7882a5e_Screenshot2025-12-20at095550.png" alt="Noked Capital" loading="lazy" decoding="async"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/7198da834_logo-black-new.png" alt="Hazavim" loading="lazy" decoding="async"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/ed0e4f174_5aae560d-4622-4639-9a90-a4dc20483398.jpg" alt="Tidhar" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/d4e85ea44_images2.png" alt="Union Group" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg" alt="Kodiak Holdings" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/c020e8ecf_centercaplog.png" alt="Center Capital" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/bb4d49516_LogoBluewithLegiononsidetransparentwithadditionalheightemailsig_1756064682174-C1uX8d2f.png" alt="Legion Holdings" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/74d15b488_wilpon.png" alt="Wilpon &amp; Co." loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/0b7882a5e_Screenshot2025-12-20at095550.png" alt="Noked Capital" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/7198da834_logo-black-new.png" alt="Hazavim" loading="lazy" decoding="async" aria-hidden="true"></span></span><span class="m-set" aria-hidden="true"><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/ed0e4f174_5aae560d-4622-4639-9a90-a4dc20483398.jpg" alt="Tidhar" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/d4e85ea44_images2.png" alt="Union Group" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg" alt="Kodiak Holdings" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/c020e8ecf_centercaplog.png" alt="Center Capital" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/bb4d49516_LogoBluewithLegiononsidetransparentwithadditionalheightemailsig_1756064682174-C1uX8d2f.png" alt="Legion Holdings" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/74d15b488_wilpon.png" alt="Wilpon &amp; Co." loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/0b7882a5e_Screenshot2025-12-20at095550.png" alt="Noked Capital" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/7198da834_logo-black-new.png" alt="Hazavim" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/ed0e4f174_5aae560d-4622-4639-9a90-a4dc20483398.jpg" alt="Tidhar" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/d4e85ea44_images2.png" alt="Union Group" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg" alt="Kodiak Holdings" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/c020e8ecf_centercaplog.png" alt="Center Capital" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/bb4d49516_LogoBluewithLegiononsidetransparentwithadditionalheightemailsig_1756064682174-C1uX8d2f.png" alt="Legion Holdings" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/74d15b488_wilpon.png" alt="Wilpon &amp; Co." loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/0b7882a5e_Screenshot2025-12-20at095550.png" alt="Noked Capital" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/7198da834_logo-black-new.png" alt="Hazavim" loading="lazy" decoding="async" aria-hidden="true"></span></span></div>
+      <div class="marquee-track"><span class="m-set"><span class="m-logo"><span class="img-fallback">Tidhar</span></span><span class="m-logo"><span class="img-fallback">Union Group</span></span><span class="m-logo"><img src="https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg" alt="Kodiak Holdings" loading="lazy" decoding="async"></span><span class="m-logo"><span class="img-fallback">Center Capital</span></span><span class="m-logo"><span class="img-fallback">Legion Holdings</span></span><span class="m-logo"><span class="img-fallback">Wilpon &amp; Co.</span></span><span class="m-logo"><span class="img-fallback">Noked Capital</span></span><span class="m-logo"><span class="img-fallback">Hazavim</span></span><span class="m-logo"><span class="img-fallback">Tidhar</span></span><span class="m-logo"><span class="img-fallback">Union Group</span></span><span class="m-logo"><img src="https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg" alt="Kodiak Holdings" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><span class="img-fallback">Center Capital</span></span><span class="m-logo"><span class="img-fallback">Legion Holdings</span></span><span class="m-logo"><span class="img-fallback">Wilpon &amp; Co.</span></span><span class="m-logo"><span class="img-fallback">Noked Capital</span></span><span class="m-logo"><span class="img-fallback">Hazavim</span></span></span><span class="m-set" aria-hidden="true"><span class="m-logo"><span class="img-fallback">Tidhar</span></span><span class="m-logo"><span class="img-fallback">Union Group</span></span><span class="m-logo"><img src="https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg" alt="Kodiak Holdings" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><span class="img-fallback">Center Capital</span></span><span class="m-logo"><span class="img-fallback">Legion Holdings</span></span><span class="m-logo"><span class="img-fallback">Wilpon &amp; Co.</span></span><span class="m-logo"><span class="img-fallback">Noked Capital</span></span><span class="m-logo"><span class="img-fallback">Hazavim</span></span><span class="m-logo"><span class="img-fallback">Tidhar</span></span><span class="m-logo"><span class="img-fallback">Union Group</span></span><span class="m-logo"><img src="https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg" alt="Kodiak Holdings" loading="lazy" decoding="async" aria-hidden="true"></span><span class="m-logo"><span class="img-fallback">Center Capital</span></span><span class="m-logo"><span class="img-fallback">Legion Holdings</span></span><span class="m-logo"><span class="img-fallback">Wilpon &amp; Co.</span></span><span class="m-logo"><span class="img-fallback">Noked Capital</span></span><span class="m-logo"><span class="img-fallback">Hazavim</span></span></span></div>
     </div>
   </section>
 </div>
@@ -776,9 +782,90 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
       document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!ss.hasAttribute('hidden'))closeS();});
     }
   }catch(err){}
+
+  /* Image resilience: if a photo or logo fails to load (host down, file moved),
+     replace the broken-image icon with its alt text so the page still reads as
+     designed instead of showing a broken graphic. */
+  try{
+    function degrade(img){
+      if(img.getAttribute('data-degraded'))return;
+      img.setAttribute('data-degraded','1');
+      var alt=(img.getAttribute('alt')||'').replace(/\s+logo$/i,'');
+      var s=document.createElement('span');
+      s.className='img-fallback';
+      s.textContent=alt;
+      if(img.parentNode)img.parentNode.replaceChild(s,img);
+    }
+    document.addEventListener('error',function(e){
+      var t=e.target;
+      if(t&&t.tagName==='IMG')degrade(t);
+    },true);
+    function sweep(){
+      var imgs=document.querySelectorAll('img:not([data-degraded])');
+      for(var i=0;i<imgs.length;i++){
+        var im=imgs[i];
+        if(im.complete&&im.naturalWidth===0)degrade(im);
+      }
+    }
+    window.addEventListener('load',sweep);
+    setTimeout(sweep,2500);
+  }catch(err){}
 })();
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>window.SB_URL="https://leozizmosbwhwfkzoovt.supabase.co";window.SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxlb3ppem1vc2J3aHdma3pvb3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODQ3MjQsImV4cCI6MjA5Nzg2MDcyNH0.eFb8e5a4x09QYYFHZ1ER23v5bzie8WJz6ZLdsfrcd6s";
+/* Live partner marquee — rebuild the logo belt from the logos managed in the
+   HQ dashboard: the "partners" table first, falling back to logos uploaded on
+   portfolio companies. Keeps the carousel current without a rebuild and off
+   any stale external host; falls back silently to the baked belt. */
+(function(){
+  if(!window.SB_URL||!window.SB_ANON||!window.supabase)return;
+  var track=document.querySelector('.marquee-track');
+  if(!track)return;
+  var sb=window.supabase.createClient(window.SB_URL,window.SB_ANON);
+  function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
 
+  function render(logos){
+    if(logos.length<2)return false;
+    function set(hidden){
+      return logos.map(function(l){
+        return '<span class="m-logo"><img src="'+esc(l.url)+'" alt="'+esc(l.name)+'" loading="lazy" decoding="async"'+(hidden?' aria-hidden="true"':'')+'></span>';
+      }).join("");
+    }
+    // two exactly-equal halves (each holding the set twice) keeps the -50% loop seamless
+    var half=set(false)+set(true);
+    track.innerHTML='<span class="m-set">'+half+'</span><span class="m-set" aria-hidden="true">'+half+'</span>';
+    return true;
+  }
+
+  function fromPortfolio(){
+    return sb.from("portfolio_companies").select("*").order("sort_order",{ascending:true}).then(function(r){
+      if(r.error||!r.data||!r.data.length)return;
+      var seen={}, logos=[];
+      r.data.forEach(function(row){
+        var list=[];
+        if(row.logo_url)list.push(row.logo_url);
+        var pl=Array.isArray(row.partner_logos)?row.partner_logos:[];
+        pl.forEach(function(u){if(u)list.push(u);});
+        list.forEach(function(u){
+          if(seen[u])return; seen[u]=1;
+          logos.push({url:u,name:row.name||""});
+        });
+      });
+      render(logos);
+    }).catch(function(){});
+  }
+
+  sb.from("partners").select("name,logo_url,active,sort_order").order("sort_order",{ascending:true}).then(function(r){
+    if(!r.error&&r.data){
+      var l=r.data.filter(function(x){return x.active!==false&&x.logo_url;})
+                  .map(function(x){return {url:x.logo_url,name:x.name||""};});
+      if(render(l))return;
+    }
+    return fromPortfolio();
+  }).catch(fromPortfolio);
+})();
+</script>
 </body>
 </html>
