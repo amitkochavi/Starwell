@@ -8,7 +8,7 @@
   "location": "",
   "partner": "",
   "website": "https://www.cormi.com/",
-  "logo": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/fa2134825_Cormi-04.png",
+  "logo": "",
   "logoText": "Cormi",
   "description": "Implementation and integration company specializing in ERP, CRM, and workflow systems for traditional businesses.",
   "status": "Active",
@@ -25,7 +25,7 @@
   "location": "",
   "partner": "",
   "website": "https://www.doss.com/",
-  "logo": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/2f8d344a1_doss-black.jpg",
+  "logo": "",
   "logoText": "Doss",
   "description": "Adaptive ERP and data platform with composable architecture. Unifies fragmented workflows across orders, inventory, procurement, production, and finance.",
   "status": "Active",
@@ -50,7 +50,7 @@
   "order": 1,
   "highlightOrder": 4,
   "image": "Tel Aviv",
-  "imageUrl": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/c758ca080_--beyond---2.jpg"
+  "imageUrl": ""
  },
  {
   "id": "rova-7",
@@ -78,7 +78,7 @@
   "location": "Cartersville, Georgia, US",
   "partner": "Wilpon & Co.",
   "website": "",
-  "logo": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/37430c127_wilpon.png",
+  "logo": "",
   "logoText": "Dawson",
   "description": "192-unit multifamily value-add acquisition.",
   "status": "Active",
@@ -86,7 +86,7 @@
   "order": 3,
   "highlightOrder": 5,
   "image": "Multifamily",
-  "imageUrl": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/3d8bac403_Screenshot2025-09-17at084300.png"
+  "imageUrl": ""
  },
  {
   "id": "terminal-logistics",
@@ -97,7 +97,7 @@
   "location": "US Logistics Markets",
   "partner": "Center Capital Partners",
   "website": "https://www.terminallogistics.com/",
-  "logo": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/e36794212_66e195f269802b9bae65b06b_Maskgroup10.png",
+  "logo": "",
   "logoText": "Terminal",
   "description": "Private real estate fund focused on industrial logistics assets across US markets.",
   "status": "Active",
@@ -105,7 +105,7 @@
   "order": 4,
   "highlightOrder": 1,
   "image": "Industrial Logistics",
-  "imageUrl": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/a895ebd2e_Screenshot2025-12-19at215702.png"
+  "imageUrl": ""
  },
  {
   "id": "kochavi-re",
@@ -133,7 +133,7 @@
   "location": "",
   "partner": "",
   "website": "https://legionholdings.ai/",
-  "logo": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/0a07f19ca_Screenshot2026-03-16at184317.png",
+  "logo": "",
   "logoText": "Pioneers",
   "description": "AI-native roll-up of healthcare staffing agencies, modernizing legacy operators with proprietary AI to automate workflows and dramatically improve recruiter output.",
   "status": "Active",
@@ -168,7 +168,7 @@
   "location": "",
   "partner": "",
   "website": "https://legionholdings.ai/",
-  "logo": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/bb4d49516_LogoBluewithLegiononsidetransparentwithadditionalheightemailsig_1756064682174-C1uX8d2f.png",
+  "logo": "",
   "logoText": "Legion",
   "description": "AI-native growth buyout firm investing in business services companies, modernizing their operations with AI, and compounding value through disciplined M&A.",
   "status": "Active",
@@ -186,7 +186,7 @@
   "location": "",
   "partner": "",
   "website": "",
-  "logo": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/40322a721_logofotter.png",
+  "logo": "",
   "logoText": "Noked",
   "description": "Hedge fund allocation.",
   "status": "Active",
@@ -203,7 +203,7 @@
   "location": "",
   "partner": "",
   "website": "",
-  "logo": "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/689dffc3f89591b3d4bd4a0b/7198da834_logo-black-new.png",
+  "logo": "",
   "logoText": "Hazavim",
   "description": "Hedge fund allocation.",
   "status": "Active",
