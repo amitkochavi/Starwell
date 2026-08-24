@@ -338,7 +338,7 @@ def _plogo(n,u,hid):
             p=os.path.join(OUT,"assets","partners",_pslug(n)+"."+ext)
             if os.path.exists(p): u=f'{ap()}assets/partners/{_pslug(n)}.{ext}'; break
     if u:
-        return f'<img src="{u}" alt="{_esc(n)}" loading="lazy" decoding="async"{hid}>'
+        return f'<img src="{u}" alt="{_esc(n)}" decoding="async"{hid}>'
     return f'<span class="img-fallback">{_esc(n)}</span>'
 def _pset(hidden):
     hid=' aria-hidden="true"' if hidden else ''
