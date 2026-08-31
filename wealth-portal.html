@@ -228,6 +228,17 @@ async function loadData(){
   const[accounts,rawStmts,investments,vitkinRaw,glaserRE,jewelryRaw,expensesRaw]=await Promise.all(fetches);
   log('Loaded: Accts='+accounts.length+' Stmts='+rawStmts.length+' Inv='+investments.length+' Vit='+vitkinRaw.length+' RE='+glaserRE.length+' Jew='+jewelryRaw.length+' Exp='+expensesRaw.length);
 
+  // Real estate: a "Status" column of "Sold" means the property has left the
+  // portfolio (proceeds land in a tracked account), so it drops out of the
+  // holdings list and out of net worth. Rows with no Status column, or any
+  // other value ("Owned"), are kept.
+  const reHeld=glaserRE.filter(r=>{
+    const k=Object.keys(r).find(k=>k.trim().toLowerCase()==='status');
+    if(!k)return true;
+    return String(r[k]==null?'':r[k]).trim().toLowerCase()!=='sold';
+  });
+  if(reHeld.length!==glaserRE.length)log('RE: excluded '+(glaserRE.length-reHeld.length)+' sold propert'+(glaserRE.length-reHeld.length===1?'y':'ies'));
+
   // Store expenses for cashflow dashboard
   DATA.expensesRaw=expensesRaw;
 
@@ -260,7 +271,7 @@ async function loadData(){
   log('Jewelry: '+jewelryItems.length+' items, $'+jewelryTotal);
 
   DATA={clean,ownerMap,acctNm,instMap,ownerAccts,latest:{},yearEnd:[],years:[],ye2025:{},vitkinVal,vitkinHistory,
-    reTotal:glaserRE.reduce((s,r)=>s+(num(r.OwnerShareValue)||0),0),reData:glaserRE,
+    reTotal:reHeld.reduce((s,r)=>s+(num(r.OwnerShareValue)||0),0),reData:reHeld,
     invTotal:investments.reduce((s,r)=>s+(num(r['Current Value'])||0),0),investments,
     jewelryTotal,jewelryItems,
     allAcctIds:[...new Set(clean.map(s=>s.AccountID))]};
