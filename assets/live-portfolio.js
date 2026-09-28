@@ -29,19 +29,19 @@
   }
   function pfCard(row){
     return '<div class="pf"><div class="logo-chip">'+chipImg(row)+'</div>'+
-      '<div class="pn">'+esc(row.name)+'</div>'+
-      (row.role?'<div class="meta"><span>'+ROLE+': '+esc(row.role)+'</span></div>':"")+
-      (row.description?'<p class="pf-desc">'+esc(row.description)+'</p>':"")+
+      '<div class="pn" dir="auto">'+esc(row.name)+'</div>'+
+      (row.role?'<div class="meta"><span>'+ROLE+': <span dir="auto">'+esc(row.role)+'</span></span></div>':"")+
+      (row.description?'<p class="pf-desc" dir="auto">'+esc(row.description)+'</p>':"")+
       plogos(row)+web(row.website_url)+'</div>';
   }
   function xpCard(row){
     var logo=row.logo_url?'<div class="logos"><span class="lchip"><img src="'+esc(row.logo_url)+'" alt="'+esc(row.name)+' logo" loading="lazy" decoding="async"></span></div>':"";
     return '<div class="xp">'+media(row)+'<div class="xp-body">'+logo+
-      '<div class="pn">'+esc(row.name)+'</div>'+
-      (row.location?'<div class="meta"><span>&#9679;</span><span>'+esc(row.location)+'</span></div>':"")+
-      (row.role?'<div class="meta"><span>&#9632;</span><span>'+esc(row.role)+'</span></div>':"")+
-      (row.partner?'<div class="meta"><span>&#9651;</span><span>'+esc(row.partner)+'</span></div>':"")+
-      (row.description?'<p class="xp-desc">'+esc(row.description)+'</p>':"")+
+      '<div class="pn" dir="auto">'+esc(row.name)+'</div>'+
+      (row.location?'<div class="meta"><span>&#9679;</span><span dir="auto">'+esc(row.location)+'</span></div>':"")+
+      (row.role?'<div class="meta"><span>&#9632;</span><span dir="auto">'+esc(row.role)+'</span></div>':"")+
+      (row.partner?'<div class="meta"><span>&#9651;</span><span dir="auto">'+esc(row.partner)+'</span></div>':"")+
+      (row.description?'<p class="xp-desc" dir="auto">'+esc(row.description)+'</p>':"")+
       plogos(row)+web(row.website_url)+'</div></div>';
   }
   // slider controls (delegated)
@@ -54,14 +54,29 @@
     slides[cur].classList.remove("active"); slides[to].classList.add("active");
     if(dots.length){ dots[cur].classList.remove("on"); dots[to].classList.add("on"); }
   });
+  /* Warm the logos before the baked cards are replaced. Without it the swap
+     puts <img>s on screen that have not loaded yet, so on a phone the cards
+     briefly lose their logo. Capped, and only logos - the larger project
+     photos load into a sized slide and can arrive on their own. */
+  function warm(rows,done){
+    var urls=rows.map(function(x){return x.logo_url;}).filter(Boolean);
+    if(!urls.length||!window.Promise)return done();
+    var left=urls.length,fired=false;
+    function tick(){ if(!--left&&!fired){fired=true;done();} }
+    urls.forEach(function(u){ var im=new Image(); im.onload=im.onerror=tick; im.src=u; if(im.complete)tick(); });
+    setTimeout(function(){ if(!fired){fired=true;done();} },4000);
+  }
+
   sb.from("portfolio_companies").select("*").order("sort_order",{ascending:true}).then(function(r){
     if(r.error||!r.data||!r.data.length)return;
-    grids.forEach(function(grid){
-      var pillar=grid.getAttribute("data-pillar");
-      var rows=r.data.filter(function(x){return x.pillar===pillar;});
-      if(!rows.length)return;
-      var xp=grid.classList.contains("xp-grid");
-      grid.innerHTML=rows.map(xp?xpCard:pfCard).join("");
+    warm(r.data,function(){
+      grids.forEach(function(grid){
+        var pillar=grid.getAttribute("data-pillar");
+        var rows=r.data.filter(function(x){return x.pillar===pillar;});
+        if(!rows.length)return;
+        var xp=grid.classList.contains("xp-grid");
+        grid.innerHTML=rows.map(xp?xpCard:pfCard).join("");
+      });
     });
   }).catch(function(){});
 })();

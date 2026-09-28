@@ -9,16 +9,46 @@
   var sb=window.supabase.createClient(window.SB_URL,window.SB_ANON);
   function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
 
+  /* Build every <img> up front, wait for it to load, and put those exact
+     elements on screen. Rendering the belt as an HTML string instead would
+     start the downloads only once it is already visible, which on a phone
+     leaves the strip blank until they arrive - the bug this avoids. Capped so
+     a slow or dead logo can never hold the belt back. */
+  function build(logos,hidden){
+    var frag=document.createDocumentFragment(),pending=[];
+    logos.forEach(function(l){
+      var slot=document.createElement("span"); slot.className="m-logo";
+      var im=new Image();
+      im.decoding="async"; im.alt=l.name||"";
+      if(hidden)im.setAttribute("aria-hidden","true");
+      pending.push(new Promise(function(res){
+        im.onload=im.onerror=function(){res();};
+        im.src=l.url;
+        if(im.complete)res();
+      }));
+      slot.appendChild(im); frag.appendChild(slot);
+    });
+    return {frag:frag,pending:pending};
+  }
+
   function render(logos){
-    if(logos.length<2)return false;
-    function set(hidden){
-      return logos.map(function(l){
-        return '<span class="m-logo"><img src="'+esc(l.url)+'" alt="'+esc(l.name)+'" decoding="async"'+(hidden?' aria-hidden="true"':'')+'></span>';
-      }).join("");
+    if(logos.length<2||!window.Promise)return logos.length>=2;
+    // repeat the set until each half is wider than the viewport, so the -50%
+    // loop never exposes a gap; both halves must stay identical
+    var reps=Math.max(1,Math.ceil(1500/Math.max(1,logos.length*150)));
+    var a=document.createElement("span"); a.className="m-set";
+    var b=document.createElement("span"); b.className="m-set"; b.setAttribute("aria-hidden","true");
+    var pending=[],i,s;
+    for(i=0;i<reps;i++){
+      s=build(logos,false); a.appendChild(s.frag); pending=pending.concat(s.pending);
+      s=build(logos,true);  b.appendChild(s.frag); pending=pending.concat(s.pending);
     }
-    // two exactly-equal halves (each holding the set twice) keeps the -50% loop seamless
-    var half=set(false)+set(true);
-    track.innerHTML='<span class="m-set">'+half+'</span><span class="m-set" aria-hidden="true">'+half+'</span>';
+    function swap(){
+      if(a.parentNode)return;                       // already swapped by the cap
+      track.innerHTML=""; track.appendChild(a); track.appendChild(b);
+    }
+    Promise.race([Promise.all(pending),new Promise(function(r){setTimeout(r,6000);})])
+      .then(swap,swap);
     return true;
   }
 

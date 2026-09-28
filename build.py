@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import json, os, re
+import json, os, re, struct
 import html as _html
 OUT=os.environ.get("STARWELL_OUT", os.path.dirname(os.path.abspath(__file__)))
 BASE="https://starwellholdings.com"
@@ -267,9 +267,14 @@ def render(filename,title,desc,body,extra_ld=None,index=True,extra="",search=Tru
 import html as _html
 PORTFOLIO=json.load(open(os.path.join(OUT,"data","portfolio.json"),encoding="utf-8"))
 def _esc(s): return _html.escape(s or "",quote=True)
+def _asset(u):
+    """Portfolio logos may be a full URL (Supabase/CDN) or a repo-relative path;
+    the latter needs the ../ prefix on the Hebrew pages."""
+    u=u or ""
+    return u if re.match(r'^(https?:)?//|^/|^data:',u) else ap()+u
 def _chip(e):
     if e.get("logo"):
-        return f'<img src="{e["logo"]}" alt="{_esc(e["name"])} logo" loading="lazy" decoding="async" style="max-height:34px;max-width:120px;object-fit:contain">'
+        return f'<img src="{_esc(_asset(e["logo"]))}" alt="{_esc(e["name"])} logo" loading="lazy" decoding="async" style="max-height:34px;max-width:120px;object-fit:contain">'
     return f'<span>{_esc(e.get("logoText") or e["name"])}</span>'
 def _web(e):
     u=e.get("website")
@@ -277,29 +282,29 @@ def _web(e):
     href=u if u not in (True,"true") else '#'
     return f'<a href="{_esc(href)}" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">{t("Website","אתר")} &rarr;</a>'
 def pf_from(e):
-    role=f'<div class="meta"><span>{t("Role","תפקיד")}: {_esc(e.get("role"))}</span></div>' if e.get("role") else ''
-    desc=f'<p class="pf-desc">{_esc(e.get("description"))}</p>' if e.get("description") else ''
+    role=f'<div class="meta"><span>{t("Role","תפקיד")}: <span dir="auto">{_esc(e.get("role"))}</span></span></div>' if e.get("role") else ''
+    desc=f'<p class="pf-desc" dir="auto">{_esc(e.get("description"))}</p>' if e.get("description") else ''
     web=_web(e)
     actions=f'<div class="pf-actions">{web}</div>' if web else ''
     return f'''      <div class="pf">
         <div class="logo-chip">{_chip(e)}</div>
-        <div class="pn">{_esc(e["name"])}</div>
+        <div class="pn" dir="auto">{_esc(e["name"])}</div>
         {role}{desc}
         {actions}
       </div>'''
 def xp_from(e):
-    rows=f'<div class="meta"><span>&#9679;</span><span>{_esc(e.get("location"))}</span></div>' if e.get("location") else ''
-    rows+=f'<div class="meta"><span>&#9632;</span><span>{_esc(e.get("role"))}</span></div>' if e.get("role") else ''
-    rows+=f'<div class="meta"><span>&#9651;</span><span>{_esc(e.get("partner"))}</span></div>' if e.get("partner") else ''
-    desc=f'<p class="xp-desc">{_esc(e.get("description"))}</p>' if e.get("description") else ''
+    rows=f'<div class="meta"><span>&#9679;</span><span dir="auto">{_esc(e.get("location"))}</span></div>' if e.get("location") else ''
+    rows+=f'<div class="meta"><span>&#9632;</span><span dir="auto">{_esc(e.get("role"))}</span></div>' if e.get("role") else ''
+    rows+=f'<div class="meta"><span>&#9651;</span><span dir="auto">{_esc(e.get("partner"))}</span></div>' if e.get("partner") else ''
+    desc=f'<p class="xp-desc" dir="auto">{_esc(e.get("description"))}</p>' if e.get("description") else ''
     web=_web(e)
     actions=f'<div class="pf-actions">{web}</div>' if web else ''
     media=f'<img src="{_esc(e.get("imageUrl"))}" alt="{_esc(e["name"])}" loading="lazy" decoding="async">' if e.get("imageUrl") else _esc(e.get("image") or "Project")
     return f'''      <div class="xp">
         <div class="ph-img">{media}</div>
         <div class="xp-body">
-          {f'<div class="logos"><span class="lchip"><img src="{_esc(e.get("logo"))}" alt="{_esc(e["name"])} logo" loading="lazy" decoding="async"></span></div>' if e.get("logo") else ''}
-          <div class="pn">{_esc(e["name"])}</div>
+          {f'<div class="logos"><span class="lchip"><img src="{_esc(_asset(e.get("logo")))}" alt="{_esc(e["name"])} logo" loading="lazy" decoding="async"></span></div>' if e.get("logo") else ''}
+          <div class="pn" dir="auto">{_esc(e["name"])}</div>
           {rows}
           {desc}
           {actions}
@@ -318,9 +323,14 @@ def highlights():
     return "\n".join((xp_from(e) if e.get("pillar")=="real-estate" else pf_from(e)) for e in items)
 
 # Partner marquee (shared across languages - brand logos)
-# Baked belt: a live URL, else a self-hosted file in assets/partners/, else the
-# name as text. The carousel is refreshed at runtime from HQ (live-partners.js).
+# Baked belt: a self-hosted file in assets/partners/ (preferred - it paints on
+# first load with no third-party request), else a live URL. A partner with
+# neither is skipped rather than shown as text. The carousel is refreshed at
+# runtime from HQ (live-partners.js); the baked belt is what mobile sees first.
 PARTNERS=[
+  ("Doss", ""),
+  ("Kardan", ""),
+  ("Reality Fund", ""),
   ("Tidhar", ""),
   ("Union Group", ""),
   ("Kodiak Holdings", "https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg"),
@@ -330,20 +340,58 @@ PARTNERS=[
   ("Noked Capital", ""),
   ("Hazavim", ""),
 ]
+MARQUEE_H=42  # keep in sync with .m-logo img{height:} in styles.css
+
 def _pslug(n):
     return re.sub(r'[^a-z0-9]+','-',n.lower()).strip('-')
+
+def _intrinsic(path):
+    """(w,h) of a PNG or SVG, so the marquee can reserve each logo's box before
+    the bytes land - otherwise width:auto collapses to 0 and the belt reflows."""
+    try:
+        with open(path,"rb") as fh: head=fh.read(4096)
+        if head[:8]==b"\x89PNG\r\n\x1a\n" and head[12:16]==b"IHDR":
+            return struct.unpack(">II",head[16:24])
+        if path.endswith(".svg"):
+            s=head.decode("utf-8","ignore")
+            m=re.search(r'viewBox\s*=\s*["\']\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)',s)
+            if not m:
+                w=re.search(r'\bwidth\s*=\s*["\']([\d.]+)',s); h=re.search(r'\bheight\s*=\s*["\']([\d.]+)',s)
+                if w and h: return float(w.group(1)),float(h.group(1))
+                return None
+            return float(m.group(1)),float(m.group(2))
+    except Exception:
+        return None
+    return None
+
 def _plogo(n,u,hid):
-    if not u:
-        for ext in ("svg","png","jpg","jpeg","webp"):
-            p=os.path.join(OUT,"assets","partners",_pslug(n)+"."+ext)
-            if os.path.exists(p): u=f'{ap()}assets/partners/{_pslug(n)}.{ext}'; break
-    if u:
-        return f'<img src="{u}" alt="{_esc(n)}" decoding="async"{hid}>'
-    return f'<span class="img-fallback">{_esc(n)}</span>'
+    dims=""
+    for ext in ("svg","png","jpg","jpeg","webp"):
+        p=os.path.join(OUT,"assets","partners",_pslug(n)+"."+ext)
+        if os.path.exists(p):
+            u=f'{ap()}assets/partners/{_pslug(n)}.{ext}'
+            wh=_intrinsic(p)
+            if wh and wh[1]:
+                dims=f' width="{round(MARQUEE_H*wh[0]/wh[1])}" height="{MARQUEE_H}"'
+            break
+    if not u: return ""
+    return f'<img src="{u}" alt="{_esc(n)}" decoding="async"{dims}{hid}>'
+
 def _pset(hidden):
     hid=' aria-hidden="true"' if hidden else ''
-    return "".join(
-        f'<span class="m-logo">{_plogo(n,u,hid)}</span>' for n,u in PARTNERS)
+    out=[]
+    for n,u in PARTNERS:
+        img=_plogo(n,u,hid)
+        if img: out.append(f'<span class="m-logo">{img}</span>')
+    return "".join(out)
+
+def _pwidth():
+    """Rendered width of one logo set, from the baked width/height attributes
+    plus the 72px gap - used to decide how often to repeat it."""
+    total=0
+    for m in re.finditer(r'width="(\d+)"',_pset(False)):
+        total+=min(170,int(m.group(1)))+72
+    return total
 
 # News list (baked fallback; live Supabase data overrides on the news page)
 NEWS=[
@@ -441,8 +489,11 @@ def build_site():
           "query-input":"required name=search_term_string"}})
 
     # =================== OUR STORY ===================
+    # Each half repeats the logo set until it is wider than the widest viewport,
+    # so the -50% loop never exposes a gap; both halves must stay identical.
+    _reps=max(1,-(-1500//max(1,_pwidth())))
     partner_marquee=f'''<div class="marquee" aria-label="{t("Selected partners","שותפים נבחרים")}">
-      <div class="marquee-track"><span class="m-set">{_pset(False)}{_pset(True)}</span><span class="m-set" aria-hidden="true">{_pset(True)}{_pset(True)}</span></div>
+      <div class="marquee-track"><span class="m-set">{_pset(False)*_reps}</span><span class="m-set" aria-hidden="true">{_pset(True)*_reps}</span></div>
     </div>'''
     our=f'''<section class="hero hero-center">
   <div class="wrap">
@@ -790,7 +841,7 @@ def build_site():
 
 <div class="wrap">
   <div class="contact-card" data-reveal>
-    <form id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+    <form id="contactForm" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="contact">
       <p hidden><label>Leave empty: <input name="bot-field"></label></p>
       <div class="frow">

@@ -317,6 +317,16 @@ img{max-width:100%;display:block}
 .m-logo img{height:42px;width:auto;max-width:170px;object-fit:contain;filter:grayscale(1);opacity:.82;transition:filter .3s,opacity .3s}
 .m-logo img:hover{filter:grayscale(0);opacity:1}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* phones: tighter belt so more than one logo is on screen at a time */
+@media (max-width:600px){
+  .marquee{margin-top:32px;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+  .m-set{gap:44px;padding-right:44px}
+  .m-logo img{height:32px;max-width:124px}
+  /* shorter belt on a narrow screen - keep the same apparent speed */
+  .marquee-track{animation-duration:24s}
+}
 @media (prefers-reduced-motion:reduce){.marquee-track{animation:none;width:auto}.m-set{flex-wrap:wrap;justify-content:center;gap:48px;padding-right:0}.m-set[aria-hidden]{display:none}}
 
 /* legacy figure rows (alternating image / text) */
@@ -363,7 +373,8 @@ img{max-width:100%;display:block}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .captcha{display:flex;align-items:center;gap:16px;margin-bottom:26px}
 .captcha label{margin:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink)}
-.captcha input{max-width:120px;border:0;border-bottom:1px solid var(--line);padding:8px 0;font-size:16px;font-family:inherit}
+.captcha input{max-width:120px;min-height:44px;border:0;border-bottom:1px solid var(--line);padding:8px 0;font-size:16px;font-family:inherit}
+@media (max-width:600px){.captcha{flex-wrap:wrap;gap:8px}}
 .formnote{font-size:13px;color:var(--gold);margin-top:14px;min-height:20px}
 .offices{margin-top:50px;padding-top:40px;border-top:1px solid var(--line)}
 .offices .ol{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:24px}
@@ -596,15 +607,15 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
     <div class="sec-label">פורטפוליו</div>
     <div class="pf-grid" data-pillar="technology">
       <div class="pf">
-        <div class="logo-chip"><span>Cormi</span></div>
-        <div class="pn">Cormi IT</div>
-        <div class="meta"><span>תפקיד: Founder and Majority Shareholder</span></div><p class="pf-desc">Implementation and integration company specializing in ERP, CRM, and workflow systems for traditional businesses.</p>
+        <div class="logo-chip"><img src="../assets/portfolio/cormi-it.svg" alt="Cormi IT logo" loading="lazy" decoding="async" style="max-height:34px;max-width:120px;object-fit:contain"></div>
+        <div class="pn" dir="auto">Cormi IT</div>
+        <div class="meta"><span>תפקיד: <span dir="auto">Founder and Majority Shareholder</span></span></div><p class="pf-desc" dir="auto">Implementation and integration company specializing in ERP, CRM, and workflow systems for traditional businesses.</p>
         <div class="pf-actions"><a href="https://www.cormi.com/" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">אתר &larr;</a></div>
       </div>
       <div class="pf">
-        <div class="logo-chip"><span>Doss</span></div>
-        <div class="pn">Doss Inc</div>
-        <div class="meta"><span>תפקיד: Strategic Partner</span></div><p class="pf-desc">Adaptive ERP and data platform with composable architecture. Unifies fragmented workflows across orders, inventory, procurement, production, and finance.</p>
+        <div class="logo-chip"><img src="../assets/portfolio/doss-inc.png" alt="Doss Inc logo" loading="lazy" decoding="async" style="max-height:34px;max-width:120px;object-fit:contain"></div>
+        <div class="pn" dir="auto">Doss Inc</div>
+        <div class="meta"><span>תפקיד: <span dir="auto">Strategic Partner</span></span></div><p class="pf-desc" dir="auto">Adaptive ERP and data platform with composable architecture. Unifies fragmented workflows across orders, inventory, procurement, production, and finance.</p>
         <div class="pf-actions"><a href="https://www.doss.com/" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">אתר &larr;</a></div>
       </div>
     </div>
@@ -827,19 +838,19 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
   }
   function pfCard(row){
     return '<div class="pf"><div class="logo-chip">'+chipImg(row)+'</div>'+
-      '<div class="pn">'+esc(row.name)+'</div>'+
-      (row.role?'<div class="meta"><span>'+ROLE+': '+esc(row.role)+'</span></div>':"")+
-      (row.description?'<p class="pf-desc">'+esc(row.description)+'</p>':"")+
+      '<div class="pn" dir="auto">'+esc(row.name)+'</div>'+
+      (row.role?'<div class="meta"><span>'+ROLE+': <span dir="auto">'+esc(row.role)+'</span></span></div>':"")+
+      (row.description?'<p class="pf-desc" dir="auto">'+esc(row.description)+'</p>':"")+
       plogos(row)+web(row.website_url)+'</div>';
   }
   function xpCard(row){
     var logo=row.logo_url?'<div class="logos"><span class="lchip"><img src="'+esc(row.logo_url)+'" alt="'+esc(row.name)+' logo" loading="lazy" decoding="async"></span></div>':"";
     return '<div class="xp">'+media(row)+'<div class="xp-body">'+logo+
-      '<div class="pn">'+esc(row.name)+'</div>'+
-      (row.location?'<div class="meta"><span>&#9679;</span><span>'+esc(row.location)+'</span></div>':"")+
-      (row.role?'<div class="meta"><span>&#9632;</span><span>'+esc(row.role)+'</span></div>':"")+
-      (row.partner?'<div class="meta"><span>&#9651;</span><span>'+esc(row.partner)+'</span></div>':"")+
-      (row.description?'<p class="xp-desc">'+esc(row.description)+'</p>':"")+
+      '<div class="pn" dir="auto">'+esc(row.name)+'</div>'+
+      (row.location?'<div class="meta"><span>&#9679;</span><span dir="auto">'+esc(row.location)+'</span></div>':"")+
+      (row.role?'<div class="meta"><span>&#9632;</span><span dir="auto">'+esc(row.role)+'</span></div>':"")+
+      (row.partner?'<div class="meta"><span>&#9651;</span><span dir="auto">'+esc(row.partner)+'</span></div>':"")+
+      (row.description?'<p class="xp-desc" dir="auto">'+esc(row.description)+'</p>':"")+
       plogos(row)+web(row.website_url)+'</div></div>';
   }
   // slider controls (delegated)
@@ -852,14 +863,29 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
     slides[cur].classList.remove("active"); slides[to].classList.add("active");
     if(dots.length){ dots[cur].classList.remove("on"); dots[to].classList.add("on"); }
   });
+  /* Warm the logos before the baked cards are replaced. Without it the swap
+     puts <img>s on screen that have not loaded yet, so on a phone the cards
+     briefly lose their logo. Capped, and only logos - the larger project
+     photos load into a sized slide and can arrive on their own. */
+  function warm(rows,done){
+    var urls=rows.map(function(x){return x.logo_url;}).filter(Boolean);
+    if(!urls.length||!window.Promise)return done();
+    var left=urls.length,fired=false;
+    function tick(){ if(!--left&&!fired){fired=true;done();} }
+    urls.forEach(function(u){ var im=new Image(); im.onload=im.onerror=tick; im.src=u; if(im.complete)tick(); });
+    setTimeout(function(){ if(!fired){fired=true;done();} },4000);
+  }
+
   sb.from("portfolio_companies").select("*").order("sort_order",{ascending:true}).then(function(r){
     if(r.error||!r.data||!r.data.length)return;
-    grids.forEach(function(grid){
-      var pillar=grid.getAttribute("data-pillar");
-      var rows=r.data.filter(function(x){return x.pillar===pillar;});
-      if(!rows.length)return;
-      var xp=grid.classList.contains("xp-grid");
-      grid.innerHTML=rows.map(xp?xpCard:pfCard).join("");
+    warm(r.data,function(){
+      grids.forEach(function(grid){
+        var pillar=grid.getAttribute("data-pillar");
+        var rows=r.data.filter(function(x){return x.pillar===pillar;});
+        if(!rows.length)return;
+        var xp=grid.classList.contains("xp-grid");
+        grid.innerHTML=rows.map(xp?xpCard:pfCard).join("");
+      });
     });
   }).catch(function(){});
 })();
