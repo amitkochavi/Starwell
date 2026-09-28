@@ -317,6 +317,16 @@ img{max-width:100%;display:block}
 .m-logo img{height:42px;width:auto;max-width:170px;object-fit:contain;filter:grayscale(1);opacity:.82;transition:filter .3s,opacity .3s}
 .m-logo img:hover{filter:grayscale(0);opacity:1}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* phones: tighter belt so more than one logo is on screen at a time */
+@media (max-width:600px){
+  .marquee{margin-top:32px;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+  .m-set{gap:44px;padding-right:44px}
+  .m-logo img{height:32px;max-width:124px}
+  /* shorter belt on a narrow screen - keep the same apparent speed */
+  .marquee-track{animation-duration:24s}
+}
 @media (prefers-reduced-motion:reduce){.marquee-track{animation:none;width:auto}.m-set{flex-wrap:wrap;justify-content:center;gap:48px;padding-right:0}.m-set[aria-hidden]{display:none}}
 
 /* legacy figure rows (alternating image / text) */
@@ -363,7 +373,8 @@ img{max-width:100%;display:block}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .captcha{display:flex;align-items:center;gap:16px;margin-bottom:26px}
 .captcha label{margin:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink)}
-.captcha input{max-width:120px;border:0;border-bottom:1px solid var(--line);padding:8px 0;font-size:16px;font-family:inherit}
+.captcha input{max-width:120px;min-height:44px;border:0;border-bottom:1px solid var(--line);padding:8px 0;font-size:16px;font-family:inherit}
+@media (max-width:600px){.captcha{flex-wrap:wrap;gap:8px}}
 .formnote{font-size:13px;color:var(--gold);margin-top:14px;min-height:20px}
 .offices{margin-top:50px;padding-top:40px;border-top:1px solid var(--line)}
 .offices .ol{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:24px}
@@ -613,7 +624,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
     <h2 class="serif" style="margin-bottom:20px">שותפות</h2>
     <p class="body-copy" style="margin:0 auto 12px;text-align:center;max-width:760px">אנחנו מתמקדים בהשקעות נבחרות, שבהן יש לנו הבנה עמוקה ויכולת להיות שותפים מחושבים ומנהלי הון לטווח ארוך.</p>
     <div class="marquee" aria-label="שותפים נבחרים">
-      <div class="marquee-track"><span class="m-set"><span class="m-logo"><span class="img-fallback">Tidhar</span></span><span class="m-logo"><span class="img-fallback">Union Group</span></span><span class="m-logo"><img src="https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg" alt="Kodiak Holdings" decoding="async"></span><span class="m-logo"><span class="img-fallback">Center Capital</span></span><span class="m-logo"><span class="img-fallback">Legion Holdings</span></span><span class="m-logo"><span class="img-fallback">Wilpon &amp; Co.</span></span><span class="m-logo"><span class="img-fallback">Noked Capital</span></span><span class="m-logo"><span class="img-fallback">Hazavim</span></span><span class="m-logo"><span class="img-fallback">Tidhar</span></span><span class="m-logo"><span class="img-fallback">Union Group</span></span><span class="m-logo"><img src="https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg" alt="Kodiak Holdings" decoding="async" aria-hidden="true"></span><span class="m-logo"><span class="img-fallback">Center Capital</span></span><span class="m-logo"><span class="img-fallback">Legion Holdings</span></span><span class="m-logo"><span class="img-fallback">Wilpon &amp; Co.</span></span><span class="m-logo"><span class="img-fallback">Noked Capital</span></span><span class="m-logo"><span class="img-fallback">Hazavim</span></span></span><span class="m-set" aria-hidden="true"><span class="m-logo"><span class="img-fallback">Tidhar</span></span><span class="m-logo"><span class="img-fallback">Union Group</span></span><span class="m-logo"><img src="https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg" alt="Kodiak Holdings" decoding="async" aria-hidden="true"></span><span class="m-logo"><span class="img-fallback">Center Capital</span></span><span class="m-logo"><span class="img-fallback">Legion Holdings</span></span><span class="m-logo"><span class="img-fallback">Wilpon &amp; Co.</span></span><span class="m-logo"><span class="img-fallback">Noked Capital</span></span><span class="m-logo"><span class="img-fallback">Hazavim</span></span><span class="m-logo"><span class="img-fallback">Tidhar</span></span><span class="m-logo"><span class="img-fallback">Union Group</span></span><span class="m-logo"><img src="https://cdn.prod.website-files.com/680f8b21602c5a1d5a2cea69/6810df55a602d0dfff94ca80_logo.svg" alt="Kodiak Holdings" decoding="async" aria-hidden="true"></span><span class="m-logo"><span class="img-fallback">Center Capital</span></span><span class="m-logo"><span class="img-fallback">Legion Holdings</span></span><span class="m-logo"><span class="img-fallback">Wilpon &amp; Co.</span></span><span class="m-logo"><span class="img-fallback">Noked Capital</span></span><span class="m-logo"><span class="img-fallback">Hazavim</span></span></span></div>
+      <div class="marquee-track"><span class="m-set"><span class="m-logo"><img src="../assets/partners/doss.png" alt="Doss" decoding="async" width="174" height="42"></span><span class="m-logo"><img src="../assets/partners/kardan.png" alt="Kardan" decoding="async" width="104" height="42"></span><span class="m-logo"><img src="../assets/partners/reality-fund.png" alt="Reality Fund" decoding="async" width="74" height="42"></span><span class="m-logo"><img src="../assets/partners/tidhar.png" alt="Tidhar" decoding="async" width="140" height="42"></span><span class="m-logo"><img src="../assets/partners/union-group.png" alt="Union Group" decoding="async" width="115" height="42"></span><span class="m-logo"><img src="../assets/partners/kodiak-holdings.svg" alt="Kodiak Holdings" decoding="async" width="168" height="42"></span><span class="m-logo"><img src="../assets/partners/center-capital.png" alt="Center Capital" decoding="async" width="153" height="42"></span><span class="m-logo"><img src="../assets/partners/legion-holdings.png" alt="Legion Holdings" decoding="async" width="137" height="42"></span><span class="m-logo"><img src="../assets/partners/wilpon-co.png" alt="Wilpon &amp; Co." decoding="async" width="83" height="42"></span><span class="m-logo"><img src="../assets/partners/noked-capital.svg" alt="Noked Capital" decoding="async" width="149" height="42"></span><span class="m-logo"><img src="../assets/partners/hazavim.svg" alt="Hazavim" decoding="async" width="180" height="42"></span></span><span class="m-set" aria-hidden="true"><span class="m-logo"><img src="../assets/partners/doss.png" alt="Doss" decoding="async" width="174" height="42" aria-hidden="true"></span><span class="m-logo"><img src="../assets/partners/kardan.png" alt="Kardan" decoding="async" width="104" height="42" aria-hidden="true"></span><span class="m-logo"><img src="../assets/partners/reality-fund.png" alt="Reality Fund" decoding="async" width="74" height="42" aria-hidden="true"></span><span class="m-logo"><img src="../assets/partners/tidhar.png" alt="Tidhar" decoding="async" width="140" height="42" aria-hidden="true"></span><span class="m-logo"><img src="../assets/partners/union-group.png" alt="Union Group" decoding="async" width="115" height="42" aria-hidden="true"></span><span class="m-logo"><img src="../assets/partners/kodiak-holdings.svg" alt="Kodiak Holdings" decoding="async" width="168" height="42" aria-hidden="true"></span><span class="m-logo"><img src="../assets/partners/center-capital.png" alt="Center Capital" decoding="async" width="153" height="42" aria-hidden="true"></span><span class="m-logo"><img src="../assets/partners/legion-holdings.png" alt="Legion Holdings" decoding="async" width="137" height="42" aria-hidden="true"></span><span class="m-logo"><img src="../assets/partners/wilpon-co.png" alt="Wilpon &amp; Co." decoding="async" width="83" height="42" aria-hidden="true"></span><span class="m-logo"><img src="../assets/partners/noked-capital.svg" alt="Noked Capital" decoding="async" width="149" height="42" aria-hidden="true"></span><span class="m-logo"><img src="../assets/partners/hazavim.svg" alt="Hazavim" decoding="async" width="180" height="42" aria-hidden="true"></span></span></div>
     </div>
   </section>
 </div>
@@ -826,16 +837,46 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
   var sb=window.supabase.createClient(window.SB_URL,window.SB_ANON);
   function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
 
+  /* Build every <img> up front, wait for it to load, and put those exact
+     elements on screen. Rendering the belt as an HTML string instead would
+     start the downloads only once it is already visible, which on a phone
+     leaves the strip blank until they arrive - the bug this avoids. Capped so
+     a slow or dead logo can never hold the belt back. */
+  function build(logos,hidden){
+    var frag=document.createDocumentFragment(),pending=[];
+    logos.forEach(function(l){
+      var slot=document.createElement("span"); slot.className="m-logo";
+      var im=new Image();
+      im.decoding="async"; im.alt=l.name||"";
+      if(hidden)im.setAttribute("aria-hidden","true");
+      pending.push(new Promise(function(res){
+        im.onload=im.onerror=function(){res();};
+        im.src=l.url;
+        if(im.complete)res();
+      }));
+      slot.appendChild(im); frag.appendChild(slot);
+    });
+    return {frag:frag,pending:pending};
+  }
+
   function render(logos){
-    if(logos.length<2)return false;
-    function set(hidden){
-      return logos.map(function(l){
-        return '<span class="m-logo"><img src="'+esc(l.url)+'" alt="'+esc(l.name)+'" decoding="async"'+(hidden?' aria-hidden="true"':'')+'></span>';
-      }).join("");
+    if(logos.length<2||!window.Promise)return logos.length>=2;
+    // repeat the set until each half is wider than the viewport, so the -50%
+    // loop never exposes a gap; both halves must stay identical
+    var reps=Math.max(1,Math.ceil(1500/Math.max(1,logos.length*150)));
+    var a=document.createElement("span"); a.className="m-set";
+    var b=document.createElement("span"); b.className="m-set"; b.setAttribute("aria-hidden","true");
+    var pending=[],i,s;
+    for(i=0;i<reps;i++){
+      s=build(logos,false); a.appendChild(s.frag); pending=pending.concat(s.pending);
+      s=build(logos,true);  b.appendChild(s.frag); pending=pending.concat(s.pending);
     }
-    // two exactly-equal halves (each holding the set twice) keeps the -50% loop seamless
-    var half=set(false)+set(true);
-    track.innerHTML='<span class="m-set">'+half+'</span><span class="m-set" aria-hidden="true">'+half+'</span>';
+    function swap(){
+      if(a.parentNode)return;                       // already swapped by the cap
+      track.innerHTML=""; track.appendChild(a); track.appendChild(b);
+    }
+    Promise.race([Promise.all(pending),new Promise(function(r){setTimeout(r,6000);})])
+      .then(swap,swap);
     return true;
   }
 
