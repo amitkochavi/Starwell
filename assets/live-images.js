@@ -18,7 +18,12 @@
       var cur=el.querySelector('img');
       if(cur&&cur.getAttribute('src')===url)continue;
       var alt=(cur&&cur.getAttribute('alt'))||el.textContent.trim()||"";
-      el.innerHTML='<img src="'+esc(url)+'" alt="'+esc(alt)+'" loading="lazy" decoding="async">';
+      /* Carry over how the build wanted this slot loaded. The portrait at the
+         top of a page is its largest element, and replacing an eager,
+         high-priority <img> with a lazy one pushed LCP out by seconds. */
+      var eager=cur&&cur.getAttribute('fetchpriority')==='high';
+      var load=eager?'decoding="async" fetchpriority="high"':'loading="lazy" decoding="async"';
+      el.innerHTML='<img src="'+esc(url)+'" alt="'+esc(alt)+'" '+load+'>';
     }
   }).catch(function(){});
 })();

@@ -593,13 +593,13 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
   <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">הנהלה</h2></div>
     <div class="leader">
-      <div class="photo" data-img="amit-kochavi"><img src="../assets/amit-kochavi.jpg" alt="עמית כוכבי" loading="lazy" decoding="async"></div>
+      <div class="photo" data-img="amit-kochavi"><img src="../assets/amit-kochavi.jpg" alt="עמית כוכבי" decoding="async" fetchpriority="high"></div>
       <div>
         <div class="ln">עמית כוכבי</div>
         <div class="lt">יו&quot;ר, מנכ&quot;ל ומייסד</div>
         <div class="body-copy">
           <p>עמית ייסד את סטארוול הולדינגס כדי לבנות חברת השקעות ותפעול פרטית המשלבת הון לטווח ארוך עם ביצוע תפעולי.</p>
-          <p>הוא שירת ביחידת הטכנולוגיה אופק של חיל האוויר. בשנת 2019 ייסד את Circles I.T. Innovation Ltd., שמיזגה את פעילותה עם Doss בשנת 2025.</p>
+          <p>הוא שירת ביחידת הטכנולוגיה אופק של חיל האוויר. בשנת 2019 ייסד את <bdi>Circles I.T. Innovation Ltd.</bdi>, שמיזגה את פעילותה עם Doss בשנת 2025.</p>
           <p>בשנת 2017 נכלל ברשימת 30 Under 30 של פורבס ישראל, ובשנת 2025 ברשימת 40 Under 40 של דה מרקר.</p>
           <p>הוא יועץ בכיר לראש עיריית שדרות, חבר במועצת קול העם של נשיא המדינה וחבר בחבר הנאמנים של המכללה האקדמית ספיר.</p>
           <p>עמית ממשיך להרחיב את תיק הפלטפורמות והשותפויות של סטארוול, מתוך מיקוד בבניית ערך מתמשך לאורך מחזורי שוק וגאוגרפיות.</p>
@@ -610,18 +610,19 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
         </div>
       </div>
     </div>
-    <!-- Card template for a future hire. Fill in the name, photo slug and bio,
-         drop assets/<slug>.jpg into the repo, then uncomment.
     <div class="leader" style="margin-top:60px">
-      <div class="photo" data-img="SLUG">[photo]</div>
+      <div class="photo" data-img="shirly-gur-arie"><img src="../assets/shirly-gur-arie.jpg" alt="שירלי גור אריה" loading="lazy" decoding="async"></div>
       <div>
-        <div class="ln">[TBD: name]</div>
-        <div class="lt">שותף, סטארוול שירותי IT</div>
-        <div class="body-copy"><p>[TBD: bio]</p></div>
-        <div class="t-links"><a href="[TBD: LinkedIn URL]" target="_blank" rel="noopener">LinkedIn</a></div>
+        <div class="ln">שירלי גור אריה</div>
+        <div class="lt">עוזרת בכירה</div>
+        <div class="body-copy">
+          <p>שירלי תומכת בהנהלת סטארוול ובפעילות היומיומית, ומתאמת בין הפלטפורמות והשותפים של החברה כדי לשמור על התנהלות חלקה.</p>
+        </div>
+        <div class="t-links">
+          <a href="https://www.linkedin.com/in/shirly-gur-arie/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
       </div>
     </div>
-    -->
   </div>
 </section>
 </main>
@@ -849,7 +850,12 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
       var cur=el.querySelector('img');
       if(cur&&cur.getAttribute('src')===url)continue;
       var alt=(cur&&cur.getAttribute('alt'))||el.textContent.trim()||"";
-      el.innerHTML='<img src="'+esc(url)+'" alt="'+esc(alt)+'" loading="lazy" decoding="async">';
+      /* Carry over how the build wanted this slot loaded. The portrait at the
+         top of a page is its largest element, and replacing an eager,
+         high-priority <img> with a lazy one pushed LCP out by seconds. */
+      var eager=cur&&cur.getAttribute('fetchpriority')==='high';
+      var load=eager?'decoding="async" fetchpriority="high"':'loading="lazy" decoding="async"';
+      el.innerHTML='<img src="'+esc(url)+'" alt="'+esc(alt)+'" '+load+'>';
     }
   }).catch(function(){});
 })();

@@ -21,14 +21,17 @@ def t(en,he): return he if LANG=="he" else en
 def ap(): return "../" if LANG=="he" else ""          # asset path prefix for /he/ pages
 def out_path(filename): return os.path.join(OUT,"he",filename) if LANG=="he" else os.path.join(OUT,filename)
 
-def local_img(slug,alt):
+def local_img(slug,alt,eager=False):
     """Self-hosted portrait: <img> when assets/<slug>.jpg exists, otherwise a
     clean text placeholder (never a broken-image icon). Drop the file into
-    assets/ and it appears automatically on the next build."""
+    assets/ and it appears automatically on the next build. Pass eager=True for
+    a portrait near the top of the page: lazy-loading the one that turns out to
+    be the largest element on screen only delays it."""
+    load=('decoding="async" fetchpriority="high"' if eager
+          else 'loading="lazy" decoding="async"')
     for ext in ("jpg","jpeg","png","webp"):
         if os.path.exists(os.path.join(OUT,"assets",slug+"."+ext)):
-            return (f'<img src="{ap()}assets/{slug}.{ext}" alt="{_esc(alt)}" '
-                    f'loading="lazy" decoding="async">')
+            return f'<img src="{ap()}assets/{slug}.{ext}" alt="{_esc(alt)}" {load}>'
     return f'<span class="img-fallback">{_esc(alt)}</span>'
 
 def live_script(*kinds):
@@ -203,6 +206,10 @@ def NAV_LD():
 SEARCH_INDEX={"en":[],"he":[]}
 def strip_html(s):
     s=re.sub(r'<(script|style)[\s\S]*?</\1>',' ',s)
+    # Comments first: they hold things never meant to be read, such as the
+    # commented-out team card template and the legal-review notices, and the
+    # tag regex below would otherwise spill their text into the search index.
+    s=re.sub(r'<!--[\s\S]*?-->',' ',s)
     s=re.sub(r'<[^>]+>',' ',s)
     s=_html.unescape(s)
     return re.sub(r'\s+',' ',s).strip()
@@ -646,13 +653,13 @@ def build_site():
   <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">{t("Leadership","הנהלה")}</h2></div>
     <div class="leader">
-      <div class="photo" data-img="amit-kochavi">{local_img("amit-kochavi",t("Amit Kochavi","עמית כוכבי"))}</div>
+      <div class="photo" data-img="amit-kochavi">{local_img("amit-kochavi",t("Amit Kochavi","עמית כוכבי"),eager=True)}</div>
       <div>
         <div class="ln">{t("Amit Kochavi","עמית כוכבי")}</div>
         <div class="lt">{t("Chairman, CEO &amp; Founder","יו&quot;ר, מנכ&quot;ל ומייסד")}</div>
         <div class="body-copy">
           <p>{t("Amit founded Starwell Holdings to build a private investment and operating company that combines long-term capital with operational execution.","עמית ייסד את סטארוול הולדינגס כדי לבנות חברת השקעות ותפעול פרטית המשלבת הון לטווח ארוך עם ביצוע תפעולי.")}</p>
-          <p>{t("He served in the Israeli Air Force&rsquo;s Ofek technology unit. In 2019 he founded Circles I.T. Innovation Ltd., which merged its operations with Doss in 2025.","הוא שירת ביחידת הטכנולוגיה אופק של חיל האוויר. בשנת 2019 ייסד את Circles I.T. Innovation Ltd., שמיזגה את פעילותה עם Doss בשנת 2025.")}</p>
+          <p>{t("He served in the Israeli Air Force&rsquo;s Ofek technology unit. In 2019 he founded Circles I.T. Innovation Ltd., which merged its operations with Doss in 2025.","הוא שירת ביחידת הטכנולוגיה אופק של חיל האוויר. בשנת 2019 ייסד את <bdi>Circles I.T. Innovation Ltd.</bdi>, שמיזגה את פעילותה עם Doss בשנת 2025.")}</p>
           <p>{t("He was named to Forbes Israel 30 Under 30 in 2017 and to TheMarker 40 Under 40 in 2025.","בשנת 2017 נכלל ברשימת 30 Under 30 של פורבס ישראל, ובשנת 2025 ברשימת 40 Under 40 של דה מרקר.")}</p>
           <p>{t("He is Senior Advisor to the Mayor of Sderot, a member of the President of Israel&rsquo;s Kol HaAm Council, and a member of the Board of Governors of Sapir Academic College.","הוא יועץ בכיר לראש עיריית שדרות, חבר במועצת קול העם של נשיא המדינה וחבר בחבר הנאמנים של המכללה האקדמית ספיר.")}</p>
           <p>{t("Amit continues to grow Starwell&rsquo;s portfolio of platforms and partnerships, focused on building enduring value across cycles and geographies.","עמית ממשיך להרחיב את תיק הפלטפורמות והשותפויות של סטארוול, מתוך מיקוד בבניית ערך מתמשך לאורך מחזורי שוק וגאוגרפיות.")}</p>
@@ -663,18 +670,19 @@ def build_site():
         </div>
       </div>
     </div>
-    <!-- Card template for a future hire. Fill in the name, photo slug and bio,
-         drop assets/<slug>.jpg into the repo, then uncomment.
     <div class="leader" style="margin-top:60px">
-      <div class="photo" data-img="SLUG">[photo]</div>
+      <div class="photo" data-img="shirly-gur-arie">{local_img("shirly-gur-arie",t("Shirly Gur Arie","שירלי גור אריה"))}</div>
       <div>
-        <div class="ln">[TBD: name]</div>
-        <div class="lt">{t("Partner, Starwell IT Services","שותף, סטארוול שירותי IT")}</div>
-        <div class="body-copy"><p>[TBD: bio]</p></div>
-        <div class="t-links"><a href="[TBD: LinkedIn URL]" target="_blank" rel="noopener">LinkedIn</a></div>
+        <div class="ln">{t("Shirly Gur Arie","שירלי גור אריה")}</div>
+        <div class="lt">{t("Executive Assistant","עוזרת בכירה")}</div>
+        <div class="body-copy">
+          <p>{t("Shirly supports Starwell&rsquo;s leadership and day-to-day operations, coordinating across the firm&rsquo;s platforms and partners to keep the organization running smoothly.","שירלי תומכת בהנהלת סטארוול ובפעילות היומיומית, ומתאמת בין הפלטפורמות והשותפים של החברה כדי לשמור על התנהלות חלקה.")}</p>
+        </div>
+        <div class="t-links">
+          <a href="https://www.linkedin.com/in/shirly-gur-arie/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
       </div>
     </div>
-    -->
   </div>
 </section>'''
     render("our-team.html",
@@ -741,12 +749,66 @@ def build_site():
       <div class="step"><h3>{t("A fast and discreet process","תהליך מהיר ודיסקרטי")}</h3><p>{t("A small team, direct conversations, and confidentiality at every stage.","צוות קטן, שיחות ישירות ושמירה על סודיות בכל שלב.")}</p></div>
     </div>
   </section>
-</div>'''
+</div>
+
+<section class="dark" id="team" data-reveal>
+  <div class="wrap sec">
+    <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">{t("Team","הצוות")}</h2></div>
+    <div class="leader">
+      <div class="photo" data-img="amit-kochavi">{local_img("amit-kochavi",t("Amit Kochavi","עמית כוכבי"))}</div>
+      <div>
+        <div class="ln">{t("Amit Kochavi","עמית כוכבי")}</div>
+        <div class="lt">{t("Executive Chairman","יו&quot;ר פעיל")}</div>
+        <div class="body-copy">
+          <p>{t("Amit is the founder, chairman and CEO of Starwell Holdings. He founded Circles I.T. Innovation Ltd. in 2019, which merged its operations with Doss in 2025, and leads Starwell&rsquo;s acquisition of IT services companies in Israel.","עמית הוא המייסד, היו&quot;ר והמנכ&quot;ל של סטארוול הולדינגס. בשנת 2019 ייסד את <bdi>Circles I.T. Innovation Ltd.</bdi>, שמיזגה את פעילותה עם Doss בשנת 2025, והוא מוביל את רכישת חברות שירותי ה-IT של סטארוול בישראל.")}</p>
+        </div>
+        <div class="t-links">
+          <a href="our-team">{t("Full biography","הביוגרפיה המלאה")} &rarr;</a>
+          <a href="https://www.linkedin.com/in/amitkochavi/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="leader" style="margin-top:60px">
+      <div class="photo" data-img="tal-raif">{local_img("tal-raif",t("Tal Raif","טל רייף"))}</div>
+      <div>
+        <div class="ln">{t("Tal Raif","טל רייף")}</div>
+        <div class="lt">{t("Board Member and Head of Business Development","חבר דירקטוריון ומנהל פיתוח עסקי")}</div>
+        <div class="body-copy">
+          <p>{t("Tal is Head of Strategy, Innovation and M&amp;A at Afcon Holdings (TASE: AFHL), where he leads M&amp;A end to end, from sourcing and valuation through due diligence and negotiation, alongside corporate venture investments and strategic partnerships across renewable energy, EV charging infrastructure, data centers, industrial automation, and defense technology.","טל הוא ראש תחום אסטרטגיה, חדשנות ומיזוגים ורכישות באפקון החזקות (TASE: AFHL), שם הוא מוביל את פעילות המיזוגים והרכישות מקצה לקצה, מאיתור עסקאות והערכות שווי ועד בדיקות נאותות ומשא ומתן, לצד השקעות הון סיכון תאגידי ושותפויות אסטרטגיות בתחומי האנרגיה המתחדשת, תשתיות הטעינה לרכבים חשמליים, מרכזי הנתונים, האוטומציה התעשייתית והטכנולוגיות הביטחוניות.")}</p>
+          <p>{t("He is a third-generation member of the family behind Shlomo Group, and takes part in its strategic and investment activity across mobility, insurance and finance, real estate, shipyards, and aviation. He represents the family in international family-office forums, including The Family Office Alliance.","הוא דור שלישי במשפחה שמאחורי קבוצת שלמה, ושותף לפעילות האסטרטגית ולהשקעות שלה בתחומי המוביליות, הביטוח והפיננסים, הנדל&quot;ן, המספנות והתעופה. הוא מייצג את המשפחה בפורומים בינלאומיים של משרדי משפחה, ובהם The Family Office Alliance.")}</p>
+          <p>{t("He sits on the investment committee of Square One Labs and reviews opportunities across venture capital and private equity. He holds an MBA from the Coller School of Management at Tel Aviv University and a BA in Communication and Media Studies from IDC Herzliya.","הוא חבר בוועדת ההשקעות של Square One Labs ובוחן הזדמנויות בהון סיכון ובפרייבט אקוויטי. הוא בעל תואר MBA מבית הספר למנהל עסקים ע&quot;ש קולר באוניברסיטת תל אביב ותואר ראשון בתקשורת מהמרכז הבינתחומי הרצליה.")}</p>
+        </div>
+        <div class="t-links">
+          <a href="https://il.linkedin.com/in/talraif" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <!-- Card template for a future hire. Fill in the name, photo slug and bio,
+         drop assets/&lt;slug&gt;.jpg into the repo, then uncomment.
+    <div class="leader" style="margin-top:60px">
+      <div class="photo" data-img="SLUG">[photo]</div>
+      <div>
+        <div class="ln">[TBD: name]</div>
+        <div class="lt">{t("Partner, Starwell IT Services","שותף, סטארוול שירותי IT")}</div>
+        <div class="body-copy"><p>[TBD: bio]</p></div>
+        <div class="t-links"><a href="[TBD: LinkedIn URL]" target="_blank" rel="noopener">LinkedIn</a></div>
+      </div>
+    </div>
+    -->
+  </div>
+</section>'''
     render("technology.html",
       t("Starwell IT Services | Starwell Holdings","סטארוול שירותי IT | סטארוול הולדינגס"),
       t("Starwell IT Services acquires controlling or significant stakes in established, profitable Israeli IT services companies, keeping management, employees and client relationships in place.",
         "סטארוול שירותי IT רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ישראליות ותיקות ורווחיות, תוך שמירה על ההנהלה, העובדים והקשר עם הלקוחות."),
-      tech)
+      tech,extra=live_script("images"),
+      extra_ld={"@context":"https://schema.org","@type":"Person",
+        "@id":BASE+"/technology.html#tal-raif","name":"Tal Raif",
+        "alternateName":"טל רייף","jobTitle":t("Board Member and Head of Business Development","חבר דירקטוריון ומנהל פיתוח עסקי"),
+        "worksFor":{"@id":BASE+"/#organization"},
+        "affiliation":{"@type":"Organization","name":"Afcon Holdings"},
+        "alumniOf":[{"@type":"CollegeOrUniversity","name":"Tel Aviv University, Coller School of Management"},{"@type":"CollegeOrUniversity","name":"IDC Herzliya"}],
+        "url":BASE+"/technology.html","sameAs":["https://il.linkedin.com/in/talraif"]})
 
     # =================== STARWELL REAL ESTATE ===================
     # The pillar is split into two labelled sections. The prefixes are matched
