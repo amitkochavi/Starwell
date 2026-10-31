@@ -169,8 +169,8 @@ def FOOTER():
 </footer>'''
 
 def ORG_LD():
-    # Only the one confirmed office is published. Add further locations here
-    # when their addresses are confirmed, never before.
+    # Only confirmed offices are published; never add a location before its
+    # address is confirmed. The registered Israeli office is listed first.
     return {"@context":"https://schema.org","@type":"Organization","@id":BASE+"/#organization",
       "name":"Starwell Holdings","alternateName":["Starwell","סטארוול הולדינגס","סטארוול"],
       "legalName":LEGAL_NAME,"identifier":COMPANY_NO,
@@ -179,8 +179,10 @@ def ORG_LD():
       "description":t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.",
                       "סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל\"ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים."),
       "foundingDate":"2025",
-      "address":{"@type":"PostalAddress","streetAddress":"Beyond Towers, Ariel Sharon Street 1",
-                 "addressLocality":"Givatayim","addressCountry":"IL"},
+      "address":[{"@type":"PostalAddress","streetAddress":"Beyond Towers, Ariel Sharon Street 1",
+                  "addressLocality":"Givatayim","addressCountry":"IL"},
+                 {"@type":"PostalAddress","streetAddress":"11601 Wilshire Blvd #2080",
+                  "addressLocality":"Los Angeles","addressRegion":"CA","postalCode":"90025","addressCountry":"US"}],
       "founder":{"@type":"Person","@id":"https://amitkochavi.com/#person","name":"Amit Kochavi","url":"https://amitkochavi.com"},
       "contactPoint":{"@type":"ContactPoint","url":BASE+"/contact.html","contactType":"investor relations"},
       "sameAs":["https://www.linkedin.com/company/starwell-holdings/"]}
@@ -922,8 +924,9 @@ def build_site():
       <div class="formnote" id="formnote" role="status" aria-live="polite"></div>
 
       <div class="offices">
-        <h2 class="ol">{t("Office","משרד")}</h2>
-        <div class="office"><p>{t("Beyond Towers<br>Ariel Sharon Street 1<br>Givatayim, Israel","מגדלי ביונד<br>רחוב אריאל שרון 1<br>גבעתיים, ישראל")}</p></div>
+        <h2 class="ol">{t("Offices","משרדים")}</h2>
+        <div class="office"><h3>{t("Givatayim","גבעתיים")}</h3><p>{t("Beyond Towers<br>Ariel Sharon Street 1<br>Givatayim, Israel","מגדלי ביונד<br>רחוב אריאל שרון 1<br>גבעתיים, ישראל")}</p></div>
+        <div class="office"><h3>{t("Los Angeles","לוס אנג&rsquo;לס")}</h3><p>{t("11601 Wilshire Blvd #2080<br>Los Angeles, CA 90025<br>USA","11601 Wilshire Blvd #2080<br>Los Angeles, CA 90025<br>ארה&quot;ב")}</p></div>
       </div>
     </form>
   </div>
@@ -931,8 +934,8 @@ def build_site():
 <div style="height:60px"></div>'''
     render("contact.html",
       t("Contact | Starwell Holdings","צור קשר | סטארוול הולדינגס"),
-      t("Contact Starwell Holdings about investment opportunities, partnerships, or potential transactions. Office in Givatayim, Israel.",
-        "צרו קשר עם סטארוול הולדינגס בנושא הזדמנויות השקעה, שותפויות או עסקאות. המשרד בגבעתיים, ישראל."),
+      t("Contact Starwell Holdings about investment opportunities, partnerships, or potential transactions. Offices in Givatayim, Israel and Los Angeles.",
+        "צרו קשר עם סטארוול הולדינגס בנושא הזדמנויות השקעה, שותפויות או עסקאות. משרדים בגבעתיים ובלוס אנג'לס."),
       contact)
 
     # =================== CAREERS ===================
