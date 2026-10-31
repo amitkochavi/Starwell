@@ -683,18 +683,6 @@ def build_site():
         </div>
       </div>
     </div>
-    <!-- Card template for a future hire. Fill in the name, photo slug and bio,
-         drop assets/<slug>.jpg into the repo, then uncomment.
-    <div class="leader" style="margin-top:60px">
-      <div class="photo" data-img="SLUG">[photo]</div>
-      <div>
-        <div class="ln">[TBD: name]</div>
-        <div class="lt">{t("Partner, Starwell IT Services","שותף, סטארוול שירותי IT")}</div>
-        <div class="body-copy"><p>[TBD: bio]</p></div>
-        <div class="t-links"><a href="[TBD: LinkedIn URL]" target="_blank" rel="noopener">LinkedIn</a></div>
-      </div>
-    </div>
-    -->
   </div>
 </section>'''
     render("our-team.html",
@@ -761,12 +749,52 @@ def build_site():
       <div class="step"><h3>{t("A fast and discreet process","תהליך מהיר ודיסקרטי")}</h3><p>{t("A small team, direct conversations, and confidentiality at every stage.","צוות קטן, שיחות ישירות ושמירה על סודיות בכל שלב.")}</p></div>
     </div>
   </section>
-</div>'''
+</div>
+
+<section class="dark" id="team" data-reveal>
+  <div class="wrap sec">
+    <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">{t("Team","הצוות")}</h2></div>
+    <div class="leader">
+      <div class="photo" data-img="tal-raif">{local_img("tal-raif",t("Tal Raif","טל רייף"))}</div>
+      <div>
+        <div class="ln">{t("Tal Raif","טל רייף")}</div>
+        <div class="lt">{t("Investor and Board Member","משקיע וחבר דירקטוריון")}</div>
+        <div class="body-copy">
+          <!-- [TBD] Bio. LinkedIn blocks automated reading, so nothing here is
+               written yet rather than guessed. Paste the About section and
+               roles from https://il.linkedin.com/in/talraif and this becomes
+               two or three sentences in the house style, EN and HE. -->
+          <p>{t("[TBD: bio, from Tal&rsquo;s LinkedIn]","[TBD: ביוגרפיה, מתוך הלינקדאין של טל]")}</p>
+        </div>
+        <div class="t-links">
+          <a href="https://il.linkedin.com/in/talraif" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <!-- Card template for a future hire. Fill in the name, photo slug and bio,
+         drop assets/&lt;slug&gt;.jpg into the repo, then uncomment.
+    <div class="leader" style="margin-top:60px">
+      <div class="photo" data-img="SLUG">[photo]</div>
+      <div>
+        <div class="ln">[TBD: name]</div>
+        <div class="lt">{t("Partner, Starwell IT Services","שותף, סטארוול שירותי IT")}</div>
+        <div class="body-copy"><p>[TBD: bio]</p></div>
+        <div class="t-links"><a href="[TBD: LinkedIn URL]" target="_blank" rel="noopener">LinkedIn</a></div>
+      </div>
+    </div>
+    -->
+  </div>
+</section>'''
     render("technology.html",
       t("Starwell IT Services | Starwell Holdings","סטארוול שירותי IT | סטארוול הולדינגס"),
       t("Starwell IT Services acquires controlling or significant stakes in established, profitable Israeli IT services companies, keeping management, employees and client relationships in place.",
         "סטארוול שירותי IT רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ישראליות ותיקות ורווחיות, תוך שמירה על ההנהלה, העובדים והקשר עם הלקוחות."),
-      tech)
+      tech,extra=live_script("images"),
+      extra_ld={"@context":"https://schema.org","@type":"Person",
+        "@id":BASE+"/technology.html#tal-raif","name":"Tal Raif",
+        "alternateName":"טל רייף","jobTitle":t("Investor and Board Member","משקיע וחבר דירקטוריון"),
+        "memberOf":{"@id":BASE+"/#organization"},"url":BASE+"/technology.html",
+        "sameAs":["https://il.linkedin.com/in/talraif"]})
 
     # =================== STARWELL REAL ESTATE ===================
     # The pillar is split into two labelled sections. The prefixes are matched
