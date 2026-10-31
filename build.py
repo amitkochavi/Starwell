@@ -169,9 +169,8 @@ def FOOTER():
 </footer>'''
 
 def ORG_LD():
-    # [TBD] address: no office address is published until a real one is
-    # confirmed, so Organization carries no PostalAddress. Add it back here
-    # once the confirmed office is supplied.
+    # Only the one confirmed office is published. Add further locations here
+    # when their addresses are confirmed, never before.
     return {"@context":"https://schema.org","@type":"Organization","@id":BASE+"/#organization",
       "name":"Starwell Holdings","alternateName":["Starwell","סטארוול הולדינגס","סטארוול"],
       "legalName":LEGAL_NAME,"identifier":COMPANY_NO,
@@ -180,6 +179,8 @@ def ORG_LD():
       "description":t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.",
                       "סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל\"ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים."),
       "foundingDate":"2025",
+      "address":{"@type":"PostalAddress","streetAddress":"Beyond Towers, Ariel Sharon Street 1",
+                 "addressLocality":"Givatayim","addressCountry":"IL"},
       "founder":{"@type":"Person","@id":"https://amitkochavi.com/#person","name":"Amit Kochavi","url":"https://amitkochavi.com"},
       "contactPoint":{"@type":"ContactPoint","url":BASE+"/contact.html","contactType":"investor relations"},
       "sameAs":["https://www.linkedin.com/company/starwell-holdings/"]}
@@ -206,6 +207,10 @@ def strip_html(s):
 
 def render(filename,title,desc,body,extra_ld=None,index=True,extra="",search=True):
     title=title.replace(" - "," | ")
+    # Both go into content="..." attributes as well as element text. Unescape
+    # first so a string that already carries &quot; is not double-escaped.
+    title=_html.escape(_html.unescape(title),quote=True)
+    desc=_html.escape(_html.unescape(desc),quote=True)
     slug="" if filename=="index.html" else filename[:-5]
     en_url=BASE+"/"+slug
     he_url=BASE+"/he/"+slug
@@ -478,12 +483,12 @@ def build_site():
         <a href="technology" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
       <div class="card">
-        <h3>{t("Starwell Real Estate","Starwell Real Estate")}</h3>
+        <h3>{t("Starwell Real Estate","סטארוול נדל&quot;ן")}</h3>
         <p>{t("Development and GP investments in Israel, select co-investments.","ייזום והשקעות שותף כללי (GP) בישראל, לצד השקעות משותפות נבחרות.")}</p>
         <a href="real-estate" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
       <div class="card">
-        <h3>{t("Starwell Capital","Starwell Capital")}</h3>
+        <h3>{t("Starwell Capital","סטארוול קפיטל")}</h3>
         <p>{t("Long-term investment portfolio across public markets and direct private positions.","תיק השקעות לטווח ארוך בשווקים הציבוריים ובפוזיציות פרטיות ישירות.")}</p>
         <a href="capital" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
@@ -750,7 +755,7 @@ def build_site():
     RE_STARWELL_SEL="|".join(RE_STARWELL); RE_FAMILY_SEL="|".join(RE_FAMILY)
     re=f'''<section class="hero">
   <div class="wrap">
-    <h1>Starwell<br>Real Estate</h1>
+    <h1>{t("Starwell<br>Real Estate","סטארוול<br>נדל&quot;ן")}</h1>
     <p class="lead">{t("Development and strategic real estate investment across Israel and the United States.","ייזום והשקעות נדל&quot;ן אסטרטגיות בישראל ובארצות הברית.")}</p>
   </div>
 </section>
@@ -775,7 +780,7 @@ def build_site():
 
 <section class="dark" data-reveal>
   <div class="wrap sec">
-    <h2 class="sec-label">{t("Starwell","Starwell")}</h2>
+    <h2 class="sec-label">{t("Starwell","סטארוול")}</h2>
     <p class="body-copy" style="margin:0 0 34px;color:var(--on-panel-soft);max-width:720px">{t("Positions held by Starwell: advisory mandates, participation in development, and limited partner investments.","אחזקות של סטארוול: מנדטים של ייעוץ, השתתפות בייזום והשקעות כשותף מוגבל (LP).")}</p>
     <div class="xp-grid" data-pillar="real-estate" data-names="{RE_STARWELL_SEL}">
 {cards_for("real-estate",RE_STARWELL)}
@@ -793,16 +798,16 @@ def build_site():
   </div>
 </section>'''
     render("real-estate.html",
-      t("Starwell Real Estate | Starwell Holdings","Starwell Real Estate | סטארוול הולדינגס"),
+      t("Starwell Real Estate | Starwell Holdings","סטארוול נדל\"ן | סטארוול הולדינגס"),
       t("Starwell Real Estate covers development and strategic real estate investment across Israel and the United States, with development, advisory, and limited-partner positions.",
-        "Starwell Real Estate עוסקת בייזום ובהשקעות נדל\"ן אסטרטגיות בישראל ובארצות הברית, לרבות ייזום, ייעוץ ופוזיציות כשותף מוגבל."),
+        "סטארוול נדל\"ן עוסקת בייזום ובהשקעות נדל\"ן אסטרטגיות בישראל ובארצות הברית, לרבות ייזום, ייעוץ ופוזיציות כשותף מוגבל."),
       re,extra=live_script("portfolio"))
 
     # =================== STARWELL CAPITAL ===================
     CAP_SEL=["Pioneers","Kodiak","Legion"]
     cap=f'''<section class="hero">
   <div class="wrap">
-    <h1>Starwell<br>Capital</h1>
+    <h1>{t("Starwell<br>Capital","סטארוול<br>קפיטל")}</h1>
     <p class="lead">{t("Long-term investment portfolio across public markets and direct private positions.","תיק השקעות לטווח ארוך בשווקים הציבוריים ובפוזיציות פרטיות ישירות.")}</p>
   </div>
 </section>
@@ -812,7 +817,7 @@ def build_site():
     <h2 class="sec-label">{t("Approach","הגישה")}</h2>
     <p class="lede">{t("Patient, conviction-driven capital allocation across public markets and direct private positions.","הקצאת הון סבלנית וממוקדת, בשווקים הציבוריים ובפוזיציות פרטיות ישירות.")}</p>
     <div class="body-copy">
-      <p>{t("Starwell Capital holds the group&rsquo;s investment portfolio outside the operating companies. The mandate spans long-term public market holdings and direct private positions, including private equity, selective hedge fund allocations, and real estate. We invest with a long time horizon and concentrate where we have genuine conviction.","Starwell Capital מחזיקה את תיק ההשקעות של הקבוצה מחוץ לחברות התפעוליות. המנדט כולל אחזקות ארוכות טווח בשווקים הציבוריים ופוזיציות פרטיות ישירות, ובהן פרייבט אקוויטי, הקצאות סלקטיביות לקרנות גידור ונדל&quot;ן. אנחנו משקיעים לטווח ארוך, ומרכזים את ההון היכן שיש לנו הבנה אמיתית של העסק.")}</p>
+      <p>{t("Starwell Capital holds the group&rsquo;s investment portfolio outside the operating companies. The mandate spans long-term public market holdings and direct private positions, including private equity, selective hedge fund allocations, and real estate. We invest with a long time horizon and concentrate where we have genuine conviction.","סטארוול קפיטל מחזיקה את תיק ההשקעות של הקבוצה מחוץ לחברות התפעוליות. המנדט כולל אחזקות ארוכות טווח בשווקים הציבוריים ופוזיציות פרטיות ישירות, ובהן פרייבט אקוויטי, הקצאות סלקטיביות לקרנות גידור ונדל&quot;ן. אנחנו משקיעים לטווח ארוך, ומרכזים את ההון היכן שיש לנו הבנה אמיתית של העסק.")}</p>
       <p class="disclaimer">{t(*DISCLAIMER)}</p>
     </div>
   </section>
@@ -838,9 +843,9 @@ def build_site():
   </div>
 </section>'''
     render("capital.html",
-      t("Starwell Capital | Starwell Holdings","Starwell Capital | סטארוול הולדינגס"),
+      t("Starwell Capital | Starwell Holdings","סטארוול קפיטל | סטארוול הולדינגס"),
       t("Starwell Capital holds the Starwell Holdings investment portfolio: long-term positions across public markets and direct private positions. Starwell invests only its own capital.",
-        "Starwell Capital מחזיקה את תיק ההשקעות של סטארוול הולדינגס: אחזקות ארוכות טווח בשווקים הציבוריים ופוזיציות פרטיות ישירות. סטארוול משקיעה מהון עצמי בלבד."),
+        "סטארוול קפיטל מחזיקה את תיק ההשקעות של סטארוול הולדינגס: אחזקות ארוכות טווח בשווקים הציבוריים ופוזיציות פרטיות ישירות. סטארוול משקיעה מהון עצמי בלבד."),
       cap,extra=live_script("portfolio"))
 
     # =================== NEWS ===================
@@ -917,11 +922,8 @@ def build_site():
       <div class="formnote" id="formnote" role="status" aria-live="polite"></div>
 
       <div class="offices">
-        <div class="ol">{t("Offices","משרדים")}</div>
-        <!-- [TBD] Replace with confirmed office addresses only. Until one is
-             confirmed nothing is published here, and Organization JSON-LD
-             carries no PostalAddress either. -->
-        <p class="office-tbd">{t("[TBD: confirmed real office addresses only]","[TBD: כתובות משרד מאומתות בלבד]")}</p>
+        <h2 class="ol">{t("Office","משרד")}</h2>
+        <div class="office"><p>{t("Beyond Towers<br>Ariel Sharon Street 1<br>Givatayim, Israel","מגדלי ביונד<br>רחוב אריאל שרון 1<br>גבעתיים, ישראל")}</p></div>
       </div>
     </form>
   </div>
@@ -929,8 +931,8 @@ def build_site():
 <div style="height:60px"></div>'''
     render("contact.html",
       t("Contact | Starwell Holdings","צור קשר | סטארוול הולדינגס"),
-      t("Contact Starwell Holdings about investment opportunities, partnerships, or potential transactions.",
-        "צרו קשר עם סטארוול הולדינגס בנושא הזדמנויות השקעה, שותפויות או עסקאות."),
+      t("Contact Starwell Holdings about investment opportunities, partnerships, or potential transactions. Office in Givatayim, Israel.",
+        "צרו קשר עם סטארוול הולדינגס בנושא הזדמנויות השקעה, שותפויות או עסקאות. המשרד בגבעתיים, ישראל."),
       contact)
 
     # =================== CAREERS ===================
