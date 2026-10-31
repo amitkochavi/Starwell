@@ -29,6 +29,8 @@
 /careers.html  /careers  301!
 /sitemap.html  /sitemap  301!
 /search.html  /search  301!
+/privacy.html  /privacy  301!
+/accessibility.html  /accessibility  301!
 /he/index.html  /he/  301!
 /he/our-story.html  /he/our-story  301!
 /he/our-history.html  /he/our-history  301!
@@ -41,6 +43,8 @@
 /he/careers.html  /he/careers  301!
 /he/sitemap.html  /he/sitemap  301!
 /he/search.html  /he/search  301!
+/he/privacy.html  /he/privacy  301!
+/he/accessibility.html  /he/accessibility  301!
 
 # Serve clean URLs from the .html files (200, no redirect)
 /our-story  /our-story.html  200
@@ -54,6 +58,8 @@
 /careers  /careers.html  200
 /sitemap  /sitemap.html  200
 /search  /search.html  200
+/privacy  /privacy.html  200
+/accessibility  /accessibility.html  200
 /he/our-story  /he/our-story.html  200
 /he/our-history  /he/our-history.html  200
 /he/our-team  /he/our-team.html  200
@@ -65,3 +71,5 @@
 /he/careers  /he/careers.html  200
 /he/sitemap  /he/sitemap.html  200
 /he/search  /he/search.html  200
+/he/privacy  /he/privacy.html  200
+/he/accessibility  /he/accessibility.html  200

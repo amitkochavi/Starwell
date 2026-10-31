@@ -1,4 +1,4 @@
-/* Live Careers — if Supabase is configured and there are open roles, list
+/* Live Careers - if Supabase is configured and there are open roles, list
    them in the Open Positions section. On the Hebrew site (/he/) it prefers the
    *_he fields and falls back to English. Fails silently to the baked state. */
 (function(){

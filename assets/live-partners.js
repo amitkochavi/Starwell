@@ -1,4 +1,4 @@
-/* Live partner marquee — rebuild the logo belt from the logos managed in the
+/* Live partner marquee - rebuild the logo belt from the logos managed in the
    HQ dashboard: the "partners" table first, falling back to logos uploaded on
    portfolio companies. Keeps the carousel current without a rebuild and off
    any stale external host; falls back silently to the baked belt. */

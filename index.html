@@ -34,9 +34,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600;6..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://starwellholdings.com/#organization", "name": "Starwell Holdings", "alternateName": ["Starwell", "סטארוול הולדינגס", "סטארוול"], "legalName": "Starwell Holdings", "url": "https://starwellholdings.com/", "logo": {"@type": "ImageObject", "url": "https://starwellholdings.com/assets/icon-512.png", "width": 512, "height": 512}, "image": "https://starwellholdings.com/assets/og-image.png", "description": "Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.", "foundingDate": "2025", "address": {"@type": "PostalAddress", "addressLocality": "Tel Aviv", "addressCountry": "IL"}, "founder": {"@type": "Person", "@id": "https://starwellholdings.com/our-team.html#amit-kochavi", "name": "Amit Kochavi", "alternateName": "עמית כוכבי"}, "contactPoint": {"@type": "ContactPoint", "url": "https://starwellholdings.com/contact.html", "contactType": "investor relations"}, "sameAs": ["https://www.linkedin.com/company/starwell-holdings/"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://starwellholdings.com/#organization", "name": "Starwell Holdings", "alternateName": ["Starwell", "סטארוול הולדינגס", "סטארוול"], "legalName": "Starwell Holdings Ltd.", "identifier": "517166237", "url": "https://starwellholdings.com/", "logo": {"@type": "ImageObject", "url": "https://starwellholdings.com/assets/icon-512.png", "width": 512, "height": 512}, "image": "https://starwellholdings.com/assets/og-image.png", "description": "Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.", "foundingDate": "2025", "founder": {"@type": "Person", "@id": "https://amitkochavi.com/#person", "name": "Amit Kochavi", "url": "https://amitkochavi.com"}, "contactPoint": {"@type": "ContactPoint", "url": "https://starwellholdings.com/contact.html", "contactType": "investor relations"}, "sameAs": ["https://www.linkedin.com/company/starwell-holdings/"]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "@id": "https://starwellholdings.com/#nav", "name": "Primary navigation", "itemListElement": [{"@type": "SiteNavigationElement", "position": 1, "name": "About Us", "url": "https://starwellholdings.com/our-story"}, {"@type": "SiteNavigationElement", "position": 2, "name": "Our Team", "url": "https://starwellholdings.com/our-team"}, {"@type": "SiteNavigationElement", "position": 3, "name": "IT Services", "url": "https://starwellholdings.com/technology"}, {"@type": "SiteNavigationElement", "position": 4, "name": "Real Estate", "url": "https://starwellholdings.com/real-estate"}, {"@type": "SiteNavigationElement", "position": 5, "name": "Capital", "url": "https://starwellholdings.com/capital"}, {"@type": "SiteNavigationElement", "position": 6, "name": "News", "url": "https://starwellholdings.com/news"}, {"@type": "SiteNavigationElement", "position": 7, "name": "Careers", "url": "https://starwellholdings.com/careers"}, {"@type": "SiteNavigationElement", "position": 8, "name": "Contact", "url": "https://starwellholdings.com/contact"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "@id": "https://starwellholdings.com/#website", "name": "Starwell Holdings", "alternateName": "Starwell", "url": "https://starwellholdings.com/", "inLanguage": "en", "publisher": {"@id": "https://starwellholdings.com/#organization"}, "potentialAction": {"@type": "SearchAction", "target": {"@type": "EntryPoint", "urlTemplate": "https://starwellholdings.com/search.html?q={search_term_string}"}, "query-input": "required name=search_term_string"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "@id": "https://starwellholdings.com/#website", "name": "Starwell Holdings", "alternateName": "Starwell", "url": "https://starwellholdings.com/", "inLanguage": "en", "publisher": {"@id": "https://starwellholdings.com/#organization"}}</script>
 <style>
 /* ===========================================================
    Starwell Holdings - styles.css
@@ -47,7 +47,7 @@
   --paper:#FBFBFC; --paper-2:#F3F3F5; --ink:#0F0F12; --ink-soft:#44454B;
   --line:#E6E6EA; --line-soft:#EFEFF2; --panel:#0C0C10; --panel-2:#15151B;
   --panel-card:#17171E; --on-panel:#F4F3F0; --on-panel-soft:#C6C6CE;
-  --on-panel-line:#262630; --gold:#9A7B4F; --gold-soft:#B79A6F; --nav-h:74px;
+  --on-panel-line:#262630; --gold:#9A7B4F; --gold-soft:#B79A6F; --gold-text:#836A31; --nav-h:74px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth}
@@ -174,7 +174,7 @@ img{max-width:100%;display:block}
 /* ---------- SECTIONS ---------- */
 .sec{padding-block:96px}
 .sec.tight{padding:72px 0}
-.sec-label{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;margin-bottom:30px}
+.sec-label{font-size:11px;line-height:1.4;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;margin:0 0 30px}
 .sec-center{text-align:center}
 .sec-center h2{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:clamp(28px,4vw,40px);margin-bottom:18px}
 .sec-h{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:clamp(26px,3.4vw,36px);line-height:1.2;letter-spacing:.005em}
@@ -372,16 +372,24 @@ img{max-width:100%;display:block}
 .field input:focus,.field textarea:focus{outline:0;border-color:var(--ink)}
 .field textarea{resize:vertical;min-height:110px}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.captcha{display:flex;align-items:center;gap:16px;margin-bottom:26px}
-.captcha label{margin:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink)}
-.captcha input{max-width:120px;min-height:44px;border:0;border-bottom:1px solid var(--line);padding:8px 0;font-size:16px;font-family:inherit}
-@media (max-width:600px){.captcha{flex-wrap:wrap;gap:8px}}
-.formnote{font-size:13px;color:var(--gold);margin-top:14px;min-height:20px}
+.formnote{font-size:13px;color:var(--gold-text);margin-top:14px;min-height:20px}
 .offices{margin-top:50px;padding-top:40px;border-top:1px solid var(--line)}
 .offices .ol{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:24px}
 .office{margin-bottom:26px}
 .office h4{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:21px;margin-bottom:8px}
 .office p{font-size:14px;color:var(--ink-soft);line-height:1.6}
+.office-tbd{font-size:14px;color:var(--ink-soft);line-height:1.6}
+
+/* footer signature, legal entity line and the capital disclaimer */
+.foot-sig{margin-top:14px;font-family:"Bodoni Moda",Georgia,serif;font-size:17px;color:var(--on-panel)}
+.foot-legal{margin-top:26px;font-size:12px;line-height:1.7;color:var(--on-panel-soft);max-width:760px}
+.disclaimer{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft)}
+
+/* privacy / accessibility drafts */
+.legal-copy h2{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:22px;margin:34px 0 10px}
+.legal-copy p{margin-bottom:14px}
+.legal-flag{padding:14px 16px;border:1px solid var(--line);border-radius:4px;background:var(--panel-soft,#f6f5f2);font-size:14px;color:var(--ink-soft)}
+.legal-date{margin-top:30px;font-size:13px;color:var(--ink-soft)}
 
 /* open positions (careers, live from HQ) */
 .jrow{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--paper);
@@ -395,7 +403,7 @@ img{max-width:100%;display:block}
 /* simple list page (careers / sitemap) */
 .simple .body-copy{max-width:680px}
 .sitemap-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;margin-top:10px}
-.sitemap-cols h4{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:16px}
+.sitemap-cols .sm-h{font-size:12px;line-height:1.4;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 16px}
 .sitemap-cols a{display:block;padding:7px 0;color:var(--ink);font-size:15px;border-bottom:1px solid var(--line-soft)}
 .sitemap-cols a:hover{color:var(--gold)}
 
@@ -405,7 +413,7 @@ footer.site .wrap{padding:72px 44px 40px}
 .foot-top{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid var(--on-panel-line)}
 .foot-brand .fw{font-family:"Bodoni Moda",Georgia,serif;font-weight:600;font-size:26px;color:var(--on-panel)}
 .foot-brand p{font-size:13px;line-height:1.7;margin-top:18px;max-width:300px}
-.foot-col h4{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--on-panel);margin-bottom:16px;font-weight:600}
+.foot-col h2{font-size:11px;line-height:1.4;letter-spacing:.2em;text-transform:uppercase;color:var(--on-panel);margin:0 0 16px;font-weight:600}
 .foot-col a{display:block;font-size:13.5px;padding:6px 0;transition:color .2s}
 .foot-col a:hover{color:var(--on-panel)}
 .foot-bot{display:flex;justify-content:space-between;align-items:center;padding-top:26px;gap:16px;flex-wrap:wrap;font-size:12px}
@@ -461,7 +469,8 @@ footer.site .wrap{padding:72px 44px 40px}
 .scrolldown:hover{border-color:var(--gold);color:var(--gold-soft)}
 .nav-links a.active{color:var(--on-panel)}
 .nav-links a.active::after{content:"";display:block;height:1px;background:var(--gold);margin-top:5px}
-.step .n{color:var(--gold)}
+.step .n{color:var(--gold-text)}
+.dark .step .n{color:var(--gold-soft)}
 .foot-brand .brand-rule{height:19px}
 
 /* ===== Hebrew / RTL ===== */
@@ -480,7 +489,7 @@ html[dir="rtl"] .skip-link{left:auto;right:8px}
 html[dir="rtl"] .mmenu{transform:translateX(-100%)}
 html[dir="rtl"] .mmenu.open{transform:translateX(0)}
 html[dir="rtl"] .marquee,html[dir="rtl"] .marquee-track{direction:ltr}
-html[dir="rtl"] .nav-lang a{color:var(--gold);font-weight:600}
+html[dir="rtl"] .nav-lang a{color:var(--gold-soft);font-weight:600}
 @media (max-width:880px){html[dir="rtl"] .leader{text-align:right}}
 
 /* ---- site search ---- */
@@ -578,7 +587,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
 <section class="hero hero-home">
   <div class="wrap">
     <h1>Dream with Starwell.</h1>
-    <p class="lead">Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets.</p>
+    <p class="lead">A private holding company. We acquire and operate IT services companies in Israel, invest in real estate, and hold positions in public and private markets.</p>
     <a href="#what-we-do" class="scrolldown" aria-label="Scroll down">&darr;</a>
   </div>
 </section>
@@ -592,17 +601,17 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
   <section class="sec" style="padding-top:0" data-reveal>
     <div class="cards">
       <div class="card">
-        <h3>IT Services</h3>
+        <h3>Starwell IT Services</h3>
         <p>Acquiring and operating IT Services businesses.</p>
         <a href="technology" class="link-arrow">Learn More &rarr;</a>
       </div>
       <div class="card">
-        <h3>Real Estate</h3>
+        <h3>Starwell Real Estate</h3>
         <p>Development and GP investments in Israel, select co-investments.</p>
         <a href="real-estate" class="link-arrow">Learn More &rarr;</a>
       </div>
       <div class="card">
-        <h3>Capital</h3>
+        <h3>Starwell Capital</h3>
         <p>Long-term investment portfolio across public markets and direct private positions.</p>
         <a href="capital" class="link-arrow">Learn More &rarr;</a>
       </div>
@@ -613,9 +622,8 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
 <section class="dark" data-reveal>
   <div class="wrap sec sec-center">
     <span class="eyebrow" style="color:var(--on-panel-soft)">About Starwell</span>
-    <h2 class="serif" style="margin:14px 0 16px">Learn more about Starwell</h2>
-    <p class="body-copy" style="max-width:680px;margin:0 auto 32px;color:var(--on-panel-soft)">Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.</p>
-    <a href="our-story" class="btn btn-light">Learn more about Starwell &rarr;</a>
+    <h2 class="serif" style="margin:14px 0 24px">Learn more about Starwell</h2>
+    <a href="our-story" class="btn btn-light">About Us &rarr;</a>
   </div>
 </section>
 </main>
@@ -625,9 +633,10 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
       <div class="foot-brand">
         <div class="brand foot-lockup"><span class="brand-word" style="font-size:27px">Starwell Holdings</span></div>
         <p>A private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.</p>
+        <p class="foot-sig">Dream with Starwell.</p>
       </div>
       <div class="foot-col">
-        <h4>Company</h4>
+        <h2>Company</h2>
         <a href="our-story">About Us</a>
         <a href="our-team">Our Team</a>
         <a href="our-history">Our History</a>
@@ -635,19 +644,23 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
         <a href="careers">Careers</a>
       </div>
       <div class="foot-col">
-        <h4>What We Do</h4>
+        <h2>What We Do</h2>
         <a href="technology">IT Services</a>
         <a href="real-estate">Real Estate</a>
         <a href="capital">Capital</a>
       </div>
       <div class="foot-col">
-        <h4>Get in Touch</h4>
+        <h2>Get in Touch</h2>
         <a href="contact">Contact</a>
         <a href="https://www.linkedin.com/company/starwell-holdings/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="/sitemap">Sitemap</a>
+        <a href="privacy">Privacy</a>
+        <a href="accessibility">Accessibility</a>
         <a href="he/" hreflang="he">עברית</a>
       </div>
     </div>
+    <p class="foot-legal">Starwell Holdings Ltd. (סטאר-וול הולדינגס בע&quot;מ), Company No. 517166237</p>
+    <p class="foot-legal">Starwell invests only its own capital and does not manage third-party funds or solicit investments.</p>
     <div class="foot-bot">
       <span>&copy; 2026 Starwell Holdings. All Rights Reserved.</span>
       <a href="#top" class="totop" aria-label="Back to top">&uarr;</a>
@@ -728,11 +741,25 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
 
   try{
     var f=document.getElementById('contactForm');
+    // Spam control: the Netlify honeypot catches bots that fill every field,
+    // and a minimum time-to-submit catches the ones that post instantly.
+    // A person needs several seconds to type a message; a script does not.
+    var MIN_SECONDS=4;
+    var started=document.getElementById('formStarted');
+    if(started)started.value=String(Date.now());
     if(f)f.addEventListener('submit',function(e){
       e.preventDefault();
       var note=document.getElementById('formnote');
-      var cap=document.getElementById('captchaAnswer');
-      if(cap && cap.value.trim()!=='20'){note.style.color='#C0444A';note.textContent='Please answer the question correctly (10 + 10).';return;}
+      var HE=document.documentElement.lang==='he';
+      var bot=f.querySelector('[name="bot-field"]');
+      var t0=started&&parseInt(started.value,10);
+      var tooFast=t0&&(Date.now()-t0)<MIN_SECONDS*1000;
+      if((bot&&bot.value)||tooFast){
+        note.style.color='#C0444A';
+        note.textContent=HE?'השליחה נראית אוטומטית. המתינו רגע ונסו שוב.'
+                          :'That submission looked automated. Please wait a moment and try again.';
+        return;
+      }
       note.style.color='';
       var data=new FormData(f);
       // Fallback for any host without server-side form handling: open the
