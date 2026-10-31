@@ -758,7 +758,7 @@ def build_site():
       <div class="photo" data-img="amit-kochavi">{local_img("amit-kochavi",t("Amit Kochavi","עמית כוכבי"))}</div>
       <div>
         <div class="ln">{t("Amit Kochavi","עמית כוכבי")}</div>
-        <div class="lt">{t("Chairman &amp; CEO","יו&quot;ר ומנכ&quot;ל")}</div>
+        <div class="lt">{t("Executive Chairman","יו&quot;ר פעיל")}</div>
         <div class="body-copy">
           <p>{t("Amit is the founder, chairman and CEO of Starwell Holdings. He founded Circles I.T. Innovation Ltd. in 2019, which merged its operations with Doss in 2025, and leads Starwell&rsquo;s acquisition of IT services companies in Israel.","עמית הוא המייסד, היו&quot;ר והמנכ&quot;ל של סטארוול הולדינגס. בשנת 2019 ייסד את <bdi>Circles I.T. Innovation Ltd.</bdi>, שמיזגה את פעילותה עם Doss בשנת 2025, והוא מוביל את רכישת חברות שירותי ה-IT של סטארוול בישראל.")}</p>
         </div>
