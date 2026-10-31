@@ -659,7 +659,7 @@ def build_site():
         <div class="lt">{t("Chairman, CEO &amp; Founder","יו&quot;ר, מנכ&quot;ל ומייסד")}</div>
         <div class="body-copy">
           <p>{t("Amit founded Starwell Holdings to build a private investment and operating company that combines long-term capital with operational execution.","עמית ייסד את סטארוול הולדינגס כדי לבנות חברת השקעות ותפעול פרטית המשלבת הון לטווח ארוך עם ביצוע תפעולי.")}</p>
-          <p>{t("He served in the Israeli Air Force&rsquo;s Ofek technology unit. In 2019 he founded Circles I.T. Innovation Ltd., which merged its operations with Doss in 2025.","הוא שירת ביחידת הטכנולוגיה אופק של חיל האוויר. בשנת 2019 ייסד את Circles I.T. Innovation Ltd., שמיזגה את פעילותה עם Doss בשנת 2025.")}</p>
+          <p>{t("He served in the Israeli Air Force&rsquo;s Ofek technology unit. In 2019 he founded Circles I.T. Innovation Ltd., which merged its operations with Doss in 2025.","הוא שירת ביחידת הטכנולוגיה אופק של חיל האוויר. בשנת 2019 ייסד את <bdi>Circles I.T. Innovation Ltd.</bdi>, שמיזגה את פעילותה עם Doss בשנת 2025.")}</p>
           <p>{t("He was named to Forbes Israel 30 Under 30 in 2017 and to TheMarker 40 Under 40 in 2025.","בשנת 2017 נכלל ברשימת 30 Under 30 של פורבס ישראל, ובשנת 2025 ברשימת 40 Under 40 של דה מרקר.")}</p>
           <p>{t("He is Senior Advisor to the Mayor of Sderot, a member of the President of Israel&rsquo;s Kol HaAm Council, and a member of the Board of Governors of Sapir Academic College.","הוא יועץ בכיר לראש עיריית שדרות, חבר במועצת קול העם של נשיא המדינה וחבר בחבר הנאמנים של המכללה האקדמית ספיר.")}</p>
           <p>{t("Amit continues to grow Starwell&rsquo;s portfolio of platforms and partnerships, focused on building enduring value across cycles and geographies.","עמית ממשיך להרחיב את תיק הפלטפורמות והשותפויות של סטארוול, מתוך מיקוד בבניית ערך מתמשך לאורך מחזורי שוק וגאוגרפיות.")}</p>
@@ -755,16 +755,28 @@ def build_site():
   <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">{t("Team","הצוות")}</h2></div>
     <div class="leader">
+      <div class="photo" data-img="amit-kochavi">{local_img("amit-kochavi",t("Amit Kochavi","עמית כוכבי"))}</div>
+      <div>
+        <div class="ln">{t("Amit Kochavi","עמית כוכבי")}</div>
+        <div class="lt">{t("Chairman &amp; CEO","יו&quot;ר ומנכ&quot;ל")}</div>
+        <div class="body-copy">
+          <p>{t("Amit is the founder, chairman and CEO of Starwell Holdings. He founded Circles I.T. Innovation Ltd. in 2019, which merged its operations with Doss in 2025, and leads Starwell&rsquo;s acquisition of IT services companies in Israel.","עמית הוא המייסד, היו&quot;ר והמנכ&quot;ל של סטארוול הולדינגס. בשנת 2019 ייסד את <bdi>Circles I.T. Innovation Ltd.</bdi>, שמיזגה את פעילותה עם Doss בשנת 2025, והוא מוביל את רכישת חברות שירותי ה-IT של סטארוול בישראל.")}</p>
+        </div>
+        <div class="t-links">
+          <a href="our-team">{t("Full biography","הביוגרפיה המלאה")} &rarr;</a>
+          <a href="https://www.linkedin.com/in/amitkochavi/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="leader" style="margin-top:60px">
       <div class="photo" data-img="tal-raif">{local_img("tal-raif",t("Tal Raif","טל רייף"))}</div>
       <div>
         <div class="ln">{t("Tal Raif","טל רייף")}</div>
-        <div class="lt">{t("Investor and Board Member","משקיע וחבר דירקטוריון")}</div>
+        <div class="lt">{t("Board Member and Head of Business Development","חבר דירקטוריון וראש פיתוח עסקי")}</div>
         <div class="body-copy">
-          <!-- [TBD] Bio. LinkedIn blocks automated reading, so nothing here is
-               written yet rather than guessed. Paste the About section and
-               roles from https://il.linkedin.com/in/talraif and this becomes
-               two or three sentences in the house style, EN and HE. -->
-          <p>{t("[TBD: bio, from Tal&rsquo;s LinkedIn]","[TBD: ביוגרפיה, מתוך הלינקדאין של טל]")}</p>
+          <p>{t("Tal is Head of Strategy, Innovation and M&amp;A at Afcon Holdings (TASE: AFHL), where he leads M&amp;A end to end, from sourcing and valuation through due diligence and negotiation, alongside corporate venture investments and strategic partnerships across renewable energy, EV charging infrastructure, data centers, industrial automation, and defense technology.","טל הוא ראש תחום אסטרטגיה, חדשנות ומיזוגים ורכישות באפקון החזקות (TASE: AFHL), שם הוא מוביל את פעילות המיזוגים והרכישות מקצה לקצה, מאיתור עסקאות והערכות שווי ועד בדיקות נאותות ומשא ומתן, לצד השקעות הון סיכון תאגידי ושותפויות אסטרטגיות בתחומי האנרגיה המתחדשת, תשתיות הטעינה לרכבים חשמליים, מרכזי הנתונים, האוטומציה התעשייתית והטכנולוגיות הביטחוניות.")}</p>
+          <p>{t("He is a third-generation member of the family behind Shlomo Group, and takes part in its strategic and investment activity across mobility, insurance and finance, real estate, shipyards, and aviation. He represents the family in international family-office forums, including The Family Office Alliance.","הוא דור שלישי במשפחה שמאחורי קבוצת שלמה, ושותף לפעילות האסטרטגית ולהשקעות שלה בתחומי המוביליות, הביטוח והפיננסים, הנדל&quot;ן, המספנות והתעופה. הוא מייצג את המשפחה בפורומים בינלאומיים של משרדי משפחה, ובהם The Family Office Alliance.")}</p>
+          <p>{t("He sits on the investment committee of Square One Labs and reviews opportunities across venture capital and private equity. He holds an MBA from the Coller School of Management at Tel Aviv University and a BA in Communication and Media Studies from IDC Herzliya.","הוא חבר בוועדת ההשקעות של Square One Labs ובוחן הזדמנויות בהון סיכון ובפרייבט אקוויטי. הוא בעל תואר MBA מבית הספר למנהל עסקים ע&quot;ש קולר באוניברסיטת תל אביב ותואר ראשון בתקשורת מהמרכז הבינתחומי הרצליה.")}</p>
         </div>
         <div class="t-links">
           <a href="https://il.linkedin.com/in/talraif" target="_blank" rel="noopener">LinkedIn</a>
@@ -792,9 +804,11 @@ def build_site():
       tech,extra=live_script("images"),
       extra_ld={"@context":"https://schema.org","@type":"Person",
         "@id":BASE+"/technology.html#tal-raif","name":"Tal Raif",
-        "alternateName":"טל רייף","jobTitle":t("Investor and Board Member","משקיע וחבר דירקטוריון"),
-        "memberOf":{"@id":BASE+"/#organization"},"url":BASE+"/technology.html",
-        "sameAs":["https://il.linkedin.com/in/talraif"]})
+        "alternateName":"טל רייף","jobTitle":t("Board Member and Head of Business Development","חבר דירקטוריון וראש פיתוח עסקי"),
+        "worksFor":{"@id":BASE+"/#organization"},
+        "affiliation":{"@type":"Organization","name":"Afcon Holdings"},
+        "alumniOf":[{"@type":"CollegeOrUniversity","name":"Tel Aviv University, Coller School of Management"},{"@type":"CollegeOrUniversity","name":"IDC Herzliya"}],
+        "url":BASE+"/technology.html","sameAs":["https://il.linkedin.com/in/talraif"]})
 
     # =================== STARWELL REAL ESTATE ===================
     # The pillar is split into two labelled sections. The prefixes are matched
