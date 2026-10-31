@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import json, os, re, struct
+import datetime, json, os, re, struct
 import html as _html
 OUT=os.environ.get("STARWELL_OUT", os.path.dirname(os.path.abspath(__file__)))
 BASE="https://starwellholdings.com"
@@ -118,6 +118,14 @@ def header(cur):
 </header>
 {MOBILE_NAV(cur)}'''
 
+LEGAL_NAME="Starwell Holdings Ltd."
+CAREERS_EMAIL="shirly@starwellholdings.com"
+LEGAL_NAME_HE="סטאר-וול הולדינגס בע&quot;מ"
+COMPANY_NO="517166237"
+# Shown on the Capital page and in the footer, in both languages.
+DISCLAIMER=("Starwell invests only its own capital and does not manage third-party funds or solicit investments.",
+            "סטארוול משקיעה מהון עצמי בלבד, אינה מנהלת כספי צד שלישי ואינה מציעה השקעות לציבור.")
+
 def FOOTER():
     return f'''<footer class="site">
   <div class="wrap">
@@ -125,9 +133,10 @@ def FOOTER():
       <div class="foot-brand">
         <div class="brand foot-lockup"><span class="brand-word" style="font-size:27px">Starwell Holdings</span></div>
         <p>{t("A private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.","חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל&quot;ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים.")}</p>
+        <p class="foot-sig">{t("Dream with Starwell.","חולמים עם סטארוול.")}</p>
       </div>
       <div class="foot-col">
-        <h4>{t("Company","החברה")}</h4>
+        <h2>{t("Company","החברה")}</h2>
         <a href="our-story">{t("About Us","אודות")}</a>
         <a href="our-team">{t("Our Team","הצוות שלנו")}</a>
         <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
@@ -135,19 +144,23 @@ def FOOTER():
         <a href="careers">{t("Careers","קריירה")}</a>
       </div>
       <div class="foot-col">
-        <h4>{t("What We Do","מה אנחנו עושים")}</h4>
+        <h2>{t("What We Do","מה אנחנו עושים")}</h2>
         <a href="technology">{t("IT Services","שירותי IT")}</a>
         <a href="real-estate">{t("Real Estate","נדל&quot;ן")}</a>
         <a href="capital">{t("Capital","קפיטל")}</a>
       </div>
       <div class="foot-col">
-        <h4>{t("Get in Touch","יצירת קשר")}</h4>
+        <h2>{t("Get in Touch","יצירת קשר")}</h2>
         <a href="contact">{t("Contact","צור קשר")}</a>
         <a href="https://www.linkedin.com/company/starwell-holdings/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="{t("/sitemap","/he/sitemap")}">{t("Sitemap","מפת אתר")}</a>
+        <a href="privacy">{t("Privacy","פרטיות")}</a>
+        <a href="accessibility">{t("Accessibility","נגישות")}</a>
         <a href="{t("he/","../")}" hreflang="{t("he","en")}">{t("עברית","English")}</a>
       </div>
     </div>
+    <p class="foot-legal">{t(f"{LEGAL_NAME} ({LEGAL_NAME_HE}), Company No. {COMPANY_NO}",f"{LEGAL_NAME_HE} ({LEGAL_NAME}), ח&quot;פ {COMPANY_NO}")}</p>
+    <p class="foot-legal">{t(*DISCLAIMER)}</p>
     <div class="foot-bot">
       <span>&copy; 2026 Starwell Holdings. {t("All Rights Reserved.","כל הזכויות שמורות.")}</span>
       <a href="#top" class="totop" aria-label="{t("Back to top","חזרה למעלה")}">&uarr;</a>
@@ -156,14 +169,21 @@ def FOOTER():
 </footer>'''
 
 def ORG_LD():
+    # Only confirmed offices are published; never add a location before its
+    # address is confirmed. The registered Israeli office is listed first.
     return {"@context":"https://schema.org","@type":"Organization","@id":BASE+"/#organization",
-      "name":"Starwell Holdings","alternateName":["Starwell","סטארוול הולדינגס","סטארוול"],"legalName":"Starwell Holdings",
+      "name":"Starwell Holdings","alternateName":["Starwell","סטארוול הולדינגס","סטארוול"],
+      "legalName":LEGAL_NAME,"identifier":COMPANY_NO,
       "url":BASE+"/","logo":{"@type":"ImageObject","url":BASE+"/assets/icon-512.png","width":512,"height":512},
       "image":BASE+"/assets/og-image.png",
       "description":t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.",
                       "סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל\"ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים."),
-      "foundingDate":"2025","address":{"@type":"PostalAddress","addressLocality":"Tel Aviv","addressCountry":"IL"},
-      "founder":{"@type":"Person","@id":BASE+"/our-team.html#amit-kochavi","name":"Amit Kochavi","alternateName":"עמית כוכבי"},
+      "foundingDate":"2025",
+      "address":[{"@type":"PostalAddress","streetAddress":"Beyond Towers, Ariel Sharon Street 1",
+                  "addressLocality":"Givatayim","addressCountry":"IL"},
+                 {"@type":"PostalAddress","streetAddress":"11601 Wilshire Blvd #2080",
+                  "addressLocality":"Los Angeles","addressRegion":"CA","postalCode":"90025","addressCountry":"US"}],
+      "founder":{"@type":"Person","@id":"https://amitkochavi.com/#person","name":"Amit Kochavi","url":"https://amitkochavi.com"},
       "contactPoint":{"@type":"ContactPoint","url":BASE+"/contact.html","contactType":"investor relations"},
       "sameAs":["https://www.linkedin.com/company/starwell-holdings/"]}
 
@@ -189,6 +209,10 @@ def strip_html(s):
 
 def render(filename,title,desc,body,extra_ld=None,index=True,extra="",search=True):
     title=title.replace(" - "," | ")
+    # Both go into content="..." attributes as well as element text. Unescape
+    # first so a string that already carries &quot; is not double-escaped.
+    title=_html.escape(_html.unescape(title),quote=True)
+    desc=_html.escape(_html.unescape(desc),quote=True)
     slug="" if filename=="index.html" else filename[:-5]
     en_url=BASE+"/"+slug
     he_url=BASE+"/he/"+slug
@@ -310,9 +334,23 @@ def xp_from(e):
           {actions}
         </div>
       </div>'''
-def cards_for(pillar):
+def cards_for(pillar,only=None):
+    """Cards for a pillar. `only` is a list of name prefixes that restricts the
+    set, so one pillar can be split across several labelled sections. The same
+    prefixes go into data-names, which keeps the split after the live loader
+    refreshes the grid from HQ (where a name may be worded slightly
+    differently, hence prefix rather than exact match)."""
     items=[e for e in PORTFOLIO if e.get("pillar")==pillar]
-    items.sort(key=lambda e:e.get("order",99))
+    if only is not None:
+        def rank(e):
+            for i,p in enumerate(only):
+                if e["name"].lower().startswith(p.lower()): return i
+            return None
+        items=[(rank(e),e) for e in items]
+        items=sorted(((r,e) for r,e in items if r is not None),key=lambda x:x[0])
+        items=[e for _,e in items]
+    else:
+        items.sort(key=lambda e:e.get("order",99))
     if not items: return f'      <p style="color:var(--on-panel-soft)">{t("No entries yet.","אין רשומות עדיין.")}</p>'
     fn=xp_from if pillar=="real-estate" else pf_from
     return "\n".join(fn(e) for e in items)
@@ -394,28 +432,19 @@ def _pwidth():
     return total
 
 # News list (baked fallback; live Supabase data overrides on the news page)
+# News list (baked fallback; live Supabase data overrides on the news page).
+# The first field is the language the item is written in: an item only appears
+# on the site of that language, so /news stays English and /he/news Hebrew.
 NEWS=[
- ('Real Estate','Dec 21, 2025','Lipa Meir to Rent Offices in Beyond Tower for 11 Million NIS Per Year',
-  'Lipa Meir & Co. is leaving Amot Investments House in Tel Aviv to lease 7,000 sqm of office space across 4 floors in the Beyond Tower project from Tidhar, Union, and Himnuta.',
-  'https://www.calcalist.co.il/real-estate/article/bjoi20k003',''),
- ('Company News','Jun 3, 2025','Circles Merges Operations with U.S.-Based Doss',
+ ('en','Company News','Jun 3, 2025','Circles Merges Operations with U.S.-Based Doss',
   'Circles is merging its operations with U.S.-based Doss and will become the Israeli sales and marketing center for the company.',
   '','https://www.new-techeurope.com/wp-content/uploads/2025/06/Amit-Kochavi-e1748940333350.jpg'),
- ('Company News','May 29, 2025','חברת Circles מתמזגת עם Doss האמריקאית',
+ ('he','Company News','May 29, 2025','חברת Circles מתמזגת עם Doss האמריקאית',
   'חברת Circles מתמזגת עם Doss האמריקאית ותהפוך למרכז הפיתוח הישראלי שלה. עמית כוכבי ימונה למנהל הפיתוח הגלובלי.',
   '','https://www.ittime.co.il/wp-content/uploads/2025/05/Amit-Cohavi-200x300.jpeg'),
- ('Real Estate','May 6, 2025','Lee & Associates – Atlanta Facilitates Sale of 28-Acre Industrial Site to Terminal Logistics',
+ ('en','Real Estate','May 6, 2025','Lee & Associates Atlanta Facilitates Sale of 28-Acre Industrial Site to Terminal Logistics',
   "Center Capital's IOS platform, Terminal Logistics, has acquired a 28-acre site in Gainesville, GA.",
   '','https://www.lee-associates.com/atlanta/wp-content/uploads/sites/77/2021/08/Lee-Associates-Atlanta-Logo-2021.png'),
- ('Real Estate','Sep 4, 2024','גבעתיים על הגובה: המגדל שהפך לגבוה בישראל',
-  'פרויקט ביונד בגבעתיים חצה את גובה 240 המטרים והפך למגדל הגבוה בישראל. בסיום הבנייה יגיע לגובה 320 מטרים.',
-  '','https://ynet-pic1.yit.co.il/cdn-cgi/image/f=auto,w=740,q=75/picserver5/crop_images/2024/09/04/SysC3IrnR/SysC3IrnR_0_0_1600_1067_0_x-large.jpg'),
- ('Real Estate','Sep 4, 2024','New Tower Claims Title of Tallest in Israel',
-  'New tower in Givataim claims title of tallest in Israel, rising to 320 meters with office and residential space.',
-  '','https://ynet-pic1.yit.co.il/cdn-cgi/image/format=auto/picserver5/crop_images/2024/09/03/S1v8iCV3A/S1v8iCV3A_0_113_460_820_0_x-large.jpg'),
- ('Real Estate','Nov 15, 2022','Meitar Leases 17 Floors in Givatayim Tower',
-  'Meitar Law Offices leases 17 floors in Givatayim tower for NIS 54 million annually.',
-  '','https://res.cloudinary.com/globes/image/upload/t_desktop_article_content_header_800%2A392/v1668451686/direct/%D7%94%D7%93%D7%9E%D7%99%D7%94_%D7%91%D7%99%D7%95%D7%A0%D7%93._%D7%A7%D7%A8%D7%93%D7%99%D7%98_-_%D7%A1%D7%98%D7%95%D7%93%D7%99%D7%95_84_2_003_nqik1n.jpg'),
 ]
 
 CAREER_VALUES=[
@@ -437,7 +466,7 @@ def build_site():
     home=f'''<section class="hero hero-home">
   <div class="wrap">
     <h1>{t("Dream with Starwell.","חולמים עם סטארוול.")}</h1>
-    <p class="lead">{t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets.","סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל&quot;ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים.")}</p>
+    <p class="lead">{t("A private holding company. We acquire and operate IT services companies in Israel, invest in real estate, and hold positions in public and private markets.","חברת החזקות פרטית. אנחנו רוכשים ומפעילים חברות שירותי IT בישראל, משקיעים בנדל&quot;ן ומחזיקים פוזיציות בשווקים הציבוריים והפרטיים.")}</p>
     <a href="#what-we-do" class="scrolldown" aria-label="{t("Scroll down","גלול למטה")}">&darr;</a>
   </div>
 </section>
@@ -451,17 +480,17 @@ def build_site():
   <section class="sec" style="padding-top:0" data-reveal>
     <div class="cards">
       <div class="card">
-        <h3>{t("IT Services","שירותי IT")}</h3>
+        <h3>{t("Starwell IT Services","סטארוול שירותי IT")}</h3>
         <p>{t("Acquiring and operating IT Services businesses.","רכישה ותפעול של עסקי שירותי IT.")}</p>
         <a href="technology" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
       <div class="card">
-        <h3>{t("Real Estate","נדל&quot;ן")}</h3>
+        <h3>{t("Starwell Real Estate","סטארוול נדל&quot;ן")}</h3>
         <p>{t("Development and GP investments in Israel, select co-investments.","ייזום והשקעות שותף כללי (GP) בישראל, לצד השקעות משותפות נבחרות.")}</p>
         <a href="real-estate" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
       <div class="card">
-        <h3>{t("Capital","קפיטל")}</h3>
+        <h3>{t("Starwell Capital","סטארוול קפיטל")}</h3>
         <p>{t("Long-term investment portfolio across public markets and direct private positions.","תיק השקעות לטווח ארוך בשווקים הציבוריים ובפוזיציות פרטיות ישירות.")}</p>
         <a href="capital" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
@@ -472,9 +501,8 @@ def build_site():
 <section class="dark" data-reveal>
   <div class="wrap sec sec-center">
     <span class="eyebrow" style="color:var(--on-panel-soft)">{t("About Starwell","אודות סטארוול")}</span>
-    <h2 class="serif" style="margin:14px 0 16px">{t("Learn more about Starwell","הכירו את סטארוול")}</h2>
-    <p class="body-copy" style="max-width:680px;margin:0 auto 32px;color:var(--on-panel-soft)">{t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.","סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל&quot;ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים.")}</p>
-    <a href="our-story" class="btn btn-light">{t("Learn more about Starwell","הכירו את סטארוול")} &rarr;</a>
+    <h2 class="serif" style="margin:14px 0 24px">{t("Learn more about Starwell","הכירו את סטארוול")}</h2>
+    <a href="our-story" class="btn btn-light">{t("About Us","אודות")} &rarr;</a>
   </div>
 </section>'''
     render("index.html",
@@ -483,10 +511,7 @@ def build_site():
         "סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל\"ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים."),
       home,extra_ld={"@context":"https://schema.org","@type":"WebSite","@id":BASE+"/#website",
         "name":"Starwell Holdings","alternateName":"Starwell","url":BASE+"/",
-        "inLanguage":t("en","he"),"publisher":{"@id":BASE+"/#organization"},
-        "potentialAction":{"@type":"SearchAction",
-          "target":{"@type":"EntryPoint","urlTemplate":BASE+t("","/he")+"/search.html?q={search_term_string}"},
-          "query-input":"required name=search_term_string"}})
+        "inLanguage":t("en","he"),"publisher":{"@id":BASE+"/#organization"}})
 
     # =================== OUR STORY ===================
     # Each half repeats the logo set until it is wider than the widest viewport,
@@ -521,7 +546,7 @@ def build_site():
     </div>
     <div class="steps">
       <div class="step"><h3>{t("IT Services","שירותי IT")}</h3><p>{t("We build platforms in IT services - acquiring controlling or significant stakes in established, profitable companies and rolling them up into a larger group. We partner with owners and operators to preserve what works while adding the infrastructure and discipline of a platform built to last.","אנחנו בונים פלטפורמות בתחום שירותי ה-IT - רוכשים שליטה או אחזקה משמעותית בחברות ותיקות ורווחיות ומאחדים אותן לקבוצה גדולה יותר. אנחנו חוברים לבעלים ולמנהלים כדי לשמר את מה שעובד, ומוסיפים את התשתית והמשמעת של פלטפורמה שנבנית לשנים.")}</p></div>
-      <div class="step"><h3>{t("Real Estate","נדל&quot;ן")}</h3><p>{t("We invest in, develop, and operate residential, commercial, and mixed-use assets, taking an owner-led approach to development, asset management, and value creation.","אנחנו משקיעים, מפתחים ומנהלים נכסי מגורים, מסחר ושימושים מעורבים, בגישת בעלים - בפיתוח, בניהול הנכסים וביצירת הערך.")}</p></div>
+      <div class="step"><h3>{t("Real Estate","נדל&quot;ן")}</h3><p>{t("We work in real estate in three ways: advisory mandates, participation in development projects alongside the developers running them, and limited partner investments in funds and assets.","אנחנו פועלים בנדל&quot;ן בשלוש דרכים: מנדטים של ייעוץ, השתתפות בפרויקטי ייזום לצד היזמים שמובילים אותם, והשקעות כשותף מוגבל (LP) בקרנות ובנכסים.")}</p></div>
       <div class="step"><h3>{t("Capital","הון")}</h3><p>{t("We allocate capital across public equities, hedge funds, and alternative investments with a long-term mindset, complementing our operating activities.","אנחנו מקצים הון למניות ציבוריות, קרנות גידור והשקעות אלטרנטיביות, בגישה ארוכת טווח, כהשלמה לפעילות התפעולית שלנו.")}</p></div>
     </div>
   </div>
@@ -626,8 +651,10 @@ def build_site():
         <div class="ln">{t("Amit Kochavi","עמית כוכבי")}</div>
         <div class="lt">{t("Chairman, CEO &amp; Founder","יו&quot;ר, מנכ&quot;ל ומייסד")}</div>
         <div class="body-copy">
-          <p>{t("Amit founded Starwell Holdings to build a global private investment and operating company that combines long-term capital with operational execution.","עמית ייסד את סטארוול הולדינגס כדי לבנות חברת השקעות ותפעול גלובלית פרטית המשלבת הון לטווח ארוך עם ביצוע תפעולי.")}</p>
-          <p>{t("His career spans technology, real estate, and civic leadership. He is the founder of Doss Israel Ltd. and shareholder in Doss Inc., Senior Advisor to the Mayor of Sderot, and a member of President Herzog&rsquo;s &ldquo;Voice of the People&rdquo; initiative.","הקריירה שלו משתרעת על פני טכנולוגיה, נדל&quot;ן ומנהיגות ציבורית. הוא מייסד Doss Israel Ltd. ובעל מניות ב-Doss Inc., יועץ בכיר לראש עיריית שדרות, וחבר ביוזמת &rdquo;קול העם&ldquo; של הנשיא הרצוג.")}</p>
+          <p>{t("Amit founded Starwell Holdings to build a private investment and operating company that combines long-term capital with operational execution.","עמית ייסד את סטארוול הולדינגס כדי לבנות חברת השקעות ותפעול פרטית המשלבת הון לטווח ארוך עם ביצוע תפעולי.")}</p>
+          <p>{t("He served in the Israeli Air Force&rsquo;s Ofek technology unit. In 2019 he founded Circles I.T. Innovation Ltd., which merged its operations with Doss in 2025.","הוא שירת ביחידת הטכנולוגיה אופק של חיל האוויר. בשנת 2019 ייסד את Circles I.T. Innovation Ltd., שמיזגה את פעילותה עם Doss בשנת 2025.")}</p>
+          <p>{t("He was named to Forbes Israel 30 Under 30 in 2017 and to TheMarker 40 Under 40 in 2025.","בשנת 2017 נכלל ברשימת 30 Under 30 של פורבס ישראל, ובשנת 2025 ברשימת 40 Under 40 של דה מרקר.")}</p>
+          <p>{t("He is Senior Advisor to the Mayor of Sderot, a member of the President of Israel&rsquo;s Kol HaAm Council, and a member of the Board of Governors of Sapir Academic College.","הוא יועץ בכיר לראש עיריית שדרות, חבר במועצת קול העם של נשיא המדינה וחבר בחבר הנאמנים של המכללה האקדמית ספיר.")}</p>
           <p>{t("Amit continues to grow Starwell&rsquo;s portfolio of platforms and partnerships, focused on building enduring value across cycles and geographies.","עמית ממשיך להרחיב את תיק הפלטפורמות והשותפויות של סטארוול, מתוך מיקוד בבניית ערך מתמשך לאורך מחזורי שוק וגאוגרפיות.")}</p>
         </div>
         <div class="t-links">
@@ -636,19 +663,18 @@ def build_site():
         </div>
       </div>
     </div>
+    <!-- Card template for a future hire. Fill in the name, photo slug and bio,
+         drop assets/<slug>.jpg into the repo, then uncomment.
     <div class="leader" style="margin-top:60px">
-      <div class="photo" data-img="shirly-gur-arie">{local_img("shirly-gur-arie",t("Shirly Gur Arie","שירלי גור אריה"))}</div>
+      <div class="photo" data-img="SLUG">[photo]</div>
       <div>
-        <div class="ln">{t("Shirly Gur Arie","שירלי גור אריה")}</div>
-        <div class="lt">{t("Executive Assistant","עוזרת בכירה")}</div>
-        <div class="body-copy">
-          <p>{t("Shirly supports Starwell&rsquo;s leadership and day-to-day operations, coordinating across the firm&rsquo;s platforms and partners to keep the organization running smoothly.","שירלי תומכת בהנהלת סטארוול ובפעילות היומיומית, ומתאמת בין הפלטפורמות והשותפים של החברה כדי לשמור על התנהלות חלקה.")}</p>
-        </div>
-        <div class="t-links">
-          <a href="https://www.linkedin.com/in/shirly-gur-arie/" target="_blank" rel="noopener">LinkedIn</a>
-        </div>
+        <div class="ln">[TBD: name]</div>
+        <div class="lt">{t("Partner, Starwell IT Services","שותף, סטארוול שירותי IT")}</div>
+        <div class="body-copy"><p>[TBD: bio]</p></div>
+        <div class="t-links"><a href="[TBD: LinkedIn URL]" target="_blank" rel="noopener">LinkedIn</a></div>
       </div>
     </div>
+    -->
   </div>
 </section>'''
     render("our-team.html",
@@ -664,21 +690,21 @@ def build_site():
         "sameAs":["https://www.linkedin.com/in/amitkochavi/","https://x.com/AmitKochavi",
                   "https://www.linkedin.com/company/starwell-holdings/"]})
 
-    # =================== TECHNOLOGY ===================
+    # =================== STARWELL IT SERVICES ===================
     tech=f'''<section class="hero">
   <div class="wrap">
-    <h1>IT<br>Services</h1>
+    <h1>{t("Starwell<br>IT Services","סטארוול<br>שירותי IT")}</h1>
     <p class="lead">{t("Acquiring controlling or significant stakes in IT services companies, in Israel and beyond.","רכישת שליטה או אחזקה משמעותית בחברות שירותי IT בישראל.")}</p>
   </div>
 </section>
 
 <div class="wrap">
   <section class="sec" data-reveal>
-    <div class="sec-label">{t("The Thesis","התזה")}</div>
+    <h2 class="sec-label">{t("The Thesis","התזה")}</h2>
     <p class="lede">{t("The IT services market is large, growing, and highly fragmented. Most of it consists of independent companies built on expertise and long-standing client relationships, without the backing of a larger group.","שוק שירותי ה-IT גדול, צומח ומפוצל מאוד. רובו מורכב מחברות עצמאיות שצמחו על בסיס מקצועיות ויחסים ארוכי שנים עם לקוחות, בלי גב של קבוצה גדולה.")}</p>
     <div class="body-copy">
       <p>{t("In a technology landscape that never stops changing - cloud migration, artificial intelligence, and successive waves of transformation - businesses need a trusted external technology partner more than ever.","בעולם טכנולוגי שמשתנה כל הזמן - מעבר לענן, בינה מלאכותית וגלי טרנספורמציה נוספים - עסקים זקוקים יותר מתמיד לשותף טכנולוגי חיצוני שילווה אותם לאורך הדרך.")}</p>
-      <p>{t("Starwell acquires controlling or significant stakes in established, profitable IT services companies. We partner with owners and operators to preserve what works, while building around them the infrastructure and discipline of a platform built to last.","Starwell רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ותיקות ורווחיות. אנחנו חוברים לבעלים ולמנהלים כדי לשמר את מה שעובד, ובונים סביבם את התשתית והמשמעת של פלטפורמה שנבנית לשנים.")}</p>
+      <p>{t("Starwell IT Services acquires controlling or significant stakes in established, profitable IT services companies. We partner with owners and operators to preserve what works, while building around them the infrastructure and discipline of a platform built to last.","סטארוול שירותי IT רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ותיקות ורווחיות. אנחנו חוברים לבעלים ולמנהלים כדי לשמר את מה שעובד, ובונים סביבם את התשתית והמשמעת של פלטפורמה שנבנית לשנים.")}</p>
     </div>
   </section>
 </div>
@@ -693,31 +719,52 @@ def build_site():
   </section>
 </div>
 
-<section class="dark" data-reveal>
+<section class="dark" id="criteria" data-reveal>
   <div class="wrap sec">
-    <div class="sec-label">{t("Portfolio","פורטפוליו")}</div>
-    <div class="pf-grid" data-pillar="technology">
-{cards_for("technology")}
+    <h2 class="sec-label">{t("Acquisition criteria","קריטריונים לרכישה")}</h2>
+    <div class="steps four">
+      <div class="step"><h3>{t("Established and profitable","ותיקות ורווחיות")}</h3><p>{t("Israeli IT services companies with a history of profitable operation.","חברות שירותי IT ישראליות עם היסטוריה של פעילות רווחית.")}</p></div>
+      <div class="step"><h3>{t("Scale","היקף")}</h3><p>{t("Annual revenue in the tens of millions of shekels, with teams of dozens of employees.","הכנסות שנתיות בעשרות מיליוני שקלים, עם צוותים של עשרות עובדים.")}</p></div>
+      <div class="step"><h3>{t("Stake","אחזקה")}</h3><p>{t("Controlling or significant stakes.","שליטה או אחזקה משמעותית.")}</p></div>
+      <div class="step"><h3>{t("Continuity","המשכיות")}</h3><p>{t("We keep management, employees, and client relationships in place.","ההנהלה, העובדים והקשר עם הלקוחות נשארים במקומם.")}</p></div>
     </div>
+    <p class="body-copy" style="margin-top:36px">{t("Owners considering a sale are welcome to contact us in full confidence.","בעלים ששוקלים מכירה מוזמנים לפנות אלינו בדיסקרטיות מלאה.")} <a href="contact" class="link-arrow on-dark">{t("Contact us","צרו קשר")} &rarr;</a></p>
   </div>
-</section>'''
-    render("technology.html",
-      t("IT Services | Starwell Holdings","שירותי IT | סטארוול הולדינגס"),
-      t("Starwell acquires controlling or significant stakes in established, profitable IT services companies, preserving what works while building a platform built to last.",
-        "Starwell רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ותיקות ורווחיות, משמרת את מה שעובד ובונה סביבן פלטפורמה שנבנית לשנים."),
-      tech,extra=live_script("portfolio"))
+</section>
 
-    # =================== REAL ESTATE ===================
+<div class="wrap">
+  <section class="sec" data-reveal>
+    <h2 class="sec-label">{t("What owners can expect","למה לצפות")}</h2>
+    <div class="steps">
+      <div class="step"><h3>{t("Permanent ownership","בעלות קבועה")}</h3><p>{t("We buy to hold. The companies we acquire are not packaged for resale.","אנחנו קונים כדי להחזיק. החברות שאנחנו רוכשים אינן נארזות למכירה חוזרת.")}</p></div>
+      <div class="step"><h3>{t("No fund clock","בלי לוח זמנים של קרן")}</h3><p>{t("We have no fund cycles and no exit deadlines, so there is no pressure to sell.","אין לנו מחזורי קרן ואין תאריכי יציאה, ולכן אין לחץ למכור.")}</p></div>
+      <div class="step"><h3>{t("A fast and discreet process","תהליך מהיר ודיסקרטי")}</h3><p>{t("A small team, direct conversations, and confidentiality at every stage.","צוות קטן, שיחות ישירות ושמירה על סודיות בכל שלב.")}</p></div>
+    </div>
+  </section>
+</div>'''
+    render("technology.html",
+      t("Starwell IT Services | Starwell Holdings","סטארוול שירותי IT | סטארוול הולדינגס"),
+      t("Starwell IT Services acquires controlling or significant stakes in established, profitable Israeli IT services companies, keeping management, employees and client relationships in place.",
+        "סטארוול שירותי IT רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ישראליות ותיקות ורווחיות, תוך שמירה על ההנהלה, העובדים והקשר עם הלקוחות."),
+      tech)
+
+    # =================== STARWELL REAL ESTATE ===================
+    # The pillar is split into two labelled sections. The prefixes are matched
+    # against the company name, so HQ can reword a name without breaking the
+    # split; anything that matches neither list simply does not appear.
+    RE_STARWELL=["Rova 7","The Dawson","Terminal Logistics"]
+    RE_FAMILY=["Beyond Towers","Kochavi Real Estate"]
+    RE_STARWELL_SEL="|".join(RE_STARWELL); RE_FAMILY_SEL="|".join(RE_FAMILY)
     re=f'''<section class="hero">
   <div class="wrap">
-    <h1>Starwell<br>Real Estate</h1>
+    <h1>{t("Starwell<br>Real Estate","סטארוול<br>נדל&quot;ן")}</h1>
     <p class="lead">{t("Development and strategic real estate investment across Israel and the United States.","ייזום והשקעות נדל&quot;ן אסטרטגיות בישראל ובארצות הברית.")}</p>
   </div>
 </section>
 
 <div class="wrap">
   <section class="sec" data-reveal>
-    <div class="sec-label">{t("Markets","שווקים")}</div>
+    <h2 class="sec-label">{t("Markets","שווקים")}</h2>
     <div class="markets">
       <div class="market">
         <div class="ml">{t("Israel","ישראל")}</div>
@@ -735,32 +782,45 @@ def build_site():
 
 <section class="dark" data-reveal>
   <div class="wrap sec">
-    <div class="sec-label">{t("Selected Experience","ניסיון נבחר")}</div>
-    <div class="xp-grid" data-pillar="real-estate">
-{cards_for("real-estate")}
+    <h2 class="sec-label">{t("Starwell","סטארוול")}</h2>
+    <p class="body-copy" style="margin:0 0 34px;color:var(--on-panel-soft);max-width:720px">{t("Positions held by Starwell: advisory mandates, participation in development, and limited partner investments.","אחזקות של סטארוול: מנדטים של ייעוץ, השתתפות בייזום והשקעות כשותף מוגבל (LP).")}</p>
+    <div class="xp-grid" data-pillar="real-estate" data-names="{RE_STARWELL_SEL}">
+{cards_for("real-estate",RE_STARWELL)}
+    </div>
+  </div>
+</section>
+
+<section class="dark" style="padding-top:0" data-reveal>
+  <div class="wrap sec" style="padding-top:0">
+    <h2 class="sec-label">{t("Family track record","רקורד משפחתי")}</h2>
+    <p class="body-copy" style="margin:0 0 34px;color:var(--on-panel-soft);max-width:720px">{t("Projects developed by Doron Kochavi. These are not Starwell holdings; they are included as background to the family&rsquo;s work in real estate.","פרויקטים שיזם דורון כוכבי. אלה אינם אחזקות של סטארוול, והם מובאים כרקע לפעילות המשפחה בנדל&quot;ן.")}</p>
+    <div class="xp-grid" data-pillar="real-estate" data-names="{RE_FAMILY_SEL}">
+{cards_for("real-estate",RE_FAMILY)}
     </div>
   </div>
 </section>'''
     render("real-estate.html",
-      t("Starwell Real Estate | Starwell Holdings","Starwell Real Estate | סטארוול הולדינגס"),
+      t("Starwell Real Estate | Starwell Holdings","סטארוול נדל\"ן | סטארוול הולדינגס"),
       t("Starwell Real Estate covers development and strategic real estate investment across Israel and the United States, with development, advisory, and limited-partner positions.",
-        "Starwell Real Estate עוסקת בייזום ובהשקעות נדל\"ן אסטרטגיות בישראל ובארצות הברית, לרבות ייזום, ייעוץ ופוזיציות כשותף מוגבל."),
+        "סטארוול נדל\"ן עוסקת בייזום ובהשקעות נדל\"ן אסטרטגיות בישראל ובארצות הברית, לרבות ייזום, ייעוץ ופוזיציות כשותף מוגבל."),
       re,extra=live_script("portfolio"))
 
-    # =================== CAPITAL ===================
+    # =================== STARWELL CAPITAL ===================
+    CAP_SEL=["Pioneers","Kodiak","Legion"]
     cap=f'''<section class="hero">
   <div class="wrap">
-    <h1>Starwell<br>Capital</h1>
-    <p class="lead">{t("The capital allocation arm of Starwell Holdings - deploying capital across private equity, public markets, hedge funds, and real estate.","זרוע ההשקעות של סטארוול הולדינגס. מקצה הון בין פרייבט אקוויטי, שווקים ציבוריים, קרנות גידור ונדל&quot;ן.")}</p>
+    <h1>{t("Starwell<br>Capital","סטארוול<br>קפיטל")}</h1>
+    <p class="lead">{t("Long-term investment portfolio across public markets and direct private positions.","תיק השקעות לטווח ארוך בשווקים הציבוריים ובפוזיציות פרטיות ישירות.")}</p>
   </div>
 </section>
 
 <div class="wrap">
   <section class="sec" data-reveal>
-    <div class="sec-label">{t("Approach","הגישה")}</div>
-    <p class="lede">{t("Patient, conviction-driven capital allocation across private equity, public markets, and alternative strategies.","הקצאת הון סבלנית וממוקדת, בשווקים פרטיים וציבוריים כאחד.")}</p>
+    <h2 class="sec-label">{t("Approach","הגישה")}</h2>
+    <p class="lede">{t("Patient, conviction-driven capital allocation across public markets and direct private positions.","הקצאת הון סבלנית וממוקדת, בשווקים הציבוריים ובפוזיציות פרטיות ישירות.")}</p>
     <div class="body-copy">
-      <p>{t("Starwell Capital oversees the firm&rsquo;s external capital deployment. The mandate spans private equity, long-term public market holdings, allocations to long-strategy hedge funds, and real estate. We invest with a long time horizon and concentrate where we have genuine conviction.","Starwell Capital מנהלת את תיק ההשקעות של הקבוצה מחוץ לחברות התפעוליות. המנדט כולל השקעות פרייבט אקוויטי ברכישת חברות והשבחתן, אחזקות ארוכות טווח בשווקים הציבוריים, הקצאות סלקטיביות לקרנות גידור ונדל&quot;ן. אנחנו משקיעים לטווח ארוך, ומרכזים את ההון היכן שיש לנו הבנה אמיתית של העסק.")}</p>
+      <p>{t("Starwell Capital holds the group&rsquo;s investment portfolio outside the operating companies. The mandate spans long-term public market holdings and direct private positions, including private equity, selective hedge fund allocations, and real estate. We invest with a long time horizon and concentrate where we have genuine conviction.","סטארוול קפיטל מחזיקה את תיק ההשקעות של הקבוצה מחוץ לחברות התפעוליות. המנדט כולל אחזקות ארוכות טווח בשווקים הציבוריים ופוזיציות פרטיות ישירות, ובהן פרייבט אקוויטי, הקצאות סלקטיביות לקרנות גידור ונדל&quot;ן. אנחנו משקיעים לטווח ארוך, ומרכזים את ההון היכן שיש לנו הבנה אמיתית של העסק.")}</p>
+      <p class="disclaimer">{t(*DISCLAIMER)}</p>
     </div>
   </section>
 </div>
@@ -778,24 +838,26 @@ def build_site():
 
 <section class="dark" data-reveal>
   <div class="wrap sec">
-    <div class="sec-label">{t("Portfolio","פורטפוליו")}</div>
-    <div class="pf-grid" data-pillar="capital">
-{cards_for("capital")}
+    <h2 class="sec-label">{t("Portfolio","פורטפוליו")}</h2>
+    <div class="pf-grid" data-pillar="capital" data-names="{"|".join(CAP_SEL)}">
+{cards_for("capital",CAP_SEL)}
     </div>
   </div>
 </section>'''
     render("capital.html",
-      t("Starwell Capital | Starwell Holdings","Starwell Capital | סטארוול הולדינגס"),
-      t("Starwell Capital is the allocation arm of Starwell Holdings, deploying capital across private equity, public markets, hedge funds, and real estate.",
-        "Starwell Capital היא זרוע הקצאת ההון של סטארוול הולדינגס, המקצה הון בתחומי הון פרטי, שווקים ציבוריים, קרנות גידור ונדל\"ן."),
+      t("Starwell Capital | Starwell Holdings","סטארוול קפיטל | סטארוול הולדינגס"),
+      t("Starwell Capital holds the Starwell Holdings investment portfolio: long-term positions across public markets and direct private positions. Starwell invests only its own capital.",
+        "סטארוול קפיטל מחזיקה את תיק ההשקעות של סטארוול הולדינגס: אחזקות ארוכות טווח בשווקים הציבוריים ופוזיציות פרטיות ישירות. סטארוול משקיעה מהון עצמי בלבד."),
       cap,extra=live_script("portfolio"))
 
     # =================== NEWS ===================
-    cats_en=["All"]+list(dict.fromkeys(n[0] for n in NEWS))
+    # Only items written in this page's language.
+    news_items=[n for n in NEWS if n[0]==LANG]
+    cats_en=["All"]+list(dict.fromkeys(n[1] for n in news_items))
     def cat_label(c): return t("All","הכל") if c=="All" else c
     pills="".join(f'<button class="pill{" active" if c=="All" else ""}" data-cat="{("all" if c=="All" else c)}">{cat_label(c)}</button>' for c in cats_en)
     cards=""
-    for cat,date,title,blurb,src,img in NEWS:
+    for _lang,cat,date,title,blurb,src,img in news_items:
         href=src or "#"
         tgt=' target="_blank" rel="noopener"' if src else ''
         media=f'<img src="{_esc(img)}" alt="{_esc(title)}" loading="lazy" decoding="async">' if img else cat
@@ -819,6 +881,7 @@ def build_site():
 
 <div class="wrap">
   <section class="sec" data-reveal>
+    <h2 class="sec-label">{t("Latest","אחרונות")}</h2>
     <div class="filters">{pills}</div>
     <div class="news-grid">
 {cards}    </div>
@@ -852,14 +915,18 @@ def build_site():
       <div class="field"><label for="em">{t("Email","דוא&quot;ל")} *</label><input id="em" name="email" type="email" required></div>
       <div class="field"><label for="sub">{t("Subject","נושא")}</label><input id="sub" name="subject" type="text"></div>
       <div class="field"><label for="msg">{t("Message","הודעה")}</label><textarea id="msg" name="message"></textarea></div>
-      <div class="captcha"><label for="captchaAnswer">{t("What is 10 + 10?","כמה זה 10 + 10?")}</label><input id="captchaAnswer" name="captcha" type="text" autocomplete="off" required></div>
+      <!-- Spam control: Netlify's honeypot (bot-field, above) plus a
+           minimum time-to-submit check in script.js. Cloudflare Turnstile was
+           not used because it needs a site key from a Cloudflare account;
+           to switch, add the widget script and replace the check in script.js. -->
+      <input type="hidden" name="form_started" id="formStarted" value="">
       <button type="submit" class="btn">{t("Submit","שליחה")}</button>
       <div class="formnote" id="formnote" role="status" aria-live="polite"></div>
 
       <div class="offices">
-        <div class="ol">{t("Offices","משרדים")}</div>
-        <div class="office"><h4>{t("Tel Aviv","תל אביב")}</h4><p>{t("Beyond Towers<br>Giv&rsquo;atayim, Israel","מגדלי ביונד<br>גבעתיים, ישראל")}</p></div>
-        <div class="office"><h4>{t("Los Angeles","לוס אנג&rsquo;לס")}</h4><p>{t("11601 Wilshire Blvd<br>Los Angeles, CA 90025<br>USA","11601 Wilshire Blvd<br>Los Angeles, CA 90025<br>ארה&quot;ב")}</p></div>
+        <h2 class="ol">{t("Offices","משרדים")}</h2>
+        <div class="office"><h3>{t("Givatayim","גבעתיים")}</h3><p>{t("Beyond Towers<br>Ariel Sharon Street 1<br>Givatayim, Israel","מגדלי ביונד<br>רחוב אריאל שרון 1<br>גבעתיים, ישראל")}</p></div>
+        <div class="office"><h3>{t("Los Angeles","לוס אנג&rsquo;לס")}</h3><p>{t("11601 Wilshire Blvd #2080<br>Los Angeles, CA 90025<br>USA","11601 Wilshire Blvd #2080<br>Los Angeles, CA 90025<br>ארה&quot;ב")}</p></div>
       </div>
     </form>
   </div>
@@ -867,15 +934,12 @@ def build_site():
 <div style="height:60px"></div>'''
     render("contact.html",
       t("Contact | Starwell Holdings","צור קשר | סטארוול הולדינגס"),
-      t("Contact Starwell Holdings about investment opportunities, partnerships, or potential transactions. Offices in Tel Aviv and Los Angeles.",
-        "צרו קשר עם סטארוול הולדינגס בנושא הזדמנויות השקעה, שותפויות או עסקאות. משרדים בתל אביב ובלוס אנג'לס."),
+      t("Contact Starwell Holdings about investment opportunities, partnerships, or potential transactions. Offices in Givatayim, Israel and Los Angeles.",
+        "צרו קשר עם סטארוול הולדינגס בנושא הזדמנויות השקעה, שותפויות או עסקאות. משרדים בגבעתיים ובלוס אנג'לס."),
       contact)
 
     # =================== CAREERS ===================
     value_cards="".join(f'      <div class="step"><h3>{t(en,he)}</h3><p>{t(de,dh)}</p></div>\n' for en,he,de,dh in CAREER_VALUES)
-    CAREER_CATS=[("All","הכל"),("Technology","טכנולוגיה"),("Real Estate","נדל&quot;ן"),
-                 ("Capital & Investments","הון והשקעות"),("Operations","תפעול"),("Finance","פיננסים")]
-    career_pills="".join(f'<button class="pill{" active" if en=="All" else ""}" data-cat="{("all" if en=="All" else en)}">{t(en,he)}</button>' for en,he in CAREER_CATS)
     careers=f'''<section class="hero hero-center">
   <div class="wrap">
     <span class="eyebrow">{t("Join Us","הצטרפו אלינו")}</span>
@@ -894,26 +958,92 @@ def build_site():
 
 <section class="dark" data-reveal>
   <div class="wrap sec sec-center">
-    <h2 class="serif" style="margin-bottom:8px">{t("Open Positions","משרות פתוחות")}</h2>
-    <p class="body-copy" style="margin:0 auto 34px">{t("Click any role to learn more and apply.","לחצו על משרה כדי לקרוא עוד ולהגיש מועמדות.")}</p>
-    <div class="filters" style="justify-content:center">{career_pills}</div>
-    <div id="positions" style="text-align:{t("left","right")};max-width:760px;margin:0 auto"></div>
-    <p class="body-copy" id="posEmpty" style="margin:40px auto 0">{t("No open positions in this category at the moment. Check back soon or reach out directly at","אין כרגע משרות פתוחות בקטגוריה זו. בדקו שוב בקרוב או פנו ישירות אל")} <a href="mailto:careers@starwellholdings.com" class="link-arrow on-dark">careers@starwellholdings.com</a>.</p>
+    <h2 class="serif" style="margin-bottom:14px">{t("Working with us","לעבוד איתנו")}</h2>
+    <p class="body-copy" style="margin:0 auto 30px;max-width:640px">{t("We do not run a standing job board. We hire when we meet the right person, so we read everything that reaches us. Send a CV and a short note about the work you want to do to","אנחנו לא מנהלים לוח משרות קבוע. אנחנו מגייסים כשאנחנו פוגשים את האדם הנכון, ולכן קוראים כל פנייה שמגיעה אלינו. שלחו קורות חיים ומשפט או שניים על העבודה שהייתם רוצים לעשות אל")} <a href="mailto:{CAREERS_EMAIL}" class="link-arrow on-dark">{CAREERS_EMAIL}</a>.</p>
+    <a href="mailto:{CAREERS_EMAIL}" class="btn btn-light">{t("Get in Touch","דברו איתנו")}</a>
   </div>
-</section>
-
-<div class="wrap">
-  <section class="sec sec-center" data-reveal>
-    <h2 class="serif" style="margin-bottom:14px">{t("Don&rsquo;t see the right role?","לא מצאתם את המשרה המתאימה?")}</h2>
-    <p class="body-copy" style="margin:0 auto 28px">{t("We&rsquo;re always interested in meeting exceptional people. Send us a note and tell us how you&rsquo;d contribute.","תמיד נשמח להכיר אנשים יוצאי דופן. שלחו לנו הודעה וספרו כיצד תוכלו לתרום.")}</p>
-    <a href="mailto:careers@starwellholdings.com" class="btn">{t("Get in Touch","דברו איתנו")}</a>
-  </section>
-</div>'''
+</section>'''
     render("careers.html",
       t("Careers | Starwell Holdings","קריירה | סטארוול הולדינגס"),
-      t("Careers at Starwell Holdings. We're a small, high-conviction team building platforms across IT Services and Real Estate, with passive capital allocation to public markets and alternative assets.",
-        "קריירה בסטארוול הולדינגס. אנחנו צוות קטן ומובל-שכנוע הבונה פלטפורמות בתחומי שירותי ה-IT והנדל\"ן, עם הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים."),
-      careers,extra=live_script("careers"))
+      t("Careers at Starwell Holdings. We're a small team building platforms across IT Services and Real Estate. We hire when we meet the right person, so send us a note.",
+        "קריירה בסטארוול הולדינגס. אנחנו צוות קטן הבונה פלטפורמות בתחומי שירותי ה-IT והנדל\"ן. אנחנו מגייסים כשאנחנו פוגשים את האדם הנכון, אז שלחו לנו פנייה."),
+      careers)
+
+    # =================== PRIVACY / ACCESSIBILITY ===================
+    # DRAFT. Both pages are skeletons: every statement that carries legal
+    # weight is marked [TBD] and must be settled by counsel before launch.
+    review_note=("<!-- ================================================================\n"
+                 "     DRAFT FOR LEGAL REVIEW - NOT APPROVED FOR LAUNCH\n"
+                 "     Every [TBD] below needs counsel to confirm or supply the text.\n"
+                 "     Do not publish this page until that review is complete.\n"
+                 "     ================================================================ -->")
+    privacy=f'''{review_note}
+<section class="hero hero-center">
+  <div class="wrap">
+    <span class="eyebrow">{t("Legal","משפטי")}</span>
+    <h1>{t("Privacy Policy","מדיניות פרטיות")}</h1>
+  </div>
+</section>
+<div class="wrap">
+  <section class="sec" data-reveal>
+    <div class="body-copy legal-copy" style="max-width:760px;margin:0 auto">
+      <p class="legal-flag">{t("Draft. This policy is pending legal review and is not yet in force.","טיוטה. המדיניות ממתינה לבדיקה משפטית ואינה בתוקף.")}</p>
+      <h2>{t("Who we are","מי אנחנו")}</h2>
+      <p>{t(f"{LEGAL_NAME}, Company No. {COMPANY_NO}.",f"{LEGAL_NAME_HE}, ח&quot;פ {COMPANY_NO}.")} {t("Registered address: [TBD].","כתובת רשומה: [TBD].")}</p>
+      <h2>{t("What we collect","איזה מידע אנחנו אוספים")}</h2>
+      <p>{t("If you write to us through the contact form we receive the first and last name, organization, email address, subject and message you enter. We do not ask for any other personal detail, and the site does not use advertising or analytics cookies.","אם תפנו אלינו דרך טופס יצירת הקשר, נקבל את השם הפרטי ושם המשפחה, הארגון, כתובת הדוא&quot;ל, הנושא וההודעה שהזנתם. איננו מבקשים פרטים אישיים אחרים, והאתר אינו עושה שימוש בעוגיות פרסום או ניתוח תנועה.")}</p>
+      <h2>{t("Why we hold it","למה אנחנו מחזיקים במידע")}</h2>
+      <p>{t("To read your message and reply to it.","כדי לקרוא את ההודעה שלכם ולהשיב לה.")} {t("Legal basis: [TBD].","הבסיס החוקי: [TBD].")}</p>
+      <h2>{t("Who processes it","מי מעבד את המידע")}</h2>
+      <p>{t("Form submissions are handled by our hosting provider&rsquo;s form service and reach us by email. Further processors, and any transfer of data outside Israel: [TBD].","פניות מהטופס מטופלות באמצעות שירות הטפסים של ספק האחסון שלנו ומגיעות אלינו בדוא&quot;ל. מעבדים נוספים והעברת מידע אל מחוץ לישראל: [TBD].")}</p>
+      <h2>{t("How long we keep it","כמה זמן נשמר המידע")}</h2>
+      <p>[TBD]</p>
+      <h2>{t("Your rights","הזכויות שלכם")}</h2>
+      <p>{t("Rights of access, correction and deletion, and the procedure for exercising them: [TBD].","זכויות עיון, תיקון ומחיקה, והדרך לממש אותן: [TBD].")}</p>
+      <h2>{t("Contact","יצירת קשר")}</h2>
+      <p>{t("Questions about this policy: ","שאלות בנוגע למדיניות זו: ")}<a href="mailto:amit@starwellholdings.com">amit@starwellholdings.com</a>.</p>
+      <p class="legal-date">{t("Last updated: [TBD].","עודכן לאחרונה: [TBD].")}</p>
+    </div>
+  </section>
+</div>'''
+    render("privacy.html",
+      t("Privacy Policy | Starwell Holdings","מדיניות פרטיות | סטארוול הולדינגס"),
+      t("How Starwell Holdings handles personal information submitted through this website.",
+        "כיצד סטארוול הולדינגס מטפלת במידע אישי הנמסר באמצעות אתר זה."),
+      privacy)
+
+    accessibility=f'''{review_note}
+<section class="hero hero-center">
+  <div class="wrap">
+    <span class="eyebrow">{t("Legal","משפטי")}</span>
+    <h1>{t("Accessibility Statement","הצהרת נגישות")}</h1>
+  </div>
+</section>
+<div class="wrap">
+  <section class="sec" data-reveal>
+    <div class="body-copy legal-copy" style="max-width:760px;margin:0 auto">
+      <p class="legal-flag">{t("Draft. This statement is pending legal review and is not yet in force.","טיוטה. ההצהרה ממתינה לבדיקה משפטית ואינה בתוקף.")}</p>
+      <h2>{t("Our commitment","המחויבות שלנו")}</h2>
+      <p>{t(f"{LEGAL_NAME} works to keep this website usable by as many people as possible, including people using assistive technology.",f"{LEGAL_NAME_HE} פועלת כדי שאתר זה יהיה שמיש עבור כמה שיותר אנשים, ובכלל זה משתמשים בטכנולוגיה מסייעת.")}</p>
+      <h2>{t("Standard","התקן")}</h2>
+      <p>{t("Standard applied and level of conformance: [TBD].","התקן שיושם ורמת ההתאמה: [TBD].")}</p>
+      <h2>{t("What has been done","מה נעשה")}</h2>
+      <p>{t("The site is built with semantic HTML and landmark regions, can be operated by keyboard, keeps text and background contrast high in both the light and dark colour schemes, labels every image and form field, respects the operating system&rsquo;s reduced-motion setting, and reflows to a single column on small screens without horizontal scrolling.","האתר בנוי ב-HTML סמנטי עם אזורי ניווט מוגדרים, ניתן להפעלה מלאה במקלדת, שומר על ניגודיות גבוהה בין טקסט לרקע במצב בהיר ובמצב כהה, מתייג כל תמונה וכל שדה בטופס, מכבד את הגדרת צמצום התנועה של מערכת ההפעלה, ונפרש לעמודה אחת במסכים קטנים בלי גלילה לרוחב.")}</p>
+      <h2>{t("Known limitations","מגבלות ידועות")}</h2>
+      <p>[TBD]</p>
+      <h2>{t("Accessibility coordinator","רכז הנגישות")}</h2>
+      <p>{t("Name, telephone and email: [TBD].","שם, טלפון ודוא&quot;ל: [TBD].")}</p>
+      <h2>{t("Reporting a problem","דיווח על תקלה")}</h2>
+      <p>{t("If you run into an accessibility problem on this site, please write to ","אם נתקלתם בבעיית נגישות באתר, אנא כתבו אל ")}<a href="mailto:amit@starwellholdings.com">amit@starwellholdings.com</a>{t(" and tell us the page and what happened.",", וציינו באיזה עמוד מדובר ומה קרה.")}</p>
+      <p class="legal-date">{t("Date of this statement: [TBD].","תאריך ההצהרה: [TBD].")}</p>
+    </div>
+  </section>
+</div>'''
+    render("accessibility.html",
+      t("Accessibility Statement | Starwell Holdings","הצהרת נגישות | סטארוול הולדינגס"),
+      t("Accessibility statement for the Starwell Holdings website.",
+        "הצהרת נגישות עבור אתר סטארוול הולדינגס."),
+      accessibility)
 
     # =================== SITEMAP (human) ===================
     sm=f'''<section class="hero hero-center">
@@ -926,20 +1056,22 @@ def build_site():
 <div class="wrap">
   <section class="sec" data-reveal>
     <div class="sitemap-cols">
-      <div><h4>{t("Company","החברה")}</h4>
+      <div><h2 class="sm-h">{t("Company","החברה")}</h2>
         <a href="{t("/","/he/")}">{t("Home","ראשי")}</a>
         <a href="our-story">{t("About Us","אודות")}</a>
         <a href="our-team">{t("Our Team","הצוות שלנו")}</a>
         <a href="our-history">{t("Our History","ההיסטוריה שלנו")}</a>
         <a href="news">{t("News","חדשות")}</a>
         <a href="careers">{t("Careers","קריירה")}</a></div>
-      <div><h4>{t("What We Do","מה אנחנו עושים")}</h4>
+      <div><h2 class="sm-h">{t("What We Do","מה אנחנו עושים")}</h2>
         <a href="technology">{t("IT Services","שירותי IT")}</a>
         <a href="real-estate">{t("Real Estate","נדל&quot;ן")}</a>
         <a href="capital">{t("Capital","קפיטל")}</a></div>
-      <div><h4>{t("Resources","משאבים")}</h4>
+      <div><h2 class="sm-h">{t("Resources","משאבים")}</h2>
         <a href="contact">{t("Contact","צור קשר")}</a>
         <a href="search">{t("Search","חיפוש")}</a>
+        <a href="privacy">{t("Privacy Policy","מדיניות פרטיות")}</a>
+        <a href="accessibility">{t("Accessibility Statement","הצהרת נגישות")}</a>
         <a href="{t("/sitemap","/he/sitemap")}">{t("Sitemap","מפת אתר")}</a>
         <a href="{t("he/","../")}" hreflang="{t("he","en")}">{t("עברית","English")}</a></div>
     </div>
@@ -978,7 +1110,8 @@ def build_site():
       <input type="search" name="q" id="searchPageInput" placeholder="{t("Search Starwell Holdings","חיפוש בסטארוול הולדינגס")} …" aria-label="{t("Search","חיפוש")}" autocomplete="off">
       <button type="submit" class="btn">{t("Search","חיפוש")}</button>
     </form>
-    <div class="cards" id="searchResults" style="margin-top:40px"></div>
+    <h2 class="sec-label" id="resultsHeading" style="margin-top:40px" hidden>{t("Results","תוצאות")}</h2>
+    <div class="cards" id="searchResults" style="margin-top:16px"></div>
     <p class="body-copy" id="searchEmpty" style="text-align:center;color:var(--ink-soft);margin-top:22px"></p>
   </section>
 </div>'''
@@ -998,6 +1131,7 @@ def build_site():
   head.innerHTML=__SEARCHED__+" <em>"+esc(q)+"</em>";
   count.textContent=res.length+" "+(res.length===1?__ONE__:__MANY__);
   if(!res.length){empty.textContent=__NONE__;return;}
+  var rh=document.getElementById("resultsHeading"); if(rh)rh.hidden=false;
   wrap.innerHTML=res.map(function(d){
     var x=d.text,i=x.toLowerCase().indexOf(ql),snip;
     if(i<0){snip=esc(x.slice(0,150))+"…";}
@@ -1030,17 +1164,25 @@ for LANG in LANGS:
 pages=[("index.html","1.0"),("our-story.html","0.9"),("our-history.html","0.6"),
        ("our-team.html","0.6"),("technology.html","0.8"),
        ("real-estate.html","0.8"),("capital.html","0.8"),("news.html","0.7"),
-       ("contact.html","0.7"),("careers.html","0.5"),("sitemap.html","0.3")]
+       ("contact.html","0.7"),("careers.html","0.5"),("sitemap.html","0.3"),
+       ("privacy.html","0.3"),("accessibility.html","0.3")]
 def alt_links(slug):
     en_url=BASE+"/"+slug; he_url=BASE+"/he/"+slug
     return (f'    <xhtml:link rel="alternate" hreflang="en" href="{en_url}"/>\n'
             f'    <xhtml:link rel="alternate" hreflang="he" href="{he_url}"/>\n'
             f'    <xhtml:link rel="alternate" hreflang="x-default" href="{en_url}"/>\n')
+def lastmod(rel):
+    """W3C date of the generated file, so <lastmod> tracks real edits."""
+    p=os.path.join(OUT,rel)
+    if not os.path.exists(p): return None
+    return datetime.date.fromtimestamp(os.path.getmtime(p)).isoformat()
 urls=""
 for fn,pr in pages:
     slug="" if fn=="index.html" else fn[:-5]
-    for base_loc in (BASE+"/"+slug, BASE+"/he/"+slug):
+    for base_loc,rel in ((BASE+"/"+slug,fn), (BASE+"/he/"+slug,"he/"+fn)):
+        lm=lastmod(rel)
         urls+=(f"  <url>\n    <loc>{base_loc}</loc>\n"+alt_links(slug)+
+               (f"    <lastmod>{lm}</lastmod>\n" if lm else "")+
                f"    <changefreq>monthly</changefreq>\n    <priority>{pr}</priority>\n  </url>\n")
 open(os.path.join(OUT,"sitemap.xml"),"w").write(
   '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -1066,7 +1208,7 @@ LEGACY=[
 # Clean URLs (no .html). For every page, in both languages: serve the .html
 # file at its clean path (200, URL stays clean) and 301 the old .html URL to
 # the clean one so previously-indexed .html pages consolidate cleanly.
-SLUGS=["our-story","our-history","our-team","technology","real-estate","capital","news","contact","careers","sitemap","search"]
+SLUGS=["our-story","our-history","our-team","technology","real-estate","capital","news","contact","careers","sitemap","search","privacy","accessibility"]
 serve=[]; htmlredir=[]
 for base in ("","/he"):
     htmlredir.append((base+"/index.html", base+"/"))

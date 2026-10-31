@@ -1,4 +1,4 @@
-/* Live site images — fill every [data-img="<key>"] slot with the image
+/* Live site images - fill every [data-img="<key>"] slot with the image
    uploaded for that key in the HQ dashboard (site_images table). Slots keep
    whatever the build produced (a self-hosted file or a text placeholder) until
    an upload exists, so the page never shows a broken graphic. */

@@ -1,4 +1,4 @@
-/* Live Portfolio — if Supabase is configured, replace the baked holdings in
+/* Live Portfolio - if Supabase is configured, replace the baked holdings in
    each [data-pillar] grid with the current portfolio_companies rows from the
    HQ dashboard, so edits (links, logos, photos, descriptions) show without a
    rebuild. Real-estate cards use the uploaded photo gallery: one photo shows
@@ -69,10 +69,27 @@
 
   sb.from("portfolio_companies").select("*").order("sort_order",{ascending:true}).then(function(r){
     if(r.error||!r.data||!r.data.length)return;
+    /* A grid may carry data-names: a "|" separated list of name prefixes that
+       limits it to part of the pillar, so one pillar can be split across
+       labelled sections. Matching is by prefix so a name reworded in HQ still
+       lands in the right section. Rows matching no section are not shown. */
+    function pick(grid,rows){
+      var sel=grid.getAttribute("data-names");
+      if(!sel)return rows;
+      var want=sel.split("|").map(function(s){return s.trim().toLowerCase();}).filter(Boolean);
+      var out=[];
+      want.forEach(function(p){
+        rows.forEach(function(row){
+          var n=String(row.name||"").toLowerCase();
+          if(n.indexOf(p)===0&&out.indexOf(row)<0)out.push(row);
+        });
+      });
+      return out;
+    }
     warm(r.data,function(){
       grids.forEach(function(grid){
         var pillar=grid.getAttribute("data-pillar");
-        var rows=r.data.filter(function(x){return x.pillar===pillar;});
+        var rows=pick(grid,r.data.filter(function(x){return x.pillar===pillar;}));
         if(!rows.length)return;
         var xp=grid.classList.contains("xp-grid");
         grid.innerHTML=rows.map(xp?xpCard:pfCard).join("");

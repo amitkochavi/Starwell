@@ -71,11 +71,25 @@
 
   try{
     var f=document.getElementById('contactForm');
+    // Spam control: the Netlify honeypot catches bots that fill every field,
+    // and a minimum time-to-submit catches the ones that post instantly.
+    // A person needs several seconds to type a message; a script does not.
+    var MIN_SECONDS=4;
+    var started=document.getElementById('formStarted');
+    if(started)started.value=String(Date.now());
     if(f)f.addEventListener('submit',function(e){
       e.preventDefault();
       var note=document.getElementById('formnote');
-      var cap=document.getElementById('captchaAnswer');
-      if(cap && cap.value.trim()!=='20'){note.style.color='#C0444A';note.textContent='Please answer the question correctly (10 + 10).';return;}
+      var HE=document.documentElement.lang==='he';
+      var bot=f.querySelector('[name="bot-field"]');
+      var t0=started&&parseInt(started.value,10);
+      var tooFast=t0&&(Date.now()-t0)<MIN_SECONDS*1000;
+      if((bot&&bot.value)||tooFast){
+        note.style.color='#C0444A';
+        note.textContent=HE?'השליחה נראית אוטומטית. המתינו רגע ונסו שוב.'
+                          :'That submission looked automated. Please wait a moment and try again.';
+        return;
+      }
       note.style.color='';
       var data=new FormData(f);
       // Fallback for any host without server-side form handling: open the

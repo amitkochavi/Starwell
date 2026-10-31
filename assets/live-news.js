@@ -1,4 +1,4 @@
-/* Live News — if Supabase is configured, replace the baked cards with the
+/* Live News - if Supabase is configured, replace the baked cards with the
    latest articles from the HQ dashboard. On the Hebrew site (/he/) it prefers
    the *_he fields and falls back to English. Fails silently to baked content. */
 (function(){
@@ -11,10 +11,18 @@
   var MO=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   var MO_HE=["ינו׳","פבר׳","מרץ","אפר׳","מאי","יוני","יולי","אוג׳","ספט׳","אוק׳","נוב׳","דצמ׳"];
   function fdate(d){if(!d)return"";var p=String(d).split("-");if(p.length<3)return d;var m=(HE?MO_HE:MO)[(+p[1])-1];return HE?((+p[2])+" "+m+" "+p[0]):(m+" "+(+p[2])+", "+p[0]);}
+  /* Keep each language's news page in its own language: an item shows only
+     where the title it would display is written in that page's script. A row
+     with a real title_he therefore appears on /he/, and an English-only row
+     stays off it. */
+  var HEB=/[֐-׿]/;
+  function inThisLanguage(a){ var ttl=String(L(a,"title")||""); return HEB.test(ttl)===HE; }
   sb.from("news_articles").select("*").order("featured",{ascending:false}).order("publish_date",{ascending:false}).then(function(r){
     if(r.error||!r.data||!r.data.length)return;
     var grid=document.querySelector(".news-grid");if(!grid)return;
-    grid.innerHTML=r.data.map(function(a){
+    var data=r.data.filter(inThisLanguage);
+    if(!data.length)return;
+    grid.innerHTML=data.map(function(a){
       var title=L(a,"title"),excerpt=L(a,"excerpt"),cat=L(a,"category");
       var href=a.source_url||"#";var tgt=a.source_url?' target="_blank" rel="noopener"':"";
       var media=a.featured_image_url?'<img src="'+esc(a.featured_image_url)+'" alt="'+esc(title)+'" loading="lazy" decoding="async">':esc(cat||DNEWS);
@@ -26,7 +34,7 @@
     }).join("");
     var filters=document.querySelector(".filters");
     if(filters){
-      var cats=[ALL];r.data.forEach(function(a){var c=L(a,"category");if(c&&cats.indexOf(c)<0)cats.push(c);});
+      var cats=[ALL];data.forEach(function(a){var c=L(a,"category");if(c&&cats.indexOf(c)<0)cats.push(c);});
       filters.innerHTML=cats.map(function(c,i){return '<button class="pill'+(i===0?" active":"")+'" data-cat="'+(i===0?"all":esc(c))+'">'+esc(c)+'</button>';}).join("");
       filters.querySelectorAll(".pill").forEach(function(p){p.addEventListener("click",function(){
         filters.querySelectorAll(".pill").forEach(function(x){x.classList.remove("active");});p.classList.add("active");
