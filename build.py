@@ -157,8 +157,6 @@ def FOOTER():
         <a href="contact">{t("Contact","צור קשר")}</a>
         <a href="https://www.linkedin.com/company/starwell-holdings/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="{t("/sitemap","/he/sitemap")}">{t("Sitemap","מפת אתר")}</a>
-        <a href="privacy">{t("Privacy","פרטיות")}</a>
-        <a href="accessibility">{t("Accessibility","נגישות")}</a>
         <a href="{t("he/","../")}" hreflang="{t("he","en")}">{t("עברית","English")}</a>
       </div>
     </div>
@@ -443,15 +441,27 @@ def _pwidth():
 # The first field is the language the item is written in: an item only appears
 # on the site of that language, so /news stays English and /he/news Hebrew.
 NEWS=[
+ ('en','Company News','2026','Amit Kochavi joins the Board of Governors of Sapir Academic College',
+  'Amit Kochavi has joined the Board of Governors of Sapir Academic College, alongside his role as Senior Advisor to the Mayor of Sderot.',
+  'https://www.sapir.ac.il/staff/7054',''),
+ ('he','חדשות החברה','2026','עמית כוכבי מצטרף לחבר הנאמנים של המכללה האקדמית ספיר',
+  'עמית כוכבי הצטרף לחבר הנאמנים של המכללה האקדמית ספיר, לצד תפקידו כיועץ בכיר לראש עיריית שדרות.',
+  'https://www.sapir.ac.il/staff/7054',''),
  ('en','Company News','Jun 3, 2025','Circles Merges Operations with U.S.-Based Doss',
   'Circles is merging its operations with U.S.-based Doss and will become the Israeli sales and marketing center for the company.',
   '','https://www.new-techeurope.com/wp-content/uploads/2025/06/Amit-Kochavi-e1748940333350.jpg'),
- ('he','Company News','May 29, 2025','חברת Circles מתמזגת עם Doss האמריקאית',
+ ('he','חדשות החברה','May 29, 2025','חברת Circles מתמזגת עם Doss האמריקאית',
   'חברת Circles מתמזגת עם Doss האמריקאית ותהפוך למרכז הפיתוח הישראלי שלה. עמית כוכבי ימונה למנהל הפיתוח הגלובלי.',
   '','https://www.ittime.co.il/wp-content/uploads/2025/05/Amit-Cohavi-200x300.jpeg'),
+ ('he','חדשות החברה','Jan 1, 2025','עמית כוכבי נכלל ברשימת 40 Under 40 של דה מרקר',
+  'עמית כוכבי, מייסד ומנכ"ל סטארוול הולדינגס, נכלל ברשימת 40 Under 40 של דה מרקר לשנת 2025.',
+  'https://www.themarker.com/magazine/2025-01-01/ty-article-magazine/.premium/00000194-12c9-da93-a9dc-9ee9e4080000',''),
  ('en','Real Estate','May 6, 2025','Lee & Associates Atlanta Facilitates Sale of 28-Acre Industrial Site to Terminal Logistics',
   "Center Capital's IOS platform, Terminal Logistics, has acquired a 28-acre site in Gainesville, GA.",
   '','https://www.lee-associates.com/atlanta/wp-content/uploads/sites/77/2021/08/Lee-Associates-Atlanta-Logo-2021.png'),
+ ('en','Company News','Jan 1, 2025','Amit Kochavi named to TheMarker 40 Under 40',
+  'Amit Kochavi, founder and CEO of Starwell Holdings, appears on TheMarker&rsquo;s 40 Under 40 list for 2025.',
+  'https://www.themarker.com/magazine/2025-01-01/ty-article-magazine/.premium/00000194-12c9-da93-a9dc-9ee9e4080000',''),
 ]
 
 CAREER_VALUES=[
@@ -473,7 +483,7 @@ def build_site():
     home=f'''<section class="hero hero-home">
   <div class="wrap">
     <h1>{t("Dream with Starwell.","חולמים עם סטארוול.")}</h1>
-    <p class="lead">{t("A private holding company. We acquire and operate IT services companies in Israel, invest in real estate, and hold positions in public and private markets.","חברת החזקות פרטית. אנחנו רוכשים ומפעילים חברות שירותי IT בישראל, משקיעים בנדל&quot;ן ומחזיקים פוזיציות בשווקים הציבוריים והפרטיים.")}</p>
+    <p class="lead">{t("A private holding company. We acquire and operate IT services companies in Israel, invest in real estate, and hold positions in public and private markets.","חברת החזקות פרטית. אנחנו רוכשים ומפעילים חברות שירותי IT בישראל, משקיעים בנדל&quot;ן ומחזיקים השקעות בשווקים הציבוריים והפרטיים.")}</p>
     <a href="#what-we-do" class="scrolldown" aria-label="{t("Scroll down","גלול למטה")}">&darr;</a>
   </div>
 </section>
@@ -493,12 +503,12 @@ def build_site():
       </div>
       <div class="card">
         <h3>{t("Starwell Real Estate","סטארוול נדל&quot;ן")}</h3>
-        <p>{t("Development and GP investments in Israel, select co-investments.","ייזום והשקעות שותף כללי (GP) בישראל, לצד השקעות משותפות נבחרות.")}</p>
+        <p>{t("Advisory mandates in Israel and limited partner investments in the United States.","מנדטים של ייעוץ בישראל והשקעות כשותף מוגבל (LP) בארצות הברית.")}</p>
         <a href="real-estate" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
       <div class="card">
         <h3>{t("Starwell Capital","סטארוול קפיטל")}</h3>
-        <p>{t("Long-term investment portfolio across public markets and direct private positions.","תיק השקעות לטווח ארוך בשווקים הציבוריים ובפוזיציות פרטיות ישירות.")}</p>
+        <p>{t("Long-term investment portfolio across public markets and direct private positions.","תיק השקעות לטווח ארוך בשווקים הציבוריים ובהשקעות פרטיות ישירות.")}</p>
         <a href="capital" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
     </div>
@@ -671,6 +681,21 @@ def build_site():
       </div>
     </div>
     <div class="leader" style="margin-top:60px">
+      <div class="photo" data-img="tal-raif">{local_img("tal-raif",t("Tal Raif","טל רייף"))}</div>
+      <div>
+        <div class="ln">{t("Tal Raif","טל רייף")}</div>
+        <div class="lt">{t("Board Member and Head of Business Development","חבר דירקטוריון ומנהל פיתוח עסקי")}</div>
+        <div class="body-copy">
+          <p>{t("Tal is Head of Strategy, Innovation and M&amp;A at Afcon Holdings (TASE: AFHL), where he leads M&amp;A end to end, from sourcing and valuation through due diligence and negotiation, alongside corporate venture investments and strategic partnerships across renewable energy, EV charging infrastructure, data centers, industrial automation, and defense technology.","טל הוא ראש תחום אסטרטגיה, חדשנות ומיזוגים ורכישות באפקון החזקות (TASE: AFHL), שם הוא מוביל את פעילות המיזוגים והרכישות מקצה לקצה, מאיתור עסקאות והערכות שווי ועד בדיקות נאותות ומשא ומתן, לצד השקעות הון סיכון תאגידי ושותפויות אסטרטגיות בתחומי האנרגיה המתחדשת, תשתיות הטעינה לרכבים חשמליים, מרכזי הנתונים, האוטומציה התעשייתית והטכנולוגיות הביטחוניות.")}</p>
+          <p>{t("He is a third-generation member of the family behind Shlomo Group, and takes part in its strategic and investment activity across mobility, insurance and finance, real estate, shipyards, and aviation. He represents the family in international family-office forums, including The Family Office Alliance.","הוא דור שלישי במשפחה שמאחורי קבוצת שלמה, ושותף לפעילות האסטרטגית ולהשקעות שלה בתחומי המוביליות, הביטוח והפיננסים, הנדל&quot;ן, המספנות והתעופה. הוא מייצג את המשפחה בפורומים בינלאומיים של משרדי משפחה, ובהם The Family Office Alliance.")}</p>
+          <p>{t("He sits on the investment committee of Square One Labs and reviews opportunities across venture capital and private equity. He holds an MBA from the Coller School of Management at Tel Aviv University and a BA in Communication and Media Studies from IDC Herzliya.","הוא חבר בוועדת ההשקעות של Square One Labs ובוחן הזדמנויות בהון סיכון ובפרייבט אקוויטי. הוא בעל תואר MBA מבית הספר למנהל עסקים ע&quot;ש קולר באוניברסיטת תל אביב ותואר ראשון בתקשורת מהמרכז הבינתחומי הרצליה.")}</p>
+        </div>
+        <div class="t-links">
+          <a href="https://il.linkedin.com/in/talraif" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="leader" style="margin-top:60px">
       <div class="photo" data-img="shirly-gur-arie">{local_img("shirly-gur-arie",t("Shirly Gur Arie","שירלי גור אריה"))}</div>
       <div>
         <div class="ln">{t("Shirly Gur Arie","שירלי גור אריה")}</div>
@@ -820,7 +845,7 @@ def build_site():
     re=f'''<section class="hero">
   <div class="wrap">
     <h1>{t("Starwell<br>Real Estate","סטארוול<br>נדל&quot;ן")}</h1>
-    <p class="lead">{t("Development and strategic real estate investment across Israel and the United States.","ייזום והשקעות נדל&quot;ן אסטרטגיות בישראל ובארצות הברית.")}</p>
+    <p class="lead">{t("Advisory mandates in Israel and limited partner investments in the United States.","מנדטים של ייעוץ בישראל והשקעות כשותף מוגבל (LP) בארצות הברית.")}</p>
   </div>
 </section>
 
@@ -830,8 +855,8 @@ def build_site():
     <div class="markets">
       <div class="market">
         <div class="ml">{t("Israel","ישראל")}</div>
-        <h3>{t("Development &amp; Advisory","ייזום וייעוץ")}</h3>
-        <p>{t("Residential and mixed-use development in Tel Aviv and central Israel, alongside institutional developers and public-sector partners. Focus on urban renewal and projects with structural demand tailwinds.","ייזום מגורים ושימושים מעורבים בתל אביב ובמרכז הארץ, לצד יזמים מוסדיים ושותפים מהמגזר הציבורי. מיקוד בהתחדשות עירונית ובפרויקטים עם רוח גבית מבנית בביקוש.")}</p>
+        <h3>{t("Advisory","ייעוץ")}</h3>
+        <p>{t("Advisory mandates on residential and mixed-use projects in Tel Aviv and central Israel, working alongside the institutional developers and public-sector partners who run them. Focus on urban renewal and projects with structural demand tailwinds.","מנדטים של ייעוץ בפרויקטים של מגורים ושימושים מעורבים בתל אביב ובמרכז הארץ, לצד היזמים המוסדיים והשותפים מהמגזר הציבורי שמובילים אותם. מיקוד בהתחדשות עירונית ובפרויקטים עם רוח גבית מבנית בביקוש.")}</p>
       </div>
       <div class="market">
         <div class="ml">{t("United States","ארצות הברית")}</div>
@@ -845,7 +870,7 @@ def build_site():
 <section class="dark" data-reveal>
   <div class="wrap sec">
     <h2 class="sec-label">{t("Starwell","סטארוול")}</h2>
-    <p class="body-copy" style="margin:0 0 34px;color:var(--on-panel-soft);max-width:720px">{t("Positions held by Starwell: advisory mandates, participation in development, and limited partner investments.","אחזקות של סטארוול: מנדטים של ייעוץ, השתתפות בייזום והשקעות כשותף מוגבל (LP).")}</p>
+    <p class="body-copy" style="margin:0 0 34px;color:var(--on-panel-soft);max-width:720px">{t("Positions held by Starwell: advisory mandates, participation in development projects alongside the developers who run them, and limited partner investments.","אחזקות של סטארוול: מנדטים של ייעוץ, השתתפות בפרויקטי ייזום לצד היזמים שמובילים אותם, והשקעות כשותף מוגבל (LP).")}</p>
     <div class="xp-grid" data-pillar="real-estate" data-names="{RE_STARWELL_SEL}">
 {cards_for("real-estate",RE_STARWELL)}
     </div>
@@ -863,8 +888,8 @@ def build_site():
 </section>'''
     render("real-estate.html",
       t("Starwell Real Estate | Starwell Holdings","סטארוול נדל\"ן | סטארוול הולדינגס"),
-      t("Starwell Real Estate covers development and strategic real estate investment across Israel and the United States, with development, advisory, and limited-partner positions.",
-        "סטארוול נדל\"ן עוסקת בייזום ובהשקעות נדל\"ן אסטרטגיות בישראל ובארצות הברית, לרבות ייזום, ייעוץ ופוזיציות כשותף מוגבל."),
+      t("Starwell Real Estate holds advisory mandates on projects in Israel and limited partner investments in the United States.",
+        "סטארוול נדל\"ן מחזיקה מנדטים של ייעוץ בפרויקטים בישראל והשקעות כשותף מוגבל (LP) בארצות הברית."),
       re,extra=live_script("portfolio"))
 
     # =================== STARWELL CAPITAL ===================
@@ -872,16 +897,16 @@ def build_site():
     cap=f'''<section class="hero">
   <div class="wrap">
     <h1>{t("Starwell<br>Capital","סטארוול<br>קפיטל")}</h1>
-    <p class="lead">{t("Long-term investment portfolio across public markets and direct private positions.","תיק השקעות לטווח ארוך בשווקים הציבוריים ובפוזיציות פרטיות ישירות.")}</p>
+    <p class="lead">{t("Long-term investment portfolio across public markets and direct private positions.","תיק השקעות לטווח ארוך בשווקים הציבוריים ובהשקעות פרטיות ישירות.")}</p>
   </div>
 </section>
 
 <div class="wrap">
   <section class="sec" data-reveal>
     <h2 class="sec-label">{t("Approach","הגישה")}</h2>
-    <p class="lede">{t("Patient, conviction-driven capital allocation across public markets and direct private positions.","הקצאת הון סבלנית וממוקדת, בשווקים הציבוריים ובפוזיציות פרטיות ישירות.")}</p>
+    <p class="lede">{t("Patient, long-term capital allocation across public markets and direct private positions.","הקצאת הון סבלנית וארוכת טווח, בשווקים הציבוריים ובהשקעות פרטיות ישירות.")}</p>
     <div class="body-copy">
-      <p>{t("Starwell Capital holds the group&rsquo;s investment portfolio outside the operating companies. The mandate spans long-term public market holdings and direct private positions, including private equity, selective hedge fund allocations, and real estate. We invest with a long time horizon and concentrate where we have genuine conviction.","סטארוול קפיטל מחזיקה את תיק ההשקעות של הקבוצה מחוץ לחברות התפעוליות. המנדט כולל אחזקות ארוכות טווח בשווקים הציבוריים ופוזיציות פרטיות ישירות, ובהן פרייבט אקוויטי, הקצאות סלקטיביות לקרנות גידור ונדל&quot;ן. אנחנו משקיעים לטווח ארוך, ומרכזים את ההון היכן שיש לנו הבנה אמיתית של העסק.")}</p>
+      <p>{t("Starwell Capital holds the group&rsquo;s investment portfolio outside the operating companies. The mandate spans long-term public market holdings and direct private positions. We invest with a long time horizon and concentrate where we have genuine conviction.","סטארוול קפיטל מחזיקה את תיק ההשקעות של הקבוצה מחוץ לחברות התפעוליות. המנדט כולל אחזקות ארוכות טווח בשווקים הציבוריים והשקעות פרטיות ישירות. אנחנו משקיעים לטווח ארוך, ומרכזים את ההון היכן שיש לנו הבנה אמיתית של העסק.")}</p>
       <p class="disclaimer">{t(*DISCLAIMER)}</p>
     </div>
   </section>
@@ -889,11 +914,9 @@ def build_site():
 
 <div class="wrap">
   <section class="sec" style="padding-top:0" data-reveal>
-    <div class="steps four">
-      <div class="step"><div class="n">01</div><h3>{t("Private Equity","פרייבט אקוויטי")}</h3><p>{t("Private equity investments in buy-out and roll-up strategies, acquiring and improving traditional businesses through operational, financial, and technological efficiency.","רכישת עסקים והשבחתם באמצעות שיפור תפעולי, פיננסי וטכנולוגי.")}</p></div>
-      <div class="step"><div class="n">02</div><h3>{t("Public Markets","שווקים ציבוריים")}</h3><p>{t("Long-term concentrated holdings in public companies where the firm has deep conviction in the business and management team.","תיק מרוכז של אחזקות ארוכות טווח בחברות ציבוריות שבהן יש לנו אמון עמוק בעסק ובהנהלה.")}</p></div>
-      <div class="step"><div class="n">03</div><h3>{t("Hedge Funds","קרנות גידור")}</h3><p>{t("Selective allocations to long-strategy hedge funds with differentiated process and consistent risk-adjusted performance.","הקצאות סלקטיביות לקרנות עם תהליך השקעה מובחן וביצועים עקביים ביחס לסיכון.")}</p></div>
-      <div class="step"><div class="n">04</div><h3>{t("Real Estate","נדל&quot;ן")}</h3><p>{t("Capital allocations to real estate funds and structures as part of a diversified long-term portfolio.","השקעות בקרנות ובמבני נדל&quot;ן כרכיב ארוך טווח בתיק.")}</p></div>
+    <div class="steps two">
+      <div class="step"><div class="n">01</div><h3>{t("Public Markets","שווקים ציבוריים")}</h3><p>{t("Long-term concentrated holdings in public companies whose business and management team we know well.","תיק מרוכז של אחזקות ארוכות טווח בחברות ציבוריות שאנחנו מכירים היטב את העסק ואת ההנהלה שלהן.")}</p></div>
+      <div class="step"><div class="n">02</div><h3>{t("Direct Private Positions","השקעות פרטיות ישירות")}</h3><p>{t("Private equity investments in buy-out and roll-up strategies, acquiring and improving traditional businesses through operational, financial, and technological efficiency.","רכישת עסקים והשבחתם באמצעות שיפור תפעולי, פיננסי וטכנולוגי.")}</p></div>
     </div>
   </section>
 </div>
@@ -909,7 +932,7 @@ def build_site():
     render("capital.html",
       t("Starwell Capital | Starwell Holdings","סטארוול קפיטל | סטארוול הולדינגס"),
       t("Starwell Capital holds the Starwell Holdings investment portfolio: long-term positions across public markets and direct private positions. Starwell invests only its own capital.",
-        "סטארוול קפיטל מחזיקה את תיק ההשקעות של סטארוול הולדינגס: אחזקות ארוכות טווח בשווקים הציבוריים ופוזיציות פרטיות ישירות. סטארוול משקיעה מהון עצמי בלבד."),
+        "סטארוול קפיטל מחזיקה את תיק ההשקעות של סטארוול הולדינגס: אחזקות ארוכות טווח בשווקים הציבוריים והשקעות פרטיות ישירות. סטארוול משקיעה מהון עצמי בלבד."),
       cap,extra=live_script("portfolio"))
 
     # =================== NEWS ===================
@@ -1033,10 +1056,10 @@ def build_site():
 
     # =================== PRIVACY / ACCESSIBILITY ===================
     # DRAFT. Both pages are skeletons: every statement that carries legal
-    # weight is marked [TBD] and must be settled by counsel before launch.
+    # weight is marked [details from counsel] and must be settled before launch.
     review_note=("<!-- ================================================================\n"
                  "     DRAFT FOR LEGAL REVIEW - NOT APPROVED FOR LAUNCH\n"
-                 "     Every [TBD] below needs counsel to confirm or supply the text.\n"
+                 "     Every [details from counsel] below needs counsel to supply the text.\n"
                  "     Do not publish this page until that review is complete.\n"
                  "     ================================================================ -->")
     privacy=f'''{review_note}
@@ -1051,20 +1074,20 @@ def build_site():
     <div class="body-copy legal-copy" style="max-width:760px;margin:0 auto">
       <p class="legal-flag">{t("Draft. This policy is pending legal review and is not yet in force.","טיוטה. המדיניות ממתינה לבדיקה משפטית ואינה בתוקף.")}</p>
       <h2>{t("Who we are","מי אנחנו")}</h2>
-      <p>{t(f"{LEGAL_NAME}, Company No. {COMPANY_NO}.",f"{LEGAL_NAME_HE}, ח&quot;פ {COMPANY_NO}.")} {t("Registered address: [TBD].","כתובת רשומה: [TBD].")}</p>
+      <p>{t(f"{LEGAL_NAME}, Company No. {COMPANY_NO}.",f"{LEGAL_NAME_HE}, ח&quot;פ {COMPANY_NO}.")} {t("Registered address: [details from counsel].","כתובת רשומה: [פרטים מהיועץ המשפטי].")}</p>
       <h2>{t("What we collect","איזה מידע אנחנו אוספים")}</h2>
       <p>{t("If you write to us through the contact form we receive the first and last name, organization, email address, subject and message you enter. We do not ask for any other personal detail, and the site does not use advertising or analytics cookies.","אם תפנו אלינו דרך טופס יצירת הקשר, נקבל את השם הפרטי ושם המשפחה, הארגון, כתובת הדוא&quot;ל, הנושא וההודעה שהזנתם. איננו מבקשים פרטים אישיים אחרים, והאתר אינו עושה שימוש בעוגיות פרסום או ניתוח תנועה.")}</p>
       <h2>{t("Why we hold it","למה אנחנו מחזיקים במידע")}</h2>
-      <p>{t("To read your message and reply to it.","כדי לקרוא את ההודעה שלכם ולהשיב לה.")} {t("Legal basis: [TBD].","הבסיס החוקי: [TBD].")}</p>
+      <p>{t("To read your message and reply to it.","כדי לקרוא את ההודעה שלכם ולהשיב לה.")} {t("Legal basis: [details from counsel].","הבסיס החוקי: [פרטים מהיועץ המשפטי].")}</p>
       <h2>{t("Who processes it","מי מעבד את המידע")}</h2>
-      <p>{t("Form submissions are handled by our hosting provider&rsquo;s form service and reach us by email. Further processors, and any transfer of data outside Israel: [TBD].","פניות מהטופס מטופלות באמצעות שירות הטפסים של ספק האחסון שלנו ומגיעות אלינו בדוא&quot;ל. מעבדים נוספים והעברת מידע אל מחוץ לישראל: [TBD].")}</p>
+      <p>{t("Form submissions are handled by our hosting provider&rsquo;s form service and reach us by email. Further processors, and any transfer of data outside Israel: [details from counsel].","פניות מהטופס מטופלות באמצעות שירות הטפסים של ספק האחסון שלנו ומגיעות אלינו בדוא&quot;ל. מעבדים נוספים והעברת מידע אל מחוץ לישראל: [פרטים מהיועץ המשפטי].")}</p>
       <h2>{t("How long we keep it","כמה זמן נשמר המידע")}</h2>
-      <p>[TBD]</p>
+      <p>{t("[details from counsel]","[פרטים מהיועץ המשפטי]")}</p>
       <h2>{t("Your rights","הזכויות שלכם")}</h2>
-      <p>{t("Rights of access, correction and deletion, and the procedure for exercising them: [TBD].","זכויות עיון, תיקון ומחיקה, והדרך לממש אותן: [TBD].")}</p>
+      <p>{t("Rights of access, correction and deletion, and the procedure for exercising them: [details from counsel].","זכויות עיון, תיקון ומחיקה, והדרך לממש אותן: [פרטים מהיועץ המשפטי].")}</p>
       <h2>{t("Contact","יצירת קשר")}</h2>
       <p>{t("Questions about this policy: ","שאלות בנוגע למדיניות זו: ")}<a href="mailto:amit@starwellholdings.com">amit@starwellholdings.com</a>.</p>
-      <p class="legal-date">{t("Last updated: [TBD].","עודכן לאחרונה: [TBD].")}</p>
+      <p class="legal-date">{t("Last updated: [details from counsel].","עודכן לאחרונה: [פרטים מהיועץ המשפטי].")}</p>
     </div>
   </section>
 </div>'''
@@ -1072,7 +1095,7 @@ def build_site():
       t("Privacy Policy | Starwell Holdings","מדיניות פרטיות | סטארוול הולדינגס"),
       t("How Starwell Holdings handles personal information submitted through this website.",
         "כיצד סטארוול הולדינגס מטפלת במידע אישי הנמסר באמצעות אתר זה."),
-      privacy)
+      privacy,index=False)
 
     accessibility=f'''{review_note}
 <section class="hero hero-center">
@@ -1088,16 +1111,16 @@ def build_site():
       <h2>{t("Our commitment","המחויבות שלנו")}</h2>
       <p>{t(f"{LEGAL_NAME} works to keep this website usable by as many people as possible, including people using assistive technology.",f"{LEGAL_NAME_HE} פועלת כדי שאתר זה יהיה שמיש עבור כמה שיותר אנשים, ובכלל זה משתמשים בטכנולוגיה מסייעת.")}</p>
       <h2>{t("Standard","התקן")}</h2>
-      <p>{t("Standard applied and level of conformance: [TBD].","התקן שיושם ורמת ההתאמה: [TBD].")}</p>
+      <p>{t("Standard applied and level of conformance: [details from counsel].","התקן שיושם ורמת ההתאמה: [פרטים מהיועץ המשפטי].")}</p>
       <h2>{t("What has been done","מה נעשה")}</h2>
       <p>{t("The site is built with semantic HTML and landmark regions, can be operated by keyboard, keeps text and background contrast high in both the light and dark colour schemes, labels every image and form field, respects the operating system&rsquo;s reduced-motion setting, and reflows to a single column on small screens without horizontal scrolling.","האתר בנוי ב-HTML סמנטי עם אזורי ניווט מוגדרים, ניתן להפעלה מלאה במקלדת, שומר על ניגודיות גבוהה בין טקסט לרקע במצב בהיר ובמצב כהה, מתייג כל תמונה וכל שדה בטופס, מכבד את הגדרת צמצום התנועה של מערכת ההפעלה, ונפרש לעמודה אחת במסכים קטנים בלי גלילה לרוחב.")}</p>
       <h2>{t("Known limitations","מגבלות ידועות")}</h2>
-      <p>[TBD]</p>
+      <p>{t("[details from counsel]","[פרטים מהיועץ המשפטי]")}</p>
       <h2>{t("Accessibility coordinator","רכז הנגישות")}</h2>
-      <p>{t("Name, telephone and email: [TBD].","שם, טלפון ודוא&quot;ל: [TBD].")}</p>
+      <p>{t("Name, telephone and email: [details from counsel].","שם, טלפון ודוא&quot;ל: [פרטים מהיועץ המשפטי].")}</p>
       <h2>{t("Reporting a problem","דיווח על תקלה")}</h2>
       <p>{t("If you run into an accessibility problem on this site, please write to ","אם נתקלתם בבעיית נגישות באתר, אנא כתבו אל ")}<a href="mailto:amit@starwellholdings.com">amit@starwellholdings.com</a>{t(" and tell us the page and what happened.",", וציינו באיזה עמוד מדובר ומה קרה.")}</p>
-      <p class="legal-date">{t("Date of this statement: [TBD].","תאריך ההצהרה: [TBD].")}</p>
+      <p class="legal-date">{t("Date of this statement: [details from counsel].","תאריך ההצהרה: [פרטים מהיועץ המשפטי].")}</p>
     </div>
   </section>
 </div>'''
@@ -1105,7 +1128,7 @@ def build_site():
       t("Accessibility Statement | Starwell Holdings","הצהרת נגישות | סטארוול הולדינגס"),
       t("Accessibility statement for the Starwell Holdings website.",
         "הצהרת נגישות עבור אתר סטארוול הולדינגס."),
-      accessibility)
+      accessibility,index=False)
 
     # =================== SITEMAP (human) ===================
     sm=f'''<section class="hero hero-center">
@@ -1132,8 +1155,6 @@ def build_site():
       <div><h2 class="sm-h">{t("Resources","משאבים")}</h2>
         <a href="contact">{t("Contact","צור קשר")}</a>
         <a href="search">{t("Search","חיפוש")}</a>
-        <a href="privacy">{t("Privacy Policy","מדיניות פרטיות")}</a>
-        <a href="accessibility">{t("Accessibility Statement","הצהרת נגישות")}</a>
         <a href="{t("/sitemap","/he/sitemap")}">{t("Sitemap","מפת אתר")}</a>
         <a href="{t("he/","../")}" hreflang="{t("he","en")}">{t("עברית","English")}</a></div>
     </div>
@@ -1226,8 +1247,9 @@ for LANG in LANGS:
 pages=[("index.html","1.0"),("our-story.html","0.9"),("our-history.html","0.6"),
        ("our-team.html","0.6"),("technology.html","0.8"),
        ("real-estate.html","0.8"),("capital.html","0.8"),("news.html","0.7"),
-       ("contact.html","0.7"),("careers.html","0.5"),("sitemap.html","0.3"),
-       ("privacy.html","0.3"),("accessibility.html","0.3")]
+       ("contact.html","0.7"),("careers.html","0.5"),("sitemap.html","0.3")]
+# privacy.html and accessibility.html are deliberately absent: they are drafts,
+# set to noindex and unlinked until counsel signs them off.
 def alt_links(slug):
     en_url=BASE+"/"+slug; he_url=BASE+"/he/"+slug
     return (f'    <xhtml:link rel="alternate" hreflang="en" href="{en_url}"/>\n'
