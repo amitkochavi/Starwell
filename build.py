@@ -772,7 +772,7 @@ def build_site():
       <div class="photo" data-img="tal-raif">{local_img("tal-raif",t("Tal Raif","טל רייף"))}</div>
       <div>
         <div class="ln">{t("Tal Raif","טל רייף")}</div>
-        <div class="lt">{t("Board Member and Head of Business Development","חבר דירקטוריון וראש פיתוח עסקי")}</div>
+        <div class="lt">{t("Board Member and Head of Business Development","חבר דירקטוריון ומנהל פיתוח עסקי")}</div>
         <div class="body-copy">
           <p>{t("Tal is Head of Strategy, Innovation and M&amp;A at Afcon Holdings (TASE: AFHL), where he leads M&amp;A end to end, from sourcing and valuation through due diligence and negotiation, alongside corporate venture investments and strategic partnerships across renewable energy, EV charging infrastructure, data centers, industrial automation, and defense technology.","טל הוא ראש תחום אסטרטגיה, חדשנות ומיזוגים ורכישות באפקון החזקות (TASE: AFHL), שם הוא מוביל את פעילות המיזוגים והרכישות מקצה לקצה, מאיתור עסקאות והערכות שווי ועד בדיקות נאותות ומשא ומתן, לצד השקעות הון סיכון תאגידי ושותפויות אסטרטגיות בתחומי האנרגיה המתחדשת, תשתיות הטעינה לרכבים חשמליים, מרכזי הנתונים, האוטומציה התעשייתית והטכנולוגיות הביטחוניות.")}</p>
           <p>{t("He is a third-generation member of the family behind Shlomo Group, and takes part in its strategic and investment activity across mobility, insurance and finance, real estate, shipyards, and aviation. He represents the family in international family-office forums, including The Family Office Alliance.","הוא דור שלישי במשפחה שמאחורי קבוצת שלמה, ושותף לפעילות האסטרטגית ולהשקעות שלה בתחומי המוביליות, הביטוח והפיננסים, הנדל&quot;ן, המספנות והתעופה. הוא מייצג את המשפחה בפורומים בינלאומיים של משרדי משפחה, ובהם The Family Office Alliance.")}</p>
@@ -804,7 +804,7 @@ def build_site():
       tech,extra=live_script("images"),
       extra_ld={"@context":"https://schema.org","@type":"Person",
         "@id":BASE+"/technology.html#tal-raif","name":"Tal Raif",
-        "alternateName":"טל רייף","jobTitle":t("Board Member and Head of Business Development","חבר דירקטוריון וראש פיתוח עסקי"),
+        "alternateName":"טל רייף","jobTitle":t("Board Member and Head of Business Development","חבר דירקטוריון ומנהל פיתוח עסקי"),
         "worksFor":{"@id":BASE+"/#organization"},
         "affiliation":{"@type":"Organization","name":"Afcon Holdings"},
         "alumniOf":[{"@type":"CollegeOrUniversity","name":"Tel Aviv University, Coller School of Management"},{"@type":"CollegeOrUniversity","name":"IDC Herzliya"}],
