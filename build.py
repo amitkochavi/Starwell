@@ -21,14 +21,17 @@ def t(en,he): return he if LANG=="he" else en
 def ap(): return "../" if LANG=="he" else ""          # asset path prefix for /he/ pages
 def out_path(filename): return os.path.join(OUT,"he",filename) if LANG=="he" else os.path.join(OUT,filename)
 
-def local_img(slug,alt):
+def local_img(slug,alt,eager=False):
     """Self-hosted portrait: <img> when assets/<slug>.jpg exists, otherwise a
     clean text placeholder (never a broken-image icon). Drop the file into
-    assets/ and it appears automatically on the next build."""
+    assets/ and it appears automatically on the next build. Pass eager=True for
+    a portrait near the top of the page: lazy-loading the one that turns out to
+    be the largest element on screen only delays it."""
+    load=('decoding="async" fetchpriority="high"' if eager
+          else 'loading="lazy" decoding="async"')
     for ext in ("jpg","jpeg","png","webp"):
         if os.path.exists(os.path.join(OUT,"assets",slug+"."+ext)):
-            return (f'<img src="{ap()}assets/{slug}.{ext}" alt="{_esc(alt)}" '
-                    f'loading="lazy" decoding="async">')
+            return f'<img src="{ap()}assets/{slug}.{ext}" alt="{_esc(alt)}" {load}>'
     return f'<span class="img-fallback">{_esc(alt)}</span>'
 
 def live_script(*kinds):
@@ -203,6 +206,10 @@ def NAV_LD():
 SEARCH_INDEX={"en":[],"he":[]}
 def strip_html(s):
     s=re.sub(r'<(script|style)[\s\S]*?</\1>',' ',s)
+    # Comments first: they hold things never meant to be read, such as the
+    # commented-out team card template and the legal-review notices, and the
+    # tag regex below would otherwise spill their text into the search index.
+    s=re.sub(r'<!--[\s\S]*?-->',' ',s)
     s=re.sub(r'<[^>]+>',' ',s)
     s=_html.unescape(s)
     return re.sub(r'\s+',' ',s).strip()
@@ -646,7 +653,7 @@ def build_site():
   <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">{t("Leadership","הנהלה")}</h2></div>
     <div class="leader">
-      <div class="photo" data-img="amit-kochavi">{local_img("amit-kochavi",t("Amit Kochavi","עמית כוכבי"))}</div>
+      <div class="photo" data-img="amit-kochavi">{local_img("amit-kochavi",t("Amit Kochavi","עמית כוכבי"),eager=True)}</div>
       <div>
         <div class="ln">{t("Amit Kochavi","עמית כוכבי")}</div>
         <div class="lt">{t("Chairman, CEO &amp; Founder","יו&quot;ר, מנכ&quot;ל ומייסד")}</div>
@@ -660,6 +667,19 @@ def build_site():
         <div class="t-links">
           <a href="https://www.linkedin.com/in/amitkochavi/" target="_blank" rel="noopener">LinkedIn</a>
           <a href="https://x.com/AmitKochavi" target="_blank" rel="noopener">X</a>
+        </div>
+      </div>
+    </div>
+    <div class="leader" style="margin-top:60px">
+      <div class="photo" data-img="shirly-gur-arie">{local_img("shirly-gur-arie",t("Shirly Gur Arie","שירלי גור אריה"))}</div>
+      <div>
+        <div class="ln">{t("Shirly Gur Arie","שירלי גור אריה")}</div>
+        <div class="lt">{t("Executive Assistant","עוזרת בכירה")}</div>
+        <div class="body-copy">
+          <p>{t("Shirly supports Starwell&rsquo;s leadership and day-to-day operations, coordinating across the firm&rsquo;s platforms and partners to keep the organization running smoothly.","שירלי תומכת בהנהלת סטארוול ובפעילות היומיומית, ומתאמת בין הפלטפורמות והשותפים של החברה כדי לשמור על התנהלות חלקה.")}</p>
+        </div>
+        <div class="t-links">
+          <a href="https://www.linkedin.com/in/shirly-gur-arie/" target="_blank" rel="noopener">LinkedIn</a>
         </div>
       </div>
     </div>
