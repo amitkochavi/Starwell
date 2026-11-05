@@ -172,9 +172,17 @@ function primaryOwners(){
 }
 
 async function loadData(){
-  log('Discovering GIDs...');const resp=await fetch(PUB_URL+'/pubhtml');const html=await resp.text();
+  log('Discovering GIDs...');
+  const resp=await fetch(PUB_URL+'/pubhtml');
+  if(!resp.ok){
+    throw new Error('the source workbook is not readable (HTTP '+resp.status+'). '+
+      'It has to be a Google Sheet published with File > Share > Publish to web; '+
+      'an .xlsx uploaded to Drive cannot be read from the browser.');
+  }
+  const html=await resp.text();
   const ids=[...new Set([...html.matchAll(/gid=(\d+)/g)].map(m=>m[1]))];
   log('Found GIDs: '+ids.join(', '));
+  if(!ids.length)throw new Error('no sheet tabs found at the published URL. Check that the whole workbook is published, not a single tab.');
 
   // Try to extract tab names from pubhtml page
   const gids={};
@@ -193,38 +201,37 @@ async function loadData(){
           else if(cols.includes('accountid')&&cols.includes('statementdate'))gids['Statements']=id;
           else if(cols.includes('deal name'))gids['Investment Ledger']=id;
           else if(cols.includes('propertyid')||cols.includes('propertyname'))gids['Glaser Real Estate']=id;
-          else if(cols.includes('item')&&cols.includes('value')&&cols.includes('owner'))gids['Jewelry ']=id;
+          else if(cols.includes('item')&&cols.includes('value')&&cols.includes('owner'))gids['Jewelry']=id;
           else if(cols.includes('75 sqm')||cols.includes('vitkin')||cols.includes('price per sqm'))gids['20 Vitkin Street - APT #2']=id;
           else if(cols.includes('cash flow')||cols.includes('tracker'))gids['Expenses']=id;
-          else log('    Unknown tab gid='+id+': '+cols.substring(0,80));
+          else log('    Unrecognised tab gid='+id+': '+cols.substring(0,80));
         }
       }catch(e){log('    Error probing gid='+id+': '+e.message);}
     }
   }
 
-  // If still missing critical tabs, try positional mapping as last resort
-  const needed=['Accounts','Statements','Investment Ledger','20 Vitkin Street - APT #2','Glaser Real Estate','Jewelry '];
-  const missing=needed.filter(n=>!gids[n]);
-  if(missing.length>0){
-    log('  Missing tabs: '+missing.join(', ')+'. Trying positional fallback...');
-    // Try known GIDs from previous sessions
-    const knownGIDs={'0':'Accounts','1325329671':'Statements','50891389':'Investment Ledger','1949017741':'20 Vitkin Street - APT #2','2060666191':'Glaser Real Estate','1279600534':'Jewelry '};
-    ids.forEach(id=>{if(knownGIDs[id]&&!gids[knownGIDs[id]])gids[knownGIDs[id]]=id;});
+  /* Tab names are matched loosely: on letters and digits only. A tab renamed
+     "Jewelry " to "Jewelry", or "Glaser Real Estate" to "Glaser real-estate",
+     then still resolves. Exact matching silently dropped the jewelry tab and
+     its value fell out of net worth without any error. */
+  const norm=s=>String(s).toLowerCase().replace(/[^a-z0-9]/g,'');
+  function gidFor(name){
+    const want=norm(name);
+    const key=Object.keys(gids).find(k=>norm(k)===want);
+    return key?gids[key]:null;
   }
+
+  const needed=['Accounts','Statements','Investment Ledger','20 Vitkin Street - APT #2','Glaser Real Estate','Jewelry'];
+  const missing=needed.filter(n=>!gidFor(n));
+  if(missing.length)log('  Tabs not found: '+missing.join(', '));
 
   log('Final mapping: '+JSON.stringify(gids));
   document.getElementById('loadMsg').textContent='Loading...';
 
   // Fetch required tabs
-  const fetches=[
-    gids['Accounts']?fetchCSV(gids['Accounts']):Promise.resolve([]),
-    gids['Statements']?fetchCSV(gids['Statements']):Promise.resolve([]),
-    gids['Investment Ledger']?fetchCSV(gids['Investment Ledger']):Promise.resolve([]),
-    gids['20 Vitkin Street - APT #2']?fetchCSV(gids['20 Vitkin Street - APT #2']):Promise.resolve([]),
-    gids['Glaser Real Estate']?fetchCSV(gids['Glaser Real Estate']):Promise.resolve([]),
-    gids['Jewelry ']?fetchCSV(gids['Jewelry ']):Promise.resolve([]),
-    gids['Expenses']?fetchCSV(gids['Expenses']):Promise.resolve([])
-  ];
+  const grab=n=>{const g=gidFor(n);return g?fetchCSV(g):Promise.resolve([]);};
+  const fetches=[grab('Accounts'),grab('Statements'),grab('Investment Ledger'),
+    grab('20 Vitkin Street - APT #2'),grab('Glaser Real Estate'),grab('Jewelry'),grab('Expenses')];
   const[accounts,rawStmts,investments,vitkinRaw,glaserRE,jewelryRaw,expensesRaw]=await Promise.all(fetches);
   log('Loaded: Accts='+accounts.length+' Stmts='+rawStmts.length+' Inv='+investments.length+' Vit='+vitkinRaw.length+' RE='+glaserRE.length+' Jew='+jewelryRaw.length+' Exp='+expensesRaw.length);
 
