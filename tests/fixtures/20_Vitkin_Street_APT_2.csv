@@ -1,0 +1,5 @@
+"Sample apartment, synthetic data",,,,
+Date,Price per sqm,Value(ILS),USD to ILS,Value(USD)
+2024-12-31,70000,4500000,3.0,1500000
+2025-12-31,70000,5100000,3.0,1700000
+2026-12-31,70000,5700000,3.0,1900000

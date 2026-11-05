@@ -1306,7 +1306,7 @@ open(os.path.join(OUT,"_redirects"),"w").write(
   "\n".join(f"{src}  {dst}  301!" for src,dst in htmlredir)+"\n\n"+
   "# Serve clean URLs from the .html files (200, no redirect)\n"+
   "\n".join(f"{src}  {dst}  200" for src,dst in serve)+"\n")
-# Private pages (hq, wealth-portal, dashboard) are intentionally NOT listed
+# Private pages (hq, dashboard) are intentionally NOT listed
 # here. Listing them in robots.txt would advertise their URLs, and a
 # Disallow would actually PREVENT Google from reading their "noindex"
 # directive (a disallowed page can still be indexed if discovered). Instead
@@ -1341,16 +1341,6 @@ open(os.path.join(OUT,"netlify.toml"),"w").write('''[build]
     X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
 
 [[headers]]
-  for = "/wealth-portal.html"
-  [headers.values]
-    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
-
-[[headers]]
-  for = "/wealth-portal"
-  [headers.values]
-    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
-
-[[headers]]
   for = "/dashboard.html"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
@@ -1366,6 +1356,6 @@ open(os.path.join(OUT,"vercel.json"),"w").write(json.dumps({
     {"source":"/(.*)","headers":[
       {"key":"X-Content-Type-Options","value":"nosniff"},
       {"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"}]},
-    {"source":"/(hq|wealth-portal|dashboard).html","headers":[
+    {"source":"/(hq|dashboard).html","headers":[
       {"key":"X-Robots-Tag","value":"noindex, nofollow, noarchive, nosnippet"}]}]},indent=2))
 print("PAGES BUILT")

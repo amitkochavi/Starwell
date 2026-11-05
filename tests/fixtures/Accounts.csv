@@ -1,0 +1,8 @@
+AccountID,Institution,AccountName,AccountNumberMasked,Owner,Currency
+SCHWAB_0687,Charles Schwab,Trust A,***0687,Owner One,USD
+CNB_48101310,CNB,Trust B,***1310,Owner One,USD
+FIBI_314390,FIBI,Brokerage,***4390,Owner One,ILS
+FIBI_852,FIBI,Brokerage,***852,Starwell Holdings,ILS
+SCHWAB_1558,Charles Schwab,Trust C,***1558,Owner Two,USD
+CNB_48492010,CNB,Trust D,***2010,Owner Two,USD
+CNB_48784990,CNB,Trust E,***4990,Owner Two,USD

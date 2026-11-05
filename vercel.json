@@ -16,7 +16,7 @@
       ]
     },
     {
-      "source": "/(hq|wealth-portal|dashboard).html",
+      "source": "/(hq|dashboard).html",
       "headers": [
         {
           "key": "X-Robots-Tag",

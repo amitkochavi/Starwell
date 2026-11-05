@@ -1,0 +1,3 @@
+PropertyID,PropertyName,Address,TotalValue,OwnershipShare,OwnerShareValue,Owner,Co Owner,Notes,Status
+RE_A,Property A,Somewhere,3000000,16.67%,500000,Owner Two,Co,,Owned
+RE_B,Property B,Elsewhere,2900000,16.67%,480000,Owner Two,Co,,Sold

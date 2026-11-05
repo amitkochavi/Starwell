@@ -3,153 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Starwell HQ</title>
+<title>Starwell Portal</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230F0F12'/%3E%3Ctext x='50' y='50' dy='.35em' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='62' fill='%23F4F3F0'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230A0A0A'/%3E%3Ctext x='50' y='50' dy='.35em' text-anchor='middle' font-family='Times New Roman,serif' font-weight='700' font-size='62' fill='%23FFFFFF'%3ES%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600;6..96,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--ink:#0F0F12;--paper:#FBFBFC;--line:#E6E6EA;--soft:#5A5B61;--gold:#9A7B4F;--panel:#0B0B0F;--ok:#1f7a4d;--err:#b3261e}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Inter,system-ui,sans-serif;background:#F4F4F6;color:var(--ink);line-height:1.55;font-size:15px}
-.serif{font-family:"Bodoni Moda",Georgia,serif}
-button{font-family:inherit;cursor:pointer}
-input,select,textarea{font-family:inherit;font-size:14px;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
-input:focus,select:focus,textarea:focus{outline:0;border-color:var(--gold)}
-textarea{resize:vertical;min-height:84px}
-label{display:block;font-size:12px;letter-spacing:.04em;color:var(--soft);margin:0 0 6px;text-transform:uppercase}
-.btn{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:#fff;border:1px solid var(--ink);border-radius:6px;padding:10px 18px;font-size:14px;font-weight:500}
-.btn:hover{opacity:.9}
-.btn.ghost{background:transparent;color:var(--ink)}
-.btn.sm{padding:6px 12px;font-size:13px}
-.btn.danger{background:transparent;border-color:#e3c9c7;color:var(--err)}
-.muted{color:var(--soft)}
-.hidden{display:none!important}
-
-/* ---- login ---- */
-#login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--panel);padding:24px}
-.card{background:#fff;border-radius:12px;padding:40px;max-width:420px;width:100%;box-shadow:0 30px 80px -40px rgba(0,0,0,.6)}
-.card h1{font-size:26px;font-weight:600;margin-bottom:6px}
-.lock{width:46px;height:46px;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px}
-.note{font-size:13px;margin-top:14px;min-height:18px}
-.note.ok{color:var(--ok)} .note.err{color:var(--err)}
-.field{margin-bottom:16px}
-
-/* ---- app ---- */
-/* left sidebar layout */
-.shell{display:flex;align-items:stretch;min-height:100vh}
-.side{width:228px;flex:none;background:var(--panel);color:#cdcdd4;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;padding:18px 12px}
-.side-brand{font-size:19px;font-weight:600;color:#fff;padding:6px 12px 16px}
-.side-nav{display:flex;flex-direction:column;gap:3px;flex:1}
-.side-nav .tab{display:block;width:100%;text-align:left;background:none;border:0;padding:11px 14px;border-radius:8px;color:#b4b4bc;font-size:14px;white-space:nowrap}
-.side-nav .tab:hover{background:rgba(255,255,255,.06);color:#fff}
-.side-nav .tab.active{background:rgba(255,255,255,.11);color:#fff;font-weight:600}
-.side-foot{border-top:1px solid #2a2a33;padding-top:14px;margin-top:10px;font-size:12px;color:#9a9aa2;display:flex;flex-direction:column;gap:10px;word-break:break-all}
-.side-foot button{align-self:flex-start}
-.content{flex:1;min-width:0;padding:24px 30px 80px}
-.view{display:none} .view.active{display:block}
-@media(max-width:820px){
-  .shell{flex-direction:column}
-  .side{width:auto;height:auto;position:sticky;top:0;z-index:20;flex-direction:row;align-items:center;gap:6px;padding:8px 10px;overflow-x:auto}
-  .side-brand{padding:0 8px 0 4px;font-size:16px;flex:none}
-  .side-nav{flex-direction:row;gap:2px;flex:none}
-  .side-nav .tab{padding:9px 13px}
-  .side-foot{border-top:0;border-left:1px solid #2a2a33;margin:0;padding:0 0 0 10px;flex-direction:row;align-items:center;gap:8px;margin-left:auto}
-  .content{padding:18px 16px 60px}
-}
-.view-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
-.view-head h2{font-size:22px;font-weight:600}
-iframe.portal{width:100%;height:640px;border:0;display:block;background:#fff;overflow:hidden}
-
-.row{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:12px;display:flex;gap:14px;align-items:flex-start;justify-content:space-between}
-.row .meta{font-size:12px;color:var(--soft);margin-top:3px}
-.row .ttl{font-weight:600}
-.row .acts{display:flex;gap:8px;flex:none}
-.tag{display:inline-block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;background:#f0eee9;color:#6b5a3e;border-radius:4px;padding:2px 8px;margin-right:6px}
-.empty{color:var(--soft);padding:30px;text-align:center;border:1px dashed var(--line);border-radius:10px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
-.kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-.kpi-l{font-size:12px;color:var(--soft);text-transform:uppercase;letter-spacing:.04em}
-.kpi-v{font-size:22px;font-weight:600;margin-top:4px}
-/* stocks */
-.up{color:#1a7a4f}.down{color:#b3261e}
-.stk-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
-.stk-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-.stk-card-l{font-size:11px;color:var(--soft);text-transform:uppercase;letter-spacing:.05em}
-.stk-card-v{font-size:22px;font-weight:600;margin-top:4px}
-.stk-card-s{font-size:12px;margin-top:2px}
-.stk-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
-.stk-tablewrap{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:auto}
-.stk-table{width:100%;border-collapse:collapse;font-size:13px}
-.stk-table th{text-align:right;padding:11px 12px;color:var(--soft);font-size:11px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap;background:#fafafa;position:sticky;top:0}
-.stk-table th.l{text-align:left}
-.stk-table td{padding:9px 12px;border-bottom:1px solid #eee;white-space:nowrap}
-.stk-table tbody tr:hover{background:#fafafa}
-.stk-table .r{text-align:right}.stk-table .bold{font-weight:600}
-.stk-name{display:flex;align-items:center;gap:11px}
-.stk-tk{font-weight:600}
-.stk-nm{font-size:11px;color:var(--soft);max-width:230px;overflow:hidden;text-overflow:ellipsis}
-.stk-sub2{font-size:11px;opacity:.75}
-.stk-logo{position:relative;width:34px;height:34px;border-radius:7px;overflow:hidden;background:#f0eee9;display:inline-flex;align-items:center;justify-content:center;flex:none}
-.stk-mono{position:absolute;font-size:11px;font-weight:700;color:#6b5a3e}
-.stk-logo img{position:relative;width:100%;height:100%;object-fit:contain;background:#fff}
-.stk-alloc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px}
-.stk-alloc-h{font-size:13px;font-weight:600;margin-bottom:10px}
-.stk-caret{flex:none;width:18px;height:18px;border:none;background:none;cursor:pointer;color:var(--soft);font-size:11px;display:inline-flex;align-items:center;justify-content:center;transition:transform .15s;padding:0}
-.stk-caret.open{transform:rotate(90deg)}
-.stk-caret.hide{visibility:hidden}
-.stk-table tr.stk-master.open{background:#f6f4ef}
-.stk-table tr.stk-master{cursor:pointer}
-.stk-table tr.stk-child td{background:#faf9f6;border-bottom:1px solid #f0eee9;font-size:12px;color:var(--soft)}
-.stk-table tr.stk-child td.stk-acct{padding-left:54px;color:#3a3a3a}
-.stk-acct-badge{display:inline-block;font-size:11px;font-weight:500}
-.stk-toggle{display:inline-flex;background:#f0eee9;border:1px solid var(--line);border-radius:9px;padding:3px;margin-bottom:16px;gap:2px}
-.stk-toggle button{border:none;background:none;cursor:pointer;font:inherit;font-size:13px;padding:6px 16px;border-radius:7px;color:var(--soft)}
-.stk-toggle button.active{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06)}
-.stk-accts{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
-.stk-acard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-.stk-acard-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.stk-acard-nm{font-weight:600;font-size:14px;line-height:1.3}
-.stk-acard-v{font-size:21px;font-weight:600;white-space:nowrap}
-.stk-acard-sub{font-size:12px;color:var(--soft);margin-top:3px}
-.stk-acard-stats{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:11px;font-size:12.5px}
-.stk-acard-exp{margin-top:12px;border:none;background:none;cursor:pointer;font:inherit;font-size:12px;color:#2b5ea7;padding:0}
-.stk-ahold{margin-top:10px;border-top:1px solid #eee;padding-top:8px}
-.stk-mini{width:100%;border-collapse:collapse;font-size:12.5px}
-.stk-mini td{padding:5px 4px;border-bottom:1px solid #f3f1ec}
-.stk-mini tr:last-child td{border-bottom:none}
-.stk-mname{display:flex;align-items:center;gap:8px}
-.stk-mname .stk-logo{width:24px;height:24px;border-radius:5px}
-.stk-mini .r{text-align:right}.stk-mini .bold{font-weight:600}
-.stk-up{background:#fff;border:1px solid var(--line);border-left:3px solid #2b5ea7;border-radius:8px;padding:11px 14px;margin-bottom:14px;font-size:13px}
-.stk-up.err{border-left-color:#b5342a}
-.stk-up.ok{border-left-color:#1a7a5a}
-@media(max-width:980px){.stk-grid{grid-template-columns:1fr}}
-
-/* ---- modal form ---- */
-.overlay{position:fixed;inset:0;background:rgba(10,10,14,.55);display:flex;align-items:flex-start;justify-content:center;padding:30px 16px;overflow:auto;z-index:40}
-.modal{background:#fff;border-radius:12px;width:100%;max-width:640px;padding:28px}
-.modal h3{font-size:19px;font-weight:600;margin-bottom:18px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.modal .field{margin-bottom:14px}
-.modal .actions{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
-.cfgwarn{background:#fff4e5;border:1px solid #f0d9a8;color:#7a5a16;padding:12px 16px;border-radius:8px;margin-bottom:18px;font-size:13px}
-.upl{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.upl-list{display:flex;flex-wrap:wrap;gap:8px}
-.upl-thumb{position:relative;width:66px;height:50px;border-radius:5px;overflow:hidden;border:1px solid var(--line);background:#f4f3f0}
-.upl-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.upl-x{position:absolute;top:2px;right:2px;width:17px;height:17px;border:none;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:12px;line-height:1;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
-.upl-add{border:1px dashed var(--line);border-radius:7px;padding:9px 13px;font-size:12.5px;cursor:pointer;color:var(--soft);white-space:nowrap}
-.upl-add:hover{color:var(--ink);border-color:var(--soft)}
-.upl-url{flex:1;min-width:170px}
-.row-thumbs{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
-.rt{width:44px;height:32px;border-radius:4px;overflow:hidden;border:1px solid var(--line);background:#f4f3f0;display:block}
-.rt img{width:100%;height:100%;object-fit:cover;display:block}
-.rt-n{font-size:11px;color:var(--soft)}
-.rt-n.rt-none{font-style:italic;opacity:.7}
-@media(max-width:640px){.grid2{grid-template-columns:1fr}.card{padding:28px}}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/hq.css">
 </head>
 <body>
 
@@ -160,17 +20,15 @@ iframe.portal{width:100%;height:640px;border:0;display:block;background:#fff;ove
    Row-Level Security (see supabase/schema.sql). */
 window.STARWELL_CONFIG = {
   SUPABASE_URL: "https://leozizmosbwhwfkzoovt.supabase.co",
-  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxlb3ppem1vc2J3aHdma3pvb3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODQ3MjQsImV4cCI6MjA5Nzg2MDcyNH0.eFb8e5a4x09QYYFHZ1ER23v5bzie8WJz6ZLdsfrcd6s",
-  FMP_API_KEY: "TGjIUL7XOh7VzHIxaxzloRC73IknlQr2"   // free FMP key → live stock prices in the Stocks tab
+  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxlb3ppem1vc2J3aHdma3pvb3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODQ3MjQsImV4cCI6MjA5Nzg2MDcyNH0.eFb8e5a4x09QYYFHZ1ER23v5bzie8WJz6ZLdsfrcd6s"
 };
 </script>
 
 <!-- ====================== LOGIN ====================== -->
 <section id="login">
   <div class="card">
-    <div class="lock">&#128274;</div>
-    <h1 class="serif">Starwell HQ</h1>
-    <p class="muted" style="margin-bottom:22px">Secure access by one-time code.</p>
+    <h1>Starwell HQ</h1>
+    <p class="sub">Secure access by one-time code.</p>
 
     <div id="cfgMissing" class="cfgwarn hidden">
       Supabase is not configured yet. Add your project URL and anon key in the
@@ -187,8 +45,8 @@ window.STARWELL_CONFIG = {
 
     <div id="step-code" class="hidden">
       <div class="field">
-        <label for="code">6-digit code (check your email)</label>
-        <input id="code" inputmode="numeric" autocomplete="one-time-code" placeholder="123456">
+        <label for="code">Six digit code, sent to your email</label>
+        <input id="code" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" placeholder="123456">
       </div>
       <button class="btn" id="verifyBtn" style="width:100%">Verify &amp; sign in</button>
       <button class="btn ghost sm" id="backBtn" style="width:100%;margin-top:10px">Use a different email</button>
@@ -200,36 +58,29 @@ window.STARWELL_CONFIG = {
 
 <!-- ====================== APP ====================== -->
 <div id="app" class="hidden">
+  <header class="topbar">
+    <span class="wordmark">Starwell HQ</span>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="sideNav"><span></span></button>
+  </header>
+  <div class="scrim" id="scrim" hidden></div>
   <div class="shell">
-    <aside class="side">
-      <div class="side-brand serif">Starwell HQ</div>
-      <nav class="side-nav">
-        <button class="tab active" data-view="investments">Investments</button>
-        <button class="tab" data-view="stocks">Stocks</button>
+    <aside class="side" id="sideNav">
+      <div class="side-brand">Starwell HQ</div>
+      <nav class="side-nav" aria-label="Sections">
+        <button class="tab active" data-view="investments">Dashboard</button>
         <button class="tab" data-view="news">News</button>
         <button class="tab" data-view="careers">Careers</button>
         <button class="tab" data-view="portfolio">Portfolio</button>
         <button class="tab" data-view="images">Site Images</button>
         <button class="tab" data-view="partners">Partners</button>
       </nav>
-      <div class="side-foot"><span id="whoEmail"></span><button class="btn ghost sm" id="logoutBtn" style="color:#fff;border-color:#3a3a45">Sign out</button></div>
+      <div class="side-foot"><span id="whoEmail"></span><button class="btn ghost sm" id="logoutBtn">Sign out</button></div>
     </aside>
-    <main class="content">
+    <main class="content" id="mainContent">
       <section class="view active" id="view-investments">
-        <div class="view-head"><h2>Investments — Wealth Portal</h2></div>
-        <iframe class="portal" id="portalFrame" title="Wealth Portal" scrolling="no"></iframe>
-      </section>
-
-      <section class="view" id="view-stocks">
-        <div class="view-head" style="align-items:flex-end">
-          <div><h2>Stocks</h2><div class="muted" id="stkSub" style="font-size:13px"></div></div>
-          <div style="display:flex;gap:8px">
-            <label class="btn ghost sm" style="cursor:pointer">⬆ Upload statement<input type="file" id="stkFile" accept=".csv,.txt,.xls,.xlsx" multiple hidden></label>
-            <button class="btn ghost sm" id="stkRefresh">↻ Refresh</button>
-          </div>
-        </div>
-        <div id="stkUp" class="stk-up" hidden></div>
-        <div id="stocksBox"></div>
+        <div class="view-head"><h2>Starwell Portal</h2></div>
+        <div class="status" id="portalStatus">Reading Main DB</div>
+        <div id="portalBody" style="margin-top:22px"></div>
       </section>
 
       <section class="view" id="view-news">
@@ -264,10 +115,11 @@ window.STARWELL_CONFIG = {
 
 <div id="modalRoot"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="assets/hq-dashboard.js"></script>
+<script src="assets/hq-portal-ui.js"></script>
 <script>
 (function(){
   "use strict";
@@ -329,376 +181,41 @@ window.STARWELL_CONFIG = {
     $("#login").classList.add("hidden");
     $("#app").classList.remove("hidden");
     $("#whoEmail").textContent = email;
-    var pf=document.getElementById("portalFrame");
-    if(pf && !pf.getAttribute("src")) pf.setAttribute("src","wealth-portal.html");
+    if (window.StarwellPortal && window.StarwellPortal.mount) window.StarwellPortal.mount();
     loadAll();
   }
 
-  // ---------- TABS (left sidebar) ----------
+  // ---------- NAVIGATION: sidebar on desktop, drawer below 1024px ----------
+  var side = $("#sideNav"), scrim = $("#scrim"), menuBtn = $("#menuBtn");
+  function closeNav(){
+    side.classList.remove("open");
+    scrim.classList.remove("open"); scrim.hidden = true;
+    document.body.classList.remove("nav-open");
+    menuBtn.setAttribute("aria-expanded","false");
+  }
+  function openNav(){
+    side.classList.add("open");
+    scrim.hidden = false; requestAnimationFrame(function(){ scrim.classList.add("open"); });
+    document.body.classList.add("nav-open");
+    menuBtn.setAttribute("aria-expanded","true");
+    var first = side.querySelector(".tab"); if (first) first.focus();
+  }
+  menuBtn.addEventListener("click", function(){
+    if (side.classList.contains("open")) closeNav(); else openNav();
+  });
+  scrim.addEventListener("click", closeNav);
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") closeNav(); });
+
   document.querySelectorAll(".tab[data-view]").forEach(function(t){
     t.addEventListener("click", function(){
       document.querySelectorAll(".tab[data-view]").forEach(function(x){x.classList.remove("active");});
       document.querySelectorAll(".view").forEach(function(x){x.classList.remove("active");});
       t.classList.add("active");
       $("#view-"+t.dataset.view).classList.add("active");
-      if(t.dataset.view==="investments") setTimeout(fitPortal,60);
-      if(t.dataset.view==="stocks") renderStocks();
+      closeNav();
+      window.scrollTo(0,0);
     });
   });
-  var stkRefBtn=document.getElementById("stkRefresh");
-  if(stkRefBtn) stkRefBtn.addEventListener("click", function(){ renderStocks(); });
-
-  // ---------- embedded Wealth Portal: size to content (no inner scrollbar) ----------
-  function fitPortal(){
-    var f=document.getElementById("portalFrame");
-    if(!f||!f.contentWindow) return;
-    try{ var d=f.contentWindow.document; var h=Math.max(d.body.scrollHeight,d.documentElement.scrollHeight); if(h>0) f.style.height=h+"px"; }catch(e){}
-  }
-  (function(){
-    var f=document.getElementById("portalFrame"); if(!f) return;
-    f.addEventListener("load", function(){
-      fitPortal();
-      try{ new ResizeObserver(fitPortal).observe(f.contentWindow.document.body); }catch(e){}
-      var n=0, iv=setInterval(function(){ fitPortal(); if(++n>24) clearInterval(iv); }, 500);
-    });
-    window.addEventListener("resize", fitPortal);
-  })();
-
-  // ---------- Stocks: portfolio tracker (Supabase holdings + live FMP prices/logos) ----------
-  var stkChart=null, stkSort={key:"mv",dir:-1}, stkOpen={}, stkView="consol", stkAcctOpen={};
-  function stkAcctShort(a){ if(!a) return "Account"; a=String(a);
-    var m=a.match(/\.\.\.?\s*(\d{3,})/); if(m) return "····"+m[1];
-    return a.length>26?a.slice(0,24)+"…":a; }
-  function stkFull(v){ if(v==null||isNaN(v)) return "—"; return (v<0?"-":"")+"$"+Math.abs(v).toLocaleString(undefined,{maximumFractionDigits:0}); }
-  function stkMoney(v,sign){ if(v==null||isNaN(v)) return "—"; var s=v<0?"-":(sign&&v>0?"+":""),a=Math.abs(v);
-    return s+"$"+(a>=1e6?(a/1e6).toFixed(2)+"M":a>=1e3?(a/1e3).toFixed(1)+"K":a.toFixed(0)); }
-  function stkLogo(t){ var sym=t.replace(/\./g,"-");
-    return '<span class="stk-logo"><span class="stk-mono">'+esc(t.slice(0,2))+'</span><img src="https://financialmodelingprep.com/image-stock/'+encodeURIComponent(sym)+'.png" alt="" loading="lazy" onerror="this.style.display=\'none\'"></span>'; }
-  function stkCard(l,v,pct,dir){ return '<div class="stk-card"><div class="stk-card-l">'+esc(l)+'</div><div class="stk-card-v '+(dir||"")+'">'+v+'</div>'+(pct!=null?'<div class="stk-card-s '+(dir||"")+'">'+(pct>=0?"+":"")+pct.toFixed(2)+'%</div>':"")+'</div>'; }
-  function stkTh(l,k,left){ var ar=stkSort.key===k?(stkSort.dir<0?" ↓":" ↑"):""; return '<th data-k="'+k+'" class="'+(left?"l":"r")+'">'+esc(l)+ar+'</th>'; }
-  function stkCmp(a,b){ var k=stkSort.key,d=stkSort.dir,av=a[k],bv=b[k]; if(typeof av==="string")return av.localeCompare(bv)*d; return ((av==null?-1e18:av)-(bv==null?-1e18:bv))*d; }
-
-  async function renderStocks(){
-    var box=document.getElementById("stocksBox"); if(!box) return;
-    box.innerHTML='<div class="muted">Loading holdings…</div>';
-    var h=await sb.from("stock_holdings").select("*").order("sort_order",{ascending:true});
-    if(h.error){ box.innerHTML='<div class="empty">Holdings aren’t set up yet. Run <code>supabase/stocks.sql</code> in your Supabase project to create and load the table.<br><br><span style="font-size:12px;opacity:.7">'+esc(h.error.message)+'</span></div>'; return; }
-    if(!h.data||!h.data.length){ box.innerHTML='<div class="empty">No holdings loaded yet. Run <code>supabase/stocks.sql</code> in your Supabase project to load your positions.</div>'; return; }
-    var positions=h.data.filter(function(r){return !r.is_cash;}), cash=h.data.filter(function(r){return r.is_cash;});
-    var key=(window.STARWELL_CONFIG||{}).FMP_API_KEY||"", quotes={}, live=false;
-    if(key){ try{
-      var uniq={}; positions.forEach(function(p){uniq[p.ticker.replace(/\./g,"-")]=1;});
-      var syms=Object.keys(uniq);
-      // Free FMP plan: one symbol per /stable/quote call (batch endpoints are premium).
-      // Fetch each unique ticker; anything restricted/unknown just falls back to statement price.
-      async function chunk(list,n,fn){ for(var i=0;i<list.length;i+=n){ await Promise.all(list.slice(i,i+n).map(fn)); } }
-      await chunk(syms,8,function(s){
-        return fetch("https://financialmodelingprep.com/stable/quote?symbol="+encodeURIComponent(s)+"&apikey="+encodeURIComponent(key))
-          .then(function(r){return r.json();})
-          .then(function(a){ if(Array.isArray(a)&&a[0]&&a[0].price!=null) quotes[a[0].symbol]=a[0]; })
-          .catch(function(){});
-      });
-      live=Object.keys(quotes).length>0;
-    }catch(e){} }
-    var cashTot=cash.reduce(function(s,c){return s+(+c.market_value_stmt||0);},0);
-    // --- consolidate positions by ticker across all accounts ---
-    var groups={};
-    positions.forEach(function(p){
-      var t=p.ticker, g=groups[t];
-      if(!g){ g=groups[t]={t:t,name:p.name,qty:0,cost:0,stmtMv:0,accts:[]}; }
-      var q=+p.quantity||0, c=+p.cost_basis||0, mvs=+p.market_value_stmt||0;
-      g.qty+=q; g.cost+=c; g.stmtMv+=mvs;
-      g.accts.push({account:p.account||"—",qty:q,cost:c,mvStmt:mvs});
-    });
-    var nAcct={}; positions.forEach(function(p){nAcct[p.account||"—"]=1;});
-    var items=Object.keys(groups).map(function(t){
-      var g=groups[t], q=quotes[t.replace(/\./g,"-")];
-      var price=(q&&q.price!=null)?q.price:(g.qty?g.stmtMv/g.qty:0);
-      var mv=g.qty*price, gl=mv-g.cost;
-      g.accts.forEach(function(a){ a.mv=a.qty*price; a.gl=a.mv-a.cost; });
-      g.accts.sort(function(a,b){return b.mv-a.mv;});
-      return {t:g.t,name:g.name,qty:g.qty,avg:g.qty?g.cost/g.qty:0,price:price,mv:mv,cost:g.cost,gl:gl,glp:g.cost?gl/g.cost*100:0,
-              dchp:(q&&q.changePercentage!=null)?+q.changePercentage:null,dayVal:(q&&q.change!=null)?g.qty*(+q.change):0,
-              accts:g.accts,n:g.accts.length};
-    });
-    var totMv=items.reduce(function(s,i){return s+i.mv;},0), totVal=totMv+cashTot,
-        totCost=items.reduce(function(s,i){return s+i.cost;},0), totGl=totMv-totCost,
-        totDay=items.reduce(function(s,i){return s+i.dayVal;},0);
-    items.forEach(function(i){i.w=totMv?i.mv/totMv*100:0;});
-    var nAcctC=Object.keys(nAcct).length;
-    document.getElementById("stkSub").textContent=items.length+" tickers · "+positions.length+" holdings across "+nAcctC+" account"+(nAcctC===1?"":"s")+" · "+(live?"live prices":"statement prices")+(cashTot?" · incl. cash":"");
-    var dayPct=(totMv-totDay)?totDay/(totMv-totDay)*100:0, glPct=totCost?totGl/totCost*100:0;
-    var sum='<div class="stk-sum">'+stkCard("Total value",stkFull(totVal),null,"")+
-      (live?stkCard("Today",stkMoney(totDay,1),dayPct,totDay>=0?"up":"down"):"")+
-      stkCard("Total gain/loss",stkMoney(totGl,1),glPct,totGl>=0?"up":"down")+
-      stkCard("Equities",stkFull(totMv),null,"")+stkCard("Cash",stkFull(cashTot),null,"")+'</div>';
-    function qfmt(n){ return (Math.round(n*1e4)/1e4).toLocaleString(undefined,{maximumFractionDigits:4}); }
-
-    // --- per-account aggregation (for the "By account" view) ---
-    var acctMap={}, acctOrder=[];
-    function acc(n){ n=n||"—"; if(!acctMap[n]){acctMap[n]={name:n,mv:0,cost:0,dayVal:0,cash:0,holds:[]};acctOrder.push(n);} return acctMap[n]; }
-    items.forEach(function(i){ var cps=i.qty?i.dayVal/i.qty:0;
-      i.accts.forEach(function(a){ var A=acc(a.account); A.mv+=a.mv; A.cost+=a.cost; A.dayVal+=a.qty*cps;
-        A.holds.push({t:i.t,name:i.name,qty:a.qty,price:i.price,mv:a.mv,gl:a.gl,glp:a.cost?a.gl/a.cost*100:0,dchp:i.dchp}); }); });
-    cash.forEach(function(c){ acc(c.account).cash+=(+c.market_value_stmt||0); });
-    var accts=acctOrder.map(function(n){var A=acctMap[n]; A.val=A.mv+A.cash; A.gl=A.mv-A.cost; A.glp=A.cost?A.gl/A.cost*100:0;
-      A.dayPct=(A.mv-A.dayVal)?A.dayVal/(A.mv-A.dayVal)*100:0; A.w=totVal?A.val/totVal*100:0;
-      A.holds.sort(function(a,b){return b.mv-a.mv;}); return A;});
-    accts.sort(function(a,b){return b.val-a.val;});
-
-    function toggleHtml(){ return '<div class="stk-toggle">'+
-      '<button data-v="consol" class="'+(stkView==="consol"?"active":"")+'">Consolidated</button>'+
-      '<button data-v="accounts" class="'+(stkView==="accounts"?"active":"")+'">By account</button></div>'; }
-    function dispatch(){ if(stkView==="accounts") paintAccounts(); else paint(); }
-    function wireToggle(){ box.querySelectorAll(".stk-toggle button").forEach(function(b){
-      b.addEventListener("click",function(){ stkView=b.dataset.v; dispatch(); }); }); }
-
-    function paintAccounts(){
-      var cards=accts.map(function(A){
-        var open=stkAcctOpen[A.name], glc=A.gl>=0?"up":"down", dc=A.dayVal>=0?"up":"down";
-        var holds=open?'<div class="stk-ahold"><table class="stk-mini"><tbody>'+A.holds.map(function(p){
-            var pglc=p.gl>=0?"up":"down";
-            return '<tr><td class="stk-mname">'+stkLogo(p.t)+'<span class="stk-tk">'+esc(p.t)+'</span></td>'+
-              '<td class="r">'+qfmt(p.qty)+'</td><td class="r bold">'+stkFull(p.mv)+'</td>'+
-              '<td class="r '+pglc+'">'+stkMoney(p.gl,1)+'</td></tr>';}).join("")+'</tbody></table></div>':'';
-        return '<div class="stk-acard'+(open?" open":"")+'">'+
-          '<div class="stk-acard-h"><div class="stk-acard-nm">'+esc(A.name)+'</div><div class="stk-acard-v">'+stkFull(A.val)+'</div></div>'+
-          '<div class="stk-acard-sub">'+A.w.toFixed(1)+'% of portfolio · '+A.holds.length+' position'+(A.holds.length===1?"":"s")+'</div>'+
-          '<div class="stk-acard-stats">'+
-            (live?'<span class="'+dc+'">Today '+stkMoney(A.dayVal,1)+' ('+(A.dayPct>=0?"+":"")+A.dayPct.toFixed(2)+'%)</span>':'')+
-            '<span class="'+glc+'">Gain/Loss '+stkMoney(A.gl,1)+' ('+(A.glp>=0?"+":"")+A.glp.toFixed(1)+'%)</span>'+
-            (A.cash?'<span>Cash '+stkFull(A.cash)+'</span>':'')+'</div>'+
-          (A.holds.length?'<button class="stk-acard-exp" data-acct="'+esc(A.name)+'">'+(open?"Hide holdings ▴":"View holdings ▾")+'</button>':'')+
-          holds+'</div>';
-      }).join("");
-      box.innerHTML=sum+toggleHtml()+'<div class="stk-accts">'+cards+'</div>';
-      wireToggle();
-      box.querySelectorAll(".stk-acard-exp").forEach(function(b){b.addEventListener("click",function(){
-        var n=b.dataset.acct; stkAcctOpen[n]=!stkAcctOpen[n]; paintAccounts();});});
-    }
-
-    function paint(){
-      var arr=items.slice().sort(stkCmp);
-      var thead='<tr>'+stkTh("Symbol","t",1)+stkTh("Qty","qty")+stkTh("Avg cost","avg")+stkTh("Price","price")+stkTh("Day","dchp")+stkTh("Mkt value","mv")+stkTh("Gain/Loss","gl")+stkTh("Weight","w")+'</tr>';
-      var body=arr.map(function(i){var glc=i.gl>=0?"up":"down",dc=i.dchp==null?"":(i.dchp>=0?"up":"down");
-        var multi=i.n>1, isOpen=multi&&stkOpen[i.t];
-        var caret='<button class="stk-caret'+(isOpen?" open":"")+(multi?"":" hide")+'" data-tk="'+esc(i.t)+'" aria-label="Toggle accounts">▶</button>';
-        var master='<tr class="stk-master'+(isOpen?" open":"")+'" data-tk="'+esc(i.t)+'"><td class="stk-name">'+caret+stkLogo(i.t)+'<div><div class="stk-tk">'+esc(i.t)+(multi?' <span class="stk-sub2">'+i.n+' accts</span>':'')+'</div><div class="stk-nm">'+esc(i.name)+'</div></div></td>'+
-          '<td class="r">'+qfmt(i.qty)+'</td><td class="r">$'+i.avg.toFixed(2)+'</td><td class="r">$'+i.price.toFixed(2)+'</td>'+
-          '<td class="r '+dc+'">'+(i.dchp==null?"—":(i.dchp>=0?"+":"")+i.dchp.toFixed(2)+"%")+'</td>'+
-          '<td class="r bold">'+stkFull(i.mv)+'</td><td class="r '+glc+'">'+stkMoney(i.gl,1)+' <span class="stk-sub2">'+(i.glp>=0?"+":"")+i.glp.toFixed(1)+'%</span></td>'+
-          '<td class="r">'+i.w.toFixed(1)+'%</td></tr>';
-        if(isOpen){
-          master+=i.accts.map(function(a){var agl=a.gl>=0?"up":"down";
-            return '<tr class="stk-child"><td class="stk-acct"><span class="stk-acct-badge">'+esc(stkAcctShort(a.account))+'</span></td>'+
-              '<td class="r">'+qfmt(a.qty)+'</td><td class="r"></td><td class="r"></td><td class="r"></td>'+
-              '<td class="r">'+stkFull(a.mv)+'</td><td class="r '+agl+'">'+stkMoney(a.gl,1)+'</td><td class="r">'+(i.mv?(a.mv/i.mv*100).toFixed(0):"0")+'%</td></tr>';}).join("");
-        }
-        return master;}).join("");
-      box.innerHTML=sum+toggleHtml()+'<div class="stk-tablewrap" style="margin-bottom:18px"><table class="stk-table"><thead>'+thead+'</thead><tbody>'+body+'</tbody></table></div>'+
-        '<div class="stk-alloc"><div class="stk-alloc-h">Allocation</div><div style="position:relative;height:320px;max-width:580px;margin:0 auto"><canvas id="stkChart"></canvas></div></div>';
-      wireToggle();
-      box.querySelectorAll("th[data-k]").forEach(function(th){th.addEventListener("click",function(){var k=th.dataset.k;if(stkSort.key===k)stkSort.dir*=-1;else{stkSort.key=k;stkSort.dir=(k==="t")?1:-1;}paint();});});
-      box.querySelectorAll("tr.stk-master").forEach(function(tr){tr.addEventListener("click",function(e){
-        if(e.target.closest("a"))return; var tk=tr.dataset.tk; var it=items.filter(function(x){return x.t===tk;})[0];
-        if(!it||it.n<2)return; stkOpen[tk]=!stkOpen[tk]; paint();});});
-      drawAlloc();
-    }
-    function drawAlloc(){
-      var top=items.slice().sort(function(a,b){return b.mv-a.mv;}),labels=[],data=[],other=0;
-      top.forEach(function(i,ix){if(ix<8){labels.push(i.t);data.push(i.mv);}else other+=i.mv;});
-      if(other>0){labels.push("Other");data.push(other);} if(cashTot>0){labels.push("Cash");data.push(cashTot);}
-      var pal=['#2b5ea7','#1a7a5a','#9a6b17','#5b3ea7','#b5342a','#3d8888','#a06040','#6a6aaa','#888883','#4a7a4a'];
-      if(stkChart)stkChart.destroy();
-      stkChart=new Chart(document.getElementById("stkChart"),{type:"doughnut",data:{labels:labels,datasets:[{data:data,backgroundColor:labels.map(function(_,i){return pal[i%pal.length];}),borderWidth:0}]},
-        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"right",labels:{boxWidth:10,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.label+": "+stkFull(c.parsed);}}}},cutout:"58%"}});
-    }
-    dispatch();
-  }
-
-  // ---------- Stocks: upload brokerage statement (Schwab / Fidelity CSV) ----------
-  function stkNum(s){ if(s==null) return 0; s=String(s).replace(/^="?|"?$/g,"").replace(/[$,%\s]/g,"").trim();
-    if(s===""||s==="--"||/^N\/A$/i.test(s)||/incomplete/i.test(s)) return 0; var n=parseFloat(s); return isNaN(n)?0:n; }
-  function stkClean(s){ return s==null?"":String(s).replace(/^="?|"?$/g,"").trim(); }
-  function parseCSV(text){ if(window.Papa){ var r=Papa.parse(text,{skipEmptyLines:true}); return r.data; }
-    return text.split(/\r?\n/).filter(function(l){return l.trim();}).map(function(l){
-      var out=[],cur="",q=false; for(var i=0;i<l.length;i++){var c=l[i];
-        if(c==='"'){ if(q&&l[i+1]==='"'){cur+='"';i++;} else q=!q; }
-        else if(c===","&&!q){out.push(cur);cur="";} else cur+=c; } out.push(cur); return out; }); }
-
-  // Charles Schwab "Positions" export
-  function parseSchwab(rows){
-    var acct="Account", hdr=-1, sym=0,desc=1,qty=2,mkt=5,cost=8;
-    for(var r=0;r<rows.length;r++){
-      var first=stkClean((rows[r][0]||""));
-      var m=first.match(/Positions for account (.+?) as of/i); if(m){ acct=m[1].trim(); }
-      if(/^symbol$/i.test(first) && rows[r].length>5){ hdr=r;
-        rows[r].forEach(function(c,ix){ c=stkClean(c).toLowerCase();
-          if(c==="symbol")sym=ix; else if(/description/.test(c))desc=ix;
-          else if(/^qty/.test(c))qty=ix; else if(/mkt val|market value/.test(c))mkt=ix;
-          else if(/cost basis/.test(c))cost=ix; }); break; }
-    }
-    if(hdr<0) return null;
-    var out=[];
-    for(var i=hdr+1;i<rows.length;i++){ var row=rows[i]; var s=stkClean(row[sym]||"");
-      if(!s) continue;
-      if(/^positions total/i.test(s)) break;
-      if(/cash & cash|cash and cash|money market/i.test(s)){
-        out.push({ticker:"CASH",name:"Cash & Cash Investments",quantity:0,cost_basis:0,market_value_stmt:stkNum(row[mkt]),is_cash:true}); continue; }
-      out.push({ticker:s.toUpperCase(),name:stkClean(row[desc]||s),quantity:stkNum(row[qty]),cost_basis:stkNum(row[cost]),market_value_stmt:stkNum(row[mkt]),is_cash:false});
-    }
-    return {account:acct,rows:out};
-  }
-
-  // Fidelity tax-lot export (aggregates lots per ticker)
-  function parseFidelity(rows){
-    var hdr=-1, col={};
-    for(var r=0;r<rows.length;r++){ var lc=rows[r].map(function(c){return stkClean(c).toLowerCase();});
-      if(lc.indexOf("ticker")>=0 && lc.some(function(c){return /federal cost|cost basis/.test(c);})){ hdr=r;
-        lc.forEach(function(c,ix){
-          if(c==="ticker")col.tk=ix; else if(/account name/.test(c))col.an=ix;
-          else if(/asset name|description/.test(c))col.nm=ix; else if(/^quantity/.test(c))col.qty=ix;
-          else if(/federal cost|cost basis/.test(c))col.cost=ix; else if(/market value/.test(c))col.mv=ix; }); break; }
-    }
-    if(hdr<0||col.tk==null) return null;
-    var acct="Account", agg={};
-    for(var i=hdr+1;i<rows.length;i++){ var row=rows[i]; var tk=stkClean(row[col.tk]||"").toUpperCase();
-      if(!tk) continue; if(col.an!=null && stkClean(row[col.an])) acct=stkClean(row[col.an]);
-      var g=agg[tk]; if(!g){ g=agg[tk]={ticker:tk,name:stkClean(col.nm!=null?row[col.nm]:tk)||tk,quantity:0,cost_basis:0,market_value_stmt:0,is_cash:false}; }
-      g.quantity+=stkNum(row[col.qty]); g.cost_basis+=stkNum(row[col.cost]); g.market_value_stmt+=stkNum(row[col.mv]);
-    }
-    var out=Object.keys(agg).map(function(k){return agg[k];});
-    return {account:acct,rows:out};
-  }
-
-  // Fidelity "Holdings Detail" export (As of Date / Asset Type / % of Holdings columns).
-  // Money-market/deposit-sweep rows are treated as cash; firm-total rows (blank Account
-  // Number) are merged in only to supply cost basis, never to double-count quantity.
-  function parseFidelityHoldings(rows){
-    var hdr=-1, col={};
-    for(var r=0;r<rows.length;r++){ var lc=rows[r].map(function(c){return stkClean(c).toLowerCase();});
-      if(lc.indexOf("ticker")>=0 && lc.indexOf("market value")>=0 && lc.some(function(c){return /% of holdings/.test(c);})){ hdr=r;
-        lc.forEach(function(c,ix){
-          if(c==="ticker")col.tk=ix; else if(/asset name/.test(c))col.nm=ix;
-          else if(/asset type/.test(c))col.at=ix; else if(/account number/.test(c))col.acn=ix;
-          else if(/account name/.test(c))col.an=ix; else if(/^quantity/.test(c))col.qty=ix;
-          else if(/market value/.test(c))col.mv=ix; else if(/federal cost|cost basis/.test(c))col.cost=ix; }); break; }
-    }
-    if(hdr<0||col.tk==null) return null;
-    var account="Account", reals={}, totals={};
-    for(var i=hdr+1;i<rows.length;i++){ var row=rows[i]; if(!row) continue;
-      var tk=stkClean(row[col.tk]).toUpperCase(), atype=col.at!=null?stkClean(row[col.at]):"";
-      var acctno=col.acn!=null?stkClean(row[col.acn]):"", acctname=col.an!=null?stkClean(row[col.an]):"";
-      var name=col.nm!=null?stkClean(row[col.nm]):tk, qty=stkNum(row[col.qty]), mv=stkNum(row[col.mv]), cost=col.cost!=null?stkNum(row[col.cost]):0;
-      if(acctname) account=acctname;
-      var iscash=/cash/i.test(atype);
-      if(!tk) continue;
-      if(!acctno){ totals[tk]={qty:qty,mv:mv,cost:cost,name:name,iscash:iscash}; }
-      else { var d=reals[tk]||(reals[tk]={qty:0,mv:0,cost:0,name:name,iscash:iscash});
-        d.qty+=qty; d.mv+=mv; d.cost+=cost; d.name=name; d.iscash=iscash; }
-    }
-    var keys={}; Object.keys(reals).forEach(function(k){keys[k]=1;}); Object.keys(totals).forEach(function(k){keys[k]=1;});
-    var out=[];
-    Object.keys(keys).forEach(function(tk){ var d=reals[tk]||totals[tk];
-      if(d.cost===0 && totals[tk] && totals[tk].cost) d.cost=totals[tk].cost;
-      out.push({ticker:d.iscash?"CASH":tk,name:d.name,quantity:Math.round(d.qty*1e4)/1e4,
-        cost_basis:d.iscash?null:Math.round(d.cost*100)/100,market_value_stmt:Math.round(d.mv*100)/100,is_cash:d.iscash}); });
-    if(!out.length) return null;
-    return {account:account,rows:out};
-  }
-
-  function parseStatement(text){
-    var rows=parseCSV(text); if(!rows||!rows.length) return null;
-    var head=text.slice(0,400);
-    if(/Positions for account/i.test(head)) return parseSchwab(rows);
-    if(/% of Holdings/i.test(head)) return parseFidelityHoldings(rows);
-    if(/\bticker\b/i.test(head) && /federal cost|cost basis/i.test(head)) return parseFidelity(rows);
-    // fallback: try all
-    return parseSchwab(rows) || parseFidelityHoldings(rows) || parseFidelity(rows);
-  }
-
-  // First International Bank of Israel (FIBI) — Hebrew portfolio export (.xlsx).
-  // Converts agorot-quoted Israeli securities to USD using the FX implied by the sheet's own USD rows.
-  var FIBI_NAMES={'524017':['GILON','Gilon Gov’t Floating Bond'],'1159029':['TASE','Tel Aviv Stock Exchange Ltd'],
-    '1157403':['ISCD','Isracard Ltd'],'604611':['LUMI','Bank Leumi'],'662577':['POLI','Bank Hapoalim'],
-    '5127725':['MOR-IH','More Investment House Fund'],'5124326':['MOR-YT','More Yeter Fund'],
-    '5119466':['MOR-IL','More Israel Equities Fund'],'1148949':['HRL-BNK','Harel Israel Banks Index'],
-    '1146570':['KTA35','KSM TA-35 Index ETF']};
-  var FIBI_US={'AMZN':'Amazon.com Inc','TSM':'Taiwan Semiconductor ADR','RSP':'Invesco S&P 500 Equal Weight ETF'};
-  function fNum(s){ if(s==null) return null; s=String(s).replace(/,/g,"").replace(/[%\s]/g,"").trim();
-    if(s===""||s==="--") return null; var n=parseFloat(s); return isNaN(n)?null:n; }
-  function isFIBI(rows){ for(var i=0;i<Math.min(rows.length,15);i++){ for(var j=0;j<rows[i].length;j++){
-    var c=String(rows[i][j]==null?"":rows[i][j]); if(c.indexOf("נייר")===0||c.indexOf("תיק ני")>=0||c.indexOf("שווי אחזקה")>=0) return true; } } return false; }
-  function parseFIBI(rows){
-    var H={name:"נייר",sec:"מספר נייר",sym:"סימבול",
-      qty:"כמות",ccy:"מטבע",adj:"שער עלות מותאם",
-      hvils:"שווי אחזקה בשח",hvccy:"שווי אחזקה במטבע"};
-    var hdr=-1,col={};
-    for(var i=0;i<rows.length;i++){ var r=rows[i].map(function(c){return String(c==null?"":c).trim();});
-      if(r.indexOf(H.name)>=0 && r.indexOf(H.qty)>=0){ hdr=i;
-        Object.keys(H).forEach(function(k){ var ix=r.indexOf(H[k]); if(ix>=0) col[k]=ix; }); break; } }
-    if(hdr<0||col.name==null) return null;
-    var acct="FIBI", cash=0;
-    for(var i=0;i<rows.length;i++){ for(var j=0;j<rows[i].length;j++){ var c=String(rows[i][j]==null?"":rows[i][j]);
-      var m=c.match(/חשבון[:\s]*([0-9]+)/); if(m) acct="FIBI ..."+m[1].slice(-3);
-      if(c.indexOf("יתרה למסחר")>=0){ var nx=fNum(rows[i][j+1]); if(nx!=null) cash=nx; } } }
-    var raw=[],fxs=[];
-    for(var i=hdr+1;i<rows.length;i++){ var r=rows[i]; var name=String(r[col.name]==null?"":r[col.name]).trim();
-      if(!name||name.indexOf("סה\"כ")===0) continue;
-      var q=fNum(r[col.qty]), ccy=String(r[col.ccy]==null?"":r[col.ccy]).trim();
-      if(q==null||(ccy!=="₪"&&ccy!=="$")) continue;
-      var hvils=fNum(r[col.hvils]), hvccy=fNum(r[col.hvccy]);
-      if(ccy==="$"&&hvils&&hvccy) fxs.push(hvils/hvccy);
-      raw.push({name:name,sec:String(r[col.sec]||"").trim(),sym:String(r[col.sym]||"").trim().toUpperCase(),
-        qty:q,adj:fNum(r[col.adj])||0,ccy:ccy,hvils:hvils||0,hvccy:hvccy||0}); }
-    var FX=fxs.length?fxs.reduce(function(a,b){return a+b;},0)/fxs.length:0;
-    var out=[];
-    raw.forEach(function(x){ var tk,nm,cost,mv;
-      if(x.ccy==="$"){ tk=x.sym; nm=FIBI_US[tk]||x.name; cost=Math.round(x.qty*x.adj*100)/100; mv=Math.round(x.hvccy*100)/100; }
-      else { var mp=FIBI_NAMES[x.sec]; tk=mp?mp[0]:x.sec; nm=(mp?mp[1]:x.name)+" ("+x.sec+")";
-        cost=FX?Math.round((x.qty*x.adj/100)/FX*100)/100:0; mv=FX?Math.round(x.hvils/FX*100)/100:0; }
-      out.push({ticker:tk,name:nm,quantity:x.qty,cost_basis:cost,market_value_stmt:mv,is_cash:false}); });
-    if(cash) out.push({ticker:"CASH",name:"Cash balance for trading",quantity:0,cost_basis:0,market_value_stmt:FX?Math.round(cash/FX*100)/100:cash,is_cash:true});
-    if(!out.length) return null;
-    return {account:acct,rows:out};
-  }
-
-  function stkBanner(cls,msg){ var b=document.getElementById("stkUp"); if(!b)return; b.hidden=false; b.className="stk-up"+(cls?" "+cls:""); b.innerHTML=msg; }
-
-  async function uploadStatements(files){
-    var done=[], failed=[];
-    for(var fi=0;fi<files.length;fi++){ var f=files[fi];
-      stkBanner("", "Reading <strong>"+esc(f.name)+"</strong>… ("+(fi+1)+"/"+files.length+")");
-      var parsed=null;
-      try{
-        if(/\.xlsx?$/i.test(f.name)){
-          if(!window.XLSX){ failed.push(f.name+" (spreadsheet reader not loaded)"); continue; }
-          var buf=await f.arrayBuffer();
-          var wb=XLSX.read(buf,{type:"array"});
-          var grid=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,raw:false,defval:""});
-          if(isFIBI(grid)) parsed=parseFIBI(grid);
-        } else {
-          parsed=parseStatement(await f.text());
-        }
-      }catch(e){ failed.push(f.name+" ("+(e.message||"unreadable")+")"); continue; }
-      if(!parsed||!parsed.account||!parsed.rows.length){ failed.push(f.name+" (unrecognized format)"); continue; }
-      parsed.rows.forEach(function(r,ix){ r.account=parsed.account; r.sort_order=ix; });
-      var del=await sb.from("stock_holdings").delete().eq("account",parsed.account);
-      if(del.error){ failed.push(f.name+" — "+del.error.message); continue; }
-      var ins=await sb.from("stock_holdings").insert(parsed.rows);
-      if(ins.error){ failed.push(f.name+" — "+ins.error.message); continue; }
-      done.push(parsed.account+" ("+parsed.rows.filter(function(r){return !r.is_cash;}).length+" positions)");
-    }
-    var msg="";
-    if(done.length) msg+='✓ Updated: '+done.map(esc).join(", ");
-    if(failed.length) msg+=(msg?"<br>":"")+'✕ Skipped: '+failed.map(esc).join("; ");
-    stkBanner(failed.length?(done.length?"":"err"):"ok", msg||"Nothing to import.");
-    if(done.length) await renderStocks();
-  }
-
-  (function(){ var fi=document.getElementById("stkFile"); if(!fi) return;
-    fi.addEventListener("change", function(){ if(fi.files&&fi.files.length){ uploadStatements(Array.prototype.slice.call(fi.files)); fi.value=""; } });
-  })();
 
   // ---------- CONTENT MODELS ----------
   var MODELS = {
