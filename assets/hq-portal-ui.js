@@ -116,11 +116,17 @@
         '<div class="fig-v">' + value + "</div>" +
         '<div class="fig-c">' + F.esc(caption) + "</div></div>";
     }
+    /* The amount carries the figure; the percentage sits beside it a size down
+       and takes the direction colour, so the eye reads the money first. */
+    function change(gain, ret) {
+      var cls = gain < 0 ? "dn" : gain > 0 ? "up" : "";
+      return F.big(gain) + '<span class="fig-pct ' + cls + '">' + F.pct(ret) + "</span>";
+    }
     return '<div class="figs">' +
       fig("Under management", F.big(T.aum), "Capital and real estate at " + MODEL.latest) +
-      fig("Month change", F.big(m.gain) + "  " + F.pct(m.ret), F.mLong(ASOF) + ", investment gain") +
+      fig("Month change", change(m.gain, m.ret), F.mLong(ASOF) + ", investment gain") +
       fig(periodLabel() === "year to date" ? "Year to date" : periodLabel(),
-          F.big(y.gain) + "  " + F.pct(y.ret), "Investment gain, " + periodLabel()) +
+          change(y.gain, y.ret), "Investment gain, " + periodLabel()) +
       "</div>";
   }
 

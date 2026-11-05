@@ -9,6 +9,8 @@
   --g2:#5C5C5C;      /* captions */
   --g3:#C2C2C2;      /* hairline rules */
   --g4:#D6D6D6;      /* skeletons, disabled */
+  --up:#11693C;      /* 6.8:1 on white */
+  --dn:#A32017;      /* 7.6:1 on white */
   --paper:#FFFFFF;
   --panel:#0A0A0A;   /* sidebar and top bar */
   --maxw:1200px;
@@ -141,6 +143,13 @@ label{display:block;font-size:12px;letter-spacing:.09em;text-transform:uppercase
 .fig-l{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--g2)}
 .fig-v{font-size:34px;font-weight:700;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums}
 .fig-c{font-size:14px;color:var(--g2);margin-top:4px}
+/* The percentage is secondary to the amount: a size down, and set in the
+   direction colours. These two are the only colours in the product. To go back
+   to the deck's black and white, set --up and --dn to var(--ink) and
+   var(--g1). */
+.fig-pct{font-size:.55em;margin-left:.45em;letter-spacing:.01em;white-space:nowrap}
+.up{color:var(--up)}
+.dn{color:var(--dn)}
 
 /* ---------- tables ---------- */
 .tw{width:100%}
