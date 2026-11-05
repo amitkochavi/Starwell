@@ -28,7 +28,7 @@ window.StarwellPortal = (function () {
                   "SCHWAB_1558", "CNB_48492010", "CNB_48784990"];
 
   var cache = null;      // one read per session
-  var state = { scope: "starwell", period: "ytd", ccy: "USD", fx: 3.16, group: "pool" };
+  var state = { scope: "starwell", period: "ytd", ccy: "USD", fx: 3.16, group: "pool", pick: null };
 
   /* ---------------------------------------------------------------- utils */
   function num(v) {

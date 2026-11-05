@@ -50,16 +50,49 @@
           '<option value="12m">12 months</option>' +
           '<option value="2023">Since Jan 2023</option>' +
         "</select></div>" +
-      '<div><label for="selGroup">Breakdown</label>' +
-        '<select id="selGroup">' +
-          '<option value="pool">Starwell pool</option>' +
-          '<option value="owner">By owner</option>' +
-          '<option value="account">By account</option>' +
-        "</select></div>" +
+
       '<div><label>Currency</label><div class="seg" id="segCcy">' +
         '<button type="button" data-ccy="USD">USD</button>' +
         '<button type="button" data-ccy="ILS">ILS</button>' +
       "</div></div></div>";
+  }
+
+  function breakdownRow() {
+    return '<div class="sel-row" style="margin-top:14px">' +
+      '<div><label for="selGroup">Show</label>' +
+        '<select id="selGroup">' +
+          '<option value="pool">Whole pool</option>' +
+          '<option value="owner">One owner</option>' +
+          '<option value="account">One account</option>' +
+        "</select></div>" +
+      (S.group === "pool" ? "" :
+        '<div><label for="selPick">' + (S.group === "owner" ? "Owner" : "Account") + "</label>" +
+        '<select id="selPick">' + pickOptions() + "</select></div>") +
+      "</div>";
+  }
+  /* Pick a default as soon as the breakdown changes, so the first paint after
+     a switch already has a valid selection rather than reading null. */
+  function ensurePick() {
+    if (S.group === "pool") { S.pick = null; return; }
+    var opts = S.group === "owner" ? ownersInScope() : poolAccounts();
+    if (opts.indexOf(S.pick) < 0) S.pick = opts[0] || null;
+  }
+  function ownersInScope() {
+    var seen = {}, out = [];
+    poolAccounts().forEach(function (id) {
+      var o = (MODEL.accounts[id].owner || "Unassigned").trim();
+      if (!seen[o]) { seen[o] = 1; out.push(o); }
+    });
+    return out.sort();
+  }
+  function pickOptions() {
+    var opts = S.group === "owner" ? ownersInScope() : poolAccounts();
+    if (opts.indexOf(S.pick) < 0) S.pick = opts[0];
+    return opts.map(function (v) {
+      var label = S.group === "owner" ? v
+        : ((MODEL.accounts[v].inst ? MODEL.accounts[v].inst + " \u00B7 " : "") + (MODEL.accounts[v].name || v));
+      return '<option value="' + F.esc(v) + '"' + (v === S.pick ? " selected" : "") + ">" + F.esc(label) + "</option>";
+    }).join("");
   }
 
   /* ------------------------------------------------------------ period -- */
@@ -315,20 +348,38 @@
   }
 
   /* ----------------------------------------------------------- render --- */
-  function ids() {
+  function poolAccounts() {
     if (S.scope === "starwell") return P.STARWELL.filter(function (a) { return MODEL.accounts[a]; });
     return Object.keys(MODEL.accounts).filter(function (a) { return (MODEL.accounts[a].dates || []).length; });
+  }
+  /* The breakdown drives the monthly change section only. Under management,
+     capital, accounts and allocation stay on the whole scope, so the headline
+     never silently changes meaning when the chart is narrowed. */
+  function seriesIds() {
+    var pool = poolAccounts();
+    if (S.group === "account") return pool.indexOf(S.pick) >= 0 ? [S.pick] : pool;
+    if (S.group === "owner") {
+      var sel = pool.filter(function (a) { return (MODEL.accounts[a].owner || "Unassigned").trim() === S.pick; });
+      return sel.length ? sel : pool;
+    }
+    return pool;
   }
 
   function paint() {
     var root = document.getElementById("portalBody");
     if (!root) return;
-    var list = ids();
-    var series = P.monthSeries(MODEL, list, periodStart(), ASOF);
+    ensurePick();
+    var list = poolAccounts();          // headline, capital, accounts, allocation
+    var sIds = seriesIds();             // monthly change only
+    var series = P.monthSeries(MODEL, sIds, periodStart(), ASOF);
+    var sLabel = S.group === "pool" ? "the whole pool"
+      : S.group === "owner" ? S.pick
+      : ((MODEL.accounts[S.pick] || {}).name || S.pick);
     root.innerHTML =
       selectors() +
       '<div class="sec">' + figures(list) + "</div>" +
-      '<div class="sec">' + secHead("Monthly change", "Investment gain, net flows and month-end value") +
+      '<div class="sec">' + secHead("Monthly change", "Investment gain, net flows and month-end value for " + sLabel) +
+        breakdownRow() +
         '<div class="chart-wrap"><canvas id="chartMonthly"></canvas></div>' + chartLegend() +
         '<div style="margin-top:18px">' + monthlyTable(series) + "</div>" +
         '<div style="margin-top:12px"><button class="btn ghost sm" id="btnCsv">Export CSV</button></div>' +
@@ -344,6 +395,8 @@
     document.getElementById("selScope").value = S.scope;
     document.getElementById("selPeriod").value = S.period;
     document.getElementById("selGroup").value = S.group;
+    var pickEl = document.getElementById("selPick");
+    if (pickEl) pickEl.addEventListener("change", function (e) { S.pick = e.target.value; paint(); });
     Array.prototype.forEach.call(document.querySelectorAll("#segCcy button"), function (b) {
       b.classList.toggle("on", b.getAttribute("data-ccy") === S.ccy);
     });
@@ -361,7 +414,9 @@
     document.getElementById("btnCsv").addEventListener("click", function () { csv(series); });
     ["selScope", "selPeriod", "selGroup"].forEach(function (id) {
       document.getElementById(id).addEventListener("change", function (e) {
-        S[id === "selScope" ? "scope" : id === "selPeriod" ? "period" : "group"] = e.target.value;
+        var key = id === "selScope" ? "scope" : id === "selPeriod" ? "period" : "group";
+        S[key] = e.target.value;
+        if (key === "group") S.pick = null;
         paint();
       });
     });
