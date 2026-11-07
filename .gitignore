@@ -1,0 +1,6 @@
+
+# Main DB snapshots used by the tests. Real balances: never committed.
+tests/fixtures-private/
+
+# Screenshots: they can carry real balances.
+tests/*.png

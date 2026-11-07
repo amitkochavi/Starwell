@@ -1,0 +1,3 @@
+AccountID,Date,Balance,Currency,FXRateToUSD,Rate,Notes
+SCHWAB_0687,2026-10-31,40000,USD,1,0.1,Margin loan. The statement value is already net of it.
+FIBI_314390,2026-10-31,31000,ILS,0.3225806452,,Loan against the brokerage account.

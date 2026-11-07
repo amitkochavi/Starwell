@@ -3,10 +3,13 @@
 const {chromium}=require('/opt/node22/lib/node_modules/playwright');
 const fs=require('fs'), path=require('path');
 const CSV=process.env.MAIN_DB_CSV_DIR||(__dirname+'/fixtures');
+/* "Jewelry " keeps its trailing space on purpose: a stray space in a tab name
+   once dropped a whole sheet, and the loose name matching has to keep working. */
 const TABS={'Accounts':'Accounts','Statements':'Statements','Investment Ledger':'Investment_Ledger',
  'Distributions':'Distributions','20 Vitkin Street - APT #2':'20_Vitkin_Street_APT_2',
- 'Glaser Real Estate':'Glaser_Real_Estate','Jewelry ':'Jewelry'};
-const names=Object.keys(TABS);
+ 'Glaser Real Estate':'Glaser_Real_Estate','Jewelry ':'Jewelry',
+ 'Liabilities':'Liabilities','Benchmarks':'Benchmarks'};
+const names=Object.keys(TABS).filter(n=>fs.existsSync(path.join(CSV,TABS[n]+'.csv')));
 const pubhtml=names.map((n,i)=>`{name: "${n}", gid: "${100+i}"}`).join(',');
 const gidName={}; names.forEach((n,i)=>gidName[String(100+i)]=n);
 
@@ -59,6 +62,7 @@ if(require.main===module)(async()=>{
   console.log('monthly rows:', await p.$$eval('#tblMonthly tbody tr.exp',r=>r.length));
   console.log('capital total:', await p.$$eval('tr.total',r=>r.map(x=>x.textContent.trim().replace(/\s+/g,' '))));
   console.log('data checks:', await p.textContent('details.checks summary'));
-  await p.screenshot({path:__dirname+'/hq-dash-1440.png',fullPage:false});
+  // never into the repository: a screenshot of the live workbook holds real balances
+  if(process.env.SHOT_DIR) await p.screenshot({path:process.env.SHOT_DIR+'/hq-dash-1440.png',fullPage:false});
   await b.close();
 })();

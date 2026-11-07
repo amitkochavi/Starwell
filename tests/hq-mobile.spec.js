@@ -53,11 +53,33 @@ const SIZES=[[375,667,'iPhone SE'],[393,852,'iPhone 15'],[768,1024,'iPad'],[1440
       const onPick=!side.classList.contains('open');
       return {open,closed,esc,onPick};
     });
+    // every chart on the Dashboard has to actually draw, at both widths
+    await p.evaluate(()=>{
+      document.querySelectorAll('.tab[data-view]').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+      document.querySelector('.tab[data-view="investments"]').classList.add('active');
+      document.querySelector('#view-investments').classList.add('active');
+    });
+    await p.waitForTimeout(900);
+    const charts=await p.evaluate(()=>[...document.querySelectorAll('#view-investments canvas')]
+      .map(c=>({id:c.id, w:Math.round(c.getBoundingClientRect().width),
+                h:Math.round(c.getBoundingClientRect().height),
+                drawn:!!(window.Chart&&window.Chart.getChart&&window.Chart.getChart(c))})));
+    const blank=charts.filter(c=>!c.drawn||c.w<40||c.h<40);
+    if(!charts.length){fails++;console.log(`  FAIL ${name}: no charts on the Dashboard`);}
+    if(blank.length){fails++;console.log(`  FAIL ${name}: charts did not draw`,blank);}
+
+    // a long table scrolls inside its own wrapper, never the page
+    const wrapOverflow=await p.evaluate(()=>[...document.querySelectorAll('.view.active .tw,.view.active .cov-wrap')]
+      .filter(e=>e.scrollWidth>e.clientWidth+1&&getComputedStyle(e).overflowX==='visible')
+      .slice(0,3).map(e=>String(e.className)));
+    if(wrapOverflow.length){fails++;console.log(`  FAIL ${name}: a table overflows without its own scroll`,wrapOverflow);}
+
     // tap targets
     const small=await p.evaluate(()=>[...document.querySelectorAll('.view.active button, .view.active a, .side button, .topbar button, select')]
       .filter(e=>{const r=e.getBoundingClientRect();return r.width>0&&(r.height<44||r.width<44);})
       .slice(0,5).map(e=>(e.textContent||e.tagName).trim().slice(0,22)+' '+Math.round(e.getBoundingClientRect().height)+'x'+Math.round(e.getBoundingClientRect().width)));
-    console.log(`${name} (${w}x${h}): overflow OK, drawer ${JSON.stringify(drawer)}, small targets ${JSON.stringify(small)}, errors ${errs.length}`);
+    console.log(`${name} (${w}x${h}): overflow OK, charts ${charts.length} drawn, drawer ${JSON.stringify(drawer)}, small targets ${JSON.stringify(small)}, errors ${errs.length}`);
     if(small.length)fails++;
     if(!drawer.skip && !(drawer.open&&drawer.closed&&drawer.esc&&drawer.onPick)){fails++;console.log('  FAIL drawer');}
     await ctx.close();
