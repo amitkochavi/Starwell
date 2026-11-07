@@ -9,8 +9,11 @@
   --g2:#5C5C5C;      /* captions */
   --g3:#C2C2C2;      /* hairline rules */
   --g4:#D6D6D6;      /* skeletons, disabled */
-  /* There is no green and no red anywhere in this product. Direction is
-     carried by the minus sign, as it is in the quarterly deck. */
+  /* The only colours in the product, and only on the headline percentages.
+     To go back to the deck's black and white, set these two to var(--ink)
+     and var(--g1). */
+  --up:#11693C;      /* 6.8:1 on white */
+  --dn:#A32017;      /* 7.6:1 on white */
   --paper:#FFFFFF;
   --panel:#0A0A0A;   /* sidebar and top bar */
   --maxw:1200px;
@@ -144,9 +147,12 @@ label{display:block;font-size:12px;letter-spacing:.09em;text-transform:uppercase
 .fig-v{font-size:34px;font-weight:700;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums}
 .fig-c{font-size:14px;color:var(--g2);margin-top:4px}
 /* The amount and the percentage read as one signed figure, separated by a
-   middot. The percentage is a size down so the money is read first. */
+   middot. The percentage is a size down so the money is read first, and takes
+   the direction colour. The amount itself stays near black. */
 .fig-pct{font-size:.55em;letter-spacing:.01em;white-space:nowrap}
 .fig-sep{font-size:.5em;color:var(--g2);margin:0 .32em;vertical-align:.12em}
+.up{color:var(--up)}
+.dn{color:var(--dn)}
 
 /* ---------- tables ----------
    A table that cannot fit keeps the scroll inside itself, so the page never
@@ -244,6 +250,10 @@ tr.diff-row td{color:var(--g1);font-style:italic}
 
 /* ---------- small charts, captions, button rows ---------- */
 .chart-wrap.sm{height:220px}
+/* a toggle above a chart sits on its own, never spanning the plot width,
+   so it is never mistaken for part of the chart */
+.seg.narrow{display:inline-flex;width:auto;max-width:100%;margin-bottom:18px}
+.seg.narrow button{flex:0 0 auto;font-size:13px;padding:11px 14px}
 .cap{font-size:13px;color:var(--g2);padding-top:8px;margin-bottom:18px}
 .btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
 .seg.narrow button{font-size:13px}

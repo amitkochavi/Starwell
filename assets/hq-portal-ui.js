@@ -171,9 +171,12 @@
         '<div class="fig-v">' + value + "</div>" +
         '<div class="fig-c">' + F.esc(caption) + "</div></div>";
     }
+    /* The amount carries the figure in near black; the percentage sits beside
+       it a size down and takes the direction colour. */
     function change(gain, ret) {
+      var cls = gain < 0 ? "dn" : gain > 0 ? "up" : "";
       return F.bigSigned(gain) + '<span class="fig-sep">·</span>' +
-             '<span class="fig-pct">' + F.pctSigned(ret) + "</span>";
+             '<span class="fig-pct ' + cls + '">' + F.pctSigned(ret) + "</span>";
     }
     var all = srcOf(ids, MODEL.latest);
     return '<div class="figs">' +
@@ -233,34 +236,46 @@
     /* A net flow far outside the gain scale is shown as a labelled arrow at
        the edge of the plot, not as a point clipped off the chart. */
     var gains = series.map(function (s) { return s.gain; });
-    var gmax = Math.max.apply(null, gains.concat([0])), gmin = Math.min.apply(null, gains.concat([0]));
-    var pad = Math.max(Math.abs(gmax), Math.abs(gmin)) * 0.35 || 1;
+    /* The left scale has to hold the bars and, when the line is the
+       cumulative gain, the line as well: it shares that scale and runs well
+       above any single month, so sizing on the bars alone clips it. */
+    var onY = lineGain ? gains.concat(lineData) : gains;
+    var gmax = Math.max.apply(null, onY.concat([0])), gmin = Math.min.apply(null, onY.concat([0]));
+    var pad = Math.max(Math.abs(gmax), Math.abs(gmin)) * 0.2 || 1;
     var hi = gmax + pad, lo = gmin - pad;
+    /* A flow that is off the scale is left out of the series, so no marker is
+       drawn half clipped on the edge, and is shown instead as an arrow with
+       its amount. The arrow is drawn inside the plot, pointing out of it, so
+       nothing is painted over the controls above the chart. */
     var offscale = [];
     var flowPts = series.map(function (s, i) {
-      if (s.flow > hi) { offscale.push({ i: i, v: s.flow, up: true }); return hi; }
-      if (s.flow < lo) { offscale.push({ i: i, v: s.flow, up: false }); return lo; }
+      if (s.flow > hi) { offscale.push({ i: i, v: s.flow, up: true }); return null; }
+      if (s.flow < lo) { offscale.push({ i: i, v: s.flow, up: false }); return null; }
       return s.flow;
     });
     var arrows = {
       id: "offscaleArrows",
       afterDatasetsDraw: function (c) {
         if (!offscale.length) return;
-        var x = c.scales.x, y = c.scales.y, ctx = c.ctx;
+        var x = c.scales.x, area = c.chartArea, ctx = c.ctx;
         ctx.save();
+        ctx.beginPath();
+        ctx.rect(area.left, area.top, area.right - area.left, area.bottom - area.top);
+        ctx.clip();                       // never paint outside the plot
         ctx.font = (sm ? 9 : 11) + "px " + SERIF;
         ctx.fillStyle = INK; ctx.strokeStyle = INK; ctx.lineWidth = 1;
+        ctx.textAlign = "center";
         offscale.forEach(function (o) {
-          var px = x.getPixelForValue(o.i), py = y.getPixelForValue(o.up ? hi : lo);
-          var dir = o.up ? -1 : 1;
+          var px = x.getPixelForValue(o.i);
+          var edge = o.up ? area.top + 1 : area.bottom - 1;
+          var dir = o.up ? 1 : -1;        // the stem runs back into the plot
           ctx.beginPath();
-          ctx.moveTo(px, py); ctx.lineTo(px, py + dir * 9);
-          ctx.moveTo(px - 3.5, py + dir * 5); ctx.lineTo(px, py + dir * 9);
-          ctx.lineTo(px + 3.5, py + dir * 5);
+          ctx.moveTo(px, edge); ctx.lineTo(px, edge + dir * 10);
+          ctx.moveTo(px - 3.5, edge + dir * 5); ctx.lineTo(px, edge);
+          ctx.lineTo(px + 3.5, edge + dir * 5);
           ctx.stroke();
-          ctx.textAlign = "center";
-          ctx.textBaseline = o.up ? "bottom" : "top";
-          ctx.fillText(F.axis(o.v), px, py + dir * 12);
+          ctx.textBaseline = o.up ? "top" : "bottom";
+          ctx.fillText(F.axis(o.v), px, edge + dir * 13);
         });
         ctx.restore();
       }
