@@ -118,7 +118,9 @@ window.STARWELL_CONFIG = {
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="assets/hq-settings.js"></script>
 <script src="assets/hq-dashboard.js"></script>
+<script src="assets/hq-benchmarks.js"></script>
 <script src="assets/hq-portal-ui.js"></script>
 <script>
 (function(){
@@ -181,7 +183,9 @@ window.STARWELL_CONFIG = {
     $("#login").classList.add("hidden");
     $("#app").classList.remove("hidden");
     $("#whoEmail").textContent = email;
-    if (window.StarwellPortal && window.StarwellPortal.mount) window.StarwellPortal.mount();
+    // The portal reads benchmark levels and frozen quarters through the
+    // signed-in client, so it is handed the session rather than making one.
+    if (window.StarwellPortal && window.StarwellPortal.mount) window.StarwellPortal.mount(sb, email);
     loadAll();
   }
 

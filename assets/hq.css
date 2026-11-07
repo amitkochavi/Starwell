@@ -9,8 +9,8 @@
   --g2:#5C5C5C;      /* captions */
   --g3:#C2C2C2;      /* hairline rules */
   --g4:#D6D6D6;      /* skeletons, disabled */
-  --up:#11693C;      /* 6.8:1 on white */
-  --dn:#A32017;      /* 7.6:1 on white */
+  /* There is no green and no red anywhere in this product. Direction is
+     carried by the minus sign, as it is in the quarterly deck. */
   --paper:#FFFFFF;
   --panel:#0A0A0A;   /* sidebar and top bar */
   --maxw:1200px;
@@ -143,16 +143,15 @@ label{display:block;font-size:12px;letter-spacing:.09em;text-transform:uppercase
 .fig-l{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--g2)}
 .fig-v{font-size:34px;font-weight:700;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums}
 .fig-c{font-size:14px;color:var(--g2);margin-top:4px}
-/* The percentage is secondary to the amount: a size down, and set in the
-   direction colours. These two are the only colours in the product. To go back
-   to the deck's black and white, set --up and --dn to var(--ink) and
-   var(--g1). */
-.fig-pct{font-size:.55em;margin-left:.45em;letter-spacing:.01em;white-space:nowrap}
-.up{color:var(--up)}
-.dn{color:var(--dn)}
+/* The amount and the percentage read as one signed figure, separated by a
+   middot. The percentage is a size down so the money is read first. */
+.fig-pct{font-size:.55em;letter-spacing:.01em;white-space:nowrap}
+.fig-sep{font-size:.5em;color:var(--g2);margin:0 .32em;vertical-align:.12em}
 
-/* ---------- tables ---------- */
-.tw{width:100%}
+/* ---------- tables ----------
+   A table that cannot fit keeps the scroll inside itself, so the page never
+   scrolls sideways on a phone. */
+.tw{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 th,td{padding:9px 8px;text-align:left;border-bottom:1px solid var(--g3);font-size:15px;vertical-align:top}
 th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--g2);font-weight:400;white-space:nowrap}
@@ -203,6 +202,55 @@ details.checks{border-top:1px solid var(--g3);padding-top:12px}
 details.checks summary{cursor:pointer;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--g2);min-height:44px;display:flex;align-items:center}
 details.checks ul{margin:6px 0 0 18px;font-size:14px;color:var(--g1)}
 details.checks li{margin-bottom:4px}
+
+/* ---------- alerts strip ---------- */
+.alerts{border:1px solid var(--ink);margin:0 0 20px}
+.alert{padding:10px 12px;font-size:14px;border-bottom:1px solid var(--g3);color:var(--g1)}
+.alert:last-child{border-bottom:0}
+.alert b{color:var(--ink);letter-spacing:.06em;text-transform:uppercase;font-size:11px;margin-right:8px}
+
+/* a figure Main DB does not carry: never a number from the code */
+.nid{font-style:italic;color:var(--g2);font-size:13px;white-space:nowrap}
+.err-box.soft{border:1px solid var(--g3);color:var(--g1)}
+
+/* ---------- allocation bar ---------- */
+.stack{display:flex;width:100%;height:26px;border:1px solid var(--ink);margin:0 0 10px;overflow:hidden}
+.stack i{display:block;height:100%;min-width:1px}
+.stack-key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--g1);margin-bottom:16px}
+.stack-key i{display:inline-block;width:11px;height:11px;margin-right:6px;vertical-align:-1px;border:1px solid var(--g3)}
+
+/* ---------- contribution bars ---------- */
+td.bar-cell{width:38%;min-width:110px;vertical-align:middle}
+.bar-track{position:relative;display:block;height:12px;background:#F2F2F2}
+.bar-track::before{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:var(--g3)}
+.bar-track .bar{position:absolute;top:0;height:12px;background:var(--ink)}
+.bar-track .bar.neg{background:#8A8A8A}
+
+/* ---------- benchmark chips ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 14px}
+.chip{background:#fff;border:1px solid var(--g3);color:var(--g1);padding:8px 12px;font-size:14px;min-height:44px}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+tr.diff-row td{color:var(--g1);font-style:italic}
+
+/* ---------- coverage grid ---------- */
+.cov-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cov-t{min-width:520px}
+.cov-t th.cov-h{padding:6px 2px;text-align:center;font-size:9px;letter-spacing:0}
+.cov-t td.cov{text-align:center;padding:5px 2px;font-size:12px;line-height:1}
+.cov-yes{color:var(--ink)}
+.cov-no{color:var(--ink);font-weight:700}
+.cov-pre,.cov-post{color:var(--g4)}
+.cov-t td:first-child{white-space:nowrap;padding-right:12px}
+
+/* ---------- small charts, captions, button rows ---------- */
+.chart-wrap.sm{height:220px}
+.cap{font-size:13px;color:var(--g2);padding-top:8px;margin-bottom:18px}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.seg.narrow button{font-size:13px}
+.kv.wide{grid-template-columns:1fr auto;gap:6px 18px;margin-bottom:16px}
+.kv.wide dt{text-transform:none;letter-spacing:0;font-size:14px;color:var(--g1)}
+.kv.wide dd{font-weight:700}
+.contrib td{vertical-align:middle}
 
 /* ---------- admin lists (News, Careers, Portfolio, Images, Partners) ---------- */
 .row{border:1px solid var(--g3);padding:14px;margin-bottom:10px;display:flex;flex-direction:column;gap:10px}
@@ -279,4 +327,25 @@ body.nav-open{overflow:hidden}
 
 @media(prefers-reduced-motion:reduce){
   .side,.scrim{transition:none}
+}
+
+/* ---------- the quarter close one-pager ----------
+   "Download PDF" prints the page. Everything that is not the one-pager is
+   taken out, so what comes back is a single sheet: the reporting date, the
+   headline figures, capital and allocation. */
+@media print{
+  @page{size:A4 portrait;margin:14mm}
+  .topbar,.side,.scrim,.sel-row,.chips,.seg,.btn,.btn-row,.chart-wrap,
+  .chart-legend,.cap,details.checks,.alerts,.view:not(.active){display:none!important}
+  .shell{display:block}
+  .content{max-width:none;padding:0}
+  body{font-size:11pt}
+  .sec{margin-bottom:16pt;break-inside:avoid}
+  .fig-v{font-size:22pt}
+  .figs{grid-template-columns:repeat(3,1fr);gap:0 16pt}
+  .hide-sm{display:table-cell!important}
+  th,td{padding:4pt 6pt;font-size:10pt}
+  caption{font-size:8.5pt}
+  .stack{height:14pt}
+  a[href]::after{content:""}
 }
