@@ -272,13 +272,39 @@ window.StarwellPortal = (function () {
       return k ? { usd: byAcct[id][k].usd, local: byAcct[id][k].local, fx: byAcct[id][k].fx, at: k } : { usd: 0, at: null };
     }
     function started(id, on) { return valueAt(id, on).at !== null; }
+
+    /* Main DB does not always record the transfer that opens an account: the
+       first statement shows a balance with nothing in Additions to match it.
+       Left alone that balance reads as investment gain in whatever period the
+       account first appears, which once put a single year at +176%. Where the
+       recorded net flow is below openingFlowRatio of the opening balance, the
+       difference is taken for the transfer it must be, and a data check says
+       so. Where Additions do carry the transfer, as they do for the account
+       opened in March 2026, nothing is changed. */
+    var openRatio = thr("openingFlowRatio");
+    var openFlow = {};
+    checks.opening = {};
+    Object.keys(byAcct).forEach(function (id) {
+      var ds = accounts[id].dates || [];
+      if (!ds.length) return;
+      var s = byAcct[id][ds[0]];
+      var net = s.add - s.wd;
+      if (!s.usd || s.usd < 0 || net >= s.usd * openRatio) return;
+      openFlow[id] = { at: ds[0], date: s.date, amount: s.usd - net };
+      /* kept per account so the page can list only the ones in view */
+      checks.opening[id] = id + " " + ds[0] + ": opens at " + full(s.usd) +
+        " with " + full(net) + " in recorded flows, so the balance is counted as a transfer in, not as gain";
+    });
+
     function flowsIn(id, from, to) {
       var out = [], ds = (accounts[id] && accounts[id].dates) || [];
+      var op = openFlow[id];
       ds.forEach(function (k) {
         var s = byAcct[id][k];
         if (s.date > from && s.date <= to) {
-          var net = s.add - s.wd;
-          if (net) out.push({ date: s.date, net: net, add: s.add, wd: s.wd });
+          var extra = (op && op.at === k) ? op.amount : 0;
+          var net = s.add - s.wd + extra;
+          if (net) out.push({ date: s.date, net: net, add: s.add + extra, wd: s.wd });
         }
       });
       return out;

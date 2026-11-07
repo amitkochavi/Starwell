@@ -147,6 +147,38 @@ if (!fs.existsSync(SNAP_LIAB)) {
   near("Pool excluding FIBI, 3 years", irr(exFibi, 3) * 100, 20.2, 0.1);
   near("Pool excluding FIBI, 5 years", irr(exFibi, 5) * 100, 10.7, 0.1);
 
+  /* ---- an opening balance is never read as investment gain --------------- */
+  section("Accounts that open with no Additions to match");
+  {
+    /* CNB *2010 first reports at 31 Dec 2018 with its whole balance and
+       nothing in Additions. Left alone that reads as 2018 gain. */
+    const first = M.byAcct.CNB_48492010[M.accounts.CNB_48492010.dates[0]];
+    ok("the case still exists in the snapshot",
+       first.add === 0 && first.usd > 1e6, JSON.stringify({ add: first.add, usd: first.usd }));
+    const y2018 = P.periodChange(M, ids, new Date(Date.UTC(2017, 11, 31)), new Date(Date.UTC(2018, 11, 31)));
+    ok("2018 is not reported as a triple digit gain", y2018.ret > -0.3 && y2018.ret < 0.3,
+       "got " + (y2018.ret * 100).toFixed(1) + "%");
+    near("the opening balance is counted as a transfer in, not as gain",
+         y2018.add, first.usd, first.usd * 0.6);
+    ok("a data check names it",
+       /CNB_48492010.*transfer in, not as gain/.test(M.checks.opening.CNB_48492010 || ""));
+
+    /* The March 2026 account does record its transfer, so nothing is added. */
+    const g = M.byAcct.CNB_48784990[M.accounts.CNB_48784990.dates[0]];
+    ok("an account whose Additions do carry the transfer is left alone",
+       g.add > g.usd * 0.9 && !M.checks.opening.CNB_48784990);
+    const yy = ytd(M, ids, asOf);
+    near("so the year to date is unchanged", yy.gain, 1080503.73, 0.05);
+
+    /* every calendar year the pool can be measured over stays plausible */
+    const B2 = require("./engine-node.js").B;
+    for (let y = 2016; y <= 2025; y++) {
+      const r = B2.poolTWR(M, ids, new Date(Date.UTC(y - 1, 11, 31)), new Date(Date.UTC(y, 11, 31)));
+      ok("  " + y + " is a plausible annual return", r.ret === null || (r.ret > -0.5 && r.ret < 0.6),
+         r.ret === null ? "n/a" : (r.ret * 100).toFixed(1) + "%");
+    }
+  }
+
   /* ---- leverage ---------------------------------------------------------- */
   section("Leverage");
   const marg = M.liabilityFor("SCHWAB_0687");
@@ -312,6 +344,45 @@ function SNAP_LIAB_OR(fallback) { return fs.existsSync(SNAP_LIAB) ? SNAP_LIAB : 
 /* =========================================================================
    4. Benchmarks, from the saved fixture and never from the live feed.
    ========================================================================= */
+/* The file the scheduled job writes and the page reads in production. It is
+   checked here on its own, because nothing else proves it is still sane. */
+function benchmarkFile() {
+  section("assets/benchmarks.json, the file the scheduled job writes");
+  const f = path.join(__dirname, "..", "assets", "benchmarks.json");
+  if (!fs.existsSync(f)) {
+    ok("the file exists", false, "run python3 tools/fetch_benchmarks.py");
+    return;
+  }
+  let j = null;
+  try { j = JSON.parse(fs.readFileSync(f, "utf8")); } catch (e) { /* reported below */ }
+  ok("it parses", !!j && !!j.series);
+  if (!j || !j.series) return;
+
+  ["SP500", "NDX", "ACWI", "AGG"].forEach((k) => {
+    const s = j.series[k];
+    ok("  it carries " + k, !!s && Array.isArray(s.points) && s.points.length >= 24,
+       s ? s.points.length + " months" : "absent");
+  });
+  Object.keys(j.series).forEach((k) => {
+    const months = j.series[k].points.map((p) => p[0]);
+    const sorted = months.slice().sort();
+    ok("  " + k + " is in order, with no month twice and no level at or below zero",
+       JSON.stringify(months) === JSON.stringify(sorted) &&
+       new Set(months).size === months.length &&
+       j.series[k].points.every((p) => p[1] > 0));
+  });
+  ok("it names its provider and the date it was fetched", !!j.provider && !!j.fetchedAt,
+     JSON.stringify({ provider: j.provider, fetchedAt: j.fetchedAt }));
+
+  /* the same assertions as the sheet, against the shipped file */
+  const sp = j.series.SP500.points.map((p) => ({ at: p[0], level: p[1] }));
+  near("S&P 500 in the shipped file, calendar 2023", B.calendarYear(sp, 2023) * 100, 26.25, 0.3);
+  near("S&P 500 in the shipped file, calendar 2024", B.calendarYear(sp, 2024) * 100, 24.95, 0.3);
+  near("S&P 500 in the shipped file, calendar 2025", B.calendarYear(sp, 2025) * 100, 17.8, 0.3);
+  near("S&P 500 in the shipped file, 5 years to Dec 2025",
+       B.annRet(sp, "2020-12-31", "2025-12-31") * 100, 14.4, 0.3);
+}
+
 async function benchmarks() {
   section("Benchmarks, from the saved fixture");
   const bf = path.join(__dirname, "fixtures", "Benchmarks.csv");
@@ -356,6 +427,8 @@ async function benchmarks() {
   ok("the time-weighted return differs from the money-weighted one, so the two are not confused",
      Math.abs(tw.ret - P.deckIRR(M2, ids, 2025, 2025)) > 1e-6 || P.deckIRR(M2, ids, 2025, 2025) === null);
 }
+
+benchmarkFile();
 
 benchmarks().then(() => {
   console.log(`\n${pass}/${pass + fail} passed` + (skipped ? `, ${skipped} skipped` : ""));

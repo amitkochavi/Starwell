@@ -216,7 +216,7 @@ details.checks li{margin-bottom:4px}
 .alert b{color:var(--ink);letter-spacing:.06em;text-transform:uppercase;font-size:11px;margin-right:8px}
 
 /* a figure Main DB does not carry: never a number from the code */
-.nid{font-style:italic;color:var(--g2);font-size:13px;white-space:nowrap}
+.nid{font-style:italic;color:var(--g2);font-size:13px}
 .err-box.soft{border:1px solid var(--g3);color:var(--g1)}
 
 /* ---------- allocation bar ---------- */
@@ -240,13 +240,18 @@ tr.diff-row td{color:var(--g1);font-style:italic}
 
 /* ---------- coverage grid ---------- */
 .cov-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.cov-t{min-width:520px}
 .cov-t th.cov-h{padding:6px 2px;text-align:center;font-size:9px;letter-spacing:0}
 .cov-t td.cov{text-align:center;padding:5px 2px;font-size:12px;line-height:1}
 .cov-yes{color:var(--ink)}
 .cov-no{color:var(--ink);font-weight:700}
 .cov-pre,.cov-post{color:var(--g4)}
-.cov-t td:first-child{white-space:nowrap;padding-right:12px}
+/* the account stays in place while the months scroll past it, and is capped
+   so it never eats most of a phone screen */
+.cov-t th:first-child,.cov-t td:first-child{
+  position:sticky;left:0;background:#fff;z-index:1;
+  white-space:nowrap;padding-right:10px;max-width:132px;overflow:hidden;text-overflow:ellipsis;
+}
+@media(min-width:640px){.cov-t th:first-child,.cov-t td:first-child{max-width:none}}
 
 /* ---------- small charts, captions, button rows ---------- */
 .chart-wrap.sm{height:220px}

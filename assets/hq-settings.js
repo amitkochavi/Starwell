@@ -51,7 +51,10 @@ window.STARWELL_SETTINGS = (function () {
       { key: "marginLimit", value: 0.25, unit: "of the account value",
         label: "A margin loan is flagged when it passes this share of the account it sits in" },
       { key: "concentrationLimit", value: 0.10, unit: "of listed holdings",
-        label: "A single holding is flagged when it passes this share of listed holdings" }
+        label: "A single holding is flagged when it passes this share of listed holdings" },
+      { key: "openingFlowRatio", value: 0.5, unit: "of the opening value",
+        label: "An account's first statement is read as carrying an unrecorded transfer in when its Additions fall below this share of the opening balance",
+        why: "Main DB does not always record the transfer that opens an account. Without this the whole opening balance would read as investment gain in the period the account first appears." }
     ],
 
     /* ---- labels and grouping (presentation) ---------------------------- */
