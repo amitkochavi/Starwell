@@ -67,11 +67,46 @@ allowlist can sign in and edit. The public site can *read* content but never wri
    live site (news + careers fetch live; if Supabase is empty or unreachable,
    the site falls back to the built-in content).
 
-## Investments tab
+## Dashboard (Starwell Portal)
 
-The Investments tab embeds `wealth-portal.html`, which reads your published
-Google Sheet (no login of its own — it inherits HQ's). To point it at a
-different sheet, edit `PUB_URL` near the top of `wealth-portal.html`.
+The Dashboard reads Main DB, your published Google Sheet, and computes every
+figure on the page from it at the moment it is drawn. Nothing is written back,
+and no figure is typed into the code. To point it at a different workbook,
+edit `mainDbPubUrl` at the top of `assets/hq-settings.js`.
+
+Where Main DB does not carry something, the page says **Not in Main DB** and
+raises a data check rather than falling back to a number. Two sheets it will
+use as soon as they exist:
+
+**`Liabilities`** — columns `AccountID, Date, Balance, Currency, FXRateToUSD,
+Rate, Notes`, one row per loan per statement date. Without it no loan is
+deducted anywhere, including from capital and allocation. Put `already net of
+it` in Notes when the account's statement value is reported after the loan, so
+it is not deducted twice.
+
+**`Commitment`** — a column on the Investment Ledger holding each fund's total
+commitment. The unfunded balance follows from `Amount Invested`.
+
+A `Benchmarks` sheet (`Month, Benchmark, TotalReturnIndex`) overrides the
+market data below, if you ever want to supply your own index levels.
+
+### Where the index levels come from
+
+`assets/benchmarks.json` holds monthly total return levels for the benchmark
+proxies. It is refreshed by `.github/workflows/benchmarks.yml`, which runs
+after the US close on weekdays, calls `tools/fetch_benchmarks.py`, and commits
+the file when something changed. The page reads that file from its own origin,
+so the browser never calls a market data provider and no key is involved.
+
+To refresh it by hand: GitHub → Actions → *Refresh benchmark levels* → Run
+workflow, or locally `python3 tools/fetch_benchmarks.py` and commit the result.
+
+A series that fails to fetch keeps the levels it had rather than disappearing,
+and the run is marked failed so you know to look.
+
+There is also a Supabase Edge Function in `supabase/functions/benchmarks` that
+does the same job into a database table, for a deployment that would rather
+keep the levels there. It is not needed when the committed file is in use.
 
 ## Notes / limits
 

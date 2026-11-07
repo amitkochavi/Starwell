@@ -1,16 +1,20 @@
 /* Starwell Portal — benchmark comparison.
 
    The browser never calls a market data API. Index levels come from one of
-   two places, in this order:
+   three places, in this order:
 
      1. a "Benchmarks" sheet in Main DB (Month, Benchmark, TotalReturnIndex),
         which overrides everything else;
-     2. the benchmarks table in Supabase, filled on a schedule by the Edge
-        Function in supabase/functions/benchmarks, which holds the provider
-        API key as a secret.
+     2. assets/benchmarks.json, served from this site's own origin and
+        refreshed on a schedule by .github/workflows/benchmarks.yml, which
+        runs tools/fetch_benchmarks.py. This is the normal source and needs
+        nothing deployed;
+     3. the benchmarks table in Supabase, filled on a schedule by the Edge
+        Function in supabase/functions/benchmarks, for a deployment that
+        would rather keep the levels in the database.
 
-   When neither is there the section says so and shows nothing. It never
-   invents a level and never reaches out to a provider from the page.
+   When none is there the section says so and shows nothing. It never invents
+   a level and never reaches out to a provider from the page.
 
    The pool is compared on a time-weighted return, never on XIRR. A
    money-weighted return measures the timing of the family's own deposits,
@@ -40,6 +44,37 @@ window.StarwellBenchmarks = (function () {
       if (last && (!through || last.at > through)) through = last.at;
     });
     return { series: series, through: through, source: "the Benchmarks sheet in Main DB" };
+  }
+
+  /* Same origin, so no CORS and no provider is contacted from the page. */
+  function fromFile() {
+    return fetch("assets/benchmarks.json", { credentials: "omit", cache: "no-cache" })
+      .then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function (j) {
+        var raw = j && j.series;
+        if (!raw) return null;
+        var series = {}, through = null;
+        Object.keys(raw).forEach(function (k) {
+          var pts = (raw[k] || {}).points;
+          if (!pts || !pts.length) return;
+          series[k] = pts.map(function (p) { return { at: p[0], level: Number(p[1]) }; })
+                         .filter(function (p) { return p.at && isFinite(p.level); });
+          if (!series[k].length) { delete series[k]; return; }
+          var last = series[k][series[k].length - 1].at;
+          if (!through || last > through) through = last;
+        });
+        if (!Object.keys(series).length) return null;
+        var when = String(j.fetchedAt || "").slice(0, 10);
+        return {
+          series: series, through: j.through || through,
+          source: (j.provider || "the scheduled market data job") +
+                  (when ? ", refreshed " + when : "")
+        };
+      })
+      .catch(function () { return null; });
   }
 
   function fromSupabase(sb) {
@@ -121,7 +156,9 @@ window.StarwellBenchmarks = (function () {
   function load(M, sb) {
     var sheet = fromSheet(M);
     if (sheet) return Promise.resolve(derive(sheet));
-    return fromSupabase(sb).then(function (p) { return derive(p); });
+    return fromFile().then(function (p) {
+      return p ? p : fromSupabase(sb);
+    }).then(function (p) { return derive(p); });
   }
 
   /* ---------------------------------------------------------- measure --- */

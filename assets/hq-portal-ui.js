@@ -78,16 +78,18 @@
       "</div></div></div>" +
       (S.ccy === "ILS" ? '<div class="status">' + F.esc(fxNote()) + "</div>" : "");
   }
-  /* the "since" option starts at the earliest December Main DB can price the
-     whole pool from, so the list is never a typed year */
+  /* The year the pool's record starts: the earliest statement date of any
+     account in scope. An account that opens later is simply absent until its
+     first statement, and that statement's own additions carry it in, so the
+     series is still right. Never a typed year. */
   function earliestFullYear() {
-    var ids = poolAccounts(), best = null;
+    var ids = poolAccounts(), first = null;
     ids.forEach(function (id) {
       var ds = MODEL.accounts[id].dates || [];
       if (!ds.length) return;
-      if (!best || ds[0] > best) best = ds[0];
+      if (!first || ds[0] < first) first = ds[0];
     });
-    return best ? F.toDate(best).getUTCFullYear() : ASOF.getUTCFullYear() - 1;
+    return first ? F.toDate(first).getUTCFullYear() : ASOF.getUTCFullYear() - 1;
   }
   function periodOptions() {
     var y = earliestFullYear() + 1;
@@ -346,9 +348,10 @@
       "The pool's time-weighted return beside the indexes, over the same months");
     if (!BENCH) {
       return head + '<div class="err-box soft"><b>No index data</b>' +
-        "Main DB has no Benchmarks sheet and the benchmarks table is empty, so nothing is compared here. " +
-        "Either add a sheet named Benchmarks with the columns Month, Benchmark, TotalReturnIndex, or deploy and schedule " +
-        "the function in supabase/functions/benchmarks, which fetches the levels server side and keeps the provider key as a secret." +
+        "The levels in assets/benchmarks.json could not be read, Main DB has no Benchmarks sheet, " +
+        "and the benchmarks table is empty, so nothing is compared here. That file is refreshed by the " +
+        "scheduled job in .github/workflows/benchmarks.yml; run it by hand from the Actions tab, or run " +
+        "tools/fetch_benchmarks.py and commit the result." +
         "</div>";
     }
     var shown = CFG.benchmarks.filter(function (b) { return !b.hidden && BENCH.series[b.key] && BENCH.series[b.key].length; });
@@ -861,7 +864,7 @@
       return "<tr><td>" + F.esc(f.name) +
         (f.deals.length ? '<div class="muted">' + F.esc(f.deals.join(", ")) + "</div>" : "") + "</td>" +
         '<td class="hide-sm">' + F.esc(f.type) + "</td>" +
-        '<td class="num">' + (f.commitment === null ? notInDb("Add a Commitment column to the Investment Ledger.") : F.k1(f.commitment)) + "</td>" +
+        '<td class="num hide-sm">' + (f.commitment === null ? notInDb("Add a Commitment column to the Investment Ledger.") : F.k1(f.commitment)) + "</td>" +
         '<td class="num"' + src("Investment Ledger: " + f.name + ", Amount Invested") + ">" + F.k1(f.invested) + "</td>" +
         '<td class="num hide-sm"' + src("Distributions: " + f.name) + ">" + F.k1(f.roc + f.income) + "</td>" +
         '<td class="num">' + F.k1(f.value) + "</td>" +
@@ -872,10 +875,10 @@
     }, { inv: 0, dist: 0, val: 0 });
     return secHead("Private funds", "Through L&A Holdings, at Amit's share") +
       '<div class="tw"><table><thead><tr><th>Fund</th><th class="hide-sm">Strategy</th>' +
-      '<th class="num">Committed</th><th class="num">Called</th>' +
+      '<th class="num hide-sm">Committed</th><th class="num">Called</th>' +
       '<th class="num hide-sm">Distributions</th><th class="num">Carrying value</th>' +
       '<th class="num hide-sm">DPI</th></tr></thead><tbody>' + body +
-      '<tr class="total"><td>Total</td><td class="hide-sm"></td><td class="num"></td>' +
+      '<tr class="total"><td>Total</td><td class="hide-sm"></td><td class="num hide-sm"></td>' +
       '<td class="num">' + F.k1(tot.inv) + '</td><td class="num hide-sm">' + F.k1(tot.dist) +
       '</td><td class="num">' + F.k1(tot.val) + '</td><td class="num hide-sm">' +
       (tot.inv ? (tot.dist / tot.inv).toFixed(2) + "x" : "n/a") + "</td></tr></tbody></table>" +
@@ -968,7 +971,13 @@
 
   /* --------------------------------- m) data checks and coverage grid ---- */
   function coverageGrid(ids) {
-    var from = new Date(Date.UTC(ASOF.getUTCFullYear() - 1, 0, 31));
+    /* The grid is for spotting a month with no statement. On a phone the
+       last twelve months answer that without a long sideways scroll; a wider
+       screen gets everything back to January of last year. */
+    var months = small() ? 12 : null;
+    var from = months
+      ? U.addMonthEnd(ASOF, -(months - 1))
+      : new Date(Date.UTC(ASOF.getUTCFullYear() - 1, 0, 31));
     var C = P.coverage(MODEL, ids, F.iso(from));
     var head = C.months.map(function (m) {
       var d = F.toDate(m);
@@ -984,11 +993,16 @@
           return '<td class="cov cov-' + c + '" title="' + F.esc(title) + '">' + t + "</td>";
         }).join("") + "</tr>";
     }).join("");
-    return '<div class="tw cov-wrap"><table class="cov-t"><thead><tr><th>Account</th>' + head +
-      "</tr></thead><tbody>" + body + "</tbody></table>" +
-      "<caption>A filled square is a statement in Main DB, a cross is a month with none, a dot is a month " +
+    /* The note sits outside the scrolling wrapper, so it does not slide away
+       with the grid when the months are scrolled. */
+    return '<div class="cov-wrap"><table class="cov-t"><thead><tr><th>Account</th>' + head +
+      "</tr></thead><tbody>" + body + "</tbody></table></div>" +
+      '<div class="cap">A filled square is a statement in Main DB, a cross is a month with none, a dot is a month ' +
       "before the account opened or after it stopped reporting. An account is flagged once it is more than " +
-      C.staleDays + " days behind.</caption></div>";
+      C.staleDays + " days behind. " +
+      (months ? "Showing the last " + months + " months; a wider screen shows more." :
+                "From " + F.esc(C.months[0]) + ".") +
+      "</div>";
   }
 
   function dataChecks(ids, series) {
@@ -1000,6 +1014,9 @@
       if (v.at && v.at < MODEL.latest) items.push("Stale · " + label(id) + " latest statement " + v.at + ", carried forward");
     });
     series.forEach(function (s) { if (s.merged) items.push("Missing month · " + s.long + " reported as one period"); });
+    ids.forEach(function (id) {
+      if (c.opening && c.opening[id]) items.push("Opening transfer not recorded · " + c.opening[id]);
+    });
     c.notes.slice(0, 12).forEach(function (n) { items.push("Note to settle · " + n); });
     return '<details class="checks"><summary>Data checks (' + items.length + ")</summary><ul>" +
       items.map(function (i) { return "<li>" + F.esc(i) + "</li>"; }).join("") + "</ul>" +

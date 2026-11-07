@@ -8,7 +8,9 @@ const CSV=process.env.MAIN_DB_CSV_DIR||(__dirname+'/fixtures');
 const TABS={'Accounts':'Accounts','Statements':'Statements','Investment Ledger':'Investment_Ledger',
  'Distributions':'Distributions','20 Vitkin Street - APT #2':'20_Vitkin_Street_APT_2',
  'Glaser Real Estate':'Glaser_Real_Estate','Jewelry ':'Jewelry',
- 'Liabilities':'Liabilities','Benchmarks':'Benchmarks'};
+ 'Liabilities':'Liabilities'};
+// No Benchmarks sheet here on purpose: Main DB has none either, so the browser
+// tests exercise the path production uses, assets/benchmarks.json.
 const names=Object.keys(TABS).filter(n=>fs.existsSync(path.join(CSV,TABS[n]+'.csv')));
 const pubhtml=names.map((n,i)=>`{name: "${n}", gid: "${100+i}"}`).join(',');
 const gidName={}; names.forEach((n,i)=>gidName[String(100+i)]=n);

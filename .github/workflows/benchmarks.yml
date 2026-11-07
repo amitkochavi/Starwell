@@ -1,0 +1,74 @@
+name: Refresh benchmark levels
+
+# Fetches monthly index levels and commits assets/benchmarks.json, which the
+# Dashboard reads from its own origin. The fetch happens here rather than in
+# the browser, so the page never calls a market data provider and keeps
+# working when the provider is down or rate limiting.
+#
+# Runs after the US close on weekdays, and can be started by hand.
+
+on:
+  schedule:
+    - cron: "37 23 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: benchmarks
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch the levels
+        id: fetch
+        continue-on-error: true
+        run: python3 tools/fetch_benchmarks.py
+
+      - name: Check the file still parses and the series are sane
+        run: |
+          python3 - <<'PY'
+          import json, sys, datetime
+          d = json.load(open("assets/benchmarks.json"))
+          series = d.get("series") or {}
+          need = {"SP500", "NDX", "ACWI", "AGG"}
+          missing = need - set(series)
+          if missing:
+              sys.exit(f"missing series: {sorted(missing)}")
+          for k, s in series.items():
+              pts = s["points"]
+              if len(pts) < 24:
+                  sys.exit(f"{k}: only {len(pts)} months")
+              months = [p[0] for p in pts]
+              if months != sorted(months):
+                  sys.exit(f"{k}: months are out of order")
+              if len(set(months)) != len(months):
+                  sys.exit(f"{k}: a month appears twice")
+              if any(p[1] <= 0 for p in pts):
+                  sys.exit(f"{k}: a level is not positive")
+          age = (datetime.date.today() - datetime.date.fromisoformat(d["through"])).days
+          print(f"{len(series)} series, through {d['through']}, {age} days old")
+          PY
+
+      - name: Commit when something changed
+        run: |
+          if git diff --quiet -- assets/benchmarks.json; then
+            echo "levels unchanged"
+            exit 0
+          fi
+          git config user.name "starwell-bot"
+          git config user.email "noreply@starwellholdings.com"
+          git add assets/benchmarks.json
+          git commit -m "Refresh benchmark levels through $(python3 -c "import json;print(json.load(open('assets/benchmarks.json'))['through'])")"
+          git push
+
+      - name: Fail the run if a series could not be fetched
+        if: steps.fetch.outcome == 'failure'
+        run: |
+          echo "At least one series failed. The file keeps the levels it had."
+          exit 1
