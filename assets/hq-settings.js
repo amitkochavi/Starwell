@@ -31,8 +31,8 @@ window.STARWELL_SETTINGS = (function () {
     /* ---- conventions (method, not data) ------------------------------- */
     conventions: [
       { key: "flowLagDays", value: 15, unit: "days",
-        label: "Flows are dated this many days before the statement they appear on",
-        why: "Statements report a month's additions and withdrawals in one line without dates. Mid-month is the least wrong assumption." },
+        label: "Flows on a monthly statement are dated this many days before it",
+        why: "Statements report additions and withdrawals in one line without dates, so a flow is placed in the middle of the period its statement covers. On a monthly statement that is 15 days before it. On a yearly statement, which Main DB holds for the earlier years, it is mid-year, because dating a whole year's additions to mid-December would weight them as if they had arrived at the very end of it." },
       { key: "dayCount", value: 365.25, unit: "days per year",
         label: "Day count used to annualise money-weighted returns",
         why: "Matches the convention behind the quarterly deck." },

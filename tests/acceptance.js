@@ -170,6 +170,19 @@ if (!fs.existsSync(SNAP_LIAB)) {
     const yy = ytd(M, ids, asOf);
     near("so the year to date is unchanged", yy.gain, 1080503.73, 0.05);
 
+    /* a flow sits in the middle of the period its statement covers */
+    section("Flows are placed mid period, not mid month, on a yearly statement");
+    const long = P.monthSeries(M, ids, new Date(Date.UTC(2015, 11, 31)), asOf);
+    const y18 = long.find((s) => s.label === "Jan-Dec 18");
+    ok("2018 is reported as one merged yearly period", !!y18 && y18.merged);
+    near("  it carries the unrecorded opening transfer as an addition",
+         y18.add, 1896406, 1000);
+    ok("  and its return is close to the market's that year, not a two digit loss",
+       y18.ret > -0.09 && y18.ret < -0.01, (y18.ret * 100).toFixed(2) + "%");
+    const m = long.find((s) => s.label === "Oct 26");
+    ok("a monthly statement still uses the 15 day convention exactly",
+       Math.abs(m.ret - P.periodChange(M, ids, P.util.prevMonthEnd(asOf), asOf).ret) < 1e-12);
+
     /* every calendar year the pool can be measured over stays plausible */
     const B2 = require("./engine-node.js").B;
     for (let y = 2016; y <= 2025; y++) {
