@@ -35,6 +35,7 @@
   }
   /* every figure says where it came from */
   function src(text) { return text ? ' title="' + F.esc(text) + '"' : ""; }
+
   function srcOf(ids, at) {
     return "Statements: " + (Array.isArray(ids) ? ids.join(", ") : ids) + ", " + at;
   }
@@ -100,7 +101,7 @@
   function fxNote() {
     if (!MODEL.fx) return "No FX rate in Main DB, so shekel figures cannot be shown.";
     return "Converted at " + MODEL.fx.rate.toFixed(4) + " shekels to the dollar, from Main DB (" +
-      MODEL.fx.from + ", " + MODEL.fx.at + ").";
+      label(MODEL.fx.from) + ", " + MODEL.fx.at + ").";
   }
 
   function breakdownRow() {
@@ -168,21 +169,29 @@
     var T = P.totals(MODEL, ASOF);
     var m = P.periodChange(MODEL, ids, U.prevMonthEnd(ASOF), ASOF);
     var y = P.periodChange(MODEL, ids, periodStart(), ASOF);
+    /* The value sits in an inner span so it can be measured and stepped down
+       to fit its column: a shekel figure is several characters longer than
+       the dollar one and would otherwise wrap. */
     function fig(l, value, caption, source) {
       return '<div class="fig"' + src(source) + '><div class="fig-l">' + F.esc(l) + "</div>" +
-        '<div class="fig-v">' + value + "</div>" +
+        '<div class="fig-v"><span class="fig-fit">' + value + "</span></div>" +
         '<div class="fig-c">' + F.esc(caption) + "</div></div>";
     }
     /* The amount carries the figure in near black; the percentage sits beside
        it a size down and takes the direction colour. */
+    /* The amount is wrapped because a line break is allowed between a sign
+       and a currency symbol, which once split "+" from the shekel figure
+       beside it. */
     function change(gain, ret) {
       var cls = gain < 0 ? "dn" : gain > 0 ? "up" : "";
-      return F.bigSigned(gain) + '<span class="fig-sep">·</span>' +
-             '<span class="fig-pct ' + cls + '">' + F.pctSigned(ret) + "</span>";
+      return '<span class="nb">' + F.bigSigned(gain) + "</span>" +
+             '<span class="fig-sep">·</span>' +
+             '<span class="fig-pct nb ' + cls + '">' + F.pctSigned(ret) + "</span>";
     }
     var all = srcOf(ids, MODEL.latest);
     return '<div class="figs">' +
-      fig("Under management", F.big(T.aum), "Capital and real estate at " + MODEL.latest,
+      fig("Under management", '<span class="nb">' + F.big(T.aum) + "</span>",
+          "Capital and real estate at " + MODEL.latest,
           all + "; Investment Ledger; Glaser Real Estate; 20 Vitkin Street - APT #2" +
           (MODEL.liabilitiesSheet ? "; Liabilities" : "")) +
       fig("Month change", change(m.gain, m.ret), F.mLong(ASOF) + ", investment gain",
@@ -231,7 +240,8 @@
     var cv = document.getElementById("chartMonthly");
     if (!cv || !window.Chart) return;
     if (CHARTS.monthly) { CHARTS.monthly.destroy(); delete CHARTS.monthly; }
-    var sm = small(), every = sm ? (series.length > 8 ? 3 : 2) : 1;
+    /* keep the month labels legible however many periods the window holds */
+    var sm = small(), every = Math.max(1, Math.ceil(series.length / (sm ? 5 : 14)));
     var lineGain = S.chartLine === "gain";
     var lineData = series.map(function (s) { return lineGain ? s.cum : s.end; });
 
@@ -244,6 +254,11 @@
     var onY = lineGain ? gains.concat(lineData) : gains;
     var gmax = Math.max.apply(null, onY.concat([0])), gmin = Math.min.apply(null, onY.concat([0]));
     var pad = Math.max(Math.abs(gmax), Math.abs(gmin)) * 0.2 || 1;
+    /* hi and lo decide which net flows are too large to plot. The scale
+       itself is left to the chart library: the off-scale flows are already
+       out of the series, so nothing distorts it, and the library picks
+       round gridlines, which rounding here could not because the figures
+       are held in dollars and may be displayed in shekels. */
     var hi = gmax + pad, lo = gmin - pad;
     /* A flow that is off the scale is left out of the series, so no marker is
        drawn half clipped on the edge, and is shown instead as an arrow with
@@ -321,7 +336,7 @@
           x: { grid: { display: false }, ticks: { color: G2, maxRotation: 0, autoSkip: false,
                callback: function (v, i) { return i % every === 0 ? this.getLabelForValue(v) : ""; },
                font: { family: SERIF, size: sm ? 10 : 12 } } },
-          y: { min: lo, max: hi, grid: { color: G5 }, border: { display: false },
+          y: { grid: { color: G5 }, border: { display: false },
                ticks: { color: G2, font: { family: SERIF, size: sm ? 10 : 12 },
                         callback: function (v) { return F.axis(v); } } },
           y1: { display: !lineGain, position: "right", grid: { display: false }, border: { display: false },
@@ -1118,6 +1133,7 @@
 
     var st = document.getElementById("portalStatus");
     if (st) st.textContent = statusLine();
+    fitFigures();
 
     document.getElementById("selScope").value = S.scope;
     document.getElementById("selPeriod").value = S.period;
@@ -1167,6 +1183,26 @@
     });
   }
   function on(id, ev, fn) { var e = document.getElementById(id); if (e) e.addEventListener(ev, fn); }
+
+  /* Step a headline figure down until it fits its column. Shekel figures run
+     several characters longer than dollar ones, and a period measured in
+     years carries a three digit percentage, so the type size cannot be fixed
+     in the stylesheet. */
+  function fitFigures() {
+    Array.prototype.forEach.call(document.querySelectorAll("#portalBody .fig-v"), function (box) {
+      var span = box.firstElementChild;
+      if (!span) return;
+      box.style.fontSize = "";
+      var base = parseFloat(window.getComputedStyle(box).fontSize) || 34;
+      var avail = box.clientWidth;
+      if (!avail) return;
+      var size = base;
+      while (size > base * 0.5 && span.getBoundingClientRect().width > avail) {
+        size -= 1;
+        box.style.fontSize = size + "px";
+      }
+    });
+  }
 
   function applyAsAt() {
     ASOF = F.toDate(S.asAt || MODEL.latest);

@@ -264,6 +264,18 @@ window.StarwellPortal = (function () {
       accounts[id] = accounts[id] || { id: id, owner: "", inst: "", name: id, mask: "", ccy: "USD",
                                        label: id, group: "OTHER", assetClass: "listed" };
       accounts[id].dates = Object.keys(byAcct[id]).sort();
+      /* How long each statement covers: the gap back to the account's
+         previous one, or, for its first, the gap forward to the next, which
+         is the same reporting cadence. A flow is placed in the middle of the
+         period its statement covers, so a year's additions reported on a
+         December statement are not treated as having arrived in December. */
+      var ds = accounts[id].dates;
+      ds.forEach(function (k, i) {
+        var prev = i > 0 ? byAcct[id][ds[i - 1]].date : null;
+        var next = i + 1 < ds.length ? byAcct[id][ds[i + 1]].date : null;
+        var here = byAcct[id][k].date;
+        byAcct[id][k].covers = prev ? days(prev, here) : (next ? days(here, next) : null);
+      });
     });
 
     function valueAt(id, on) {
@@ -304,7 +316,7 @@ window.StarwellPortal = (function () {
         if (s.date > from && s.date <= to) {
           var extra = (op && op.at === k) ? op.amount : 0;
           var net = s.add - s.wd + extra;
-          if (net) out.push({ date: s.date, net: net, add: s.add + extra, wd: s.wd });
+          if (net) out.push({ date: s.date, net: net, add: s.add + extra, wd: s.wd, covers: s.covers });
         }
       });
       return out;
@@ -579,11 +591,19 @@ window.StarwellPortal = (function () {
   }
 
   /* --------------------------------------------- monthly change engine --- */
-  /* Modified Dietz. Each flow is dated flowLagDays before its statement date
-     and weighted by the share of the period it was invested for. An account
-     whose first statement falls inside the period opens at zero; that
-     statement's Additions already carry the opening transfer, so it is a
-     flow, not a gain. */
+  /* Modified Dietz. A statement reports its additions and withdrawals in one
+     line with no dates, so each flow is placed in the middle of the period
+     its statement covers and weighted by the share of the period it was
+     invested for. On a monthly statement that is flowLagDays before the
+     statement date, the convention the deck uses. On a yearly statement,
+     which Main DB holds for the earlier years, it is mid-year: dating a
+     year's additions two weeks before December would weight them as if they
+     had arrived at the very end. An account whose first statement falls
+     inside the period opens at zero; that statement's additions carry the
+     opening transfer, so it is a flow, not a gain. */
+  function flowLag(covers) {
+    return (covers && covers > FLOW_LAG * 3) ? covers / 2 : FLOW_LAG;
+  }
   function periodChange(M, ids, from, to) {
     var span = days(from, to) || 1, gain = 0, flow = 0, wflow = 0, add = 0, wd = 0;
     ids.forEach(function (id) {
@@ -592,7 +612,7 @@ window.StarwellPortal = (function () {
       var f = 0;
       M.flowsIn(id, from, to).forEach(function (fl) {
         f += fl.net; add += fl.add; wd += fl.wd;
-        var fd = new Date(fl.date.getTime() - FLOW_LAG * 86400000);
+        var fd = new Date(fl.date.getTime() - flowLag(fl.covers) * 86400000);
         wflow += fl.net * (Math.max(0, Math.min(span, days(fd, to))) / span);
       });
       gain += (v1 - v0) - f;

@@ -144,7 +144,13 @@ label{display:block;font-size:12px;letter-spacing:.09em;text-transform:uppercase
 .figs{display:grid;grid-template-columns:1fr;gap:0;border-top:1px solid var(--g3)}
 .fig{padding:16px 0;border-bottom:1px solid var(--g3)}
 .fig-l{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--g2)}
-.fig-v{font-size:34px;font-weight:700;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums}
+/* nowrap plus the fit-to-width pass in the script: a shekel figure runs
+   several characters longer than the dollar one, and a line break is allowed
+   between a sign and a currency symbol, which would split "+" from the
+   amount beside it. */
+.fig-v{font-size:34px;font-weight:700;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fig-fit{display:inline-block}
+.nb{white-space:nowrap}
 .fig-c{font-size:14px;color:var(--g2);margin-top:4px}
 /* The amount and the percentage read as one signed figure, separated by a
    middot. The percentage is a size down so the money is read first, and takes
