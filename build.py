@@ -60,7 +60,7 @@ def DESK_NAV(cur):
   <div class="nav-item">
     <button class="nav-trigger" aria-haspopup="true">{t("What We Do","מה אנחנו עושים")} <span class="chev"></span></button>
     <div class="dropdown">
-      <a href="technology">{t("IT Services","שירותי IT")}</a>
+      <a href="it-services">{t("IT Services","שירותי IT")}</a>
       <a href="real-estate">{t("Real Estate","נדל&quot;ן")}</a>
       <a href="capital">{t("Capital","קפיטל")}</a>
     </div>
@@ -89,7 +89,7 @@ def MOBILE_NAV(cur):
     <div class="mgroup">
       <button class="mlink" aria-expanded="false">{t("What We Do","מה אנחנו עושים")} <span class="mchev"></span></button>
       <div class="msub">
-        <a href="technology">{t("IT Services","שירותי IT")}</a>
+        <a href="it-services">{t("IT Services","שירותי IT")}</a>
         <a href="real-estate">{t("Real Estate","נדל&quot;ן")}</a>
         <a href="capital">{t("Capital","קפיטל")}</a>
       </div>
@@ -148,7 +148,7 @@ def FOOTER():
       </div>
       <div class="foot-col">
         <h2>{t("What We Do","מה אנחנו עושים")}</h2>
-        <a href="technology">{t("IT Services","שירותי IT")}</a>
+        <a href="it-services">{t("IT Services","שירותי IT")}</a>
         <a href="real-estate">{t("Real Estate","נדל&quot;ן")}</a>
         <a href="capital">{t("Capital","קפיטל")}</a>
       </div>
@@ -193,7 +193,7 @@ def NAV_LD():
     # read the same site structure on the Hebrew pages as on the English ones.
     pfx=BASE+t("","/he")
     items=[(t("About Us","אודות"),"/our-story"),(t("Our Team","הצוות שלנו"),"/our-team"),
-           (t("IT Services","שירותי IT"),"/technology"),(t("Real Estate","נדל\"ן"),"/real-estate"),
+           (t("IT Services","שירותי IT"),"/it-services"),(t("Real Estate","נדל\"ן"),"/real-estate"),
            (t("Capital","קפיטל"),"/capital"),(t("News","חדשות"),"/news"),
            (t("Careers","קריירה"),"/careers"),(t("Contact","צור קשר"),"/contact")]
     return {"@context":"https://schema.org","@type":"ItemList","@id":pfx+"/#nav",
@@ -310,9 +310,13 @@ def _web(e):
     if not u: return ''
     href=u if u not in (True,"true") else '#'
     return f'<a href="{_esc(href)}" target="_blank" rel="noopener" class="link-arrow on-dark" style="font-size:13px">{t("Website","אתר")} &rarr;</a>'
+def _desc(e):
+    """A portfolio entry may carry description_he; the Hebrew site uses it when
+    it is there, so a card is not left in English on a Hebrew page."""
+    return (e.get("description_he") if LANG=="he" and e.get("description_he") else e.get("description"))
 def pf_from(e):
     role=f'<div class="meta"><span>{t("Role","תפקיד")}: <span dir="auto">{_esc(e.get("role"))}</span></span></div>' if e.get("role") else ''
-    desc=f'<p class="pf-desc" dir="auto">{_esc(e.get("description"))}</p>' if e.get("description") else ''
+    desc=f'<p class="pf-desc" dir="auto">{_esc(_desc(e))}</p>' if _desc(e) else ''
     web=_web(e)
     actions=f'<div class="pf-actions">{web}</div>' if web else ''
     return f'''      <div class="pf">
@@ -325,7 +329,7 @@ def xp_from(e):
     rows=f'<div class="meta"><span>&#9679;</span><span dir="auto">{_esc(e.get("location"))}</span></div>' if e.get("location") else ''
     rows+=f'<div class="meta"><span>&#9632;</span><span dir="auto">{_esc(e.get("role"))}</span></div>' if e.get("role") else ''
     rows+=f'<div class="meta"><span>&#9651;</span><span dir="auto">{_esc(e.get("partner"))}</span></div>' if e.get("partner") else ''
-    desc=f'<p class="xp-desc" dir="auto">{_esc(e.get("description"))}</p>' if e.get("description") else ''
+    desc=f'<p class="xp-desc" dir="auto">{_esc(_desc(e))}</p>' if _desc(e) else ''
     web=_web(e)
     actions=f'<div class="pf-actions">{web}</div>' if web else ''
     media=f'<img src="{_esc(e.get("imageUrl"))}" alt="{_esc(e["name"])}" loading="lazy" decoding="async">' if e.get("imageUrl") else _esc(e.get("image") or "Project")
@@ -479,6 +483,20 @@ CAREER_VALUES=[
 # Build both languages from one source.
 # =============================================================================
 def build_site():
+    # Tal's biography, shown on Our Team and on the Starwell IT Services page.
+    # Kept in one place so the two never drift apart.
+    TAL_BIO="\n".join("          <p>"+p+"</p>" for p in [
+      t("Tal is Amit&rsquo;s partner in Starwell IT Services and sits on its board.",
+        "טל שותף של עמית ב-Starwell IT Services וחבר בדירקטוריון שלה."),
+      t("Tal is Head of Strategy, Innovation and M&amp;A at Afcon Holdings (TASE: AFHL), where he leads M&amp;A end to end, from sourcing and valuation through due diligence and negotiation, alongside corporate venture investments and strategic partnerships across renewable energy, EV charging infrastructure, data centers, industrial automation, and defense technology.",
+        "טל הוא ראש תחום אסטרטגיה, חדשנות ומיזוגים ורכישות באפקון החזקות (TASE: AFHL), שם הוא מוביל את פעילות המיזוגים והרכישות מקצה לקצה, מאיתור עסקאות והערכות שווי ועד בדיקות נאותות ומשא ומתן, לצד השקעות הון סיכון תאגידי ושותפויות אסטרטגיות בתחומי האנרגיה המתחדשת, תשתיות הטעינה לרכבים חשמליים, מרכזי הנתונים, האוטומציה התעשייתית והטכנולוגיות הביטחוניות."),
+      t("He is a third-generation member of the family behind Shlomo Group, and takes part in its strategic and investment activity across mobility, insurance and finance, real estate, shipyards, and aviation. He represents the family in international family-office forums, including The Family Office Alliance.",
+        "הוא דור שלישי במשפחה שמאחורי קבוצת שלמה, ושותף לפעילות האסטרטגית ולהשקעות שלה בתחומי המוביליות, הביטוח והפיננסים, הנדל&quot;ן, המספנות והתעופה. הוא מייצג את המשפחה בפורומים בינלאומיים של משרדי משפחה, ובהם The Family Office Alliance."),
+      t("He sits on the investment committee of Square One Labs and reviews opportunities across venture capital and private equity. He holds an MBA from the Coller School of Management at Tel Aviv University and a BA in Communication and Media Studies from IDC Herzliya.",
+        "הוא חבר בוועדת ההשקעות של Square One Labs ובוחן הזדמנויות בהון סיכון ובפרייבט אקוויטי. הוא בעל תואר MBA מבית הספר למנהל עסקים ע&quot;ש קולר באוניברסיטת תל אביב ותואר ראשון בתקשורת מהמרכז הבינתחומי הרצליה."),
+    ])
+    TAL_TITLE=t("Partner and Board Member, Starwell IT Services","שותף וחבר דירקטוריון, Starwell IT Services")
+
     # =================== HOME ===================
     home=f'''<section class="hero hero-home">
   <div class="wrap">
@@ -499,7 +517,7 @@ def build_site():
       <div class="card">
         <h3>{t("Starwell IT Services","סטארוול שירותי IT")}</h3>
         <p>{t("Acquiring and operating IT Services businesses.","רכישה ותפעול של עסקי שירותי IT.")}</p>
-        <a href="technology" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
+        <a href="it-services" class="link-arrow">{t("Learn More","קראו עוד")} &rarr;</a>
       </div>
       <div class="card">
         <h3>{t("Starwell Real Estate","סטארוול נדל&quot;ן")}</h3>
@@ -547,9 +565,8 @@ def build_site():
   <section class="sec" id="about" data-reveal>
     <div class="sec-center" style="margin-bottom:34px"><h2 class="serif">{t("Starwell Holdings","סטארוול הולדינגס")}</h2></div>
     <div class="body-copy" style="max-width:880px;margin:0 auto;text-align:center;font-size:16px">
-      <p>{t("Starwell Holdings is a private holding company. We build and acquire operating businesses in IT services, invest in and develop real estate, and allocate capital to public markets and alternative investments.","סטארוול הולדינגס היא חברת החזקות פרטית. אנחנו בונים ורוכשים עסקים תפעוליים בתחום שירותי ה-IT, משקיעים ומפתחים נדל&quot;ן, ומקצים הון לשווקים הציבוריים ולהשקעות אלטרנטיביות.")}</p>
-      <p>{t("Beyond capital allocation, Starwell acts as a long-term owner and active partner - acquiring companies, scaling platforms, and working alongside management teams to develop durable businesses and real assets. Our approach combines entrepreneurial execution with disciplined investment principles.","מעבר להקצאת הון, סטארוול פועלת כבעלים לטווח ארוך וכשותף פעיל - רוכשת חברות, מצמיחה פלטפורמות ועובדת לצד צוותי הנהלה לבניית עסקים ונכסים בני-קיימא. הגישה שלנו משלבת ביצוע יזמי עם עקרונות השקעה ממושמעים.")}</p>
-      <p>{t("We focus on opportunities where long-term ownership, operational involvement, and alignment with partners can create enduring value across cycles and generations.","אנחנו מתמקדים בהזדמנויות שבהן בעלות ארוכת טווח, מעורבות תפעולית ואינטרסים משותפים עם שותפים יוצרים ערך שנשמר לאורך מחזורים ודורות.")}</p>
+      <p>{t("Starwell is a private holding company that owns and operates businesses. It acquires and runs IT services companies, advises on, manages and invests in real estate, and allocates capital to public markets and alternative investments.","סטארוול היא חברת אחזקות פרטית שמחזיקה ומפעילה עסקים. היא רוכשת ומנהלת חברות שירותי IT, מייעצת, מנהלת ומשקיעה בנדל&quot;ן, ומקצה הון לשוק ההון ולהשקעות אלטרנטיביות.")}</p>
+      <p>{t("As an owner-operator, Starwell takes an active role in what it controls: board seats, capital allocation, financing, shared infrastructure and hands-on support for management teams.","כבעלים פעילים, סטארוול מעורבת באופן ישיר בכל מה שבשליטתה: ייצוג בדירקטוריון, הקצאת הון, מימון, תשתיות משותפות וליווי צמוד של ההנהלות.")}</p>
       <p>{t("Starwell Holdings was founded by Amit Kochavi, who serves as Chairman and CEO.","סטארוול הולדינגס נוסדה על ידי עמית כוכבי, המכהן כיו&quot;ר וכמנכ&quot;ל.")} <a href="our-team">{t("Meet the team","הכירו את הצוות")} &rarr;</a></p>
     </div>
   </section>
@@ -563,8 +580,8 @@ def build_site():
     </div>
     <div class="steps">
       <div class="step"><h3>{t("IT Services","שירותי IT")}</h3><p>{t("We build platforms in IT services - acquiring controlling or significant stakes in established, profitable companies and rolling them up into a larger group. We partner with owners and operators to preserve what works while adding the infrastructure and discipline of a platform built to last.","אנחנו בונים פלטפורמות בתחום שירותי ה-IT - רוכשים שליטה או אחזקה משמעותית בחברות ותיקות ורווחיות ומאחדים אותן לקבוצה גדולה יותר. אנחנו חוברים לבעלים ולמנהלים כדי לשמר את מה שעובד, ומוסיפים את התשתית והמשמעת של פלטפורמה שנבנית לשנים.")}</p></div>
-      <div class="step"><h3>{t("Real Estate","נדל&quot;ן")}</h3><p>{t("We work in real estate in three ways: advisory mandates, participation in development projects alongside the developers running them, and limited partner investments in funds and assets.","אנחנו פועלים בנדל&quot;ן בשלוש דרכים: מנדטים של ייעוץ, השתתפות בפרויקטי ייזום לצד היזמים שמובילים אותם, והשקעות כשותף מוגבל (LP) בקרנות ובנכסים.")}</p></div>
-      <div class="step"><h3>{t("Capital","הון")}</h3><p>{t("We allocate capital across public equities, hedge funds, and alternative investments with a long-term mindset, complementing our operating activities.","אנחנו מקצים הון למניות ציבוריות, קרנות גידור והשקעות אלטרנטיביות, בגישה ארוכת טווח, כהשלמה לפעילות התפעולית שלנו.")}</p></div>
+      <div class="step"><h3>{t("Real Estate","נדל&quot;ן")}</h3><p>{t("Advises on development projects in Israel, provides advisory and asset-management support to the family&rsquo;s Tel Aviv portfolio, and invests as a limited partner in U.S. real estate.","ייעוץ לפרויקטי ייזום בישראל, ייעוץ וליווי בניהול תיק הנדל&quot;ן המשפחתי בתל אביב, והשקעה כשותף מוגבל בנדל&quot;ן בארה&quot;ב.")}</p></div>
+      <div class="step"><h3>{t("Capital","הון")}</h3><p>{t("Allocates across public equities and alternative investments to complement our operations.","הקצאת הון למניות סחירות ולהשקעות אלטרנטיביות, כהשלמה לפעילות התפעולית.")}</p></div>
     </div>
   </div>
 </section>
@@ -603,8 +620,8 @@ def build_site():
 </div>'''
     render("our-story.html",
       t("About Us | Starwell Holdings","אודות | סטארוול הולדינגס"),
-      t("Starwell Holdings is a privately held investment and operating company built to own and grow businesses over the long term, across real estate, operating companies, technology, and public markets.",
-        "סטארוול הולדינגס היא חברת השקעות ותפעול פרטית שנבנתה כדי להחזיק ולהצמיח עסקים לטווח ארוך, בתחומי הנדל\"ן, חברות תפעוליות, טכנולוגיה ושווקים ציבוריים."),
+      t("Starwell Holdings is a private holding company that owns and operates businesses: IT services companies, real estate, and capital allocated to public markets and alternative investments.",
+        "סטארוול הולדינגס היא חברת אחזקות פרטית שמחזיקה ומפעילה עסקים: חברות שירותי IT, נדל\"ן, והקצאת הון לשוק ההון ולהשקעות אלטרנטיביות."),
       our,extra=live_script("partners"))
 
     # =================== OUR HISTORY (Legacy) ===================
@@ -662,6 +679,7 @@ def build_site():
 <section class="dark" id="leadership" data-reveal>
   <div class="wrap sec">
     <div class="sec-center" style="margin-bottom:44px"><h2 class="serif">{t("Leadership","הנהלה")}</h2></div>
+    <h3 class="sec-label">{t("Starwell Holdings","סטארוול אחזקות")}</h3>
     <div class="leader">
       <div class="photo" data-img="amit-kochavi">{local_img("amit-kochavi",t("Amit Kochavi","עמית כוכבי"),eager=True)}</div>
       <div>
@@ -681,21 +699,6 @@ def build_site():
       </div>
     </div>
     <div class="leader" style="margin-top:60px">
-      <div class="photo" data-img="tal-raif">{local_img("tal-raif",t("Tal Raif","טל רייף"))}</div>
-      <div>
-        <div class="ln">{t("Tal Raif","טל רייף")}</div>
-        <div class="lt">{t("Board Member and Head of Business Development","חבר דירקטוריון ומנהל פיתוח עסקי")}</div>
-        <div class="body-copy">
-          <p>{t("Tal is Head of Strategy, Innovation and M&amp;A at Afcon Holdings (TASE: AFHL), where he leads M&amp;A end to end, from sourcing and valuation through due diligence and negotiation, alongside corporate venture investments and strategic partnerships across renewable energy, EV charging infrastructure, data centers, industrial automation, and defense technology.","טל הוא ראש תחום אסטרטגיה, חדשנות ומיזוגים ורכישות באפקון החזקות (TASE: AFHL), שם הוא מוביל את פעילות המיזוגים והרכישות מקצה לקצה, מאיתור עסקאות והערכות שווי ועד בדיקות נאותות ומשא ומתן, לצד השקעות הון סיכון תאגידי ושותפויות אסטרטגיות בתחומי האנרגיה המתחדשת, תשתיות הטעינה לרכבים חשמליים, מרכזי הנתונים, האוטומציה התעשייתית והטכנולוגיות הביטחוניות.")}</p>
-          <p>{t("He is a third-generation member of the family behind Shlomo Group, and takes part in its strategic and investment activity across mobility, insurance and finance, real estate, shipyards, and aviation. He represents the family in international family-office forums, including The Family Office Alliance.","הוא דור שלישי במשפחה שמאחורי קבוצת שלמה, ושותף לפעילות האסטרטגית ולהשקעות שלה בתחומי המוביליות, הביטוח והפיננסים, הנדל&quot;ן, המספנות והתעופה. הוא מייצג את המשפחה בפורומים בינלאומיים של משרדי משפחה, ובהם The Family Office Alliance.")}</p>
-          <p>{t("He sits on the investment committee of Square One Labs and reviews opportunities across venture capital and private equity. He holds an MBA from the Coller School of Management at Tel Aviv University and a BA in Communication and Media Studies from IDC Herzliya.","הוא חבר בוועדת ההשקעות של Square One Labs ובוחן הזדמנויות בהון סיכון ובפרייבט אקוויטי. הוא בעל תואר MBA מבית הספר למנהל עסקים ע&quot;ש קולר באוניברסיטת תל אביב ותואר ראשון בתקשורת מהמרכז הבינתחומי הרצליה.")}</p>
-        </div>
-        <div class="t-links">
-          <a href="https://il.linkedin.com/in/talraif" target="_blank" rel="noopener">LinkedIn</a>
-        </div>
-      </div>
-    </div>
-    <div class="leader" style="margin-top:60px">
       <div class="photo" data-img="shirly-gur-arie">{local_img("shirly-gur-arie",t("Shirly Gur Arie","שירלי גור אריה"))}</div>
       <div>
         <div class="ln">{t("Shirly Gur Arie","שירלי גור אריה")}</div>
@@ -705,6 +708,20 @@ def build_site():
         </div>
         <div class="t-links">
           <a href="https://www.linkedin.com/in/shirly-gur-arie/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <h3 class="sec-label" style="margin-top:72px">{t("Starwell IT Services","Starwell IT Services")}</h3>
+    <div class="leader">
+      <div class="photo" data-img="tal-raif">{local_img("tal-raif",t("Tal Raif","טל רייף"))}</div>
+      <div>
+        <div class="ln">{t("Tal Raif","טל רייף")}</div>
+        <div class="lt">{t("Partner and Board Member, Starwell IT Services","שותף וחבר דירקטוריון, Starwell IT Services")}</div>
+        <div class="body-copy">
+{TAL_BIO}
+        </div>
+        <div class="t-links">
+          <a href="https://il.linkedin.com/in/talraif" target="_blank" rel="noopener">LinkedIn</a>
         </div>
       </div>
     </div>
@@ -797,11 +814,9 @@ def build_site():
       <div class="photo" data-img="tal-raif">{local_img("tal-raif",t("Tal Raif","טל רייף"))}</div>
       <div>
         <div class="ln">{t("Tal Raif","טל רייף")}</div>
-        <div class="lt">{t("Board Member and Head of Business Development","חבר דירקטוריון ומנהל פיתוח עסקי")}</div>
+        <div class="lt">{TAL_TITLE}</div>
         <div class="body-copy">
-          <p>{t("Tal is Head of Strategy, Innovation and M&amp;A at Afcon Holdings (TASE: AFHL), where he leads M&amp;A end to end, from sourcing and valuation through due diligence and negotiation, alongside corporate venture investments and strategic partnerships across renewable energy, EV charging infrastructure, data centers, industrial automation, and defense technology.","טל הוא ראש תחום אסטרטגיה, חדשנות ומיזוגים ורכישות באפקון החזקות (TASE: AFHL), שם הוא מוביל את פעילות המיזוגים והרכישות מקצה לקצה, מאיתור עסקאות והערכות שווי ועד בדיקות נאותות ומשא ומתן, לצד השקעות הון סיכון תאגידי ושותפויות אסטרטגיות בתחומי האנרגיה המתחדשת, תשתיות הטעינה לרכבים חשמליים, מרכזי הנתונים, האוטומציה התעשייתית והטכנולוגיות הביטחוניות.")}</p>
-          <p>{t("He is a third-generation member of the family behind Shlomo Group, and takes part in its strategic and investment activity across mobility, insurance and finance, real estate, shipyards, and aviation. He represents the family in international family-office forums, including The Family Office Alliance.","הוא דור שלישי במשפחה שמאחורי קבוצת שלמה, ושותף לפעילות האסטרטגית ולהשקעות שלה בתחומי המוביליות, הביטוח והפיננסים, הנדל&quot;ן, המספנות והתעופה. הוא מייצג את המשפחה בפורומים בינלאומיים של משרדי משפחה, ובהם The Family Office Alliance.")}</p>
-          <p>{t("He sits on the investment committee of Square One Labs and reviews opportunities across venture capital and private equity. He holds an MBA from the Coller School of Management at Tel Aviv University and a BA in Communication and Media Studies from IDC Herzliya.","הוא חבר בוועדת ההשקעות של Square One Labs ובוחן הזדמנויות בהון סיכון ובפרייבט אקוויטי. הוא בעל תואר MBA מבית הספר למנהל עסקים ע&quot;ש קולר באוניברסיטת תל אביב ותואר ראשון בתקשורת מהמרכז הבינתחומי הרצליה.")}</p>
+{TAL_BIO}
         </div>
         <div class="t-links">
           <a href="https://il.linkedin.com/in/talraif" target="_blank" rel="noopener">LinkedIn</a>
@@ -822,26 +837,95 @@ def build_site():
     -->
   </div>
 </section>'''
-    render("technology.html",
+    render("it-services.html",
       t("Starwell IT Services | Starwell Holdings","סטארוול שירותי IT | סטארוול הולדינגס"),
       t("Starwell IT Services acquires controlling or significant stakes in established, profitable Israeli IT services companies, keeping management, employees and client relationships in place.",
         "סטארוול שירותי IT רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ישראליות ותיקות ורווחיות, תוך שמירה על ההנהלה, העובדים והקשר עם הלקוחות."),
       tech,extra=live_script("images"),
       extra_ld={"@context":"https://schema.org","@type":"Person",
-        "@id":BASE+"/technology.html#tal-raif","name":"Tal Raif",
-        "alternateName":"טל רייף","jobTitle":t("Board Member and Head of Business Development","חבר דירקטוריון ומנהל פיתוח עסקי"),
+        "@id":BASE+"/it-services.html#tal-raif","name":"Tal Raif",
+        "alternateName":"טל רייף","jobTitle":TAL_TITLE,
         "worksFor":{"@id":BASE+"/#organization"},
         "affiliation":{"@type":"Organization","name":"Afcon Holdings"},
         "alumniOf":[{"@type":"CollegeOrUniversity","name":"Tel Aviv University, Coller School of Management"},{"@type":"CollegeOrUniversity","name":"IDC Herzliya"}],
-        "url":BASE+"/technology.html","sameAs":["https://il.linkedin.com/in/talraif"]})
+        "url":BASE+"/it-services.html","sameAs":["https://il.linkedin.com/in/talraif"]})
 
     # =================== STARWELL REAL ESTATE ===================
     # The pillar is split into two labelled sections. The prefixes are matched
     # against the company name, so HQ can reword a name without breaking the
     # split; anything that matches neither list simply does not appear.
     RE_STARWELL=["Rova 7","The Dawson","Terminal Logistics"]
-    RE_FAMILY=["Beyond Towers","Kochavi Real Estate"]
-    RE_STARWELL_SEL="|".join(RE_STARWELL); RE_FAMILY_SEL="|".join(RE_FAMILY)
+    RE_STARWELL_SEL="|".join(RE_STARWELL)
+
+    # Family track record. Static rather than a data-pillar grid: these are
+    # historical projects, not holdings anyone edits in HQ, and the live
+    # portfolio loader replaces a data-pillar grid wholesale with whatever the
+    # dashboard holds, which would drop the list on page load.
+    #
+    # No unit counts, no ownership percentages, no values.
+    #
+    # Images: every card below is rendered without a photo, because no image
+    # we hold the right to publish exists for it yet. Family-owned photos, or
+    # a developer's photo supplied in writing, can be dropped into
+    # assets/projects/<slug>.jpg and they will appear on the next build.
+    # Never take one from a news site, a listing, Street View or a developer
+    # site without written permission.
+    FAMILY=[
+      # TODO: image - ask Amit, or Tidhar/Union with written permission
+      dict(slug="beyond-towers",
+           name=t("Beyond Towers, Tel Aviv","Beyond Towers, תל אביב"),
+           role=t("Advisory and owner representative (Doron Kochavi)","ייעוץ וייצוג בעלים (דורון כוכבי)"),
+           partner=t("Tidhar Group, Union Group, Himnuta-KKL","קבוצת תדהר, קבוצת יוניון, הימנותא-קק&quot;ל"),
+           desc=t("Large-scale mixed-use development comprising office, residential, and commercial space. Total project value estimated at NIS 4 to 4.5 billion.",
+                  "פרויקט שימושים מעורבים בקנה מידה גדול, הכולל משרדים, מגורים ומסחר. שווי הפרויקט הכולל מוערך ב-4 עד 4.5 מיליארד שקל.")),
+      # TODO: image
+      dict(slug="vitkin-20", name=t("Vitkin 20, Tel Aviv","ויתקין 20, תל אביב"),
+           note=t("Residential","מגורים")),
+      # TODO: image
+      dict(slug="yedidya-frenkel-2", name=t("Yedidya Frenkel 2, Tel Aviv","ידידיה פרנקל 2, תל אביב"),
+           note=t("Residential and retail","מגורים ומסחר")),
+      # TODO: image
+      dict(slug="marc-chagall-8", name=t("Marc Chagall 8, Tel Aviv","מארק שאגאל 8, תל אביב"),
+           note=t("Residential","מגורים")),
+      # TODO: image
+      dict(slug="yehezkel-streichman-5-7", name=t("Yehezkel Streichman 5-7, Tel Aviv","יחזקאל שטרייכמן 5-7, תל אביב"),
+           note=t("Residential and retail","מגורים ומסחר")),
+      # TODO: image
+      dict(slug="arthur-rubinstein-10", name=t("Arthur Rubinstein 10, Tel Aviv","ארתור רובינשטיין 10, תל אביב"),
+           note=t("Completed and leased","הושלם ומושכר")),
+      # TODO: image - Hagag Group can supply one with written permission
+      dict(slug="einstein-1-5", name=t("Einstein 1-5, Tel Aviv","איינשטיין 1-5, תל אביב"),
+           note=t("With Hagag Group. Under construction","עם קבוצת חג&rsquo;ג&rsquo;. בבנייה")),
+      # TODO: image
+      dict(slug="hi-tower", name=t("Hi Tower, Givatayim","Hi Tower, גבעתיים"),
+           note=t("Residential","מגורים")),
+    ]
+    def family_card(p):
+        """One project. A photo appears as soon as assets/projects/<slug> exists;
+        until then the card renders without one, in the same style."""
+        media=""
+        for ext in ("jpg","jpeg","png","webp"):
+            path=os.path.join(OUT,"assets","projects",p["slug"]+"."+ext)
+            if os.path.exists(path):
+                media=(f'<img src="{ap()}assets/projects/{p["slug"]}.{ext}" '
+                       f'alt="{_esc(p["name"])}" loading="lazy" decoding="async">')
+                break
+        rows=""
+        if p.get("note"):
+            rows+=f'<div class="meta"><span>&#9632;</span><span dir="auto">{p["note"]}</span></div>'
+        if p.get("role"):
+            rows+=f'<div class="meta"><span>&#9632;</span><span dir="auto">{p["role"]}</span></div>'
+        if p.get("partner"):
+            rows+=f'<div class="meta"><span>&#9651;</span><span dir="auto">{p["partner"]}</span></div>'
+        desc=f'<p class="xp-desc" dir="auto">{p["desc"]}</p>' if p.get("desc") else ''
+        return f'''      <div class="xp">
+        <div class="ph-img">{media}</div>
+        <div class="xp-body">
+          <div class="pn" dir="auto">{p["name"]}</div>
+          {rows}
+          {desc}
+        </div>
+      </div>'''
     re=f'''<section class="hero">
   <div class="wrap">
     <h1>{t("Starwell<br>Real Estate","סטארוול<br>נדל&quot;ן")}</h1>
@@ -880,9 +964,9 @@ def build_site():
 <section class="dark" style="padding-top:0" data-reveal>
   <div class="wrap sec" style="padding-top:0">
     <h2 class="sec-label">{t("Family track record","רקורד משפחתי")}</h2>
-    <p class="body-copy" style="margin:0 0 34px;color:var(--on-panel-soft);max-width:720px">{t("Projects developed by Doron Kochavi. These are not Starwell holdings; they are included as background to the family&rsquo;s work in real estate.","פרויקטים שיזם דורון כוכבי. אלה אינם אחזקות של סטארוול, והם מובאים כרקע לפעילות המשפחה בנדל&quot;ן.")}</p>
-    <div class="xp-grid" data-pillar="real-estate" data-names="{RE_FAMILY_SEL}">
-{cards_for("real-estate",RE_FAMILY)}
+    <p class="body-copy" style="margin:0 0 34px;color:var(--on-panel-soft);max-width:720px">{t("Doron Kochavi has developed or co-developed the projects below, totaling more than 1,250 residential units. They are shown as family background and are not Starwell holdings.","דורון כוכבי יזם או יזם שותף של הפרויקטים שלהלן, שמסתכמים ביותר מ-1,250 יחידות דיור. הם מוצגים כרקע משפחתי ואינם אחזקות של סטארוול.")}</p>
+    <div class="xp-grid">
+{chr(10).join(family_card(p) for p in FAMILY)}
     </div>
   </div>
 </section>'''
@@ -893,7 +977,10 @@ def build_site():
       re,extra=live_script("portfolio"))
 
     # =================== STARWELL CAPITAL ===================
-    CAP_SEL=["Pioneers","Kodiak","Legion"]
+    # Legion is no longer its own card: it is named inside the Pioneers one.
+    # Dropping the prefix also keeps the live loader from bringing the old
+    # separate row back from the dashboard.
+    CAP_SEL=["Pioneers","Kodiak"]
     cap=f'''<section class="hero">
   <div class="wrap">
     <h1>{t("Starwell<br>Capital","סטארוול<br>קפיטל")}</h1>
@@ -915,7 +1002,7 @@ def build_site():
 <div class="wrap">
   <section class="sec" style="padding-top:0" data-reveal>
     <div class="steps two">
-      <div class="step"><div class="n">01</div><h3>{t("Public Markets","שווקים ציבוריים")}</h3><p>{t("Long-term concentrated holdings in public companies whose business and management team we know well.","תיק מרוכז של אחזקות ארוכות טווח בחברות ציבוריות שאנחנו מכירים היטב את העסק ואת ההנהלה שלהן.")}</p></div>
+      <div class="step"><div class="n">01</div><h3>{t("Public Markets","שווקים ציבוריים")}</h3><p>{t("A diversified long-term core in low-cost global index funds.","ליבה מפוזרת לטווח ארוך בקרנות מחקות מדד גלובליות בעלות נמוכה.")}</p></div>
       <div class="step"><div class="n">02</div><h3>{t("Direct Private Positions","השקעות פרטיות ישירות")}</h3><p>{t("Private equity investments in buy-out and roll-up strategies, acquiring and improving traditional businesses through operational, financial, and technological efficiency.","רכישת עסקים והשבחתם באמצעות שיפור תפעולי, פיננסי וטכנולוגי.")}</p></div>
     </div>
   </section>
@@ -1149,7 +1236,7 @@ def build_site():
         <a href="news">{t("News","חדשות")}</a>
         <a href="careers">{t("Careers","קריירה")}</a></div>
       <div><h2 class="sm-h">{t("What We Do","מה אנחנו עושים")}</h2>
-        <a href="technology">{t("IT Services","שירותי IT")}</a>
+        <a href="it-services">{t("IT Services","שירותי IT")}</a>
         <a href="real-estate">{t("Real Estate","נדל&quot;ן")}</a>
         <a href="capital">{t("Capital","קפיטל")}</a></div>
       <div><h2 class="sm-h">{t("Resources","משאבים")}</h2>
@@ -1245,7 +1332,7 @@ for LANG in LANGS:
 # =================== sitemap.xml / robots / manifest / configs ===================
 # Each URL lists both language alternates (xhtml:link) so Google pairs them.
 pages=[("index.html","1.0"),("our-story.html","0.9"),("our-history.html","0.6"),
-       ("our-team.html","0.6"),("technology.html","0.8"),
+       ("our-team.html","0.6"),("it-services.html","0.8"),
        ("real-estate.html","0.8"),("capital.html","0.8"),("news.html","0.7"),
        ("contact.html","0.7"),("careers.html","0.5"),("sitemap.html","0.3")]
 # privacy.html and accessibility.html are deliberately absent: they are drafts,
@@ -1281,7 +1368,11 @@ open(os.path.join(OUT,"sitemap.xml"),"w").write(
 LEGACY=[
   ("/Home","/"),("/home","/"),("/Index","/"),
   ("/OurStory","/our-story"),("/ourstory","/our-story"),("/Our-Story","/our-story"),("/About","/our-story"),
-  ("/Technology","/technology"),
+  ("/Technology","/it-services"),
+  # The IT arm is named Starwell IT Services, and the page moved with it.
+  # Both languages, with and without .html, so nothing that was indexed 404s.
+  ("/technology","/it-services"),("/technology.html","/it-services"),
+  ("/he/technology","/he/it-services"),("/he/technology.html","/he/it-services"),
   ("/RealEstate","/real-estate"),("/realestate","/real-estate"),("/Real-Estate","/real-estate"),
   ("/Capital","/capital"),
   ("/News","/news"),
@@ -1292,7 +1383,7 @@ LEGACY=[
 # Clean URLs (no .html). For every page, in both languages: serve the .html
 # file at its clean path (200, URL stays clean) and 301 the old .html URL to
 # the clean one so previously-indexed .html pages consolidate cleanly.
-SLUGS=["our-story","our-history","our-team","technology","real-estate","capital","news","contact","careers","sitemap","search","privacy","accessibility"]
+SLUGS=["our-story","our-history","our-team","it-services","real-estate","capital","news","contact","careers","sitemap","search","privacy","accessibility"]
 serve=[]; htmlredir=[]
 for base in ("","/he"):
     htmlredir.append((base+"/index.html", base+"/"))
