@@ -984,11 +984,25 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
       '<button class="xp-nav next" type="button" aria-label="Next">&#8250;</button>'+
       '<div class="xp-dots">'+a.map(function(u,i){return '<span'+(i===0?' class="on"':"")+'></span>';}).join("")+'</div></div>';
   }
+  /* The Hebrew site wants Hebrew copy. A row may carry description_he; where
+     it does not, the translated text already on the page for a card of the
+     same name is kept, so refreshing from the dashboard cannot turn a Hebrew
+     card back into English. Only if neither exists does the English stand. */
+  var BAKED={};
+  document.querySelectorAll("[data-pillar] .pf,[data-pillar] .xp").forEach(function(card){
+    var n=card.querySelector(".pn"), d=card.querySelector(".pf-desc,.xp-desc");
+    if(n&&d) BAKED[n.textContent.trim().toLowerCase()]=d.textContent.trim();
+  });
+  function desc(row){
+    if(!HE) return row.description;
+    return row.description_he || BAKED[String(row.name||"").trim().toLowerCase()] || row.description;
+  }
   function pfCard(row){
+    var d=desc(row);
     return '<div class="pf"><div class="logo-chip">'+chipImg(row)+'</div>'+
       '<div class="pn" dir="auto">'+esc(row.name)+'</div>'+
       (row.role?'<div class="meta"><span>'+ROLE+': <span dir="auto">'+esc(row.role)+'</span></span></div>':"")+
-      (row.description?'<p class="pf-desc" dir="auto">'+esc(row.description)+'</p>':"")+
+      (d?'<p class="pf-desc" dir="auto">'+esc(d)+'</p>':"")+
       plogos(row)+web(row.website_url)+'</div>';
   }
   function xpCard(row){
@@ -998,7 +1012,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
       (row.location?'<div class="meta"><span>&#9679;</span><span dir="auto">'+esc(row.location)+'</span></div>':"")+
       (row.role?'<div class="meta"><span>&#9632;</span><span dir="auto">'+esc(row.role)+'</span></div>':"")+
       (row.partner?'<div class="meta"><span>&#9651;</span><span dir="auto">'+esc(row.partner)+'</span></div>':"")+
-      (row.description?'<p class="xp-desc" dir="auto">'+esc(row.description)+'</p>':"")+
+      (desc(row)?'<p class="xp-desc" dir="auto">'+esc(desc(row))+'</p>':"")+
       plogos(row)+web(row.website_url)+'</div></div>';
   }
   // slider controls (delegated)
