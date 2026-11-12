@@ -255,6 +255,7 @@ def render(filename,title,desc,body,extra_ld=None,index=True,extra="",search=Tru
 <meta property="og:image" content="{BASE}/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Starwell Holdings">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{title}">
 <meta name="twitter:description" content="{desc}">
@@ -453,16 +454,16 @@ NEWS=[
   'https://www.sapir.ac.il/staff/7054',''),
  ('en','Company News','Jun 3, 2025','Circles Merges Operations with U.S.-Based Doss',
   'Circles is merging its operations with U.S.-based Doss and will become the Israeli sales and marketing center for the company.',
-  '','https://www.new-techeurope.com/wp-content/uploads/2025/06/Amit-Kochavi-e1748940333350.jpg'),
+  '',''),
  ('he','חדשות החברה','May 29, 2025','חברת Circles מתמזגת עם Doss האמריקאית',
   'חברת Circles מתמזגת עם Doss האמריקאית ותהפוך למרכז הפיתוח הישראלי שלה. עמית כוכבי ימונה למנהל הפיתוח הגלובלי.',
-  '','https://www.ittime.co.il/wp-content/uploads/2025/05/Amit-Cohavi-200x300.jpeg'),
+  '',''),
  ('he','חדשות החברה','Jan 1, 2025','עמית כוכבי נכלל ברשימת 40 Under 40 של דה מרקר',
   'עמית כוכבי, מייסד ומנכ"ל סטארוול הולדינגס, נכלל ברשימת 40 Under 40 של דה מרקר לשנת 2025.',
   'https://www.themarker.com/magazine/2025-01-01/ty-article-magazine/.premium/00000194-12c9-da93-a9dc-9ee9e4080000',''),
  ('en','Real Estate','May 6, 2025','Lee & Associates Atlanta Facilitates Sale of 28-Acre Industrial Site to Terminal Logistics',
   "Center Capital's IOS platform, Terminal Logistics, has acquired a 28-acre site in Gainesville, GA.",
-  '','https://www.lee-associates.com/atlanta/wp-content/uploads/sites/77/2021/08/Lee-Associates-Atlanta-Logo-2021.png'),
+  '',''),
  ('en','Company News','Jan 1, 2025','Amit Kochavi named to TheMarker 40 Under 40',
   'Amit Kochavi, founder and CEO of Starwell Holdings, appears on TheMarker&rsquo;s 40 Under 40 list for 2025.',
   'https://www.themarker.com/magazine/2025-01-01/ty-article-magazine/.premium/00000194-12c9-da93-a9dc-9ee9e4080000',''),
@@ -542,11 +543,16 @@ def build_site():
 </section>'''
     render("index.html",
       t("Starwell Holdings | Private Holding Company","סטארוול הולדינגס | חברת החזקות פרטית"),
-      t("Starwell Holdings is a private holding company with operating activities in IT services and real estate, alongside passive capital allocation to public markets and alternative assets - a long-term, owner-led approach.",
-        "סטארוול הולדינגס היא חברת החזקות פרטית, עם פעילות תפעולית בתחומי שירותי ה-IT והנדל\"ן, ולצדה הקצאת הון פסיבית לשווקים הציבוריים ולנכסים אלטרנטיביים - בגישה ארוכת טווח, בניהול הבעלים."),
+      t("Starwell Holdings is a private holding company. It acquires and runs IT services companies, invests in real estate, and allocates capital for the long term.",
+        "סטארוול הולדינגס היא חברת אחזקות פרטית. רוכשת ומנהלת חברות שירותי IT, משקיעה בנדל\"ן ומקצה הון לטווח ארוך."),
       home,extra_ld={"@context":"https://schema.org","@type":"WebSite","@id":BASE+"/#website",
         "name":"Starwell Holdings","alternateName":"Starwell","url":BASE+"/",
-        "inLanguage":t("en","he"),"publisher":{"@id":BASE+"/#organization"}})
+        "inLanguage":t("en","he"),"publisher":{"@id":BASE+"/#organization"},
+        # The site has its own search, so search engines may offer it directly
+        # in the result for the brand.
+        "potentialAction":{"@type":"SearchAction",
+          "target":{"@type":"EntryPoint","urlTemplate":BASE+t("","/he")+"/search?q={search_term_string}"},
+          "query-input":"required name=search_term_string"}})
 
     # =================== OUR STORY ===================
     # Each half repeats the logo set until it is wider than the widest viewport,
@@ -620,8 +626,8 @@ def build_site():
 </div>'''
     render("our-story.html",
       t("About Us | Starwell Holdings","אודות | סטארוול הולדינגס"),
-      t("Starwell Holdings is a private holding company that owns and operates businesses: IT services companies, real estate, and capital allocated to public markets and alternative investments.",
-        "סטארוול הולדינגס היא חברת אחזקות פרטית שמחזיקה ומפעילה עסקים: חברות שירותי IT, נדל\"ן, והקצאת הון לשוק ההון ולהשקעות אלטרנטיביות."),
+      t("Starwell Holdings is a private holding company that owns and operates businesses: IT services, real estate, and capital in public and alternative markets.",
+        "סטארוול הולדינגס היא חברת אחזקות פרטית שמחזיקה ומפעילה עסקים: שירותי IT, נדל\"ן והקצאת הון לשוק ההון ולהשקעות אלטרנטיביות."),
       our,extra=live_script("partners"))
 
     # =================== OUR HISTORY (Legacy) ===================
@@ -839,7 +845,7 @@ def build_site():
 </section>'''
     render("it-services.html",
       t("Starwell IT Services | Starwell Holdings","סטארוול שירותי IT | סטארוול הולדינגס"),
-      t("Starwell IT Services acquires controlling or significant stakes in established, profitable Israeli IT services companies, keeping management, employees and client relationships in place.",
+      t("Starwell IT Services acquires controlling or significant stakes in established, profitable Israeli IT services companies. Management and staff stay in place.",
         "סטארוול שירותי IT רוכשת שליטה או אחזקה משמעותית בחברות שירותי IT ישראליות ותיקות ורווחיות, תוך שמירה על ההנהלה, העובדים והקשר עם הלקוחות."),
       tech,extra=live_script("images"),
       extra_ld={"@context":"https://schema.org","@type":"Person",
@@ -1018,7 +1024,7 @@ def build_site():
 </section>'''
     render("capital.html",
       t("Starwell Capital | Starwell Holdings","סטארוול קפיטל | סטארוול הולדינגס"),
-      t("Starwell Capital holds the Starwell Holdings investment portfolio: long-term positions across public markets and direct private positions. Starwell invests only its own capital.",
+      t("Starwell Capital holds the group&rsquo;s portfolio: a long-term core in global index funds and direct private positions. Starwell invests only its own capital.",
         "סטארוול קפיטל מחזיקה את תיק ההשקעות של סטארוול הולדינגס: אחזקות ארוכות טווח בשווקים הציבוריים והשקעות פרטיות ישירות. סטארוול משקיעה מהון עצמי בלבד."),
       cap,extra=live_script("portfolio"))
 

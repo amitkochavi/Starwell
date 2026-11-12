@@ -21,6 +21,7 @@
 <meta property="og:image" content="https://starwellholdings.com/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Starwell Holdings">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="חדשות | סטארוול הולדינגס">
 <meta name="twitter:description" content="חדשות החברה, פרשנות שוק ועדכונים על ההשקעות והפעילות של סטארוול הולדינגס.">
@@ -511,6 +512,39 @@ html[dir="rtl"] .nav-lang a{color:var(--gold-soft);font-weight:600}
 #searchHeading em{font-style:italic;color:var(--gold-soft)}
 html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rtl}
 
+/* ---------------------------------------------------------------------------
+   Touch targets. On a touch screen every control needs a hit area a finger can
+   land on. WCAG 2.5.8 sets 24px as the floor and the platform guidelines ask
+   for 44px; several controls here were well under both, the menu button and
+   the X link worst of all. Only coarse pointers are affected, so the desktop
+   layout is untouched.
+   --------------------------------------------------------------------------- */
+@media (pointer:coarse){
+  /* the primary mobile navigation control was 31x39 */
+  .burger{min-width:44px;min-height:44px;align-items:center;justify-content:center;padding:0}
+  .brand{min-height:44px}
+  .nav-searchbtn{min-width:44px;min-height:44px;justify-content:center}
+
+  /* the X link was 10px wide, below even the 24px floor */
+  .t-links{gap:10px}
+  .t-links a{min-height:44px;min-width:44px;display:inline-flex;align-items:center;
+             justify-content:center;padding:0 7px;border-bottom:0}
+  .t-links a::after{content:"";position:absolute;left:7px;right:7px;bottom:11px;height:1px;
+                    background:var(--on-panel-line)}
+  .t-links a{position:relative}
+  .t-links a:hover::after{background:var(--on-panel-soft)}
+
+  /* standalone calls to action, navigation and form controls */
+  .link-arrow{min-height:44px}
+  .foot-col a{padding:12px 0;min-height:44px}
+  .sitemap-cols a{padding:12px 0;min-height:44px}
+  .filters .pill{min-height:44px;padding:11px 18px}
+  .na,.row .acts a,.row .acts button{min-height:44px}
+  .skip-link{min-height:44px;display:inline-flex;align-items:center}
+  .xp-nav{width:44px;height:44px}
+  input,select,textarea,button[type=submit]{min-height:44px}
+}
+
 </style>
 </head>
 <body id="top">
@@ -605,7 +639,7 @@ html[dir="rtl"] .site-search form,html[dir="rtl"] .search-page-form{direction:rt
         </div>
       </a>
       <a class="na" data-cat="חדשות החברה" href="#">
-        <div class="ph-img"><img src="https://www.ittime.co.il/wp-content/uploads/2025/05/Amit-Cohavi-200x300.jpeg" alt="חברת Circles מתמזגת עם Doss האמריקאית" loading="lazy" decoding="async"></div>
+        <div class="ph-img">חדשות החברה</div>
         <div class="na-body">
           <div class="row1"><span class="cat">חדשות החברה</span><span class="date">May 29, 2025</span></div>
           <h3>חברת Circles מתמזגת עם Doss האמריקאית</h3>
