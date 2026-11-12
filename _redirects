@@ -6,7 +6,11 @@
 /ourstory  /our-story  301!
 /Our-Story  /our-story  301!
 /About  /our-story  301!
-/Technology  /technology  301!
+/Technology  /it-services  301!
+/technology  /it-services  301!
+/technology.html  /it-services  301!
+/he/technology  /he/it-services  301!
+/he/technology.html  /he/it-services  301!
 /RealEstate  /real-estate  301!
 /realestate  /real-estate  301!
 /Real-Estate  /real-estate  301!
@@ -21,7 +25,7 @@
 /our-story.html  /our-story  301!
 /our-history.html  /our-history  301!
 /our-team.html  /our-team  301!
-/technology.html  /technology  301!
+/it-services.html  /it-services  301!
 /real-estate.html  /real-estate  301!
 /capital.html  /capital  301!
 /news.html  /news  301!
@@ -35,7 +39,7 @@
 /he/our-story.html  /he/our-story  301!
 /he/our-history.html  /he/our-history  301!
 /he/our-team.html  /he/our-team  301!
-/he/technology.html  /he/technology  301!
+/he/it-services.html  /he/it-services  301!
 /he/real-estate.html  /he/real-estate  301!
 /he/capital.html  /he/capital  301!
 /he/news.html  /he/news  301!
@@ -50,7 +54,7 @@
 /our-story  /our-story.html  200
 /our-history  /our-history.html  200
 /our-team  /our-team.html  200
-/technology  /technology.html  200
+/it-services  /it-services.html  200
 /real-estate  /real-estate.html  200
 /capital  /capital.html  200
 /news  /news.html  200
@@ -63,7 +67,7 @@
 /he/our-story  /he/our-story.html  200
 /he/our-history  /he/our-history.html  200
 /he/our-team  /he/our-team.html  200
-/he/technology  /he/technology.html  200
+/he/it-services  /he/it-services.html  200
 /he/real-estate  /he/real-estate.html  200
 /he/capital  /he/capital.html  200
 /he/news  /he/news.html  200
